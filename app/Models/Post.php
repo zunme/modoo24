@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\User;
+use App\Models\PostComment;
+use App\Models\PostFile;
+
+class Post extends Model
+{
+	use SoftDeletes;
+	protected $table = 'posts';
+	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg','fav_cnt','comment_cnt','view_cnt'];
+	
+    public function scopeActive($query){
+        return $query->where('is_confirmed', 'Y');
+    }
+	public function users() {
+        return $this->hasOne(User::class,'id', 'user_id' )->select('id','email','nickname')->withTrashed();
+  }
+	public function comments() {
+    return $this->hasMany(PostComment::class,'post_id' )->where('post_comments.is_confirmed', '=', 'Y')->orWhere('post_comments.is_confirmed', '=', 'R');
+  }
+	public function files() {
+        return $this->hasMany(PostFile::class,'post_id' );
+  }
+	public function needconfirm(){
+		return $this->hasMany(PostComment::class,'post_id' )->Where('post_comments.is_confirmed', '=', 'R');
+	}
+}

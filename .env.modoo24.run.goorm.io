@@ -1,0 +1,2 @@
+APP_NAME=모두이사지식인
+IS_PARTNER_SITE=N

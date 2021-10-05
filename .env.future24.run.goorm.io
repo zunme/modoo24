@@ -1,0 +1,2 @@
+APP_NAME=모두이사파트너
+IS_PARTNER_SITE=Y
