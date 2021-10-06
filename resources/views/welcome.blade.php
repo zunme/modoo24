@@ -120,23 +120,23 @@
 	<!-- / -->
     
 
-    <link rel="stylesheet" type="text/css" href="/NEW/css/main_ct.css" />
-    <link rel="stylesheet" type="text/css" href="/NEW/css/menu.css" />
-    <link rel="stylesheet" type="text/css" href="/NEW/css/common.css" />
-    <link rel="stylesheet" type="text/css" href="/NEW/css/font.css" />
-    <link rel="stylesheet" type="text/css" href="/NEW/css/main_popup.css" />
+    <link rel="stylesheet" type="text/css" href="http://116.122.157.150:8084/NEW/css/main_ct.css" />
+    <link rel="stylesheet" type="text/css" href="http://116.122.157.150:8084/NEW/css/menu.css" />
+    <link rel="stylesheet" type="text/css" href="http://116.122.157.150:8084/NEW/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="http://116.122.157.150:8084/NEW/css/font.css" />
+    <link rel="stylesheet" type="text/css" href="http://116.122.157.150:8084/NEW/css/main_popup.css" />
 </head>
 
 <body>
     <!--날개배너-->
     <div id="simpleorder" class="banner_right_box pc" style="z-index: 9;top: 190px;">
-        <img src="/NEW/image/main_N/wing_banner.jpg" alt="날개배너">
+        <img src="http://116.122.157.150:8084/NEW/image/main_N/wing_banner.jpg" alt="날개배너">
     </div>
     <!--//날개배너-->
 
     <header class="pc center" id="menu_wrap">
         <div class="menu_floor01">
-            <a class="logoN" href="/"><img src="/NEW/image/main_N/logo.png"><span>모두이사</span></a>
+            <a class="logoN" href="/"><img src="http://116.122.157.150:8084/NEW/image/main_N/logo.png"><span>모두이사</span></a>
             <ul class="menu01">
                 <li><a>비대면견적</a></li>
                 <li><a>방문견적</a></li>
@@ -152,7 +152,7 @@
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" fill="rgba(197,197,197,1)" />
                     </svg></p>
-                <p class="clean03"><b>모두클린</b><span><img src="/NEW/image/main_N/clean_icon.png"></span></p>
+                <p class="clean03"><b>모두클린</b><span><img src="http://116.122.157.150:8084/NEW/image/main_N/clean_icon.png"></span></p>
             </a>
         </div>
         <div class="menu_floor02">
@@ -190,7 +190,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/" style="padding: 15px 0;">
-                        <img src="/NEW/image/main_N/logo_w.png" width="40" class="d-inline-block align-top" alt="모두이사">
+                        <img src="http://116.122.157.150:8084/NEW/image/main_N/logo_w.png" width="40" class="d-inline-block align-top" alt="모두이사">
                     </a>
                     <div class="mtop_btn_set">
                         <button type="button" class="btn_top_m">비대면견적</button>
@@ -278,23 +278,23 @@
     <section id="banner_visual" class="center">
         <ul>
             <li>
-                <a class="pc" href><img src="/NEW/image/main_N/main_bn01.png"></a>
-                <a class="mobile" href><img src="/NEW/image/main_N/main_m_bn01.png"></a>
+                <a class="pc" href><img src="http://116.122.157.150:8084/NEW/image/main_N/main_bn01.png"></a>
+                <a class="mobile" href><img src="http://116.122.157.150:8084/NEW/image/main_N/main_m_bn01.png"></a>
                 <button type="button" class="btn_untact mobile" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</button>
             </li>
             <li>
-                <a class="pc"><img src="/NEW/image/main_N/main_bn02.png"></a>
-                <a class="mobile"><img src="/NEW/image/main_N/main_m_bn02.png"></a>
+                <a class="pc"><img src="http://116.122.157.150:8084/NEW/image/main_N/main_bn02.png"></a>
+                <a class="mobile"><img src="http://116.122.157.150:8084/NEW/image/main_N/main_m_bn02.png"></a>
                 <button type="button" class="btn_contact mobile" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</button>
             </li>
             <li class="pc">
-                <a href="http://modooclean.com/" target="_blank"><img src="/NEW/image/main_N/main_bn03.png"></a>
+                <a href="http://modooclean.com/" target="_blank"><img src="http://116.122.157.150:8084/NEW/image/main_N/main_bn03.png"></a>
             </li>
         </ul>
         <div class="row" style="display:none">
-            <div class="col-md-4 col-sm-6"><img src="/NEW/image/main_N/main_bn01.png"></div>
-            <div class="col-md-4 col-sm-6"><img src="/NEW/image/main_N/main_bn02.png"></div>
-            <div class="col-md-4 col-sm-6 pc"><a href="http://modooclean.com/" target="_blank"><img src="/NEW/image/main_N/main_bn03.png"></a></div>
+            <div class="col-md-4 col-sm-6"><img src="http://116.122.157.150:8084/NEW/image/main_N/main_bn01.png"></div>
+            <div class="col-md-4 col-sm-6"><img src="http://116.122.157.150:8084/NEW/image/main_N/main_bn02.png"></div>
+            <div class="col-md-4 col-sm-6 pc"><a href="http://modooclean.com/" target="_blank"><img src="http://116.122.157.150:8084/NEW/image/main_N/main_bn03.png"></a></div>
 
         </div>
     </section>
@@ -379,28 +379,28 @@
             <h4>이사짐 체크와 사진으로 간편하게 집에서 이사견적을 받아보세요</h4>
             <p class="txt">24시간 동안 최대 10개 업체의 꼼꼼한 이사 견적을 제안 드립니다.</p>
             <button type="button" class="btn btn-info"><b>비대면 견적 </b>가이드</button>
-            <p class="img"><img src="/NEW/image/main_N/untact_info.jpg" alt="비대면 견적 가이드"></p>
+            <p class="img"><img src="http://116.122.157.150:8084/NEW/image/main_N/untact_info.jpg" alt="비대면 견적 가이드"></p>
         </div>
         <div class="right_Box">
             <h2 class="color_blue">무료 방문 견적</h2>
             <h3>파트너 업체의 직접 방문을 통해 정확한 이사 견적을 제안 드립니다. </h3>
             <button type="button" class="btn btn-primary"><b>방문 견적 </b>가이드</button>
-            <p class="img"><img src="/NEW/image/main_N/tact_info.jpg" alt="비대면 견적 가이드"></p>
+            <p class="img"><img src="http://116.122.157.150:8084/NEW/image/main_N/tact_info.jpg" alt="비대면 견적 가이드"></p>
         </div>
     </section>
     <!--이벤트-->
     <section class="center event_wrap">
         <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-            <img src="/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
-            <img src="/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
+            <img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
+            <img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
         </a>
     </section>
 
 	
 	    <section class="center event_wrap">
         <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-            <img src="/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
-            <img src="/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
+            <img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
+            <img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
         </a>
     </section>
 
@@ -757,7 +757,7 @@
                             <h3>all익스프레스</h3>
                             <h4>(우수업체)</h4>
                             <dl>
-                                <dt><img src="/NEW/image/main_N/big_star.png" alt="star"></dt>
+                                <dt><img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star"></dt>
                                 <dd>
                                     <span class="num">4.0</span>
                                     <span class="numtxt">전체 누적 평점</span>
@@ -772,7 +772,7 @@
                             <h3>피카츄이사</h3>
                             <h4>(최우수업체)</h4>
                             <dl>
-                                <dt><img src="/NEW/image/main_N/big_star.png" alt="star"></dt>
+                                <dt><img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star"></dt>
                                 <dd>
                                     <span class="num">4.0</span>
                                     <span class="numtxt">전체 누적 평점</span>
@@ -788,7 +788,7 @@
                             <h3>이사공간</h3>
                             <h4>(우수업체)</h4>
                             <dl>
-                                <dt><img src="/NEW/image/main_N/big_star.png" alt="star"></dt>
+                                <dt><img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star"></dt>
                                 <dd>
                                     <span class="num">4.5</span>
                                     <span class="numtxt">전체 누적 평점</span>
@@ -804,7 +804,7 @@
                             <h3>우리모두옮겨</h3>
                             <h4>(우수업체)</h4>
                             <dl>
-                                <dt><img src="/NEW/image/main_N/big_star.png" alt="star"></dt>
+                                <dt><img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star"></dt>
                                 <dd>
                                     <span class="num">4.0</span>
                                     <span class="numtxt">전체 누적 평점</span>
@@ -820,7 +820,7 @@
                             <h3>밍밍이이사업체</h3>
                             <h4>(우수업체)</h4>
                             <dl>
-                                <dt><img src="/NEW/image/main_N/big_star.png" alt="star"></dt>
+                                <dt><img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star"></dt>
                                 <dd>
                                     <span class="num">4.0</span>
                                     <span class="numtxt">전체 누적 평점</span>
@@ -1099,7 +1099,7 @@
 								</div>
 								<div class="move_review_item_star_wrap">
 									<div class="move_review_item_star">
-										<img src="/NEW/image/main_N/big_star.png" alt="star">
+										<img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star">
 									</div>
 									<div class="move_review_item_point_wrap">
 										<div class="move_review_item_point">
@@ -1136,14 +1136,14 @@
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
 						<a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-								<img src="/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
-								<img src="/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
+								<img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
+								<img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
 						</a>
 					</div>
 					<div class="swiper-slide">
 						<a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-								<img src="/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
-								<img src="/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
+								<img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
+								<img src="http://116.122.157.150:8084/NEW/image/main_N/event_210923_m.jpg" class="mobile" alt="황금열쇠이벤트">
 						</a>
 					</div>
 				</div>
@@ -1161,7 +1161,7 @@
     <!--지식인검색-->
     <section class="center search_wrap">
         <div class="left_box">
-            <i><img src="/NEW/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
+            <i><img src="http://116.122.157.150:8084/NEW/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
             <h5>
                 <span class="color_pt">이사지식인</span> 검색
             </h5>
@@ -1177,13 +1177,13 @@
                 이사에 대한 궁금한 사항을 모두이사
                 파트너업체가 답변해 드립니다.
             </div>
-            <p><img src="/NEW/image/main_N/icon_qna.png" alt="qna"></p>
+            <p><img src="http://116.122.157.150:8084/NEW/image/main_N/icon_qna.png" alt="qna"></p>
             <button type="button" class="btn_question">
                 자세히보기
             </button>
         </div>
         <div class="faq_box pc">
-            <i><img src="/NEW/image/main_N/icon_faq.png" alt="자주묻는질문"></i>
+            <i><img src="http://116.122.157.150:8084/NEW/image/main_N/icon_faq.png" alt="자주묻는질문"></i>
             <a href="/front/custom_faq">
                 <h3>모두이사에 <span class="color_pt">자주 묻는 질문</span> Best 10</h3>
                 <h4>이사 고객님들이 궁금해하는 자주 묻는 질문 10가지를 정리 하였습니다. </h4>
@@ -1218,7 +1218,7 @@
                     <li>
                         <a href="">
                             <div>
-                                <img src="/NEW/image/main_N/img01.jpg" alt="">
+                                <img src="http://116.122.157.150:8084/NEW/image/main_N/img01.jpg" alt="">
                             </div>
                             <p>모두이사 이사후기!
                                 사다리차를 이용한
@@ -1228,7 +1228,7 @@
                     <li>
                         <a href="">
                             <div>
-                                <img src="/NEW/image/main_N/img02.jpg" alt="">
+                                <img src="http://116.122.157.150:8084/NEW/image/main_N/img02.jpg" alt="">
                             </div>
                             <p>집에서 수익실현!
                                 비대면 아르바이트 모집!
@@ -1244,7 +1244,7 @@
                     <li>
                         <a>
                             <div>
-                                <img src="/NEW/image/main_N/img03.jpg" alt="">
+                                <img src="http://116.122.157.150:8084/NEW/image/main_N/img03.jpg" alt="">
                             </div>
                             <p>신림스카이 아파트
                                 서울특별시 관악구 신림로
@@ -1255,7 +1255,7 @@
                     <li>
                         <a>
                             <div>
-                                <img src="/NEW/image/main_N/img04.jpg" alt="">
+                                <img src="http://116.122.157.150:8084/NEW/image/main_N/img04.jpg" alt="">
                             </div>
                             <p>
                                 부산 동원시티비스타
@@ -1273,7 +1273,7 @@
                     <li>
                         <a>
                             <div>
-                                <img src="/NEW/image/main_N/img05.jpg" alt="">
+                                <img src="http://116.122.157.150:8084/NEW/image/main_N/img05.jpg" alt="">
                             </div>
                             <p>
                                 서울시 신정4동 맛집
@@ -1286,7 +1286,7 @@
                     <li>
                         <a>
                             <div>
-                                <img src="/NEW/image/main_N/img06.jpg" alt="">
+                                <img src="http://116.122.157.150:8084/NEW/image/main_N/img06.jpg" alt="">
                             </div>
                             <p>
                                 제가 사는 인천청라는
@@ -1322,7 +1322,7 @@
                 <li>
                     <a>
                         <div class="left_img">
-                            <img src="/NEW/image/main_N/img07.jpg" alt="">
+                            <img src="http://116.122.157.150:8084/NEW/image/main_N/img07.jpg" alt="">
                         </div>
                         <div class="left_txt">
                             <h4>조금만 알아두면 시간과 노력을 아껴주는..</h4>
@@ -1337,7 +1337,7 @@
                 <li>
                     <a>
                         <div class="left_img">
-                            <img src="/NEW/image/main_N/img08.jpg" alt="">
+                            <img src="http://116.122.157.150:8084/NEW/image/main_N/img08.jpg" alt="">
                         </div>
                         <div class="left_txt">
                             <h4>원룸이사 할 경우에 알아두어야 할 것.</h4>
@@ -1351,7 +1351,7 @@
                 <li>
                     <a>
                         <div class="left_img">
-                            <img src="/NEW/image/main_N/img09.jpg" alt="">
+                            <img src="http://116.122.157.150:8084/NEW/image/main_N/img09.jpg" alt="">
                         </div>
                         <div class="left_txt">
                             <h4>이사업체 선정방법 이것만 체크하세요~ </h4>
@@ -1377,7 +1377,7 @@
                 <button type="button" class="btn_part" onclick="location.href='/front/custom_business?cmd=setup_form' ">자세히 보기</button>
             </div>
             <div class="right_box">
-                <p><img src="/NEW/image/main_N/customer_img.png" alt="1600-7728"></p>
+                <p><img src="http://116.122.157.150:8084/NEW/image/main_N/customer_img.png" alt="1600-7728"></p>
                 <dl>
                     <dt class="title">고객센터</dt>
                     <dd class="tel">1600-7728</dd>
@@ -1396,49 +1396,49 @@
         <ul>
             <li>
                 <a href="http://modooplatform.co.kr/" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_mf.png" alt="모두플랫폼"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_mf.png" alt="모두플랫폼"></p>
                     <span>회사소개</span>
                 </a>
             </li>
             <li>
                 <a href="http://modooclean.com/" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_mc.png" alt="청소서비스"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_mc.png" alt="청소서비스"></p>
                     <span>청소서비스</span>
                 </a>
             </li>
             <li>
                 <a href="https://blog.naver.com/modoo24try" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_bg.png" alt="모두블로그"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_bg.png" alt="모두블로그"></p>
                     <span>모플블로그</span>
                 </a>
             </li>
             <li>
                 <a href="https://www.facebook.com/Modooplatform/" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_fb.png" alt="모두페이스북"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_fb.png" alt="모두페이스북"></p>
                     <span>모플페이스북</span>
                 </a>
             </li>
             <li>
                 <a href="https://www.instagram.com/modooplatform/" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_it" alt="모두인스타"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_it" alt="모두인스타"></p>
                     <span>모플인스타</span>
                 </a>
             </li>
             <li>
                 <a href="" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_evt.png" alt="모두이벤트"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_evt.png" alt="모두이벤트"></p>
                     <span>모플이벤트</span>
                 </a>
             </li>
             <li>
                 <a href="/front/custom_review">
-                    <p><img src="/NEW/image/main_N/info_good.png" alt="칭찬후기"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_good.png" alt="칭찬후기"></p>
                     <span>칭찬후기</span>
                 </a>
             </li>
             <li>
                 <a href="/front/modoo_noson" target="_blank">
-                    <p><img src="/NEW/image/main_N/info_son.png" alt="손없는날"></p>
+                    <p><img src="http://116.122.157.150:8084/NEW/image/main_N/info_son.png" alt="손없는날"></p>
                     <span>손없는날</span>
                 </a>
             </li>
