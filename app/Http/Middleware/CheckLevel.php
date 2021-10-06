@@ -13,8 +13,9 @@ class CheckLevel
             case 'admin':
 							session_start();
 							$session =  $_SESSION;
-
-							if ($session['level'] != '1' ) {
+							session_write_close();
+						
+							if (!isset($session['level']) || $session['level'] != '1' ) {
 								return redirect('/');
 							}
 							break;
