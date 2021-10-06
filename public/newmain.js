@@ -705,7 +705,7 @@ let move_review_info;
 
 $("document").ready( function(){
 	///community/api/movereview
-	getData('get', '/movereview', {}, swipertemplate)
+	getData('get', 'movereview', {}, swipertemplate)
 	new Swiper("#event_swiper", {
 			slidesPerView: 1,
 			spaceBetween:10,
