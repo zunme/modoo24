@@ -1,3 +1,25 @@
+/*
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="/community/assets/js/handlebars.js"></script>
+	<!-- date picker -->
+	<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<!-- sweetalert -->
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<!-- toast -->
+	<script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js" integrity="sha256-321PxS+POvbvWcIVoRZeRmf32q7fTFQJ21bXwTNWREY=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/community/assets/stisla/node_modules/izitoast/dist/css/iziToast.min.css">
+	<!-- swiper -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>	
+	
+	
+	<link rel="stylesheet" href="/community/newmain.css" />
+	<script src="/community/newmain.js"></script>
+	*/
+
+
 	Handlebars.registerHelper('nl2br', function(text) {
     text = Handlebars.Utils.escapeExpression(text);
     text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
@@ -464,15 +486,15 @@ $("document").ready( function() {
 	startMovingDate.setDate(startMovingDate.getDate() + numberOfDaysStart);
 	endMovingDate.setDate(startMovingDate.getDate() + numberOfDaysEnd);
 
-	$("#simply_move > ul.box02 > li:nth-child(1) > div > input[type=text]").prop("readonly",true);
-	$("#simply_move > ul.box02 > li:nth-child(1) > div > input[type=text]").datepicker({
+	$(".sel-datepicker").prop("readonly",true);
+	$(".sel-datepicker").datepicker({
 			format: "yyyy-mm-dd",
 			language: "ko",
 			startDate: startMovingDate,
 			endDate:endMovingDate,
 			todayHighlight: true,
 			autoclose: true,
-			todayBtn: "linked",
+			//todayBtn: "linked",
 			clearBtn: false,
 			closeBtn: false,// close button visible
 			forceParse: false,
@@ -492,17 +514,18 @@ $("document").ready( function() {
 	}).on('show', function(e) {
 		$(".datepicker-title").html("<div class='div-sonclass'><span class='span-sonclass'></span><span class='span-sonclass-title'>손없는날</span></div>")
 	});
+	
+	$(".btn_simply").on("click", function(e) {
+		let btn = e.target
+		simplyReg(btn);
+	})
 });
 //간편이사견적
-function simplyReg() {
+function simplyReg(btn) {
 	loaderAttach("#simply_move")
-	let t_kinds = $("select[name=t_kinds]").val();
-	let t_hp = $("input[name=t_hp]").val();
-	let t_name = $("input[name=t_name]").val();
-	let t_dday = $("input[name=t_dday]").val();
-	let simplyRegPrivacy = $("input[name=simplyRegPrivacy]:checked").val();
-	let simplyRegJoint = $("input[name=simplyRegJoint]:checked").val();
-	getData('post', 'simpyreg', {t_name:t_name, t_dday:t_dday,t_hp:t_hp,t_kinds:t_kinds,simplyRegPrivacy:simplyRegPrivacy, simplyRegJoint:simplyRegJoint }, simplyRegcallback, simplyRegcallbackCompltet)
+	loaderAttach(".mobile > .message")
+	let data = $(btn).closest("form").serialize();
+	getData('post', 'simpyreg', data, simplyRegcallback, simplyRegcallbackCompltet)
 }
 function simplyRegcallback(res){
 	Swal.fire({
@@ -512,9 +535,11 @@ function simplyRegcallback(res){
 		footer: '<span class="simplyregSuccessFooter">모두이사</span>'
 	})
 	$("#simply_move").append('<div class="simplyregSuccessWrap"><div class="simplyregSuccessinner"><span>이사견적을 신청하였습니다.</span></div></div>')
+	$(".mobile > .message").append('<div class="simplyregSuccessWrap"><div class="simplyregSuccessinner"><span>이사견적을 신청하였습니다.</span></div></div>')
 }
 function simplyRegcallbackCompltet() {
 	loaderAttach("#simply_move", false)
+	loaderAttach(".mobile > .message", false)
 }
 function loaderAttach(target,on) {
 	if( on == false ){
@@ -581,6 +606,12 @@ let move_review_template =`
 	</div>
 `
 		// 팝업 템플릿
+let move_modal_default_template=`
+<div class="modal" tabindex="-1" role="dialog" id="detailModal">
+  <div class="modal-dialog" id="detailModal_content" role="document">
+	</div>
+</div>
+`
 let move_review_detail_template=`
     <div class="modal-content">
       <div class="modal-header">
@@ -702,25 +733,18 @@ let move_review_detail_template=`
     </div>
 `;
 let move_review_info;
-
+let good_ct_after_swiper;
 $("document").ready( function(){
 	///community/api/movereview
+	$(".crsl-items").remove()
+	$(".center.event_wrap").html( event_template );
+	$(".good_ct_after > .center").append('<div class="" id="move_review_slider"><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>')
+	$("body").append(move_modal_default_template)
 	getData('get', 'movereview', {}, swipertemplate)
-	new Swiper("#event_swiper", {
-			slidesPerView: 1,
-			spaceBetween:10,
-			freeMode: false,
-		loop: true,
-			navigation: {
-				nextEl: ".swiper-button-next",
-				prevEl: ".swiper-button-prev",
-			},
-		pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-		autoHeight: true,
-	})
+	$('#detailModal').on('hidden.bs.modal', function () {
+			good_ct_after_swiper.autoplay.start()
+		console.log ( "close")
+	});
 })
 function swipertemplate(res){
 	var template = Handlebars.compile( move_review_template );
@@ -729,7 +753,7 @@ function swipertemplate(res){
 	derawswiper();
 }
 function derawswiper() {
-	var swiper = new Swiper("#move_review_slider", {
+	good_ct_after_swiper = new Swiper("#move_review_slider", {
 			preventClicks:false,
 			slidesPerView: 2,
 			//slidesPerView: "auto",
@@ -781,5 +805,56 @@ function viewReviewTemplate( data){
 	var template = Handlebars.compile( move_review_detail_template );
 	$("#detailModal_content" ).html( template(data) );
 	$('#detailModal').modal('show');
+	good_ct_after_swiper.autoplay.stop()
 }
-<!-- / 칭찬후기 -->
+// end 칭찬후기 
+
+//event swiper
+let event_template =`
+			<div id="event_swiper" style="position:relative;">
+				<div class="swiper-wrapper">
+              <div class="swiper-slide">
+                    <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
+                        <img class="d-block w-100 pc" src="/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
+                        <img class="d-block w-100 mobile" src="/NEW/image/main_N/event_210923_m.jpg" class="pc" alt="황금열쇠이벤트">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
+                        <img class="d-block w-100 pc" src="/NEW/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+                        <img class="d-block w-100 mobile" src="/NEW/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
+                    </a>
+                </div>
+                <div class="swiper-slide">
+                    <a href="https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22" target="_blank">
+                        <img class="d-block w-100 pc" src="/NEW/image/main_N/event_it.jpg" class="pc" alt="인터넷신청">
+                        <img class="d-block w-100 mobile" src="/NEW/image/main_N/event_it_m.jpg" class="pc" alt="인터넷신청">
+                    </a>
+                </div>
+				</div>
+				
+					<div class="swiper-button-next"></div>
+      		<div class="swiper-button-prev"></div>
+				<div class="swiper-pagination"></div>
+			</div>
+`
+$("document").ready( function(){
+	$("nav.slidernav").remove()
+	new Swiper("#event_swiper", {
+			slidesPerView: 1,
+			spaceBetween:10,
+			freeMode: false,
+		loop: true,
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+		pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+		autoHeight: true,
+	})
+})
+
+<!-- /event -->

@@ -1,0 +1,198 @@
+/* 플로팅 배너 수정 
+@media only screen and (max-width: 1400px) {
+  #simpleorder {
+    display:none !important;
+  }
+}
+*/
+/* 간편이사견적 수정*/
+#simply_move{border: 1px solid #3fb4dd; border-radius: 10px; padding: 10px 30px 7px;overflow: hidden;box-sizing: border-box;}
+#simply_move .box01{display: inline-block;float: left; width: 190px ; border-right: 1px solid #ddd;padding-right: 20px;padding-top: 5px;
+margin-top: 10px;}
+#simply_move  .box01 > h2{font-size: 1.3em;font-family:'GmarketSansBold';}
+#simply_move  .box01 > p{font-size: .8em; color: #a8a8a8;letter-spacing: -.5px; margin-top: 3px}
+
+#simply_move  .box02{width: 500px;overflow: hidden;float: left;padding-left: 25px;margin-top: 10px;}
+#simply_move  .box02 > li{float: left; display: inline-block;width: calc((100%)/2);}
+#simply_move  .box02 > li > span{display: inline-block;font-size: .9em;vertical-align: top;width: 60px;line-height: 32px;}
+#simply_move  .box03{overflow: hidden;display: inline-block}
+.btn_simply{background: #00beff;border-radius: 5px;border: 0;color: #fff;padding:20px 40px;float: right;font-family:'GmarketSansBold';font-size: 1.2em;line-height: 22px;margin-top:5px}
+
+/* TEMPORARY font for https */
+@font-face {
+		font-family: 'GmarketSansMedium';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+}
+@font-face {
+	font-family: 'GmarketSansLight';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'GmarketSansBold';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+.datepicker {
+    opacity: 100 !important;
+    transform: scale(1) !important;
+}
+	.datepicker-title{text-align:right !important;}
+		.div-sonclass{
+			display:flex;
+			justify-content: end;
+		}
+		.span-sonclass-title{
+			font-size : 10px !important;
+			padding-top: 2px;
+		}
+		.span-sonclass {
+			display:inline-block;
+			width: 16px;height:16px;
+				background-color: rgb(91 192 222 / 41%);
+			border-radius: 50px !important;
+			font-size : 10px !important;
+		}
+		.son-active{
+			background-color: rgb(91 192 222 / 41%);
+			border-radius: 50px !important;
+		}
+		.simplyregSuccessWrap, .loaderWrap{
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				background-color: #66666673;
+				display: flex;
+				justify-content: center;
+		}
+		.simplyregSuccessinner, .loaderWrapInner{
+    display: flex;
+		}
+		.simplyregSuccessinner > span{
+			    margin: auto;
+    display: block;
+    width: 300px;
+    text-align: center;
+    background-color: white;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 60%);
+    font-weight: 800;
+    font-size: 16px;
+			color: black;
+		}
+
+/* swiper */
+.center.event_wrap{overflow-x:hidden;}
+				.swiper-button-next, .swiper-button-prev {
+							box-shadow: 1px 2px 5px 0 rgb(0 0 0 / 32%);
+							background-color: rgb(170 170 170 / 15%);
+							border-radius: 5px;
+							color:black;
+					}
+				.modal-header .close.abs-top {
+						margin-top: -2px;
+						position: absolute;
+						top: 14px;
+						right: 14px;
+				}
+				.s-col{
+					position: relative;
+					min-height: 1px;
+					padding-right: 15px;
+					padding-left: 15px;
+					float: left;
+				}
+				.modal-review-point-row-title{
+					min-width: 94px;
+				}
+				.move_review_more_wrap{
+					    text-align: right;
+							padding: 10px;
+							margin-bottom: 10px;
+					margin-top: 10px;
+				}
+				.swiper-button-next:after, .swiper-button-prev:after {
+						font-family: swiper-icons;
+						font-size: 30px;
+						font-weight: bold;
+				}
+				#move_review_slider{
+					height : 410px;
+					width: 100%;
+					overflow-x: hidden;
+				}
+				.move_review_item_inner{
+					padding: 34px 25px 0;
+					background-color: white;
+					display: flex;
+					flex-direction: column;
+					height: 350px;
+					/* justify-content: space-between; */
+					border-radius: 10px;
+					box-shadow: 0 3px 8px 0 rgb(0 0 0 / 32%);
+				}
+				.move_review_item_header{
+					text-align: center;
+					margin-bottom: 20px;
+				}
+				.move_review_item_header h3{
+					display: block;
+    			padding-bottom: 5px;
+				  white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+				.move_review_item_star_wrap {
+					display:flex;
+					justify-content: center;
+				}
+				
+				.move_review_item_point_wrap{
+					display: flex;
+					/* justify-content: center; */
+					flex-direction: column;
+					margin-left: 10px;
+				}
+				.move_review_item_point{
+					font-size: 38px;
+					line-height: 38px;
+					text-align: center;
+				}
+				.move_review_item_point_desc{
+					font-size: 12px;
+				}
+				.move_review_item_txt{
+					padding: 20px 10px 10px;
+					max-height: 136px;
+					font-size: 16px;
+					height: 140px;
+					word-break: break-all;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 5;
+					line-height: 23px;
+				}
+				.move_review_item_date{
+					text-align: right;
+					padding: 5px 20px 0;
+					font-size: 12px;
+					color: #6a6a6a;
+				}
+				.modal-review-contents{
+					max-height: 25vh;
+    			overflow-y: auto;
+				}
+				
+				#event_swiper > .swiper-wrapper > .swiper-slide img{
+					width:100%;
+				}
