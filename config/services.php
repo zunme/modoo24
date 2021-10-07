@@ -1,5 +1,4 @@
 <?php
-
 return [
 
     /*
@@ -37,13 +36,13 @@ return [
 	'kakao' => [
 	  'client_id' => env('KAKAO_KEY'),
 	  'client_secret' => env('KAKAO_CLIENT_SECRET'),
-	  'redirect' => env('KAKAO_REDIRECT_URI'),
+	  'redirect' => $_SERVER['APP_URL'].env('KAKAO_REDIRECT_URI'),
 	  'admin_key' => '47fd77fd40f2c9512db0283ff000042d',
 	],
 	'naver' => [
         'client_id' => env('NAVER_CLIENT_ID'),
         'client_secret' => env('NAVER_CLIENT_SECRET'),
-        'redirect' => env('NAVER_REDIRECT')
+        'redirect' => $_SERVER['APP_URL'].env('NAVER_REDIRECT')
     ],
 
 ];
