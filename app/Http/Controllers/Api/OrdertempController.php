@@ -25,7 +25,7 @@ class OrdertempController extends Controller
 			't_hp.required' =>'연락처를 (-) 없이 숫자만 적어주세요.',
 			't_hp.*' =>'올바른 연락처를 적어주세요.',
 			't_kinds.*' => '이사종류를 선택해주세요.',
-			't_dday.*' =>'이사일을 선택해주세요.',			
+			't_dday.*' =>'이사일을 선택해주세요.',
 			'simplyRegPrivacy.*' =>'개인정보 수집에 동의해주세요.',
 			'simplyRegJoint.*' =>'개인정보 제3자 제공에 동의해주세요.',
     ];
@@ -38,9 +38,11 @@ class OrdertempController extends Controller
 			'simplyRegJoint'=> 'bail|required|in:Y',
      ],$messages);
 		$data = $request->all();
+		if( !isset($data['simplyMarketting']) || $data['simplyMarketting'] !='Y') $data['simplyMarketting'] = 'N';
+
 		$data['t_type'] = '간편';
 		$data['t_memo'] = "[ 신청 IP : ".$request->ip().']'.PHP_EOL;
-		
+
 		$dup = AuctionTempOrder::where([
 			't_type'=> '간편',
 			't_name'=> $data['t_name'],

@@ -13,11 +13,11 @@
   	<meta name=”robots” content=”index”>
 	<meta property="og:site_name" content="@yield('meta_site_name', '모두이사' )" />
 	<meta property="og:type" content="website"/>
-	
+
 	@if( empty($meta) )
 	<meta property="og:title" content="우리집 이사, 청소엔 모두이사"/>
 	<meta property="og:image" content="{{\URL::to('/images/default_og_image.jpg')}}">
-	<meta property="og:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자"/>	
+	<meta property="og:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자"/>
 	<meta property="og:url" content="http://modoo24.net"/>
 	<meta name="description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자">
 	@else
@@ -27,15 +27,15 @@
 	<meta property="og:url" content="{{$meta->url}}" />
 	<meta name="description" content="{{$meta->description}}">
 	@endif
-	
+
 	<meta name="author" content="모두이사">
 	<meta name="keywords" content="이사,포장이사,비대면이사,비대면">
-	<meta name="format-detection" content="telephone=no, address=no, email=no">    
-	
+	<meta name="format-detection" content="telephone=no, address=no, email=no">
+
 	<!-- Styles -->
 	<link rel="shortcut icon" href="/modoo24.ico" />
-	
-	
+
+
 	<!--     Fonts and icons     -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -44,7 +44,7 @@
 	<link href="/community/assets/now/css/now-ui-kit2.min.css?v=1.3.1" rel="stylesheet" />
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link href="/community/assets/now/demo/demo.css" rel="stylesheet" />
-	
+
 	  <!-- CSS Libraries -->
 	<!--
   <link rel="stylesheet" href="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
@@ -52,7 +52,7 @@
 -->
   <link rel="stylesheet" href="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/izitoast/dist/css/iziToast.min.css">
   <link rel="stylesheet" href="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/bootstrap-daterangepicker/daterangepicker.css">
-	
+
 	<style>
 	.pt-10{padding-top:10px;}
 	.pt-20{padding-top:20px;}
@@ -83,10 +83,10 @@
 	font-weight: 800;
 }
 		.display-flex{
-			display: flex;			
+			display: flex;
 		}
 		.justify-space-between{
-			justify-content: space-between;				
+			justify-content: space-between;
 		}
 		.justify-content-flex-end{
 			justify-content: flex-end;
@@ -115,14 +115,14 @@
 	.btn-white:hover{
 		background-color: #d9e9f5 !important;
 		color: #5d5d5d !important;
-		border-color: #d9e9f5 !important;	
+		border-color: #d9e9f5 !important;
 	}
 
-	/* 페이징 */	
+	/* 페이징 */
 	.pagination > li > a, .pagination > li > span {
 		position: relative;
     display: block;
-		
+
     border: 0;
     border-radius: 30px!important;
     transition: all .3s;
@@ -175,7 +175,7 @@
     background-color: #fa7347;
     color: white;
 		}
-		
+
 		@media screen and (max-width: 991px){
 			.navbar .navbar-nav {
 					width: 200px;
@@ -234,7 +234,7 @@
 							<a class="dropdown-item" href="{{ Config::get('site.defaultStartUrl') }}/posts/hometown">
 								<i class="fab fas fa-city"></i>
 								우리동네
-							</a>						
+							</a>
 						</div>
 					</li>
 					<li class="nav-item">
@@ -250,7 +250,7 @@
 							<i class="fas fa-sign-in-alt"></i>
 							<p>로그인</p>
 						</a>
-					</li>						
+					</li>
 @else
 					<li class="nav-item dropdown">
 						<a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuMy" data-toggle="dropdown">
@@ -265,7 +265,7 @@
 							<span class="dropdown-item" onClick="logout()">
 								<i class="fas fa-sign-out-alt"></i>
 								로그아웃
-							</span>						
+							</span>
 						</div>
 
 					</li>
@@ -318,7 +318,7 @@
 							<a class="dropdown-item" href="#">
 								<i class="now-ui-icons business_bulb-63"></i>
 								파트너제휴
-							</a>						
+							</a>
 						</div>
 					</li>
 
@@ -357,7 +357,7 @@
 		</div>
 
 	</div>
-	
+
 </nav>
   <!-- End Navbar -->
   <div class="wrapper">
@@ -381,19 +381,19 @@
         </div>
       </div>
     </div>
-	  
-<!-- main section -->	  
+
+<!-- main section -->
 	<div class="main">
 		@yield('content')
 	</div>
-<!-- / main section -->	  
-	  
+<!-- / main section -->
+
     <footer class="footer footer-default">
 	  <div class="container">
 		<div>
 			<div class="" id="copyright">
 			  Copyright &copy; 모두플랫폼 Corporation All rights reserved.
-			</div>			
+			</div>
 		</div>
 		<div>
 			<div class="">
@@ -403,12 +403,12 @@
 	  </div>
     </footer>
   </div>
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	<!-- modal & logout -->
 	<form id="logout-form" action="/logout" method="POST" style="display: none;">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -443,7 +443,7 @@
     </div>
   </div>
 </div>
-	
+
 		<!-- Login Modal -->
 	<div class="modal fade modal-primary" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-login">
@@ -463,8 +463,8 @@
 					<div class="modal-body">
 						<form class="form" method="POST" action="{{ Config::get('site.defaultStartUrl') }}/login" id="loginpopform">
 							<div class="card-body">
-								
-									
+
+
 								<div class="input-group no-border input-lg">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="now-ui-icons users_circle-08"></i></span>
@@ -477,9 +477,9 @@
 										<span class="input-group-text"><i class="now-ui-icons ui-1_lock-circle-open"></i></span>
 									</div>
 									<input id="password" type="password" name="password" required="required" class="form-control" placeholder="Password...">
-								</div>										
+								</div>
 
-								
+
                 <span onClick="loginpopform()" class="btn btn-neutral btn-round btn-lg btn-block">이메일로 로그인</span>
             	</div>
 						</form>
@@ -500,10 +500,10 @@
 	</div>
 	<!--  End Modal -->
 <!-- /modal & logout -->
-	
-	
+
+
    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-		
+
   <!--   now Core JS Files   -->
   <!--script src="/community/assets/now/js/core/jquery.min.js" type="text/javascript"></script-->
   <script src="/community/assets/now/js/core/popper.min.js" type="text/javascript"></script>
@@ -513,15 +513,15 @@
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
   <script src="/community/assets/now/js/plugins/nouislider.min.js" type="text/javascript"></script>
   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="/community/assets/now/js/plugins/bootstrap-selectpicker.js" type="text/javascript"></script>	
+  <script src="/community/assets/now/js/plugins/bootstrap-selectpicker.js" type="text/javascript"></script>
   <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
   <script src="/community/assets/now/js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
   <!--  Google Maps Plugin    -->
   <!--script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script-->
   <!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
   <script src="/community/assets/now/js/now-ui-kit2.min.js?v=1.3.1" type="text/javascript"></script>
-	
-	
+
+
 	<!-- default script -->
 	<script src="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/moment/moment.js"></script>
   <script src="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/moment/locale/ko.js"></script>
@@ -531,18 +531,18 @@
 	<script src="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
 -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.1/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/kt-2.6.4/r-2.2.9/rg-1.1.3/sb-1.2.1/sp-1.4.0/sl-1.3.3/datatables.min.css"/>
- 
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.11.1/b-2.0.0/b-colvis-2.0.0/b-html5-2.0.0/b-print-2.0.0/kt-2.6.4/r-2.2.9/rg-1.1.3/sb-1.2.1/sp-1.4.0/sl-1.3.3/datatables.min.js"></script>
-	
-  
+
+
 	<!-- template -->
-	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>  
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js" integrity="sha256-qXBd/EfAdjOA2FGrGAG+b3YBn2tn5A6bhz+LSgYD96k=" crossorigin="anonymous"></script>
   <script src="{{ Config::get('site.defaultStartUrl') }}/assets/js/handlebars.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/template7@1.4.2/dist/template7.min.js" integrity="sha256-AR7mrm2lYY5i4wWxxAznbMCTVOCMD5kvqLUmtW/6iCY=" crossorigin="anonymous"></script>
-	
-	
+
+
   <!--script src="/stisla/node_modules/sweetalert/dist/sweetalert.min.js"></script-->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="{{ Config::get('site.defaultStartUrl') }}/assets/stisla/node_modules/izitoast/dist/js/iziToast.min.js"></script>
@@ -550,7 +550,7 @@
   <!-- summer note -->
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-	
+
 	<!-- back alert message -->
 	@if(session()->has('noti_alert_message'))
     <script>
@@ -563,7 +563,7 @@
 	<script>
 		var totalImgCnt = 0;
 		var inpCnt = 0;
-		
+
 		var lang_kor = {
 			"decimal" : "",
 			"emptyTable" : "데이터가 없습니다.",
@@ -590,7 +590,7 @@
 		};
 
 		function readURL(input, id) {
-			if (input.files && input.files[0]) {   
+			if (input.files && input.files[0]) {
 				var reader = new FileReader();
 				var filename = $(input).val();
 				filename = filename.substring(filename.lastIndexOf('\\')+1);
@@ -604,15 +604,15 @@
 							confirmButtonText: '확인'
 						})
 						return;
-						//메가 1048576 
+						//메가 1048576
 					}
 					var bytes = formatBytes( e.total);
-					
+
 					$('#'+id+'_preview').attr('src', e.target.result);
-					
+
 					$('#'+id+'_preview').hide();
 					$('#'+id+'_preview').parent().removeClass('hide');
-					
+
 					$('#'+id+'_preview').fadeIn(500);
 					$('#'+id+'_preview').show();
 					$('#'+id+'_byte').text(bytes)
@@ -620,8 +620,8 @@
 					$('#'+id+'_col').removeClass('hide');
 					totalImgCnt++;
 				}
-				reader.readAsDataURL(input.files[0]);    
-			} 
+				reader.readAsDataURL(input.files[0]);
+			}
 			//$(".alert").removeClass("loading").hide();
 		}
 		function removeFile(btn){
@@ -680,10 +680,10 @@ $.ajax({
 				});
 
 		} // end success
-	});			
-		}	
-		
-		
+	});
+		}
+
+
 function ajaxErrorST(jqXHR ){
   $('.loading_wrap').hide();
   if(jqXHR.status != 422 && jqXHR.status != 500 ) {
@@ -693,7 +693,7 @@ function ajaxErrorST(jqXHR ){
     });
     return;
   }
-	
+
   var msg ;
   var exception ;
   if (jqXHR.responseJSON ) {
@@ -701,13 +701,13 @@ function ajaxErrorST(jqXHR ){
     exception = jqXHR.responseJSON.exception;
   }
 	console.log(msg) ;
-	
+
     if(msg) {
 			if( msg.message ){
 				iziToast.error({
 					message:  msg.message,
 					position: 'bottomRight'
-				});				
+				});
 			}else {
 				for(key in msg) {
 					if(msg.hasOwnProperty(key)) {
@@ -727,7 +727,7 @@ function ajaxErrorST(jqXHR ){
 						}
 						break;
 					}
-				}				
+				}
 			}
     } else {
       iziToast.error({
@@ -735,7 +735,7 @@ function ajaxErrorST(jqXHR ){
         position: 'bottomRight'
       });
     }
-}    
+}
 function pop_tpl( size, id , data, title ){
   if ( typeof id =='undefined') return false;
   var availsize = ['sm', 'lg', 'xl']
@@ -753,7 +753,7 @@ function pop_tpl( size, id , data, title ){
       });
   }
 }
-// onClick="default_form_prc({'form':'updateform', 'url':'/adm/rooms/save','reload':datatable})" 
+// onClick="default_form_prc({'form':'updateform', 'url':'/adm/rooms/save','reload':datatable})"
 function default_form_prc(info) {
   var msg = ( typeof info.msg =='undefined') ? '정상적으로 처리되었습니다.' : info.msg;
   $.ajax({
@@ -844,7 +844,7 @@ function default_form_delete( info ){
       swal.fire('취소되었습니다.');
       }
     });
-}		
+}
 		/* getpost */
 	function getpost( url,data , callbackSuccess, callbackCompleted ){
 		$.ajax({
@@ -858,7 +858,7 @@ function default_form_delete( info ){
 													'X-CSRF-TOKEN': result.token
 											}
 									});
-						
+
 									$.ajax({
 										url: url,
 										method:"POST",
@@ -876,11 +876,11 @@ function default_form_delete( info ){
 										}
 									});
 							}, // end success
-								
+
 						});
 	}
-	
-	
+
+
 		<!-- test sock -->
 		/*
 		//var ws = new WebSocket('wss://modoosock.run.goorm.io');
@@ -897,14 +897,14 @@ function default_form_delete( info ){
 				case 'response':
 					console.log(recData.data);
 					break;
-				case 'pong': 
+				case 'pong':
 					iziToast.success({ message : recData.data.msg, position : 'bottomRight'})
 					break;
 			}
 		}
 		*/
 	</script>
-	
+
 	@yield('script')
 </body>
 

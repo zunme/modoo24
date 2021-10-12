@@ -12,471 +12,31 @@
 	<link rel="stylesheet" href="/community/assets/stisla/node_modules/izitoast/dist/css/iziToast.min.css">
 	<!-- swiper -->
 	<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>	
-	
-	
+	<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+
 	<link rel="stylesheet" href="/community/newmain.css" />
 	<script src="/community/newmain.js"></script>
 	*/
+let target
+let agreeModaltemplate = `
+<div class="modal fade" id="modal_popview" style="z-index: 1050;" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md" role="document">
+	  <div class="modal-content" id="modal_popview_body">
+			<div><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+	  </div>
+	</div>
+</div>
+`
+let useAgreeModalPop = false;
 
-
-	Handlebars.registerHelper('nl2br', function(text) {
-    text = Handlebars.Utils.escapeExpression(text);
-    text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
-    return new Handlebars.SafeString(text);
-	});
-  Handlebars.registerHelper('encodeMyString',function(inputData){
-      return new Handlebars.SafeString(inputData);
-  });
-  Handlebars.registerHelper('isEqual', function (expectedValue, value) {
-    return value === expectedValue;
-  });
-  Handlebars.registerHelper('isNotEqual', function (expectedValue, value) {
-    return value !== expectedValue;
-  });
-  Handlebars.registerHelper('checkempty', function(value) {
-      if ( typeof value == 'undefined') return true;
-			if ( typeof value == 'string') value = value.trim();
-      if (value === null) return true;
-      else if (value === '') return true;
-      else return false;
-  });
-	Handlebars.registerHelper('checknotempty', function(value) {
-      if ( typeof value == 'undefined') return false;
-			if ( typeof value == 'string') value = value.trim();
-      if (value === null) return false;
-      else if (value === '') return false;
-      else return true;
-  });
-  Handlebars.registerHelper('gt', function(a, b) {
-    return (a > b);
-  });
-  Handlebars.registerHelper('gte', function(a, b) {
-    return (a >= b);
-  });
-  Handlebars.registerHelper('lt', function(a, b) {
-    return (a < b);
-  });
-  Handlebars.registerHelper('lte', function(a, b) {
-    return (a <= b);
-  });
-  Handlebars.registerHelper('ne', function(a, b) {
-    return (a !== b);
-  });
-
-
-const LUNAR_LAST_YEAR = 1939;
-        var lunarMonthTable = [
-            [2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2],   /* 양력 1940년 1월은 음력 1939년에 있음 그래서 시작년도는 1939년*/
-            [2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1],
-            [2, 2, 1, 2, 2, 4, 1, 1, 2, 1, 2, 1],   /* 1941 */
-            [2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 2],
-            [1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2],
-            [1, 1, 2, 4, 1, 2, 1, 2, 2, 1, 2, 2],
-            [1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 1, 2],
-            [2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2],
-            [2, 5, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2],
-            [2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2],
-            [2, 2, 1, 2, 1, 2, 3, 2, 1, 2, 1, 2],
-            [2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1],
-            [2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2],   /* 1951 */
-            [1, 2, 1, 2, 4, 2, 1, 2, 1, 2, 1, 2],
-            [1, 2, 1, 1, 2, 2, 1, 2, 2, 1, 2, 2],
-            [1, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2],
-            [2, 1, 4, 1, 1, 2, 1, 2, 1, 2, 2, 2],
-            [1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2],
-            [2, 1, 2, 1, 2, 1, 1, 5, 2, 1, 2, 2],
-            [1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2],
-            [1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],
-            [2, 1, 2, 1, 2, 5, 2, 1, 2, 1, 2, 1],
-            [2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2],   /* 1961 */
-            [1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1],
-            [2, 1, 2, 3, 2, 1, 2, 1, 2, 2, 2, 1],
-            [2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2],
-            [1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2],
-            [1, 2, 5, 2, 1, 1, 2, 1, 1, 2, 2, 1],
-            [2, 2, 1, 2, 2, 1, 1, 2, 1, 2, 1, 2],
-            [1, 2, 2, 1, 2, 1, 5, 2, 1, 2, 1, 2],
-            [1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1],
-            [2, 1, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2],
-            [1, 2, 1, 1, 5, 2, 1, 2, 2, 2, 1, 2],   /* 1971 */
-            [1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1],
-            [2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2, 1],
-            [2, 2, 1, 5, 1, 2, 1, 1, 2, 2, 1, 2],
-            [2, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2],
-            [2, 2, 1, 2, 1, 2, 1, 5, 2, 1, 1, 2],
-            [2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1],
-            [2, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1],
-            [2, 1, 1, 2, 1, 6, 1, 2, 2, 1, 2, 1],
-            [2, 1, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2],
-            [1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2],   /* 1981 */
-            [2, 1, 2, 3, 2, 1, 1, 2, 2, 1, 2, 2],
-            [2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 2],
-            [2, 1, 2, 2, 1, 1, 2, 1, 1, 5, 2, 2],
-            [1, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2],
-            [1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 1, 1],
-            [2, 1, 2, 2, 1, 5, 2, 2, 1, 2, 1, 2],
-            [1, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1],
-            [2, 1, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2],
-            [1, 2, 1, 1, 5, 1, 2, 1, 2, 2, 2, 2],
-            [1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2],   /* 1991 */
-            [1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 2],
-            [1, 2, 5, 2, 1, 2, 1, 1, 2, 1, 2, 1],
-            [2, 2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2],
-            [1, 2, 2, 1, 2, 2, 1, 5, 2, 1, 1, 2],
-            [1, 2, 1, 2, 2, 1, 2, 1, 2, 2, 1, 2],
-            [1, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1],
-            [2, 1, 1, 2, 3, 2, 2, 1, 2, 2, 2, 1],
-            [2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 1],
-            [2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 1],
-            [2, 2, 2, 3, 2, 1, 1, 2, 1, 2, 1, 2],   /* 2001 */
-            [2, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1],
-            [2, 2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2],
-            [1, 5, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2],
-            [1, 2, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1],
-            [2, 1, 2, 1, 2, 1, 5, 2, 2, 1, 2, 2],
-            [1, 1, 2, 1, 1, 2, 1, 2, 2, 2, 1, 2],
-            [2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2],
-            [2, 2, 1, 1, 5, 1, 2, 1, 2, 1, 2, 2],
-            [2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2],
-            [2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 1],   /* 2011 */
-            [2, 1, 6, 2, 1, 2, 1, 1, 2, 1, 2, 1],
-            [2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2],
-            [1, 2, 1, 2, 1, 2, 1, 2, 5, 2, 1, 2],
-            [1, 2, 1, 1, 2, 1, 2, 2, 2, 1, 2, 1],
-            [2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2],
-            [2, 1, 1, 2, 3, 2, 1, 2, 1, 2, 2, 2],
-            [1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2],
-            [2, 1, 2, 1, 2, 1, 1, 2, 1, 2, 1, 2],
-            [2, 1, 2, 5, 2, 1, 1, 2, 1, 2, 1, 2],
-            [1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1],   /* 2021 */
-            [2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2],
-            [1, 5, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2],
-            [1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1],
-            [2, 1, 2, 1, 1, 5, 2, 1, 2, 2, 2, 1],
-            [2, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2],
-            [1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 2],
-            [1, 2, 2, 1, 5, 1, 2, 1, 1, 2, 2, 1],
-            [2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2],
-            [1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1],
-            [2, 1, 5, 2, 1, 2, 2, 1, 2, 1, 2, 1],   /* 2031 */
-            [2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2],
-            [1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 5, 2],
-            [1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 1],
-            [2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2],
-            [2, 2, 1, 2, 1, 4, 1, 1, 2, 2, 1, 2],
-            [2, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2],
-            [2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1],
-            [2, 2, 1, 2, 5, 2, 1, 2, 1, 2, 1, 1],
-            [2, 1, 2, 2, 1, 2, 2, 1, 2, 1, 2, 1],
-            [2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 2],   /* 2041 */
-            [1, 5, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2],
-            [1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2]];
-
-        // 음력 계산을 위한 객체
-        function myDate(year, month, day, leapMonth) {
-            this.year = year;
-            this.month = month;
-            this.day = day;
-            this.leapMonth = leapMonth;
-        }
-
-        // 양력을 음력으로 계산
-        function lunarCalc(year, month, day, type, leapmonth) {
-            var solYear, solMonth, solDay;
-            var lunYear, lunMonth, lunDay;
-
-            // lunLeapMonth는 음력의 윤달인지 아닌지를 확인하기위한 변수
-            // 1일 경우 윤달이고 0일 경우 음달
-            var lunLeapMonth, lunMonthDay;
-            var i, lunIndex;
-
-            var solMonthDay = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-            /* range check */
-            if (year < 1940 || year > 2040) {
-                alert('1940년부터 2040년까지만 지원합니다');
-                return;
-            }
-
-            /* 속도 개선을 위해 기준 일자를 여러개로 한다 */
-            if (year >= 2000) {
-                /* 기준일자 양력 2000년 1월 1일 (음력 1999년 11월 25일) */
-                solYear = 2000;
-                solMonth = 1;
-                solDay = 1;
-                lunYear = 1999;
-                lunMonth = 11;
-                lunDay = 25;
-                lunLeapMonth = 0;
-
-                solMonthDay[1] = 29;    /* 2000 년 2월 28일 */
-                lunMonthDay = 30;   /* 1999년 11월 */
-            }
-            else if (year >= 1970) {
-                /* 기준일자 양력 1970년 1월 1일 (음력 1969년 11월 24일) */
-                solYear = 1970;
-                solMonth = 1;
-                solDay = 1;
-                lunYear = 1969;
-                lunMonth = 11;
-                lunDay = 24;
-                lunLeapMonth = 0;
-
-                solMonthDay[1] = 28;    /* 1970 년 2월 28일 */
-                lunMonthDay = 30;   /* 1969년 11월 */
-            }
-            else {
-                /* 기준일자 양력 1940년 1월 1일 (음력 1939년 11월 22일) */
-                solYear = 1940;
-                solMonth = 1;
-                solDay = 1;
-                lunYear = 1939;
-                lunMonth = 11;
-                lunDay = 22;
-                lunLeapMonth = 0;
-
-                solMonthDay[1] = 29;    /* 1940 년 2월 28일 */
-                lunMonthDay = 29;   /* 1939년 11월 */
-            }
-
-            lunIndex = lunYear - LUNAR_LAST_YEAR;
-
-            // type이 1일때는 입력받은 양력 값에 대한 음력값을 반환
-            // 2일 때는 입력받은 음력 값에 대한 양력값을 반환
-            // 반복문이 돌면서 양력 값들과 음력 값들을 1일 씩 증가시키고
-            // 입력받은 날짜값과 양력 값이 일치할 때 음력값을 반환함
-            while (true) {
-                if (type == 1 &&
-                    year == solYear &&
-                    month == solMonth &&
-                    day == solDay) {
-                    return new myDate(lunYear, lunMonth, lunDay, lunLeapMonth);
-                }
-                else if (type == 2 &&
-                    year == lunYear &&
-                    month == lunMonth &&
-                    day == lunDay &&
-                    leapmonth == lunLeapMonth) {
-                    return new myDate(solYear, solMonth, solDay, 0);
-                }
-
-                // 양력의 마지막 날일 경우 년도를 증가시키고 나머지 초기화
-                if (solMonth == 12 && solDay == 31) {
-                    solYear++;
-                    solMonth = 1;
-                    solDay = 1;
-
-                    // 윤년일 시 2월달의 총 일수를 1일 증가
-                    if (solYear % 400 == 0)
-                        solMonthDay[1] = 29;
-                    else if (solYear % 100 == 0)
-                        solMonthDay[1] = 28;
-                    else if (solYear % 4 == 0)
-                        solMonthDay[1] = 29;
-                    else
-                        solMonthDay[1] = 28;
-
-                }
-                // 현재 날짜가 달의 마지막 날짜를 가리키고 있을 시 달을 증가시키고 날짜 1로 초기화
-                else if (solMonthDay[solMonth - 1] == solDay) {
-                    solMonth++;
-                    solDay = 1;
-                }
-                else
-                    solDay++;
-
-                // 음력의 마지막 날인 경우 년도를 증가시키고 달과 일수를 초기화
-                if (lunMonth == 12 &&
-                    ((lunarMonthTable[lunIndex][lunMonth - 1] == 1 && lunDay == 29) ||
-                        (lunarMonthTable[lunIndex][lunMonth - 1] == 2 && lunDay == 30))) {
-                    lunYear++;
-                    lunMonth = 1;
-                    lunDay = 1;
-
-                    if (lunYear > 2043) {
-                        alert("입력하신 달은 없습니다.");
-                        break;
-                    }
-
-                    // 년도가 바꼈으니 index값 수정
-                    lunIndex = lunYear - LUNAR_LAST_YEAR;
-
-                    // 음력의 1월에는 1 or 2만 있으므로 1과 2만 비교하면됨
-                    if (lunarMonthTable[lunIndex][lunMonth - 1] == 1)
-                        lunMonthDay = 29;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 2)
-                        lunMonthDay = 30;
-                }
-                // 현재날짜가 이번달의 마지막날짜와 일치할 경우
-                else if (lunDay == lunMonthDay) {
-
-                    // 윤달인데 윤달계산을 안했을 경우 달의 숫자는 증가시키면 안됨
-                    if (lunarMonthTable[lunIndex][lunMonth - 1] >= 3
-                        && lunLeapMonth == 0) {
-                        lunDay = 1;
-                        lunLeapMonth = 1;
-                    }
-                    // 음달이거나 윤달을 계산 했을 겨우 달을 증가시키고 lunLeapMonth값 초기화
-                    else {
-                        lunMonth++;
-                        lunDay = 1;
-                        lunLeapMonth = 0;
-                    }
-
-                    // 음력의 달에 맞는 마지막날짜 초기화
-                    if (lunarMonthTable[lunIndex][lunMonth - 1] == 1)
-                        lunMonthDay = 29;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 2)
-                        lunMonthDay = 30;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 3)
-                        lunMonthDay = 29;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 4 &&
-                        lunLeapMonth == 0)
-                        lunMonthDay = 29;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 4 &&
-                        lunLeapMonth == 1)
-                        lunMonthDay = 30;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 5 &&
-                        lunLeapMonth == 0)
-                        lunMonthDay = 30;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 5 &&
-                        lunLeapMonth == 1)
-                        lunMonthDay = 29;
-                    else if (lunarMonthTable[lunIndex][lunMonth - 1] == 6)
-                        lunMonthDay = 30;
-                }
-                else
-                    lunDay++;
-            }
-        }
-
-        // 양력을 음력날짜로 변환
-        function solarToLunar(solYear, solMonth, solDay, son ) {
-            // 날짜 형식이 안맞을 경우 공백 반환
-            if (!solYear || solYear == 0 ||
-                !solMonth || solMonth == 0 ||
-                !solDay || solDay == 0) {
-                return "";
-            }
-
-            // 양력의 달마다의 일수
-            var solMonthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-            // 윤년일 시 2월에 1일 추가
-            if (solYear % 400 == 0 || (solYear % 4 == 0 && solYear % 100 != 0)) solMonthDays[1] += 1;
-
-
-            if (solMonth < 1 || solMonth > 12 ||
-                solDay < 1 || solDay > solMonthDays[solMonth - 1]) {
-
-                return "";
-            }
-
-            /* 양력/음력 변환 */
-            var date = lunarCalc(solYear, solMonth, solDay, 1);
-
-						if (son){
-							let sonstr =''
-							let str = date.day.toString();
-							let last_char = str.charAt(str.length-1);
-							if( last_char =='0' || last_char =='9' ) {
-								return true;
-								sonstr = last_char;
-							}
-							else return false
-						} 
-					
-            return "음력 " + date.year + "년 " + (date.leapMonth ? "(윤)" : "") + date.month + "월 " + date.day;
-        }
-		// end 손없는날 
-		function ajaxErrorST(jqXHR ){
-  $('.loading_wrap').hide();
-  if(jqXHR.status != 422 && jqXHR.status != 500 ) {
-    iziToast.error({
-        message: '잠시후에 이용해주세요',
-        position: 'bottomRight'
-    });
-    return;
-  }
-	
-  var msg ;
-  var exception ;
-  if (jqXHR.responseJSON ) {
-    msg = (jqXHR.responseJSON.errors) ? jqXHR.responseJSON.errors : jqXHR.responseJSON;
-    exception = jqXHR.responseJSON.exception;
-  }
-	console.log(msg) ;
-	
-    if(msg) {
-			if( msg.message ){
-				iziToast.error({
-					message:  msg.message,
-					position: 'center'
-				});				
-			}else {
-				for(key in msg) {
-					if(msg.hasOwnProperty(key)) {
-						if(key.indexOf('.') < 0 ) {
-							$('input[name='+key+']').focus();
-						}
-						if ( $.isNumeric( key )) {
-							iziToast.error({
-								message: msg,
-								position: 'center'
-							});
-						} else {
-							iziToast.error({
-								message: msg[key][0],
-								position: 'center'
-							});
-						}
-						break;
-					}
-				}				
-			}
-    } else {
-      iziToast.error({
-        message: '시스템 오류입니다',
-        position: 'center'
-      });
-    }
-}    
-function getData(method, url, data, callback, callbackCompltet){
-	$.ajax({
-		url : '/community/refresh',
-		method:"get",
-		dataType:'JSON',
-		success:function(result){
-			$('meta[name="csrf-token"]').attr('content', result.token);
-			$.ajaxSetup({
-					headers: {
-							'X-CSRF-TOKEN': result.token
-					}
-			});
-
-			$.ajax({
-				url : '/community/api/'+ url,
-				method:method,
-				dataType:'JSON',
-				data : data ,
-				success:function(res){
-					callback( res)
-				},
-				error: function ( err ){
-				 ajaxErrorST(err)
-				},
-				complete:function() {
-					if ( typeof callbackCompltet != 'undefined') callbackCompltet();
-				}
-			});
-			
-		}
-	});
-}		
-		
-		
-		
+function selectAll(chk){
+	let checked = $(chk).prop('checked');
+	$("input[name='simplyRegPrivacy']").prop("checked", checked)
+	$("input[name='simplyRegJoint']").prop("checked", checked)
+	$("input[name='simplyRegPrivacy']").prop("checked", checked)
+	$("input[name='simplyMarketting']").prop("checked", checked)
+}
 $("document").ready( function() {
 	//달력
 	var startMovingDate = new Date();
@@ -485,6 +45,24 @@ $("document").ready( function() {
 	var numberOfDaysEnd = 60;
 	startMovingDate.setDate(startMovingDate.getDate() + numberOfDaysStart);
 	endMovingDate.setDate(startMovingDate.getDate() + numberOfDaysEnd);
+	$("body").append( agreeModaltemplate )
+
+	if( useAgreeModalPop){
+		$(".checks.etrans > p > a").on("click" ,function(e){
+			e.preventDefault();
+			target = e.target
+			let name = $(e.target).closest('.checks').children('input').attr('name')
+			let url;
+			if ( name=='') url = '/community/assets/html/01.html';
+			else url = '/community/assets/html/02.html'
+
+			$.get(url, function(data) {
+				data = '<div><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>'+data
+				$("#modal_popview_body").html(data);
+				$("#modal_popview").modal('show');
+			})
+		});
+	}
 
 	$(".sel-datepicker").prop("readonly",true);
 	$(".sel-datepicker").datepicker({
@@ -514,7 +92,7 @@ $("document").ready( function() {
 	}).on('show', function(e) {
 		$(".datepicker-title").html("<div class='div-sonclass'><span class='span-sonclass'></span><span class='span-sonclass-title'>손없는날</span></div>")
 	});
-	
+
 	$(".btn_simply").on("click", function(e) {
 		let btn = e.target
 		simplyReg(btn);
@@ -545,7 +123,7 @@ function loaderAttach(target,on) {
 	if( on == false ){
 		$(target).children(".loaderWrap").slideUp(500).remove()
 		return;
-	} 
+	}
 	let loader = `<div class="loaderWrap" style="background-color: rgb(241 242 243 / 38%);"><div class="loaderWrapInner">
 <svg style="    width: 100px;height: 100px;margin: auto;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; background: rgb(241, 242, 243); display: block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
 <rect x="17.5" y="30" width="15" height="40" fill="#1d3f72">
@@ -599,7 +177,7 @@ let move_review_template =`
 				</div>
 				<div class="move_review_item_date">
 					이사일 2020-11-20
-				</div>								
+				</div>
 			</div>
 		</div>
 	{{/each}}
@@ -619,11 +197,11 @@ let move_review_detail_template=`
 					<div>
 						이사일 2021-09-21
 					</div>
-					
+
 					<button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					
+
 				</div>
       </div>
       <div class="modal-body">
@@ -639,7 +217,7 @@ let move_review_detail_template=`
 						{{/each}}
 						<span class="modal-review-point-total">{{avg}}</span>
 					</div>
-				
+
 					<div class="row modal-review-points_wrap">
 						<div class="col-sm-6">
 							<div class="row modal-review-point-row_wrap">
@@ -650,7 +228,7 @@ let move_review_detail_template=`
 										{{#if ( isEqual this '0.5' ) }}<i class="fas fa-star-half-alt"></i>{{/if}}
 										{{#if ( isEqual this '0' ) }}<i class="far fa-star"></i>{{/if}}
 									{{/each}}
-								</div>								
+								</div>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -662,7 +240,7 @@ let move_review_detail_template=`
 										{{#if ( isEqual this '0.5' ) }}<i class="fas fa-star-half-alt"></i>{{/if}}
 										{{#if ( isEqual this '0' ) }}<i class="far fa-star"></i>{{/if}}
 									{{/each}}
-								</div>								
+								</div>
 							</div>
 						</div>
 					</div>
@@ -676,7 +254,7 @@ let move_review_detail_template=`
 										{{#if ( isEqual this '0.5' ) }}<i class="fas fa-star-half-alt"></i>{{/if}}
 										{{#if ( isEqual this '0' ) }}<i class="far fa-star"></i>{{/if}}
 									{{/each}}
-								</div>								
+								</div>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -688,7 +266,7 @@ let move_review_detail_template=`
 										{{#if ( isEqual this '0.5' ) }}<i class="fas fa-star-half-alt"></i>{{/if}}
 										{{#if ( isEqual this '0' ) }}<i class="far fa-star"></i>{{/if}}
 									{{/each}}
-								</div>								
+								</div>
 							</div>
 						</div>
 					</div>
@@ -702,7 +280,7 @@ let move_review_detail_template=`
 										{{#if ( isEqual this '0.5' ) }}<i class="fas fa-star-half-alt"></i>{{/if}}
 										{{#if ( isEqual this '0' ) }}<i class="far fa-star"></i>{{/if}}
 									{{/each}}
-								</div>								
+								</div>
 							</div>
 						</div>
 						<div class="col-sm-6">
@@ -714,19 +292,19 @@ let move_review_detail_template=`
 										{{#if ( isEqual this '0.5' ) }}<i class="fas fa-star-half-alt"></i>{{/if}}
 										{{#if ( isEqual this '0' ) }}<i class="far fa-star"></i>{{/if}}
 									{{/each}}
-								</div>								
+								</div>
 							</div>
 						</div>
 					</div>
-				
+
 				<div class="modal-review-contents-wrap">
 					<div class="modal-review-contents">
 						{{{b_note}}}
 					</div>
 				</div>
-				
+
       </div>
-			
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
@@ -786,28 +364,28 @@ function derawswiper() {
 			on:{
 				click: function(swiper, event){
 					let id = $(event.target).closest('.move_review_item_inner').data('id');
-					move_review_info.forEach( function ( row, idx) { 
+					move_review_info.forEach( function ( row, idx) {
 						if( row['b_uid'] == id ) viewReviewTemplate( row );
 					})
-				},				
+				},
 			}
-	});		
+	});
 }
 function viewReview(btn){
 	let id = $(btn).data('id')
-	move_review_info.forEach( function ( row, idx) { 
+	move_review_info.forEach( function ( row, idx) {
 		if( row['b_uid'] == id ) viewReviewTemplate( row );
 	})
 }
 function viewReviewTemplate( data){
 	move_review_detail_template
-	
+
 	var template = Handlebars.compile( move_review_detail_template );
 	$("#detailModal_content" ).html( template(data) );
 	$('#detailModal').modal('show');
 	good_ct_after_swiper.autoplay.stop()
 }
-// end 칭찬후기 
+// end 칭찬후기
 
 //event swiper
 let event_template =`
@@ -832,7 +410,7 @@ let event_template =`
                     </a>
                 </div>
 				</div>
-				
+
 					<div class="swiper-button-next"></div>
       		<div class="swiper-button-prev"></div>
 				<div class="swiper-pagination"></div>

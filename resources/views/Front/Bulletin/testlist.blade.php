@@ -11,13 +11,13 @@
 	.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
 		width: 130px !important;
 	}
-	.width-220{width: 220px !important;}	
+	.width-220{width: 220px !important;}
 
 	.input-white{
 		border: 1px solid #2ca8ff;
 		background-color: #fff !important;
     	color: #666 !important;
-	}	
+	}
 	.input-info{
 		border: 1px solid #2ca8ff;
 		background-color: #2ca8ff !important;
@@ -27,7 +27,7 @@
 	input.input-info::-webkit-input-placeholder { color: #fff; }
 	input.input-info::-moz-placeholder { color: #fff; }
 
-	
+
 	.dataTables_wrapper > div.row:first-child{display:none;}
 	.dataTables_paginate > .pagination .page-item.active>.page-link, .dataTables_paginate > .pagination .page-item.active>.page-link:focus, .dataTables_paginate > .pagination .page-item.active>.page-link:hover {
     background-color: #f96332;
@@ -60,7 +60,7 @@
 					<input type="text" value="{{$request->search}}" placeholder="검색어를 넣어주세요" class="form-control input-white" name="search">
 				</div>
 				<button type="submit" class="btn btn-info btn-round">검색</button>
-			</div>			
+			</div>
 		</form>
 		@if ( $config->use_write=='Y' )
 		<div>
@@ -92,7 +92,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				
+
 				@foreach ( $data as $row)
 				<tr>
 					<td>{{$row->id}}</td>
@@ -108,18 +108,18 @@
 					<td class="text-right">{{$row->created_at->diffForHumans()}}</td>
 				</tr>
 				@endforeach
-				
+
 		</tbody>
 	</table>
-		
+
 		<div class="paging-center">
 			{{ $data->links() }}
 		</div>
-	</div>	
-		
+	</div>
+
 		<div class="mt-20">
-			
-			<div class="display-flex justify-space-between">			
+
+			<div class="display-flex justify-space-between">
 				<div id="datatable_search_form">
 					<div class="display-flex inner-padding">
 
@@ -134,9 +134,9 @@
 							<input  id="search" type="text" value="{{$request->search}}" placeholder="이사에 대한 모든것을 물어보세요" class="form-control input-white" name="search">
 						</div>
 						<button type="button" class="btn btn-info btn-round" onClick="search_data()">검색</button>
-					</div>			
+					</div>
 				</div>
-				
+
 				@if ( $config->use_write=='Y' )
 				<div>
 							@if (Auth::guest())
@@ -153,7 +153,7 @@
 					<a class="btn btn-primary" type="button" href="{{$code}}/write">글쓰기</a>
 				</div>
 				@endif
-				
+
 			</div>
 			<div class="table-responsive">
 				<table class="table responsive dt-responsive display nowrap" id="datatable" width="100%">
@@ -168,13 +168,13 @@
 					</thead>
 				</table>
 			</div>
-    </div> 
-		
+    </div>
+
 </section>
-	
+
 @endsection
-	
-@section('script')	
+
+@section('script')
 	<script>
 		let datatable;
 		$.extend( $.fn.dataTable.defaults, {
@@ -221,9 +221,9 @@
 				{"data" : "created_at"},
 			],
 			"initComplete": function(settings, json) {
-            
+
             $('#datatable_filter label input').unbind();
-				
+
 						var textBox = $('#search');
             $("#search").bind('keyup input', function(e) {
                 if(e.keyCode == 8 && !textBox.val() || e.keyCode == 46 && !textBox.val()) {

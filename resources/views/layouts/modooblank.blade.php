@@ -1,0 +1,5 @@
+@extends('layouts.modoo')
+@section('header','')
+@section('content')
+@section('footer','')
+@section('body_bottom','')

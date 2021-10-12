@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.modooblank')
 
 @section('css')
 <style>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </form>
-					
+
 					<div class="social_login_wrap">
 						<div class="social_login_inner">
 							<a class="btn btn_login_kakao" href="login/kakao">
@@ -88,4 +88,3 @@
     </div>
 </div>
 @endsection
-

@@ -1,10 +1,10 @@
-/* 플로팅 배너 수정 
+/* 플로팅 배너 수정 */
 @media only screen and (max-width: 1400px) {
   #simpleorder {
     display:none !important;
   }
 }
-*/
+
 /* 간편이사견적 수정*/
 #simply_move{border: 1px solid #3fb4dd; border-radius: 10px; padding: 10px 30px 7px;overflow: hidden;box-sizing: border-box;}
 #simply_move .box01{display: inline-block;float: left; width: 190px ; border-right: 1px solid #ddd;padding-right: 20px;padding-top: 5px;
@@ -154,7 +154,7 @@ margin-top: 10px;}
 					display:flex;
 					justify-content: center;
 				}
-				
+
 				.move_review_item_point_wrap{
 					display: flex;
 					/* justify-content: center; */
@@ -192,7 +192,7 @@ margin-top: 10px;}
 					max-height: 25vh;
     			overflow-y: auto;
 				}
-				
+
 				#event_swiper > .swiper-wrapper > .swiper-slide img{
 					width:100%;
 				}
