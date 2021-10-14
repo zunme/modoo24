@@ -1,135 +1,8 @@
-@extends('layouts.modoo')
-@section('body_bottom','')
+@extends('layouts.postnow')
+@section ('title', $config->title)
+@section ('backgroundimage', $config->backgroundimage)
 
 @section('css')
-<style>
-.bmd-form-group .form-control, .bmd-form-group label, .bmd-form-group input::placeholder {
-    line-height: 1.2;
-}
-.pt-10{padding-top:10px;}
-.pt-20{padding-top:20px;}
-.mt-10{		margin-top:10px !important;	}
-.mt-20{		margin-top:20px !important;	}
-	.mt-0{		margin-top:0px !important;	}
-	.mb-0{		margin-bottom:0px !important;	}
-.hide , .hidden {display:none !important}
-	.ellipsis {
-		width: 100%;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.display-inline-block{
-		display: inline-block;
-	}
-	.display-block{
-		display: block !important;
-	}
-.page-header.page-header-small {
-	min-height: 200px;
-	max-height: 350px;
-	height: 60vh;
-}
-	.display-flex{
-		display: flex;
-	}
-	.justify-space-between{
-		justify-content: space-between;
-	}
-	.justify-content-flex-end{
-		justify-content: flex-end;
-	}
-  .justify-content-flex-around{
-    justify-content: space-around;
-  }
-	.navbar .navbar-nav .nav-link:not(.btn) {
-	padding: .3rem .6rem;
-	}
-	.forline2{
-				width: 100%;
-	display: flex;
-	flex-direction: column;
-	}
-	.menu-side-line{
-		line-height: 36px;
-	font-size: 18px;
-	color: #8888bf;
-	}
-	.border-top-default{
-		border-top: 1px solid #eee;
-	}
-.btn-white {
-	background-color: #fff;
-	color: #666;
-border: 1px solid #2ca8ff;
-}
-.btn-white:hover{
-	background-color: #d9e9f5 !important;
-	color: #5d5d5d !important;
-	border-color: #d9e9f5 !important;
-}
-
-
-	.modal .modal-login .card-login .logo-container {
-	margin-bottom: 0px;
-	}
-	.modal .modal-login {
-			max-width: 360px;
-	}
-	.force-login-btn{
-				line-height: 90px;
-	margin: 0;
-	background-color: #fa7347;
-	color: white;
-	}
-  .visual6{background: url(/NEW/image/sub/visual6.jpg) center top no-repeat; height:254px; text-align: center;}
-  .visual6 h1{ font-size: 40px; color: #000; padding-top:95px; font-weight:bold;}
-  .visual6 h4{color: #747474; }
-  @media only screen and (max-width: 959px) {
-    .visual6{background: url(/NEW/image/sub/visual6_m.jpg) right top no-repeat; height: 230px;background-size: cover}
-    .visual6 h1{font-size: 1.5em;padding-top:90px; font-family: 'GmarketSansMedium';}
-  }
-  .sub_menu{background: #f9f9f9; ;width: 100%;padding: 20px 0;
-    overflow: hidden;}
-  .sub_menu ul{width: 900px;text-align: center}
-  .sub_menu ul li{width: calc((100% - 20px)/4);float: left;line-height: 30px; font-family:'GmarketSansBold';cursor: pointer;transform: rotate(-0.03deg);}
-  .sub_menu ul .on{color: #2083ff!important}
-  .sub_menu ul li:hover{color: #2083ff}
-  .sub_menu ul .h_icon{background: url(/NEW/image/sub/icon_sm.png) center top no-repeat; width: 30px; height: 30px;margin-right: 100px }
-
-  .btn-danger:hover , .btn-success:hover {
-    /* background-color: #c12e2a; */
-    background-position: inherit;
-  }
-  .btn-success{
-    background-image: -webkit-linear-gradient(top,#00beff 0,#62a9c1 100%);
-    background-image: -o-linear-gradient(top,#00beff 0,#62a9c1 100%);
-    background-image: -webkit-gradient(linear,left top,left bottom,from(#00beff),to(#62a9c1));
-    background-image: linear-gradient(to bottom,#00beff 0,#62a9c1 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00beff', endColorstr='#62a9c1', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-    background-repeat: repeat-x;
-    border-color: #00beff;
-  }
-  .btn.btn-success {
-      color: #fff;
-      background-color: #00beff;
-      border-color: #00beff;
-      box-shadow: 0 2px 2px 0 rgb(0 190 240 / 14%), 0 3px 1px -2px rgb(0 190 255 / 20%), 0 1px 5px 0 rgb(0 190 255 / 12%);
-  }
-  .btn.btn-success:focus, .btn.btn-success:active, .btn.btn-success:hover {
-    box-shadow: 0 14px 26px -12px rgb(108 198 229), 0 4px 23px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(108 198 229);
-  }
-  .btn.btn-success:focus, .btn.btn-success.focus, .btn.btn-success:hover {
-      color: #fff;
-      background-color: #6cc6e5;
-      border-color: #6cc6e5;
-  }
-  .sub-title {
-      font-size: 14px;
-      color: #666;
-  }
-</style>
 
 <!-- Theme included stylesheets -->
 <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -141,7 +14,7 @@ border: 1px solid #2ca8ff;
 
 <style>
 	.writeform{
-		    margin: 40px 10px 80px;
+		    margin: 20px 10px 80px;
 	}
 	.editor_wrap{
 		height: 30vh;
@@ -155,7 +28,7 @@ border: 1px solid #2ca8ff;
     font-weight: 800;
 	}
 	.label_aread.inp-text{
-		padding-top: 8px;
+		padding-top: 4px;
 	}
 	textarea.form-control {
     max-width: 100%;
@@ -172,26 +45,24 @@ border: 1px solid #2ca8ff;
 		position:relative;
 	}
 .remove_file_btn {
-	position: absolute;
-	    right: 2px;
-	    top: 2px;
-	    outline: 0;
-	    padding: 4px 4px 4px 5px;
-	    border: 1px solid #dd4b39;
-	    background-color: #dd4b39;
-	    border-radius: 18px;
-	    box-sizing: border-box;
-	    color: white;
-	    opacity: .8;
-	    box-shadow: 1px 5px 2px 0 rgb(0 0 0 / 20%);
-	    cursor: pointer;
-	    font-size: 10px;
-	    width: 20px;
-	    height: 20px;
+		position: absolute;
+		right: 2px;
+		top: 2px;
+		outline: 0;
+		padding: 4px 4px 4px 5px;
+		border: 1px solid #dd4b39;
+		background-color: #dd4b39;
+		border-radius: 18px;
+		box-sizing: border-box;
+		color: white;
+		opacity: .8;
+		box-shadow: 1px 5px 2px 0 rgb(0 0 0 / 20%);
+		cursor: pointer;
+	font-size: 10px;
 }
 	.imgprevbox .thumbnail {
-		min-height:110px;
-		max-width:134px;
+		min-height:100px;
+		max-width:124px;
 		margin: auto;
 		text-align: center;
 		margin-bottom : 10px;
@@ -216,50 +87,18 @@ border: 1px solid #2ca8ff;
 		border-top: 1px solid rgb(153 153 153 / 18%);
     margin-top: 80px
 	}
-.sel-img-desc{
-    font-size: 12px;
-    color: #666;
-    padding-top: 10px;
-}
-
 </style>
 @endsection
 
 @section('content')
-
-<div class="sub-header-wrap">
-  <div class="visual6">
-      <h1>{{$config->title}}</h1>
-      <h4>{{$config->sub_title}}</h4>
-  </div><!--//common_visual-->
-  <div class="sub_menu">
-      <ul class="center">
-          <li class="h_icon gotohome"></li>
-          <li class="on">{{$config->title}}</li>
-      </ul>
-  </div>
-</div>
-
 <section class="container">
-
-  <div class="text-center mt-20">
+	<div class="text-center mt-20">
 		<h3 class="title">{{$config->title}}</h3>
-    <div class="sub-title mt-10">이사지식인에 글을 남겨 주시면 모두이사 파트너업체에서 답변해 드립니다.</div>
 	</div>
 
 	<div class="writeform">
 		<form encType="multipart/form-data" id="writeform">
-
-      <div class="row">
-        <div class="col-md-1 col-sm-2">
-          <span class="label_aread inp-text">닉네임</span>
-        </div>
-        <div class="col-md-11 col-sm-10">
-          <input type="text" class="form-control" value=" {{Auth::user()->nickname}}" disabled>
-        </div>
-      </div>
-
-			<div class="row mt-10">
+			<div class="row">
 				<div class="col-md-1 col-sm-2">
 					<span class="label_aread inp-text">제목</span>
 				</div>
@@ -287,24 +126,18 @@ border: 1px solid #2ca8ff;
 				</div>
 			</div>
 
-      <div class="row mt-10">
-        <div class="col-md-1 col-sm-2">
-        </div>
-        <div class="col-md-7 col-sm-10">
-          <div class="sel-img-desc">
-            - 파일 첨부는 필수가 아닙니다.<br>
-            - JPG, PNG 형식의 파일을 첨부할 수 있습니다.<br>
-            ※ 이미지 사이즈는 3MB 이하 / 5개 까지 업로드 가능
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-12 text-right">
-          <span class="btn btn-raised btn-outline-info" onClick="addImage()">
-            Select image
-          </span>
-        </div>
-      </div>
 
-			<div class="row mt-10">
+			<div class="display-flex justify-content-flex-end">
+				<div class="display-flex pt-10">
+					<div>
+						<span class="btn btn-raised btn-outline-info" onClick="addImage()">
+							Select image
+						</span>
+					</div>
+
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-md-1 col-sm-2">
 				</div>
 				<div class="col-md-11 col-sm-10">
@@ -313,7 +146,7 @@ border: 1px solid #2ca8ff;
 						@foreach( $post->files as $file )
 						<div class="imgprevcol">
 							<div class="imgprevbox img-raised">
-								<i class="remove_file_btn fas fa-times ui-1_simple-remove" data-id="{{$file->id}}" onclick="removeOrgFile(this)"></i>
+								<i class="remove_file_btn now-ui-icons ui-1_simple-remove" data-id="{{$file->id}}" onclick="removeOrgFile(this)"></i>
 								<div class="thumbnail">
 									<img src="/community/storage/thumb{{$file->url}}">
 								</div>
@@ -343,7 +176,7 @@ border: 1px solid #2ca8ff;
 						<div class="imgprevbox img-raised">
 
 
-							<i class="remove_file_btn fas fa-times ui-1_simple-remove" data-num="{{ inpCnt }}" onClick="removeFile(this)"></i>
+							<i class="remove_file_btn now-ui-icons ui-1_simple-remove" data-num="{{ inpCnt }}" onClick="removeFile(this)"></i>
 
 
 							<div class="thumbnail ">
@@ -480,7 +313,7 @@ function write_prc() {
 							@if( $config->use_confirm =='Y' )
 							swal.fire({
 								title : '등록되었습니다.',
-								text : '회원님이 남기신 이사지식인 글은 이사지식인 규정 확인 후 노출 됩니다. ',
+								text : '.....를 거친후 ',
 								type : "warning",
 								showCancelButton : false,
 								confirmButtonClass : "btn-danger",
@@ -507,3 +340,4 @@ function write_prc() {
 
 </script>
 @endsection
+		

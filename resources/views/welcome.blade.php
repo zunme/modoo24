@@ -1,5 +1,7 @@
 @extends('layouts.modoo')
 
+@section('usesub','')
+
 @section('content')
 <!--날개배너-->
 <div id="simpleorder" class="banner_right_box pc" style="z-index: 899;top: 190px;">
@@ -91,11 +93,9 @@
 										<div class="checks etrans">
 												<input type="checkbox" id="ex_chk2" name="simplyRegPrivacy" value="Y">
 												<label for="ex_chk2"></label>
-												<p>
-														<a href="javascript:openAgreePop('/new_common/popup/info_pop.html')">
-																개인정보수집 및 이용에 동의(필수)
-														</a>
-												</p>
+												<p class="modalpop_link" link="/new_common/popup/personal_data.html">
+														개인정보수집 및 이용에 동의(필수)
+												 </p>
 										</div>
 								</div>
 						</li>
@@ -104,18 +104,16 @@
 										<div class="checks etrans">
 												<input type="checkbox" id="ex_chk3" name="simplyRegJoint" value="Y">
 												<label for="ex_chk3"></label>
-												<p>
-														<a href="javascript:openAgreePop1('/new_common/popup/use_pop_02.html')">
-																개인정보의 제3자 제공 동의(필수)
-														</a>
-												</p>
+												<p class="modalpop_link" link="/new_common/popup/personal_3.html">
+														 개인정보의 제3자 제공 동의(필수)
+													</p>
 										</div>
 								</div>
 						</li>
 						<li>
 								<div class="checks">
 										<div class="checks etrans">
-												<input type="checkbox" id="ex_chk4" name="simplyRegJoint" value="Y">
+												<input type="checkbox" id="ex_chk4"  name="simplyMarketting" value="Y">
 												<label for="ex_chk4"></label>
 												<p>
 														마케팅 동의(선택)
@@ -186,7 +184,7 @@
 				<div class="search_Box">
 						<input type="text" placeholder="이사지식인검색">
 						<label></label>
-						<a class="btn_form">검색</a>
+						<a class="btn_form" href="/NEW/knows/knows_list.php">검색</a>
 				</div>
 		</div>
 		<div class="mobile know_m_info">
@@ -596,6 +594,101 @@
 </section>
 
 
+@endsection
+
+
+
+
+@section('body-bottom')
+<!--토글-->
+<div class="mobile" style="z-index: 900;position: fixed">
+		<input type="checkbox" name="toggle" id="toggle" />
+		<label for="toggle"></label>
+
+		<div class="message">
+				<form>
+						<ul class="box02">
+								<li><span>이사일</span>
+										<div class="move_Box">
+												<input type="text" placeholder="이사일" class="sel-datepicker" name="t_dday">
+										</div>
+
+								</li>
+								<li>
+										<span>이사종류</span>
+										<div style="display: inline-block">
+												<select class="select" name="t_kinds">
+														<option value="">이사종류</option>
+														<option value="가정">가정이사</option>
+														<option value="소형">소형이사</option>
+														<option value="사무실">사무실이사</option>
+												</select>
+										</div>
+								</li>
+								<li>
+										<span>고객명</span>
+										<div class="move_Box">
+												<input type="text" placeholder="고객명" name="t_name">
+										</div>
+								</li>
+								<li>
+										<span>연락처</span>
+										<div class="move_Box">
+												<input placeholder="번호만 입력해주세요" maxlength="12" name="t_hp">
+										</div>
+								</li>
+						</ul>
+						<ul class="box03">
+								<li>
+										<div class="checks">
+												<div class="checks etrans">
+														<input type="checkbox" id="ex_m_chk0" onclick="selectAll(this)">
+														<label for="ex_m_chk0"></label>
+														<p>
+																전체 동의
+														</p>
+												</div>
+										</div>
+								</li>
+								<li>
+										<div class="checks">
+												<div class="checks etrans">
+														<input type="checkbox" id="ex_m_chk2" name="simplyRegPrivacy" value="Y">
+														<label for="ex_m_chk2"></label>
+														<p>
+																<a href="javascript:openAgreePop('/new_common/popup/info_pop.html')"> 개인정보수집 및 이용에 동의(필수) </a>
+														</p>
+												</div>
+										</div>
+								</li>
+								<li>
+										<div class="checks">
+												<div class="checks etrans">
+														<input type="checkbox" id="ex_m_chk3" name="simplyRegJoint" value="Y">
+														<label for="ex_m_chk3"></label>
+														<p>
+																<a href="javascript:openAgreePop1('/new_common/popup/use_pop_02.html')"> 개인정보의 제3자 제공 동의(필수) </a>
+														</p>
+												</div>
+										</div>
+								</li>
+								<li>
+										<div class="checks">
+												<div class="checks etrans">
+														<input type="checkbox" id="ex_m_chk4" name="simplyRegJoint" value="Y">
+														<label for="ex_m_chk4"></label>
+														<p>
+																마케팅동의
+														</p>
+												</div>
+										</div>
+								</li>
+						</ul>
+						<button type="button" class="btn_simply simple-reg-btn"><span class="color_yw">간편견적</span><br />신청하기</button>
+
+				</form>
+		</div>
+</div>
 @endsection
 
 

@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Str;
 
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use Socialite;
 
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +20,7 @@ use Illuminate\Http\Response;
 class SocialController extends Controller
 {
 	use AuthenticatesUsers;
-	
+
 	function redirect(Request $request, $provider){
 		if (! array_key_exists($provider, config('services'))) {
 			return $this->sendNotSupportedResponse($provider);
@@ -42,7 +42,7 @@ class SocialController extends Controller
 			$data['email'] = $email;
 			$data['password'] = 'provider';
 			$data['provider'] = $provider;
-			
+
 			if ( $socialUser->getNickname() ) {
 				$data['nickname'] = $socialUser->getNickname();
 				if ( $socialUser->getName() ) $data['name'] = $socialUser->getName();
@@ -59,7 +59,7 @@ class SocialController extends Controller
 			$user->remember_token = Str::random(60);
 			$user->save();
 
-			$this->guard()->login($user, true);	
+			$this->guard()->login($user, true);
 		}
 		return $this->sendLoginResponse($request);
 	}
@@ -69,6 +69,11 @@ class SocialController extends Controller
         flash()->success(__('auth.welcome', ['name' => $user->name]));
     }
 
+		protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+        return redirect('/posts/jisik');
+    }
     /**
      * 지원하지 않는 소셜 공급자에 대한 응답입니다.
      *
@@ -80,5 +85,5 @@ class SocialController extends Controller
         flash()->error(trans('auth.social.not_supported', ['provider' => $provider]));
 
         return back();
-    }	
+    }
 }

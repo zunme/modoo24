@@ -13,7 +13,7 @@ class Post extends Model
 	use SoftDeletes;
 	protected $table = 'posts';
 	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg','fav_cnt','comment_cnt','view_cnt'];
-	
+
     public function scopeActive($query){
         return $query->where('is_confirmed', 'Y');
     }
@@ -21,7 +21,9 @@ class Post extends Model
         return $this->hasOne(User::class,'id', 'user_id' )->select('id','email','nickname')->withTrashed();
   }
 	public function comments() {
-    return $this->hasMany(PostComment::class,'post_id' )->where('post_comments.is_confirmed', '=', 'Y')->orWhere('post_comments.is_confirmed', '=', 'R');
+    return $this->hasMany(PostComment::class,'post_id' )->where('post_comments.is_confirmed', '=', 'Y')->orWhere('post_comments.is_confirmed', '=', 'R')
+		->join('auction_staff', 'post_comments.auction_staff_s_uid','=','auction_staff.s_uid')
+		;
   }
 	public function files() {
         return $this->hasMany(PostFile::class,'post_id' );

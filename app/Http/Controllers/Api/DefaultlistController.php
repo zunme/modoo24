@@ -20,7 +20,18 @@ class DefaultlistController extends Controller
 {
 	use ApiResponser;
 	public $company_points_cache;
-	
+	public function makeinc(){
+		$sub_header = view('header')->render();
+		$fp = fopen("/home/modoo24/public_html/NEW/include/sub_header.php","wb");
+		fwrite($fp,$sub_header);
+		fclose($fp);
+
+		$sub_header = view('footer')->render();
+		$fp = fopen("/home/modoo24/public_html/NEW/include/footer.php","wb");
+		fwrite($fp,$sub_header);
+		fclose($fp);
+
+	}
 	public function reviewMain(Request $request){
 		$sql = "
 				SELECT a.b_uid,b_worker_idx , a.b_mdate,a.b_note,a.b_star_expost,a.b_star_finish,a.b_star_pave,a.b_star_price,a.b_star_pro,b_star_kind , a.b_type,
@@ -35,8 +46,8 @@ class DefaultlistController extends Controller
 			$sql .= "
 						AND a.b_uid >= 6334
 					ORDER BY RAND()
-					LIMIT 10		
-			";			
+					LIMIT 10
+			";
 		}
 
 		$data = \DB::select($sql);
@@ -53,18 +64,18 @@ class DefaultlistController extends Controller
 			$row->b_star_pro_arr = $this->explodeStar($row->b_star_pro);
 			$row->b_star_kind = $row->b_star_kind == 0 ? 1 : floor($row->b_star_kind);
 			$row->b_star_kind_arr = $this->explodeStar($row->b_star_kind);
-			
+
 			$row->avg = sprintf( '%.1f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
 			$row->avgstar = ( floor($row->avg *2 ) / 2 );
 			$row->avgstararr = [];
 			$row->avgstararr = $this->explodeStar($row->avgstar);
-			
+
 			$row->b_note = htmlspecialchars_decode($row->b_note);
 			$row->company_point_title = $this->getCompanyTotal( $row->b_worker_idx);
-			
+
 		}
 		if ( count( $data) == 1 ) $data = $data[0];
-		
+
 		return $this->success($data);
 	}
 	private function explodeStar( $data ){
@@ -80,15 +91,15 @@ class DefaultlistController extends Controller
 	}
 	private function company_total( $id){
 		$sql = "
-			SELECT 
+			SELECT
 			round((pro + kind + price + finish + expost + pave)/5/cnt) AS total
 			FROM
-			( 
+			(
 			SELECT SUM( a.b_star_pro) AS pro, sum(a.b_star_kind) AS kind , SUM( a.b_star_price) AS price, SUM( a.b_star_finish) AS finish
 			, SUM( a.b_star_expost) AS expost, SUM(a.b_star_pave) AS pave, count(1) AS cnt
 			FROM auction_bbs_postscript a
 			WHERE a.b_worker_idx = ".(int)$id."
-			) temp		
+			) temp
 		";
 		$data =  \DB::select($sql);
 		$data = (!$data[0]->total) ? '1' : $data[0]->total;
@@ -117,7 +128,7 @@ class DefaultlistController extends Controller
 					SELECT b_worker_idx, CONCAT('_' , b_worker_idx) AS id,
 					 truncate((pro + kind + price + finish + expost )/5/cnt , 1) AS total
 					FROM
-					( 
+					(
 					SELECT b_worker_idx,
 						SUM( if( b_star_pro> 5 , 5 , b_star_pro)) AS pro,
 						SUM( if( b_star_price> 5 , 5 , b_star_price)) AS price,
@@ -139,6 +150,6 @@ class DefaultlistController extends Controller
 
 		if ( isset( $this->company_points_cache['_'.$id]) ) return $this->company_points_cache['_'.$id]->title;
 		else return '';
-		
+
 	}
 }

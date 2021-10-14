@@ -32,26 +32,27 @@ use App\Traits\ApiResponser;
 class BulletinController extends Controller
 {
 	use ApiResponser;
-	
+
 	public function contentList(Request $request, $code){
 		Carbon::setLocale('ko');
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
 		if( !$config){
 			return back()->with('noti_alert_message', '찾는 페이지가 없습니다.');
 		}
-		$qry = Post::active()->where(['bulletin_id'=> $config->id]);
-		
+		$qry = Post::where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N');
+
 		if( $request->search ){
 			if ( $request->search_option == 'title' ) $qry = $qry->where('title', 'like', '%'.$request->search.'%');
 			else if ( $request->search_option == 'cont' ) $qry =$qry->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
 			else if ( $request->search_option == 'writer' ) $qry =$qry->where('nickname', 'like', '%'.$request->search.'%');
 		}
-		
+
 		if ($request->ajax()) {
 			return Datatables::of($data)->make(true);
 		}else {
 			$data = $qry->latest()->paginate(5);
-			return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));			
+			//return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));
+			return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
 		}
 
 	}
@@ -68,19 +69,29 @@ class BulletinController extends Controller
 		}
 		return Datatables::of($data)->make(true);
 	}
-	
+
 	public function view(Request $request, $code ,$viewid){
+		$user = Auth::user();
+
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
 		if( !$config){
 			return back()->with('noti_alert_message', '찾는 페이지가 없습니다.');
 		}
-		
-		$post = Post::active()->with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+
+		$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+
+		if( $post->is_confirmed =='N' ) return back();
+		else if( $post->is_confirmed == 'R' ){
+			if( $user ){
+				if( $user->id != $post->user_id) return back();
+			}else return back();
+		}
+
 		$post->view_cnt = $post->view_cnt + 1;
 		$post->save();
-		
+
 		$is_writer = ( Auth::user() && Auth::user()->id == $post->user_id) ? true:false;
-		
+
 		return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
 	}
 	public function writeForm(Request $request, $code){
@@ -101,17 +112,17 @@ class BulletinController extends Controller
 		}
 		$post = Post::active()->with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$writeid])->first();
 		$totalImgCount = $post->files->count();
-		
+
 		$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
 		if ( !$is_writer){
 			return view('Front/Bulletin/421', compact(['config', 'code', 'post','totalImgCount']) );
 		}
 		return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
 	}
-	
+
 	public function create(Request $request){
 		$user = Auth::user();
-		
+
 		$messages = [
         'title.*' => '제목을 50자 내외로 작성해주세요.',
 				'body.*' =>'내용을 작성해주세요.',
@@ -122,12 +133,12 @@ class BulletinController extends Controller
 			'code' => 'bail|required',
      ],$messages);
 		$data = $request->except('id', 'code');
-		
+
 		$config = BulletinConfig::active()->where(['code'=>$request->code])->first();
 		if( !$config){
 			return $this->error('게시판을 찾을 수 없습니다.');
 		}
-		
+
 		$storage = Storage::disk('public');
 		if( $request->delfile ){
 			foreach( $request->delfile as $fileno){
@@ -138,7 +149,7 @@ class BulletinController extends Controller
 		}
 
 		$data['body'] = $this->getimage($data['body']);
-		
+
 		/* xss with html purifier */
 		$dir = "HTMLPurifier";
 		$cachePath = storage_path("app/$dir");
@@ -153,7 +164,7 @@ class BulletinController extends Controller
 		if( $request->id > 0 ){
 			$post = Post::active()->with(['comments','files'])->where([ 'id'=>$request->id ])->first();
 			if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
-			
+
 			$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
 			if ( !$is_writer){
 				return $this->error('수정 권한이 없습니다.', 422);
@@ -171,10 +182,10 @@ class BulletinController extends Controller
 			$data['is_confirmed'] = ($config->use_confirm =='Y') ? 'R': 'Y';
 			$post = Post::create($data);
 		}
-		
-		
+
+
 		$files = $request->file('upload');
-		
+
 		if($request->hasFile('upload'))
 		{
 				foreach ($files as $file) {
@@ -187,7 +198,7 @@ class BulletinController extends Controller
 		if( $request->id > 0 ){
 			$post = Post::where([ 'id'=>$request->id ])->first();
 			if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
-			
+
 			$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
 			if ( !$is_writer){
 				return $this->error('삭제 권한이 없습니다.', 422);
@@ -220,11 +231,11 @@ class BulletinController extends Controller
         foreach ($images as $img) {
             array_push($images_arr, $img->getAttribute('src'));
         }
-	
+
         $storage = Storage::disk('public');
         $path = 'post/' . Carbon::now()->format('ymd') . '/';
 				$defaultStartUrl = \Config::get('site.defaultStartUrl').'/storage/';
-		
+
         try {
             if (count($images) > 0) {
                 foreach ($images as $k => $img) {
@@ -248,9 +259,9 @@ class BulletinController extends Controller
         }
 
         /*$returnBody = Str::of($dom->saveHTML())->replace('<?xml encoding="utf-8"?>','');		*/
-				return  str_replace('<?xml encoding="utf-8"?>', '', $dom->saveHTML());		
+				return  str_replace('<?xml encoding="utf-8"?>', '', $dom->saveHTML());
 	}
-	
+
 	public function commentCreate(Request $request){
 		session_start();
 		$session =  $_SESSION;
@@ -258,7 +269,7 @@ class BulletinController extends Controller
 			return $this->error('로그인후 사용해주세요.', 422);
 		}
 		$user = AuctionStaff::where(['s_uid'=> $session['idx'], 's_id'=>$session['user_id'] ])->first();
-		
+
 		$messages = [
         'code.*' => '올바른 코드가 아닙니다.',
 				'post_id.*' => '글정보를 찾을 수 없습니다.',
@@ -270,26 +281,26 @@ class BulletinController extends Controller
 			'body' => 'bail|required|string',
      ],$messages);
 		$data = $request->all();
-		
+
 		$config = BulletinConfig::active()->where(['code'=>$request->code])->first();
-		
+
 		if( !$config){
 			return $this->error('게시판을 찾을 수 없습니다.');
 		}
 		if( $config->comment_use != 'Y'){
 			return $this->error('답변을 달 수 없습니다...');
 		}
-		
+
 		$post = Post::active()->where(['bulletin_id'=> $config->id, 'id'=>$data['post_id'] ])->first();
 		if( $config->comment_use != 'Y'){
 			return $this->error('글을 찾을 수 없습니다...');
 		}
 		$data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
-		
+
 		/* TODO 파트너 정보 가져오기*/
 		$data['auction_staff_s_uid'] = $user->s_uid;
 		$data['auction_staff_s_name'] = $user->s_company.' '.$user->s_nickname;
-		
+
 		if ( PostComment::create($data) ) {
 				if( $config->use_comment_confirm != 'Y'){
 					$post->increment('comment_cnt');
@@ -300,30 +311,25 @@ class BulletinController extends Controller
 		}
 		else return $this->error('잠시후에 사용해주세요.', 422);
 	}
-	
-	public function addfavcnt(Request $request){
-		session_start();
-		$session =  $_SESSION;
-		if( !isset($session['idx']) || empty($session['idx']) ){
-			return $this->error('파트너 앱에 로그인후 사용해주세요.', 422);
-		}
+
+	private function addfavcnt(Request $request, $session){
 		$user = AuctionStaff::where(['s_uid'=> $session['idx'], 's_id'=>$session['user_id'] ])->first();
 		if( !$user ){
-			return $this->error('파트너 앱에 로그인후 사용해주세요');
+			return $this->error('로그인후 사용해주세요');
 		}
-		
+
 		$comment = PostComment::active()->where(['id'=>$request->id ])->first();
-		
+
 		if( $comment->auction_staff_s_uid == $user->s_uid ) return $this->error('자신이 쓴 댓글입니다.', 422);
 		try{
 			$log = PostCommentFavLog::create(['comment_id'=>$request->id,'auction_staff_s_uid'=> $user->s_uid]);
 			$comment = PostComment::where(['id'=>$request->id])->first();
-			$comment->increment('fav_cnt');
-			
+			$comment->increment('best_cnt');
+
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
 			$log->increment('fav_cnt');
-			
-			return $this->success(['cnt'=> $comment->fav_cnt],'공감하셨습니다');
+
+			return $this->success(['cnt'=> $comment->best_cnt],'공감하셨습니다');
 		} catch (\Exception $e){
 			return $this->error('이미 공감하신 댓글입니다.', 422, $e);
 		}
@@ -331,7 +337,7 @@ class BulletinController extends Controller
 	public function addbestcnt(Request $request){
 		$user = Auth::user();
 		if( !$user ){
-			return $this->error('모두이사에 로그인 후 사용해주세요');
+			return $this->error('로그인 후 사용해주세요');
 		}
 		$comment = PostComment::active()->where(['id'=>$request->id ])->first();
 
@@ -339,24 +345,39 @@ class BulletinController extends Controller
 			$log = PostCommentBestLog::create(['comment_id'=>$request->id,'user_id'=> $user->id]);
 			$comment = PostComment::where(['id'=>$request->id])->first();
 			$comment->increment('best_cnt');
-			
+
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
 			$log->increment('best_cnt');
-			
-			return $this->success(['cnt'=> $comment->best_cnt],'추천하셨습니다');
+
+			return $this->success(['cnt'=> $comment->best_cnt],'공감하셨습니다');
 		} catch (\Exception $e){
-			return $this->error('이미 추천하신 댓글입니다.', 422, $e);
+			return $this->error('이미 공감하신 댓글입니다.', 422, $e);
 		}
-		
+
 	}
-	
+	public function addbestcntv2(Request $request){
+		$user = Auth::user();
+		if( !$user ){
+
+			session_start();
+			$session =  $_SESSION;
+			session_write_close();
+
+			if( !isset($session['idx']) || empty($session['idx']) ){
+				return $this->error('로그인 후 사용해주세요');
+			}else $this->addfavcnt($request, $session);
+
+		}else {
+			return $this->addbestcnt($request);
+		}
+	}
 	private function uploadImage( UploadedFile $file = null, $post_id)
     {
         if ($file === null) return null;
-				
-		
+
+
         $storage = Storage::disk('public');
-        $path = 'posts/'.Carbon::now()->format('ymd').'/';	
+        $path = 'posts/'.Carbon::now()->format('ymd').'/';
 
         $image = Image::make($file);
         $image_name = $this->generateFileName($file);
@@ -367,12 +388,12 @@ class BulletinController extends Controller
             $storage->makeDirectory($path, 0775, true);
         }
         $storage->put($path . $image_name, $image->stream()->__toString());
-		
+
 				$image->resize('200', null, function ($constraint) {
 						$constraint->aspectRatio();
 				});
 				$storage->put('thumb/'.$path . $image_name, $image->stream()->__toString());
-		
+
 				$size=  $file->getSize();
 				$origin =  $file->getClientOriginalName() ;
 				$url = '/'.$path . $image_name;
@@ -389,15 +410,15 @@ class BulletinController extends Controller
     {
         $ext = $file->getClientOriginalExtension();
         return Carbon::now()->format('ymdhis') . '_' . Str::random(9) . "." . $ext;
-    }	
+    }
 	public function update(Request $request, $code){
-		
+
 	}
 	public function delete(Request $request, $code){
-		
+
 	}
-	
+
 	public function commentWrite(Request $request, $code, $writeid){
-		
+
 	}
 }

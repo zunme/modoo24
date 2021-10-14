@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 Route::post('/simpyreg','Api\OrdertempController@simplyreg');
 Route::get('/movereview','Api\DefaultlistController@reviewMain');
-
+Route::get('/makeinc','Api\DefaultlistController@makeinc');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

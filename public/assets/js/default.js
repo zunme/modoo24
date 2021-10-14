@@ -404,11 +404,11 @@ function solarToLunar(solYear, solMonth, solDay, son ) {
       var filename = $(input).val();
       filename = filename.substring(filename.lastIndexOf('\\')+1);
       reader.onload = function(e) {
-        if(e.total >  1024*300 ) {
+        if(e.total >  1024*1024*3 ) {
           $('#'+id+'_col').remove();
           Swal.fire({
             title : '파일사이즈',
-            text: '300Kb 까지만 업로드가 가능합니다.',
+            text: '3Mb 까지만 업로드가 가능합니다.',
             icon: 'error',
             confirmButtonText: '확인'
           })
@@ -478,13 +478,13 @@ $.ajax({
         data: {"_token" : result.token } ,
         success:function(res)
         {
-          console.log (res)
+          location.replace('/community/posts/jisik');
         },
         error: function ( err ){
           ajaxErrorST(err)
         },
         complete : function(){
-          location.replace('/');
+
         }
       });
 
@@ -720,3 +720,35 @@ function getData(method, url, data, callback, callbackCompltet){
 		}
 	});
 }
+
+let agreeModaltemplate = `
+<div class="modal fade" id="modal_popview" style="z-index: 1050;" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md" role="document">
+	  <div class="modal-content" id="modal_popview_body">
+			<div><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+	  </div>
+	</div>
+</div>
+`
+$("document").ready( function() {
+  $("body").append( agreeModaltemplate )
+  $(".gotohome").on("click", function(e){
+    location.href='/NEW/index'
+  });
+  $(".modalpop_link").on("click", function(e){
+    let url = $(e.target).attr('link');
+
+    $.get(url, function(data) {
+      let org = data
+      data = data.replace(/(<\/?)html( .+?)?>/gi,'$1NOTHTML$2>',data)
+      data = data.replace(/(<\/?)body( .+?)?>/gi,'$1NOTBODY$2>',data)
+      data = $(data).find('notbody').html()
+      if( typeof data == 'undefined') data = org
+      data = '<div class="modalpop_link_close_wrap"><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>'+data
+
+      $("#modal_popview_body").html(data);
+      $("#modal_popview").modal('show');
+    })
+  });
+
+});

@@ -24,7 +24,7 @@ class BulletinController extends Controller
 	function bulletinList( Request $request, $code = 'jisik' ) {
 		$config = BulletinConfig::where(['code'=>$code])->first();
 		$data = Post::with(['users','needconfirm'])->where(['posts.bulletin_id'=>$config->id]);
-		
+
 		return Datatables::of($data)->make(true);
 	}
 	function commentConfirmList( Request $request, $code = 'jisik' ) {
@@ -32,7 +32,7 @@ class BulletinController extends Controller
 		$data = Post::select('post_comments.*')
 			->join('post_comments', 'posts.id','=','post_comments.post_id')
 			->where(['posts.bulletin_id'=>$config->id, 'post_comments.is_confirmed'=>'R']);
-		
+
 		return Datatables::of($data)->make(true);
 	}
 	function post(  Request $request, $post_id ){
@@ -53,8 +53,8 @@ class BulletinController extends Controller
 			$post = Post::find( $comment->post_id);
 			$post->increment('comment_cnt');
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
-			$log->increment('comment_cnt');	
-			
+			$log->increment('comment_cnt');
+
 			return $this->success( $comment );
 		} catch ( \Exception $e){
 			return $this->error('상태변경에 실패하였습니다.',500);
@@ -68,12 +68,12 @@ class BulletinController extends Controller
 			}
 			$comment->is_confirmed = 'N';
 			$comment->save();
-			
+
 			$post = Post::find( $comment->post_id);
 			$post->decrement('comment_cnt');
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
 			$log->decrement('comment_cnt');
-			
+
 			return $this->success( $comment );
 		} catch ( \Exception $e){
 			return $this->error('상태변경에 실패하였습니다.',500);
@@ -92,7 +92,7 @@ class BulletinController extends Controller
       'id' => 'bail|required|numeric',
       'status' => 'bail|required|in:Y,N',
      ],$messages);
-		
+
 		try{
 			$post = Post::find($request->id);
 			$post->is_confirmed = $request->status;
@@ -119,7 +119,7 @@ class BulletinController extends Controller
 				fav_cnt = VALUEs(fav_cnt),
 				best_cnt = VALUEs(best_cnt),
 				updated_at = NOW();	";
-	
+
 		try{
 			\DB::insert($sql);
 			return $this->success( );

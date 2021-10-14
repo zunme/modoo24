@@ -25,7 +25,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/community/home';
+    protected $redirectTo = '/community/posts/jisik';
 
     /**
      * Create a new controller instance.
@@ -36,13 +36,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    public function logout()
+    {
+      \Auth::logout();
+    }
 		public function showLoginForm()
 		{
 				session(['link' => url()->previous()]);
 				return view('auth.login');
 		}
 		protected function authenticated(Request $request, $user)
-		{     
-			return redirect(session('link'));      
+		{
+			return redirect(session('link'));
 		}
 }

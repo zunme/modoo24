@@ -18,18 +18,6 @@
 	<link rel="stylesheet" href="/community/newmain.css" />
 	<script src="/community/newmain.js"></script>
 	*/
-let target
-let agreeModaltemplate = `
-<div class="modal fade" id="modal_popview" style="z-index: 1050;" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-md" role="document">
-	  <div class="modal-content" id="modal_popview_body">
-			<div><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-	  </div>
-	</div>
-</div>
-`
-let useAgreeModalPop = false;
-
 function selectAll(chk){
 	let checked = $(chk).prop('checked');
 	$("input[name='simplyRegPrivacy']").prop("checked", checked)
@@ -45,24 +33,6 @@ $("document").ready( function() {
 	var numberOfDaysEnd = 60;
 	startMovingDate.setDate(startMovingDate.getDate() + numberOfDaysStart);
 	endMovingDate.setDate(startMovingDate.getDate() + numberOfDaysEnd);
-	$("body").append( agreeModaltemplate )
-
-	if( useAgreeModalPop){
-		$(".checks.etrans > p > a").on("click" ,function(e){
-			e.preventDefault();
-			target = e.target
-			let name = $(e.target).closest('.checks').children('input').attr('name')
-			let url;
-			if ( name=='') url = '/community/assets/html/01.html';
-			else url = '/community/assets/html/02.html'
-
-			$.get(url, function(data) {
-				data = '<div><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>'+data
-				$("#modal_popview_body").html(data);
-				$("#modal_popview").modal('show');
-			})
-		});
-	}
 
 	$(".sel-datepicker").prop("readonly",true);
 	$(".sel-datepicker").datepicker({
@@ -195,7 +165,7 @@ let move_review_detail_template=`
       <div class="modal-header">
         <div>
 					<div>
-						이사일 2021-09-21
+						이사일 {{b_mdate}}
 					</div>
 
 					<button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close">
@@ -328,6 +298,7 @@ function swipertemplate(res){
 	var template = Handlebars.compile( move_review_template );
 	$("#move_review_slider" ).prepend( template(res) );
 	move_review_info = res.data;
+	$(".move_review_item_txt > p").attr('style','')
 	derawswiper();
 }
 function derawswiper() {
@@ -377,11 +348,13 @@ function viewReview(btn){
 		if( row['b_uid'] == id ) viewReviewTemplate( row );
 	})
 }
+let temp2
 function viewReviewTemplate( data){
-	move_review_detail_template
+	let test = data.b_note
 
 	var template = Handlebars.compile( move_review_detail_template );
 	$("#detailModal_content" ).html( template(data) );
+	$(".modal-review-contents > p").attr('style','')
 	$('#detailModal').modal('show');
 	good_ct_after_swiper.autoplay.stop()
 }
