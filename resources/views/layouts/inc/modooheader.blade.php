@@ -94,6 +94,8 @@
 <body>
 
 @section('header')
+
+
 <!--pc 및 mobile 메뉴-->
 <header class="pc" id="menu_wrap">
     <div class="menu_floor01">
@@ -113,16 +115,17 @@
                 </button>
 
             </div>
-@section("login")
-            @guest
-                <button type="button" class="btn login">
-                  <a href="/community/login">
-                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>로그인
-                  </a>
-                </button>
-            @endguest
-            @auth()
-            <!-- 로그인 했을 경우 출력되는 My모두 버튼으로 하위 메뉴에 로그아웃과 나의정보가 있는 부분입니다.  -->
+
+@section ( 'login-pc')
+@guest
+            <button type="button" class="btn login" onClick="location.href='/community/login';">
+              <a href="/community/login">
+                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>로그인
+              </a>
+            </button>
+@endguest
+
+@auth
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle mypage" id="navbarDropdownMenuMy" data-toggle="dropdown">
@@ -144,10 +147,9 @@
                     </div>
 
                 </li>
-            </ul>
-            @endauth
+        </ul>
+@endauth
 @show
-
             <a class="clean_fast" href="http://www.modooclean.com/" target="_blank">
                 <p class="clean01"><b>입주청소</b></p>
                 <p class="clean02"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -171,38 +173,39 @@
             </li>
             <li>
                 <a href="void(0);" onclick="alert('준비중입니다.');return false;">
-                    이사가기 좋은집
+                    모두살기좋은집
                 </a>
             </li>
             <li>
                 <a href="void(0);" onclick="alert('준비중입니다.');return false;">
-                    우리동네
+                    모두동네소식
                 </a>
             </li>
         </ul>
 
         <ul class="middle_drop">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">모두소식</a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">모두이사</a>
                 <ul class="dropdown-menu" style="left: -20px">
-                    <li><a href="/front/custom_notice">공지사항</a></li>
-                    <li><a href="/front/modoo_info">이사/생활정보</a></li>
-                    <li><a href="/front/modoo_noson">손없는날</a></li>
+                    <li><a href="/NEW/modoo/service.php">서비스소개</a></li>
+                    <li><a href="/NEW/modoo/contact_info.php">방문견적 가이드</a></li>
+                    <li><a href="/NEW/modoo/untact_info.php">비대면견적 가이드</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">고객센터 </a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
                 <ul class="dropdown-menu">
-                    <li><a href="/front/mem_apply?mode=my_request">신청내역</a></li>
-                    <li><a href="/front/custom_faq">자주묻는질문</a></li>
-                    <li><a href="/front/custom_business?cmd=setup_form">파트너제휴</a></li>
+                    <li><a href="/front/custom_notice">모두 뉴스</a></li>
+                    <li><a href="/front/custom_faq">이사견적시 안내</a></li>
+                    <li><a href="/front/modoo_info">이사정보</a></li>
+                    <li><a href="/front/modoo_noson">손없는날</a></li>
                 </ul>
             </li>
 
         </ul>
 
         <ul class="menu_tip">
-            <li><a class="color_pt" href="void(0);" onclick="alert('준비중입니다.');return false;"><span class="glyphicon glyphicon-paperclip"></span> 생활꿀TIP</a></li>
+            <li><a class="color_pt" href="void(0);" onclick="alert('준비중입니다.');return false;"><span class="glyphicon glyphicon-paperclip"></span> 모두꿀TIP</a></li>
             <li><a class="color_pt" href="void(0);" onclick="alert('준비중입니다.');return false;"><span class="glyphicon glyphicon-gift"></span> 이벤트</a></li>
             <li><a class="color_bk" href="tel:16007728">고객센터 <b>1600-7728</b></a></li>
         </ul>
@@ -218,11 +221,10 @@
                     <img src="/NEW/image/main_N/logo_w.png" width="40" class="d-inline-block align-top" alt="모두이사">
                 </a>
                 <div class="mtop_btn_set">
-                    <button type="button" class="btn_top_m" onclick="location.href='/front/orderpop?s=2'">비대면견적</button>
-                    <button type="button" class="btn_top_m" onclick="location.href='/front/orderpop?s=1'">방문견적</button>
+                    <a href="/NEW/modoo/contact_info.php"><button type="button" class="btn btn_info" onclick=""><span class="infortxt01">모두이사</span> <span class="infortxt02">이사 견적</span> <span class="infortxt03">비교 서비스</span></button></a>
                 </div>
 
-                <a class="right" href="tel:1600-7728" style="top: 10px;right: 50px;position: absolute">
+                <a class="right" href="tel:1600-7728" style="top:12px; right:36px; position: absolute">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                         <path fill="none" d="M0 0h24v24H0z" />
                         <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z" fill="rgba(255,255,255,1)" />
@@ -255,36 +257,20 @@
                     </li>
                     <li class="dropdown nav-item">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <i class="fas fa-info-circle"></i> 모두소식
-                        </a>
-                        <div class="dropdown-menu dropdown-with-icons">
-                            <a href="/front/custom_notice" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 공지사항
-                            </a>
-                            <a href="/front/modoo_info" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 이사/생활정보
-                            </a>
-                            <a href="/front/modoo_noson" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 손없는날
-                            </a>
-                        </div>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                             <i class="fas fa-bullhorn"></i> 커뮤니티
                         </a>
                         <div class="dropdown-menu dropdown-with-icons">
                             <a href="void(0);" onclick="alert('준비중입니다.');return false;" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 생활꿀TIP
+                                <i class="material-icons">content_paste</i> 모두꿀TIP
                             </a>
                             <a href="void(0);" onclick="alert('준비중입니다.');return false;" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 모두FUN
                             </a>
                             <a href="void(0);" onclick="alert('준비중입니다.');return false;" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 이사가기 좋은집
+                                <i class="material-icons">content_paste</i> 모두살기 좋은집
                             </a>
                             <a href="void(0);" onclick="alert('준비중입니다.');return false;" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 우리동네가 좋아요
+                                <i class="material-icons">content_paste</i> 모두동네소식
                             </a>
                         </div>
                     </li>
@@ -298,41 +284,58 @@
                             <i class="fas fa-calendar-day"></i> 이벤트
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/front/custom_review" target="_blank">
-                            <i class="far fa-sticky-note"></i> 이사후기
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="void(0);" onclick="alert('준비중입니다.');return false;" target="_blank">
-                            <i class="fas fa-pen-square"></i> 업체평가하기
-                        </a>
-                    </li>
                     <li class="dropdown nav-item">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <i class="fas fa-user-tag"></i> 고객센터
+                            <i class="fas fa-bullhorn"></i> 파트너업체정보
                         </a>
                         <div class="dropdown-menu dropdown-with-icons">
-                            <a href="/front/mem_apply?mode=my_request" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 신청내역
+                            <a href="/front/custom_review" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 이사후기
                             </a>
-                            <a href="/front/custom_faq" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 자주묻는질문
+                            <a href="void(0);" onclick="alert('준비중입니다.');return false;" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 업체평가하기
                             </a>
                             <a href="/front/custom_business?cmd=setup_form" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 파트너제휴
                             </a>
                         </div>
                     </li>
-@guest
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/front/mem_apply?mode=my_request">
+                            <i class="far fa-list-alt"></i> 이사신청내역
+                        </a>
+                    </li>
+
+                    <li class="dropdown nav-item">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                            <i class="fas fa-user-tag"></i> 고객센터
+                        </a>
+                        <div class="dropdown-menu dropdown-with-icons">
+                            <a href="/front/custom_notice" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 모두 뉴스
+                            </a>
+                            <a href="/front/custom_faq" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 이사견적시 안내
+                            </a>
+                            <a href="/front/modoo_info" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 이사정보
+                            </a>
+                            <a href="/front/modoo_noson" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 손없는날
+                            </a>
+                        </div>
+                    </li>
+@section("login-mobile")
+            @guest
                     <li class="nav-item m-login">
                         <a class="nav-link" href="void(0);" onclick="alert('준비중입니다.');return false;" target="_blank">
                             <i class="fas fa-sign-in-alt"></i> 로그인
                         </a>
                     </li>
-@endguest
 
-@auth()
+            @endguest
+            @auth()
                     <li class="dropdown nav-item m-login">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                             <i class="fas fa-user-tag"></i> My모두
@@ -349,8 +352,10 @@
                             </a>
                         </div>
                     </li>
-@endauth
-                </ul>
+
+            @endauth
+@show
+                    </ul>
             </div>
         </div>
     </nav>
@@ -365,19 +370,24 @@
                 <li>
                     <a href="/community/posts/jisik"><b>이사지식인</b></a>
                 </li>
-                <li> <button type="button" class="btn_question" style="display: inline-block">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
+                <li>
+                   <a href="/NEW/knows/knows_form.php">
+                    <button type="button" class="btn_question" style="display: inline-block">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
                             <path fill="none" d="M0 0h24v24H0z"></path>
                             <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(255,255,255,1)"></path>
-                        </svg></button></li>
+                        </svg></button>
+                   </a>
+                </li>
             </ul>
         </div>
         <ul class="m_floor3">
             <li><a onclick="alert('준비중입니다.');return false;">모두FUN</a></li>
-            <li><a onclick="alert('준비중입니다.');return false;">생활꿀TIP</a></li>
-            <li><a onclick="alert('준비중입니다.');return false;">우리동네</a></li>
+            <li><a onclick="alert('준비중입니다.');return false;">모두꿀TIP</a></li>
+            <li><a onclick="alert('준비중입니다.');return false;">모두동네소식</a></li>
             <li><a onclick="alert('준비중입니다.');return false;"><b>이벤트</b></a></li>
         </ul>
     </div>
 </div>
 <!--//pc 및 mobile 메뉴-->
+
 @show

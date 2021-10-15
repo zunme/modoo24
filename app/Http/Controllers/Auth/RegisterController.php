@@ -53,7 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|max:20|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*\(\)\?]*$/|confirmed',
         ]);
     }
 
@@ -78,8 +78,18 @@ class RegisterController extends Controller
     }
     public function register(Request $request)
     {
+      $messages = [
+        'password.confirmed'=>'password 확인 항목이 일치하지 않습니다.',
+  			'password.*' =>'비밀번호는 8~20자로 영문, 숫자를 포함하여야 합니다.',
+      ];
+      $this->validate($request, [
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|max:20|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*\(\)\?]*$/|confirmed',
+       ],$messages);
 
-        $this->validator($request->all())->validate();
+        //$this->validator($request->all())->validate();
+
         $user = $this->create($request->all());
         \Event::fire( new Registered($user) );
         return redirect('/login')->with('warning', '이메일인증이 필요합니다.<br>이메일로 인증코드를 발송했으니 이메일을 확인해주세요');

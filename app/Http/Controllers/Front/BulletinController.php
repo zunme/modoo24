@@ -42,15 +42,15 @@ class BulletinController extends Controller
 		$qry = Post::where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N');
 
 		if( $request->search ){
-			if ( $request->search_option == 'title' ) $qry = $qry->where('title', 'like', '%'.$request->search.'%');
-			else if ( $request->search_option == 'cont' ) $qry =$qry->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
+			if ( $request->search_option == 'cont' ) $qry =$qry->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
 			else if ( $request->search_option == 'writer' ) $qry =$qry->where('nickname', 'like', '%'.$request->search.'%');
+			else $qry = $qry->where('title', 'like', '%'.$request->search.'%');
 		}
 
 		if ($request->ajax()) {
 			return Datatables::of($data)->make(true);
 		}else {
-			$data = $qry->latest()->paginate(5);
+			$data = $qry->latest()->paginate(10);
 			//return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));
 			return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
 		}

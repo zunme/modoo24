@@ -13,6 +13,116 @@
 }
 </style>
 
+
+<style>
+.mt-20{
+   margin-top:60px;
+   margin-bottom:30px;
+}
+#datatable_wrapper > .row:first-child{
+  display:none;
+}
+#datatable_wrapper{
+      font-size: 14px;
+}
+
+.details-control > .btn{
+  /*
+  font-size: 14px !important;
+  line-height: 18px !important;
+  */
+  margin: 0 !important;
+}
+
+table.dataTable>thead .sorting:before, table.dataTable>thead .sorting:after,
+table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc:after,
+table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc:after,
+table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_asc_disabled:after,
+table.dataTable>thead .sorting_desc_disabled:before, table.dataTable>thead .sorting_desc_disabled:after {
+    bottom: 1em !important;
+}
+table.dataTable.nowrap th, table.dataTable.nowrap td:not(.btn-td) {
+    padding-bottom: 14px !important;
+    padding-top: 12px !important;
+}
+.btn-td{
+  padding-top: 8px !important;
+    padding-bottom: 5px !important;
+}
+td.child{
+  padding-bottom: 40px !important;
+  background-color: #f1f1f1;
+  border-bottom: 1px solid red;
+}
+.display-flex .searchlist_Box{
+  padding-bottom: 20px;
+}
+.comment_cnt_span{
+  color: #4d8efc;
+  display:none;
+}
+.comment_cnt_span.nonecomment{
+  color: #AAA;
+}
+
+.ellipsis-title{
+  max-width:300px;
+}
+.wordbreak {
+      word-break: break-all;
+      white-space: normal !important;
+}
+
+@media only screen and (max-width: 959px){
+  .comment_cnt_span{
+    display:inline-block;
+  }
+  .dataTables_info{
+    display:none;
+  }
+  .dataTables_paginate {
+      margin-top: 22px !important;
+      margin-bottom: 30px !important;
+  }
+}
+.pagination>.page-item>.page-link, .pagination>.page-item>span {
+    margin: 0 !important;
+  }
+
+#datatable > thead > tr > th:nth-child(2){
+      min-width: 180px;
+}
+#datatable > tbody > tr > td:nth-child(2){
+      min-width: 180px;
+}
+
+@media only screen and ( min-width : 450px) {
+  #datatable > thead > tr > th:nth-child(2){
+        min-width: 280px;
+  }
+  #datatable > tbody > tr > td:nth-child(2){
+        min-width: 280px;
+  }
+}
+
+@media ( min-width : 570px) {
+  #datatable > thead > tr > th:nth-child(2){
+        min-width: 400px;
+  }
+  #datatable > tbody > tr > td:nth-child(2){
+        min-width: 400px;
+  }
+}
+@media ( min-width : 960px) {
+  #datatable > thead > tr > th:nth-child(2){
+        min-width: 500px;
+  }
+  #datatable > tbody > tr > td:nth-child(2){
+        min-width: 500px;
+  }
+}
+
+</style>
 @endsection
 @section('body_bottom','')
 
@@ -34,6 +144,53 @@
     <div id="board">
         <div class="good_after">
             <h1 style="border: 0"><b>{{$config->title}}</b></h1>
+
+
+
+            <!-- test
+
+            <div class="mt-20">
+
+              <div class="display-flex justify-space-between">
+                <div class="searchlist_Box">
+
+                    <select class="cmt_select" id="search_option" name="search_option">
+                      <option value="title" @if($request->search_option !='cont' && $request->search_option !='writer' ) selected @endif >제목</option>
+                      <option value="cont" @if($request->search_option=='cont') selected @endif >제목+내용</option>
+                      <option value="writer" @if($request->search_option=='writer') selected @endif>글쓴이</option>
+                    </select>
+
+                    <div class="cmt_form_Box">
+                        <input name="search" id="search" type="text" value="{{$request->search}}" maxlength="11" placeholder="이사에 대한 모든 질문">
+                        <label></label>
+                        <span class="btn_form" onClick="search_data()">검색</span>
+                    </div>
+
+                    @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
+                    <a type="button" class="cmnty_button_blue" href="{{$code}}/write">질문하기</a>
+                    @endif
+
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table responsive dt-responsive display nowrap" id="datatable" width="100%">
+                  <thead>
+                    <tr>
+                      <th class="text-center">번호</th>
+                      <th class="text-center">제목</th>
+                      <th class="text-center">답변</th>
+                      <th class="text-center">글쓴이</th>
+                      <th class="text-center">날짜</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+             -->
+
+
+
             <div class="searchlist_Box">
               <form>
                 <select class="cmt_select" name="search_option">
@@ -106,6 +263,15 @@
     </div>
 </div>
 
+
+
+
+
+
+
+
+
+
 <div id="topButton" style="cursor: pointer">
 
     <a class="page_top" href="#cssmenu" id="topButtonImg" >
@@ -149,5 +315,87 @@ function comfirmMessage(){
 function submitbtn(btn){
   $(btn).closest('form').submit()
 }
+</script>
+
+<!-- table -->
+<script>
+  let datatable;
+  $.extend( $.fn.dataTable.defaults, {
+      responsive: true
+  } );
+  function search_data(){
+    datatable.search('').draw();
+  }
+ $(document).ready(function() {
+  datatable = $('#datatable').DataTable({
+      "responsive": true,
+      bStateSave: true,
+      "processing": true,
+      "serverSide": true,
+      paging: true,
+      "lengthMenu": [10],
+      "pageLength": 10,
+      "language" : lang_kor,
+      "order": [[ 0, "desc" ]],
+      "ajax": {
+          'url' : "{{$code}}/listapi",
+          'data' : function (data){
+              data.search_option = $("#search_option").val();
+            data.search = $("#search").val();
+          }
+      },
+      "columnDefs": [
+          {"targets": [ 0 ],"visible": false,"searchable": false,"className":'details-control',responsivePriority: 6, 'width':'100px'},
+          {"targets": [ 1 ],"visible": true,"searchable": true,sortable:false,"className":'details-control wordbreak',responsivePriority: 0},
+          {"targets": [ 2 ],"visible": true,"searchable": true,sortable:false,"className":'details-control btn-td',responsivePriority: 5, 'width':'110px'},
+          {"targets": [ 3 ],"visible": true,"searchable": true,sortable:false,"className":'details-control text-center',responsivePriority: 2, 'width':'130px'},
+          {"targets": [ 4 ],"visible": true,"searchable": false,sortable:false,"className":'details-control',responsivePriority: 7, 'width':'160px'},
+      ],
+    "columns" : [
+      {"data" : "id"},
+      {"data" : "title",
+           "render": function( data, type, row, meta) {
+
+              let cmdclass = ''
+              if( row.comment_cnt < 1 ) cmdclass='nonecomment'
+
+              return `<a href="{{$code}}/view/${row.id}"><span class="ellipsis-title">${data}</span> <span class="comment_cnt_span ${cmdclass}">(${row.comment_cnt})</span></a>`
+           }},
+      {"data" : "comment_cnt",
+           "render": function( data, type, row, meta) {
+              if( data > 0 ) return `<button class="btn btn-outline-success btn-round btn-sm " type="button">업체답변 (${data})</button>`
+              else return `<button class="btn btn-outline-default btn-round btn-sm" type="button">답변대기</button>`
+           }},
+      {"data" : "nickname"},
+      {"data" : "created_at",
+           "render": function( data, type, row, meta) {
+             let d = moment(data);
+             var iscurrentDate = d.isSame(new Date(), "day");
+             var iscurrentYear = d.isSame(new Date(), "year");
+             if( iscurrentDate ) return d.format("LT")
+             else if ( iscurrentYear ) return d.format("MM월 DD일")
+             else return d.format("YY-MM-DD")
+           }
+      },
+    ],
+    "initComplete": function(settings, json) {
+
+          $('#datatable_filter label input').unbind();
+
+          var textBox = $('#search');
+          $("#search").bind('keyup input', function(e) {
+              if(e.keyCode == 8 && !textBox.val() || e.keyCode == 46 && !textBox.val()) {
+                  // do nothing ¯\_(ツ)_/¯
+              } else if(e.keyCode == 13 || !textBox.val()) {
+                  datatable.search('').draw();
+              }
+          });
+      },
+      "drawCallback": function( settings ) {
+      },
+      "preDrawCallback": function( settings ) {
+      },
+  });
+} );
 </script>
 @endsection

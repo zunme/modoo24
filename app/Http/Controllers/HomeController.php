@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Events\Registered;
 use App\Events\Event;
-
+use Validator;
 use App\User;
 
 class HomeController extends Controller
@@ -26,7 +26,7 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function test(){
-
+        return;
         $user = User::where(['email'=>'zunme@nate.com'])->first();
         \Event::fire( new Registered($user) );
         new Registered($user);

@@ -20,9 +20,16 @@ class DefaultlistController extends Controller
 {
 	use ApiResponser;
 	public $company_points_cache;
+
+
 	public function makeinc(){
-		$sub_header = view('header')->render();
+		$sub_header = view('header-sub')->render();
 		$fp = fopen("/home/modoo24/public_html/NEW/include/sub_header.php","wb");
+		fwrite($fp,$sub_header);
+		fclose($fp);
+
+		$sub_header = view('header')->render();
+		$fp = fopen("/home/modoo24/public_html/NEW/include/header.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
 
@@ -30,8 +37,10 @@ class DefaultlistController extends Controller
 		$fp = fopen("/home/modoo24/public_html/NEW/include/footer.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
-
+		echo "/home/modoo24/public_html/NEW/include 에 헤더 , 풋터 생성완료";
 	}
+
+
 	public function reviewMain(Request $request){
 		$sql = "
 				SELECT a.b_uid,b_worker_idx , a.b_mdate,a.b_note,a.b_star_expost,a.b_star_finish,a.b_star_pave,a.b_star_price,a.b_star_pro,b_star_kind , a.b_type,

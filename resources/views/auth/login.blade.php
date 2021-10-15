@@ -85,3 +85,11 @@
     </div>
 	</div>
 @endsection
+
+@section("script")
+  @if (session('warning'))
+    <script>
+    swal.fire('',`{!! session('warning') !!}`)
+    </script>
+  @endif
+@endsection
