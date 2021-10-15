@@ -324,6 +324,32 @@
                             </a>
                         </div>
                     </li>
+@guest
+                    <li class="nav-item m-login">
+                        <a class="nav-link" href="void(0);" onclick="alert('준비중입니다.');return false;" target="_blank">
+                            <i class="fas fa-sign-in-alt"></i> 로그인
+                        </a>
+                    </li>
+@endguest
+
+@auth()
+                    <li class="dropdown nav-item m-login">
+                        <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                            <i class="fas fa-user-tag"></i> My모두
+                        </a>
+                        <div class="dropdown-menu dropdown-with-icons">
+                            <a href="/front/mem_apply?mode=my_request" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i> 로그아웃
+                            </a>
+                            <a href="/front/custom_faq" class="dropdown-item">
+                                <i class="fab fas fa-edit"></i> 회원정보수정
+                            </a>
+                            <a href="/front/custom_business?cmd=setup_form" class="dropdown-item">
+                                <i class="fab fas fa-address-book"></i> 나의정보
+                            </a>
+                        </div>
+                    </li>
+@endauth
                 </ul>
             </div>
         </div>

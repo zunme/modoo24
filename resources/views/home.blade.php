@@ -1,11 +1,17 @@
-@extends('layouts.postnow')
-
+@extends('layouts.modoo')
+@section('css')
+<style>
+.container{
+  min-height: 30vh;
+    margin-top: 80px;
+}
+</style>
+@endsection
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
                     @if (session('status'))

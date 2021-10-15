@@ -45,8 +45,13 @@ class LoginController extends Controller
 				session(['link' => url()->previous()]);
 				return view('auth.login');
 		}
-		protected function authenticated(Request $request, $user)
+		protected function authenticated( $request)
 		{
+
+      if (\Auth::user()->confirmed_at == null) {
+            auth()->logout();
+            return back()->with('warning', '이메일인증이 필요합니다.<br>이메일로 인증코드를 발송했으니 이메일을 확인해주세요');
+        }
 			return redirect(session('link'));
 		}
 }

@@ -12,8 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/posts/jisik');
 });
+Route::get('/test', 'HomeController@test');
+
 Route::get('/refresh', 'HomeController@refresh');
 Route::get('/welcome', function () {
     return view('welcome');
@@ -25,6 +27,8 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/find/password', 'Auth\FindController@password');
 Route::post('/forgot-password', 'Auth\ForgotPasswordController@password')->middleware('guest')->name('password.email');
+//이메일컨펌
+Route::get('users/{user}/{token}/confirm', 'Auth\\RegisterController@confirm')->name('confirm');
 
 //게시판
 Route::prefix('/posts')->name('posts.')->group(function () {
@@ -59,4 +63,6 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 });
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function () {
+    return redirect('/posts/jisik');
+})->name('home');

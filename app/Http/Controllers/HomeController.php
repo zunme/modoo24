@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\Registered;
+use App\Events\Event;
+
+use App\User;
 
 class HomeController extends Controller
 {
@@ -21,6 +25,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function test(){
+
+        $user = User::where(['email'=>'zunme@nate.com'])->first();
+        \Event::fire( new Registered($user) );
+        new Registered($user);
+        //new Event();
+     }
     public function index()
     {
         return view('home');

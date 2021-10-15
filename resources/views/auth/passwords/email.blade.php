@@ -2,6 +2,9 @@
 
 @section('css')
 <style>
+.card .card-header:not([class*="header-"]) {
+    box-shadow: 0px 7px 4px -12px rgb(0 0 0 / 37%), 0 4px 25px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);
+}
 .mb-4 {
     margin-bottom: 1.5rem!important;
 }
@@ -17,13 +20,15 @@
     background-image: linear-gradient(
 195deg,#ffa726,#fb8c00);
 }
+.shadow-warning {
+    box-shadow: none !important;
+}
+
 .bg-gradient-warningblue {
     background-image: linear-gradient(
-195deg,#0994ef,#0b5d93);
+195deg,#0994ef,#00beff);
 }
-.shadow-warning {
-    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14),0 7px 10px -5px rgba(255,152,0,.4)!important;
-}
+
 .card-header:first-child {
     border-radius: .75rem .75rem;
 }
@@ -70,12 +75,12 @@
 
 <div class="container container-margin mb-4">
     <div class="row mt-lg-n12 mt-md-n12 mt-n12 justify-content-center">
-      <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+      <div class="col-xl-6 col-lg-8 col-md-8 mx-auto">
         <div class="card mt-8">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
             <div class="bg-gradient-warningblue shadow-warning border-radius-lg py-3 pe-1 text-center py-4">
-              <h3 class="font-weight-bolder text-white">Reset Password</h3>
-              <p class="mb-0 text-sm text-white">You will receive an e-mail in maximum 60 seconds</p>
+              <h3 class="font-weight-bolder text-white">비밀번호 변경</h3>
+              <p class="mb-0 text-sm text-white">변경할 이메일을 적어주세요, 이메일로 주소가 발송됩니다</p>
             </div>
           </div>
           <div class="card-body py-4">
@@ -98,7 +103,10 @@
 @section('script')
 <script>
 function resetpwd(){
-  getpost( '/community/forgot-password', {email: $("#email").val() }, console.log )
+  getpost( '/community/forgot-password', {email: $("#email").val() }, successEmail )
+}
+function successEmail(){
+  swal.fire("패스워드변경!", "이메일로 패스워드 변경 URL 을 보냈습니다.", "success");
 }
 </script>
 @endsection
