@@ -25,6 +25,15 @@ class BulletinController extends Controller
 		$config = BulletinConfig::where(['code'=>$code])->first();
 		$data = Post::with(['users','needconfirm'])->where(['posts.bulletin_id'=>$config->id]);
 
+		if( $request->search_str != '' ){
+			if( $request->search_option == 'title') $data = $data->where('title','like','%'.$request->search_str.'%');
+			else if( $request->search_option == 'reg') $data = $data->where('created_at','like','%'.$request->search_str.'%' );
+			else if( $request->search_option == 'user') {
+				$data = $data->join('users', 'posts.user_id','=', 'users.id')->select('posts.*')
+				->where('users.email','like','%'.$request->search_str.'%');
+			}
+		}
+
 		return Datatables::of($data)->make(true);
 	}
 	function commentConfirmList( Request $request, $code = 'jisik' ) {

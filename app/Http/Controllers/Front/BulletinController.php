@@ -52,7 +52,8 @@ class BulletinController extends Controller
 		}else {
 			$data = $qry->latest()->paginate(10);
 			//return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));
-			return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
+			if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
+			else return view('Front/Bulletin/partner/list', compact(['data','code','request', 'config']));
 		}
 
 	}
@@ -61,7 +62,7 @@ class BulletinController extends Controller
 		if( !$config){
 			return view('Front/Bulletin/empty');
 		}
-		$data = Post::active()->where(['bulletin_id'=> $config->id]);
+		$data = Post::where('is_confirmed', '!=','N')->where(['bulletin_id'=> $config->id]);
 		if( $request->search ){
 			if ( $request->search_option == 'title' ) $data = $data->where('title', 'like', '%'.$request->search.'%');
 			else if ( $request->search_option == 'cont' ) $data =$data->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
@@ -79,7 +80,7 @@ class BulletinController extends Controller
 		}
 
 		$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
-
+		
 		if( $post->is_confirmed =='N' ) return back();
 		else if( $post->is_confirmed == 'R' ){
 			if( $user ){
@@ -92,7 +93,10 @@ class BulletinController extends Controller
 
 		$is_writer = ( Auth::user() && Auth::user()->id == $post->user_id) ? true:false;
 
-		return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
+
+
+		if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
+		else return view('Front/Bulletin/partner/viewpost',compact(['config','post','code','is_writer']));
 	}
 	public function writeForm(Request $request, $code){
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
@@ -110,7 +114,12 @@ class BulletinController extends Controller
 		if( !$config){
 			return back()->with('noti_alert_message', '찾는 페이지가 없습니다.');
 		}
-		$post = Post::active()->with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$writeid])->first();
+		$comment_cnt = PostComment::where(['post_id'=>$writeid])->count();
+		if( $comment_cnt > 0) {
+			return back()->with('noti_alert_message', '댓글이 있는 글은 수정이 불가능 합니다.');
+		}
+
+		$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$writeid])->where('is_confirmed', '!=','N')->first();
 		$totalImgCount = $post->files->count();
 
 		$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;

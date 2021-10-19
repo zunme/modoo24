@@ -106,6 +106,19 @@
 </div>
 </div>
 
+<div class="modal fade" id="popcalendar_pop" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content" id="popcalendar_pop_body">
+    <div class="popcalendar_content">
+
+      <div class="popcalendar_wrap">
+        <div id="popcalendar"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
   <!-- Login Modal -->
 <div class="modal fade modal-primary" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-login">
@@ -183,7 +196,22 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 
-
+<link href="/community/assets/css/fullcalendar.css" rel="stylesheet">
+<script src="/community/assets/js/fullcalendar.js"></script>
+<style>
+/*
+.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end{
+  display: inline-block;
+    width: 18px;
+    height: 18px;
+    padding: 0 !important;
+    border-radius: 50%;
+    background-color: #0000ff66;
+    border: none;
+    position: absolute;
+}
+*/
+</style>
 <!--bottom 팝업 스크립트-->
 <script language="javascript">
     function openAgreePop(url) {

@@ -16,6 +16,8 @@ Route::post('/simpyreg','Api\OrdertempController@simplyreg');
 Route::get('/movereview','Api\DefaultlistController@reviewMain');
 Route::get('/makeinc','Api\DefaultlistController@makeinc');
 
+Route::get('/son','Api\DefaultlistController@sonList');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

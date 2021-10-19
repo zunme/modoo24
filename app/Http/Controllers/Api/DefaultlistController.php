@@ -15,12 +15,34 @@ use Validator;
 
 use App\Traits\ApiResponser;
 
+use App\Models\CalendarLunar;
 
 class DefaultlistController extends Controller
 {
 	use ApiResponser;
 	public $company_points_cache;
 
+	public function sonList(Request $request){
+		$data = CalendarLunar::
+		/*
+			select(
+		//	\DB::raw('"" as title'),
+			\DB::raw("date_format(solar_date, '%Y-%m-%d') as start"),'overlap',
+		//	\DB::raw("date_format(solar_date, '%Y-%m-%d') as end")
+		//\DB::raw('"false" as overlap'),
+		\DB::raw('"background" as display'),
+		\DB::raw('"00b9ba" as backgroundColor')
+			 )
+		->*/where('solar_date','>=', $request->start)
+		->where('solar_date','<=', $request->end)
+		->where(function($q) {
+          $q->where('son', 0)
+            ->orWhere('son', 9);
+      })
+		->get();
+
+		return response()->json( $data);
+	}
 
 	public function makeinc(){
 		$sub_header = view('header-sub')->render();

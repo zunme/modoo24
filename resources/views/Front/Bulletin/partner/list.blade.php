@@ -27,12 +27,13 @@
 }
 
 .details-control > .btn{
-
+  /*
   font-size: 14px !important;
   line-height: 18px !important;
-
+  */
   margin: 0 !important;
 }
+
 table.dataTable>thead .sorting:before, table.dataTable>thead .sorting:after,
 table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc:after,
 table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc:after,
@@ -120,30 +121,7 @@ td.child{
         min-width: 500px;
   }
 }
-.btn-outline-none{
-  color: rgb(147 147 147) !important;
-background-color: transparent;
-border-color: rgb(147 147 147) !important;
-}
-li.details-control{
-  padding-left: 10px;
-  margin-left: 10px;
-}
-li.details-control.text-center{
-  text-align:left !important;
-}
-#datatable_paginate{
-  text-align: center !important;
-}
-.details-control .wait{
-  font-weight: bold;
-    color: #1e9af9;
-}
-.details-control .btn.btn-outline-info {
-  color: #3e84fc;
-      background-color: transparent;
-      border-color: #3e84fc;
-}
+
 </style>
 @endsection
 @section('body_bottom','')
@@ -169,7 +147,7 @@ li.details-control.text-center{
 
 
 
-
+            <!-- test
 
             <div class="mt-20">
 
@@ -209,7 +187,7 @@ li.details-control.text-center{
                 </table>
               </div>
             </div>
-
+             -->
 
 
 
@@ -246,9 +224,7 @@ li.details-control.text-center{
             </li>
 @foreach ( $data as $row)
             <li class="border_list3">
-                <a @if($row->is_confirmed =='R' && Auth::user() != null && Auth::user()->id ==  $row->user_id ) href="{{$code}}/view/{{$row->id}}"
-                   @elseif($row->is_confirmed =='R') href="javascript:comfirmMessage()"
-                   @else href="{{$code}}/view/{{$row->id}}"  @endif >
+                <a @if($row->is_confirmed =='R') href="javascript:comfirmMessage()" @else href="{{$code}}/view/{{$row->id}}"  @endif >
                     <dl>
                         <dt class="no">{{$row->id}}</dt>
                         <dd class="title">{{$row->title}}
@@ -326,9 +302,6 @@ $(document).ready(function() {
 		$('html, body').animate({scrollTop:0}, '300');
 	});
 
-    @if (session('noti_alert_message'))
-      swal.fire('',`{!! session('noti_alert_message') !!}`)
-    @endif
 });
 function comfirmMessage(){
   swal.fire('규정 확인 대기중','이사지식인 규정 확인 후 글이 노출되며 모두이사 파트너업체가 질문에 대한 답글을 해드립니다.');
@@ -347,16 +320,11 @@ function submitbtn(btn){
 <!-- table -->
 <script>
   let datatable;
-  let userid
-  @if ( Auth::user() )
-  userid = {{Auth::user()->id}};
-  @endif
   $.extend( $.fn.dataTable.defaults, {
       responsive: true
   } );
   function search_data(){
     datatable.search('').draw();
-    window.history.replaceState("", "", "?search_option="+$("#search_option").val()+"&search="+$("#search").val() );
   }
  $(document).ready(function() {
   datatable = $('#datatable').DataTable({
@@ -368,9 +336,6 @@ function submitbtn(btn){
       "lengthMenu": [10],
       "pageLength": 10,
       "language" : lang_kor,
-      "dom": "<'row'<'col-sm-12'l><'col-sm-12'f>>" +
-"<'row'<'col-sm-12'tr>>" +
-"<'row'<'col-sm-12 col-md-12 text-center'p>>",
       "order": [[ 0, "desc" ]],
       "ajax": {
           'url' : "{{$code}}/listapi",
@@ -380,11 +345,11 @@ function submitbtn(btn){
           }
       },
       "columnDefs": [
-          {"targets": [ 0 ],"visible": true,"searchable": false,"className":'details-control text-center',responsivePriority: 6, 'width':'100px'},
+          {"targets": [ 0 ],"visible": false,"searchable": false,"className":'details-control',responsivePriority: 6, 'width':'100px'},
           {"targets": [ 1 ],"visible": true,"searchable": true,sortable:false,"className":'details-control wordbreak',responsivePriority: 0},
-          {"targets": [ 2 ],"visible": true,"searchable": true,sortable:false,"className":'details-control text-center btn-td',responsivePriority: 5, 'width':'110px'},
+          {"targets": [ 2 ],"visible": true,"searchable": true,sortable:false,"className":'details-control btn-td',responsivePriority: 5, 'width':'110px'},
           {"targets": [ 3 ],"visible": true,"searchable": true,sortable:false,"className":'details-control text-center',responsivePriority: 2, 'width':'130px'},
-          {"targets": [ 4 ],"visible": true,"searchable": false,sortable:false,"className":'details-control text-center',responsivePriority: 7, 'width':'160px'},
+          {"targets": [ 4 ],"visible": true,"searchable": false,sortable:false,"className":'details-control',responsivePriority: 7, 'width':'160px'},
       ],
     "columns" : [
       {"data" : "id"},
@@ -392,23 +357,14 @@ function submitbtn(btn){
            "render": function( data, type, row, meta) {
 
               let cmdclass = ''
-              let cmdstr = ''
-              let addstr = ''
-
               if( row.comment_cnt < 1 ) cmdclass='nonecomment'
-              if( row.is_confirmed =='R') {
-                addstr = '<span class="wait">(대기중)</span>'
-                cmdstr = ''
-              }else {
-                cmdstr = `<span class="comment_cnt_span ${cmdclass}">(${row.comment_cnt})</span>`
-              }
-              if( row.is_confirmed =='R' && row.user_id != userid ) return `<a href="javascript:comfirmMessage()"><span class="ellipsis-title">${data} ${addstr} ${cmdstr}</span> </a>`
-              else return `<a href="{{$code}}/view/${row.id}"><span class="ellipsis-title">${data} ${addstr} ${cmdstr}</span> </a>`
+
+              return `<a href="{{$code}}/view/${row.id}"><span class="ellipsis-title">${data}</span> <span class="comment_cnt_span ${cmdclass}">(${row.comment_cnt})</span></a>`
            }},
       {"data" : "comment_cnt",
            "render": function( data, type, row, meta) {
-              if( data > 0 ) return `<button class="btn btn-outline-info btn-round btn-sm " type="button">업체답변 (${data})</button>`
-              else return `<button class="btn btn-outline btn-outline-none btn-round btn-sm" type="button">답변대기</button>`
+              if( data > 0 ) return `<button class="btn btn-outline-success btn-round btn-sm " type="button">업체답변 (${data})</button>`
+              else return `<button class="btn btn-outline-default btn-round btn-sm" type="button">답변대기</button>`
            }},
       {"data" : "nickname"},
       {"data" : "created_at",
@@ -422,14 +378,8 @@ function submitbtn(btn){
            }
       },
     ],
-    "stateLoaded": function (settings, data) {
-      console.log( data );
-    },
     "initComplete": function(settings, json) {
-         var api = new $.fn.dataTable.Api( settings );
-         var state = api.state.loaded();
-         console.log ( $("#search").val() )
-         console.log ( JSON.parse( localStorage.getItem('dataTablesData') ) )
+
           $('#datatable_filter label input').unbind();
 
           var textBox = $('#search');
@@ -437,14 +387,13 @@ function submitbtn(btn){
               if(e.keyCode == 8 && !textBox.val() || e.keyCode == 46 && !textBox.val()) {
                   // do nothing ¯\_(ツ)_/¯
               } else if(e.keyCode == 13 || !textBox.val()) {
-                  search_data();
+                  datatable.search('').draw();
               }
           });
       },
       "drawCallback": function( settings ) {
       },
       "preDrawCallback": function( settings ) {
-
       },
   });
 } );

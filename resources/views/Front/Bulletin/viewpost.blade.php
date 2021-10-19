@@ -219,6 +219,9 @@ span.like > div {
 	var test
 	$("document").ready( function() {
 		loaderAttach("a.like")
+		@if (session('noti_alert_message'))
+			swal.fire('',`{!! session('noti_alert_message') !!}`)
+		@endif
 	})
 	function delpost(postid){
 		swal.fire({

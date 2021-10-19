@@ -43,8 +43,9 @@ class NewResetPassword extends Notification
         return (new MailMessage)
         ->subject("모두이사 패스워드 변경")
         //->line('패스워드를 변경하시려면 패스워드 변경 버튼을 눌러주세요')
-        ->action('패스워드 변경', url(config('app.url').'community'.route('password.reset', $this->token, false)) )
+        //->action('패스워드 변경', url(config('app.url').'community'.route('password.reset', $this->token, false)) )
         //->line('If you did not request a password reset, no further action is required.');
+        ->view( 'emails.passwordreset', ['path'=>url(config('app.url')),'url' => url(config('app.url').'community'.route('password.reset', $this->token, false)) ]);
         ;
         //dd( $mail);
     }
