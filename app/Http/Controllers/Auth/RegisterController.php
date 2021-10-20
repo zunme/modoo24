@@ -81,13 +81,17 @@ class RegisterController extends Controller
       $messages = [
         'password.confirmed'=>'password 확인 항목이 일치하지 않습니다.',
   			'password.*' =>'비밀번호는 8~20자로 영문, 숫자를 포함하여야 합니다.',
+        'simplyRegPrivacy.*'=>'개인정보수집 및 이용에 동의가 필요합니다',
+        'simplyRegJoint.*'=>'개인정보의 제3자 제공 동의가 필요합니다.',
       ];
-      $this->validate($request, [
+      $data = $this->validate($request, [
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:8|max:20|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*\(\)\?]*$/|confirmed',
-       ],$messages);
+        'simplyRegPrivacy'=>'required|in:Y',
+        'simplyRegJoint'=>'required|in:Y',
 
+       ],$messages);
         //$this->validator($request->all())->validate();
 
         $user = $this->create($request->all());

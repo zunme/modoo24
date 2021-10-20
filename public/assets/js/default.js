@@ -730,8 +730,35 @@ let agreeModaltemplate = `
 	</div>
 </div>
 `
+
+let popup_calendarTemplate = `
+<div class="modal fade" id="popcalendar_pop" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" id="popcalendar_pop_body">
+      <div class="popcalendar_content">
+
+        <div class="popcalendar_wrap">
+          <div id="popcalendar"></div>
+          <div class="popcal_sub_wrap">
+            <div class="popcal_sub_header"><span class="popcal_son_box"></span><span>손 없는 날</span></div>
+            <div class="popcal_sub_body">
+              <p>예부터 '손 없는 날'이란 악귀가 없는 날이란 뜻으로, 귀신이나 악귀가 돌아다니지 않아 길한 날을 의미합니다.</p>
+              <p>비교적 비싼 이사 비용이 책정되고 있습니다.</p>
+              <div class="warning-text">* 금요일, 월말, 손없는날을 피하면 보다 합리적인 이사 진행이 가능합니다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`
 $("document").ready( function() {
   $("body").append( agreeModaltemplate )
+  if( $("#popcalendar_pop").length < 1 ){
+    //$("body").append( popup_calendarTemplate )
+  }
+
   $(".gotohome").on("click", function(e){
     location.href='/NEW/index'
   });

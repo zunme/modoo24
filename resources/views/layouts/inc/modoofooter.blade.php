@@ -105,18 +105,104 @@
   </div>
 </div>
 </div>
+<style>
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+    height: 12px;
+    max-height: 12px;
+    font-size: 0;
+    line-height: 0;
+}
+.popcal_sub_wrap{
+    margin: 10px;
+}
+.popcal_sub_header{
+    margin-bottom: 10px;
+}
+.popcal_sub_header:after{
+  clear:both;
+}
+.popcal_son_box{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: #b3eaea;
+  line-height: 60px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-right: 9px;
+  float: left;
+}
+.popcal_sub_body{
+  font-size: 14px;
+  margin: 5px 5px 0 10px;
+}
+.warning-text{
+  color: #e02525;
+  margin-top: 5px;
+}
+/*
+.popcal_sub_body{
+  position: absolute;
+  bottom: 0;
+  padding-top: 24px !important;
+  left: 0;
+  right: 0;
+  margin: 5px 2px 3px;
+  background-color: white;
+  z-index: 100;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 
-<div class="modal fade" id="popcalendar_pop" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content" id="popcalendar_pop_body">
-    <div class="popcalendar_content">
+  border-bottom: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-shadow: 0px -3px 4px 2px rgb(0 0 0 / 39%);
+}
+.popcal_sub_body_handle{
+  height: 16px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0;
+  background: #fff;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 10px;
+}
+.popcal_sub_body_handle:after {
+    content: '';
+    width: 36px;
+    height: 6px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -18px;
+    margin-top: -3px;
+    border-radius: 3px;
+    background: #666;
+}
+*/
+</style>
+<div class="modal fade" id="popcalendar_pop" tabindex="-1" role="dialog" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" id="popcalendar_pop_body">
+      <div class="popcalendar_content">
 
-      <div class="popcalendar_wrap">
-        <div id="popcalendar"></div>
+        <div class="popcalendar_wrap">
+          <div id="popcalendar"></div>
+          <div class="popcal_sub_wrap">
+            <div class="popcal_sub_header"><span class="popcal_son_box"></span><span>손 없는 날</span></div>
+            <div class="popcal_sub_body">
+              <div class="popcal_sub_body_handle"></div>
+              <p>예부터 '손 없는 날'이란 악귀가 없는 날이란 뜻으로, 귀신이나 악귀가 돌아다니지 않아 길한 날을 의미합니다.</p>
+              <p>비교적 비싼 이사 비용이 책정되고 있습니다.</p>
+              <div class="warning-text">* 금요일, 월말, 손없는날을 피하면 보다 합리적인 이사 진행이 가능합니다.</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
   <!-- Login Modal -->
@@ -198,19 +284,31 @@
 
 <link href="/community/assets/css/fullcalendar.css" rel="stylesheet">
 <script src="/community/assets/js/fullcalendar.js"></script>
+<script src="/community/assets/js/calendar_locale.js?v=2"></script>
 <style>
-/*
-.fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end{
-  display: inline-block;
-    width: 18px;
-    height: 18px;
-    padding: 0 !important;
-    border-radius: 50%;
-    background-color: #0000ff66;
-    border: none;
-    position: absolute;
+.fc {
+    font-size: 14px;
 }
-*/
+.fc-toolbar-title{
+  font-size: 22px;
+}
+.fc table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 12px;
+}
+.fc .fc-daygrid-body-natural .fc-daygrid-day-events {
+     margin-bottom: 0;
+}
+.fc .fc-daygrid-day-number-v2 {
+    position: relative;
+    z-index: 4;
+    padding: 4px;
+}
+.fc .fc-button {
+    padding: 1px 5px;
+    margin-right: 2px;
+  }
 </style>
 <!--bottom 팝업 스크립트-->
 <script language="javascript">
@@ -272,6 +370,40 @@
 
 </script>
 
+<script>
+let calendar
+function viewpopcal(){
+  $("#popcalendar_pop").modal('show')
+  setTimeout(drawcal, 500)
+}
+function drawcal(){
+  var calendarEl = document.getElementById('popcalendar');
+  calendar = new FullCalendar.Calendar( calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'ko',
+            height:'auto',
+            headerToolbar: {
+                      left: '',
+                      center: 'title',
+                      right: 'prev,next'
+                    },
+            events: '/community/api/son',
+            dayCellDidMount: function(info){
+                var day = moment(info.date).format('D') // custom the text for example
+
+                // hide the original one
+                var originElement = info.el.querySelectorAll(".fc-daygrid-day-number")
+                originElement.forEach(e => e.classList.add("d-none")  );
+
+                // insert new text
+                var targetElement = info.el.querySelectorAll(".fc-daygrid-day-top");
+                targetElement.forEach(e => e.innerHTML = `<span class="fc-daygrid-day-number-v2">${day}</span>` );
+            },
+          });
+  calendar.render()
+  $("#popcalendar_pop").modal('handleUpdate')
+}
+</script>
 @yield('script')
 
 </body>

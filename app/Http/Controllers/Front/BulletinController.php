@@ -80,7 +80,7 @@ class BulletinController extends Controller
 		}
 
 		$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
-		
+
 		if( $post->is_confirmed =='N' ) return back();
 		else if( $post->is_confirmed == 'R' ){
 			if( $user ){

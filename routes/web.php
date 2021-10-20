@@ -66,3 +66,7 @@ Auth::routes();
 Route::get('/home', function () {
     return redirect('/posts/jisik');
 })->name('home');
+
+Route::prefix('/member')->name('member.')->group(function () {
+  Route::get('modify', 'Front\UserController@modify');
+});

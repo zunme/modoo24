@@ -100,7 +100,7 @@
 <header class="pc" id="menu_wrap">
     <div class="menu_floor01">
         <div class="center">
-            <a class="logoN" href="/"><img src="/NEW/image/main_N/logo.png"><span>모두이사</span></a>
+            <a class="logoN" href="/"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a>
             <ul class="menu01">
                 <li><a href="/front/orderpop?s=2">비대면견적</a></li>
                 <li><a href="/front/orderpop?s=1">방문견적</a></li>
@@ -187,18 +187,18 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">모두이사</a>
                 <ul class="dropdown-menu" style="left: -20px">
-                    <li><a href="/NEW/modoo/service.php">서비스소개</a></li>
-                    <li><a href="/NEW/modoo/contact_info.php">방문견적 가이드</a></li>
-                    <li><a href="/NEW/modoo/untact_info.php">비대면견적 가이드</a></li>
+                    <li><a href="/v1/modoo/service.php">서비스소개</a></li>
+                    <li><a href="/v1/modoo/contact_info.php">방문견적 가이드</a></li>
+                    <li><a href="/v1/modoo/untact_info.php">비대면견적 가이드</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
                 <ul class="dropdown-menu">
-                    <li><a href="/front/custom_notice">모두 뉴스</a></li>
-                    <li><a href="/front/custom_faq">이사견적시 안내</a></li>
-                    <li><a href="/front/modoo_info">이사정보</a></li>
-                    <li><a href="/front/modoo_noson">손없는날</a></li>
+                    <li><a href="/v1/customer/notice">모두 뉴스</a></li>
+                    <li><a href="/v1/customer/faq">이사견적시 안내</a></li>
+                    <li><a href="/v1/customer/contact_info">이사정보</a></li>
+                    <li><a href="/v1/customer/noson">손없는날</a></li>
                 </ul>
             </li>
 
@@ -218,10 +218,10 @@
         <div class="container">
             <div class="navbar-translate">
                 <a class="navbar-brand" href="/" style="margin-left: 0">
-                    <img src="/NEW/image/main_N/logo_w.png" width="40" class="d-inline-block align-top" alt="모두이사">
+                    <img src="/v1/image/main_N/logo_w.png" width="40" class="d-inline-block align-top" alt="모두이사">
                 </a>
                 <div class="mtop_btn_set">
-                    <a href="/NEW/modoo/contact_info.php"><button type="button" class="btn btn_info" onclick=""><span class="infortxt01">모두이사</span> <span class="infortxt02">이사 견적</span> <span class="infortxt03">비교 서비스</span></button></a>
+                    <a href="/v1/modoo/contact_info.php"><button type="button" class="btn btn_info" onclick=""><span class="infortxt01">모두이사</span> <span class="infortxt02">이사 견적</span> <span class="infortxt03">비교 서비스</span></button></a>
                 </div>
 
                 <a class="right" href="tel:1600-7728" style="top:12px; right:36px; position: absolute">
@@ -244,13 +244,13 @@
                             <i class="fas fa-truck-moving"></i> 모두이사
                         </a>
                         <div class="dropdown-menu dropdown-with-icons">
-                            <a href="/NEW/modoo/service" class="dropdown-item">
+                            <a href="/v1/modoo/service" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 서비스소개
                             </a>
-                            <a href="/NEW/modoo/contact_info.php" class="dropdown-item">
+                            <a href="/v1/modoo/contact_info.php" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 방문견적 가이드
                             </a>
-                            <a href="/NEW/modoo/untact_info.php" class="dropdown-item">
+                            <a href="/v1/modoo/untact_info.php" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 비대면견적 가이드
                             </a>
                         </div>
@@ -280,22 +280,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/NEW/knows/knows_list.php">
+                        <a class="nav-link" href="/v1/knows/knows_list.php">
                             <i class="fas fa-calendar-day"></i> 이벤트
                         </a>
                     </li>
                     <li class="dropdown nav-item">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <i class="fas fa-bullhorn"></i> 파트너업체정보
+                            <i class="fas fa-bullhorn"></i> 이사업체정보
                         </a>
                         <div class="dropdown-menu dropdown-with-icons">
-                            <a href="/front/custom_review" class="dropdown-item">
+                            <a href="/v1/move/review" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 이사후기
                             </a>
-                            <a href="void(0);" onclick="alert('준비중입니다.');return false;" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 업체평가하기
+                            <a href="/v1/move/review_write" class="dropdown-item">
+                                <i class="material-icons">content_paste</i> 이사업체평가하기
                             </a>
-                            <a href="/front/custom_business?cmd=setup_form" class="dropdown-item">
+                            <a href="/v1/move/custom_business" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 파트너제휴
                             </a>
                         </div>
@@ -371,12 +371,12 @@
                     <a href="/community/posts/jisik"><b>이사지식인</b></a>
                 </li>
                 <li>
-                   <a href="/NEW/knows/knows_form.php">
-                    <button type="button" class="btn_question" style="display: inline-block">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
-                            <path fill="none" d="M0 0h24v24H0z"></path>
-                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(255,255,255,1)"></path>
-                        </svg></button>
-                   </a>
+                    <a href="/v1/knows/knows_form.php">
+                        <button type="button" class="btn_question" style="display: inline-block">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(255,255,255,1)"></path>
+                            </svg></button>
+                    </a>
                 </li>
             </ul>
         </div>
