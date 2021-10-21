@@ -35,6 +35,11 @@ class SocialController extends Controller
 		}else $email = $socialUser->getId().'@'.$provider.'.provider';
 
 		if ($user = User::where('email', $email )->first()) {
+						if( $user->provider != $provider){
+							if( $user->provider =='web') $msg = '소셜계정연동으로 가입한 아이디가 아닙니다.';
+							else $msg = '동일한 이메일로 다른 소셜계정을 통해 가입하셨습니다.';
+							return redirect('login')->with('warning', $msg);
+						}
             $this->guard()->login($user, true);
             //return $this->sendLoginResponse($request);
         }else {

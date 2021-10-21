@@ -496,7 +496,8 @@ $.ajax({
 function ajaxErrorST(jqXHR ){
 $('.loading_wrap').hide();
 if(jqXHR.status != 422 && jqXHR.status != 500 ) {
-  iziToast.error({
+  iziToast.show({
+      theme: 'light',
       message: '잠시후에 이용해주세요',
       position: 'bottomRight'
   });
@@ -513,9 +514,10 @@ console.log(msg) ;
 
   if(msg) {
     if( msg.message ){
-      iziToast.error({
-        message:  msg.message,
-        position: 'center'
+      iziToast.show({
+          theme: 'light',
+          message: msg.message,
+          position: 'center'
       });
     }else {
       for(key in msg) {

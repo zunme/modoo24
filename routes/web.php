@@ -68,5 +68,15 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::prefix('/member')->name('member.')->group(function () {
+  Route::get('myinfo', 'Front\UserController@myinfo');
+
   Route::get('modify', 'Front\UserController@modify');
+  Route::post('modify', 'Front\UserController@modifyPrc');
+  //인증번호 발송
+  Route::post('sendsms', 'Front\UserController@sendsms');
+  Route::post('modify/tel', 'Front\UserController@modifyTel');
+
+  //탈퇴
+  Route::get('withdrawal', 'Front\UserController@withdrawal');
+
 });
