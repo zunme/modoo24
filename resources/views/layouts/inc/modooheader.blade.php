@@ -136,11 +136,11 @@
                             <i class="fas fa-sign-out-alt"></i>
                             로그아웃
                         </span>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/community/member/modify">
                             <i class="fab fas fa-edit"></i>
                             회원정보수정
                         </a>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="/community/member/myinfo">
                             <i class="fab fas fa-address-book"></i>
                             나의정보
                         </a>

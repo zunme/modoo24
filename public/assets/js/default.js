@@ -657,7 +657,7 @@ swal.fire({
   });
 }
   /* getpost */
-function getpost( url,data , callbackSuccess, callbackCompleted ){
+function getpost( url,data , callbackSuccess, callbackCompleted, callbackError ){
   $.ajax({
             url : '/community/refresh',
             method:"get",
@@ -680,7 +680,8 @@ function getpost( url,data , callbackSuccess, callbackCompleted ){
                     callbackSuccess(res)
                   },
                   error: function ( err ){
-                    ajaxErrorST(err)
+                    if( typeof callbackError =='undefined') ajaxErrorST(err)
+                    else callbackError( err )
                   },
                   complete : function() {
                     if ( typeof callbackCompleted != 'undefined') callbackCompleted();

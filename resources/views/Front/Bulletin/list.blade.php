@@ -167,10 +167,6 @@ li.details-control.text-center{
         <div class="good_after">
             <h1 style="border: 0"><b>{{$config->title}}</b></h1>
 
-
-
-
-
             <div class="mt-20">
 
               <div class="display-flex justify-space-between">
@@ -210,30 +206,30 @@ li.details-control.text-center{
               </div>
             </div>
 
-
-
-
-            <div class="searchlist_Box">
-              <form>
-                <select class="cmt_select" name="search_option">
-                  <option value="title" @if($request->search_option !='cont' && $request->search_option !='writer' ) selected @endif >제목</option>
-                  <option value="cont" @if($request->search_option=='cont') selected @endif >제목+내용</option>
-                  <option value="writer" @if($request->search_option=='writer') selected @endif>글쓴이</option>
-                </select>
-
-                <div class="cmt_form_Box">
-                    <input name="search" type="text" value="{{$request->search}}" maxlength="11" placeholder="이사에 대한 모든 질문">
-                    <label></label>
-                    <span class="btn_form" onClick="submitbtn(this)">검색</span>
-                </div>
-
-                @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
-                <a type="button" class="cmnty_button_blue" href="{{$code}}/write">질문하기</a>
-                @endif
-
-              </form>
-            </div>
         </div>
+
+<!--
+        <div class="searchlist_Box">
+          <form>
+            <select class="cmt_select" name="search_option">
+              <option value="title" @if($request->search_option !='cont' && $request->search_option !='writer' ) selected @endif >제목</option>
+              <option value="cont" @if($request->search_option=='cont') selected @endif >제목+내용</option>
+              <option value="writer" @if($request->search_option=='writer') selected @endif>글쓴이</option>
+            </select>
+
+            <div class="cmt_form_Box">
+                <input name="search" type="text" value="{{$request->search}}" maxlength="11" placeholder="이사에 대한 모든 질문">
+                <label></label>
+                <span class="btn_form" onClick="submitbtn(this)">검색</span>
+            </div>
+
+            @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
+            <a type="button" class="cmnty_button_blue" href="{{$code}}/write">질문하기</a>
+            @endif
+
+          </form>
+        </div>
+
         <ul>
             <li class="border_list3">
                 <dl>
@@ -279,12 +275,13 @@ li.details-control.text-center{
 
 
         </ul>
+-->
     </div>
 
 
-    <div class="ct">
+    <!--div class="ct">
       {{ $data->links('vendor.pagination.dots',['pagination_eachside'=>3]) }}
-    </div>
+    </div-->
 </div>
 
 

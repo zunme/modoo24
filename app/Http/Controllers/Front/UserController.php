@@ -21,6 +21,37 @@ class UserController extends Controller
     $user = Auth::User();
     return view("/Front/Member/myinfo", compact(["user"]));
   }
+  function withdrawal(Request $request){
+    $user = Auth::User();
+    return view("/Front/Member/withdrawal", compact(["user"]));
+  }
+  function withdrawalPrc(Request $request){
+    $user = Auth::User();
+
+    $messages = [
+        'reason.*' => '탈퇴사유를 100자 이내로 적어주세요.',
+				'withdrawalcheck.*' => '회원 탈퇴에 대한 내용을 확인해주세요.',
+    ];
+    $data = $this->validate($request, [
+      'reason' => 'bail|required|string|min:2|max:255',
+			'withdrawalcheck'=>'bail|required|in:Y',
+     ],$messages);
+     $reason = trim(strip_tags($request->reason));
+     if( $reason == '') $this->error($messages['reason.*'], 422);
+
+    $user = User::where( ['id'=>Auth::user()->id])->first();
+    try{
+      $user->reasonWithdrawal = strip_tags($request->reason);
+      $user->save();
+      $user->delete();
+      session_start();
+      session_destroy();
+      return $this->success();
+    } catch ( \Exception $e){
+      return $this->error('잠시후에 다시 시도해주세요', 422);
+    }
+
+  }
   function modify(Request $request){
     $user = Auth::User();
     return view("/Front/Member/modify", compact(["user"]));

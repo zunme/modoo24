@@ -78,5 +78,6 @@ Route::prefix('/member')->name('member.')->group(function () {
 
   //탈퇴
   Route::get('withdrawal', 'Front\UserController@withdrawal');
+  Route::post('withdrawal', 'Front\UserController@withdrawalPrc');
 
 });
