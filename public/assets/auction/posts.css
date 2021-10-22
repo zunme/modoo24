@@ -1,3 +1,131 @@
 #wrapper{
   margin-top:50px;
 }
+.modal-header{
+  flex-direction: column;
+  padding-top: 0;
+  padding-bottom: 5px;
+}
+.modal-body{
+  padding: 5px;
+}
+.modal-sub-title{
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+.bd-nickname{
+  margin-right: 10px;
+  font-size: 14px;
+  color: #666;
+}
+.bd-nickname:after{
+  content:'\00B7';
+}
+.bd-date{
+  margin-right: 10px;
+  font-size: 14px;
+  color: #666;
+}
+.content-body{
+  margin-bottom: 20px;
+padding-bottom: 30px;
+border-bottom: 1px solid #eee;
+}
+.media{
+  border: 1px solid #eee;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #f7f7f7;
+    margin-top: 10px;
+    position: relative;
+}
+.media-files {
+  display: flex;
+  flex-wrap: wrap;
+}
+.media-files > .item {
+    height: 105px;
+    width: 110px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+.item > a {
+    padding: 2px;
+    display: block;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: azure !important;
+}
+.image-col-bg {
+    width: 100px;
+    height: 100px;
+    background-size: contain !important;
+    margin: auto;
+}
+
+
+.comment-wrap {
+    margin: 26px 10px 0px;
+}
+.write_comment {
+    margin-top: 35px;
+    padding-top: 15px;
+    border-top: 1px solid rgb(114 114 114 / 46%);
+}
+.write_comment textarea{
+  color: #666;
+  font-size: 14px;
+  height: 92px;
+}
+.write_comment_btn_wrap{
+  text-align: right;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #0f9fd1;
+    border-color: #0f9fd1;
+}
+.media{
+  flex-direction: column;
+    /* justify-content: end; */
+    width: 100%;
+}
+.media-content{
+  width:100%;
+  padding: 8px 5px;
+}
+.media-files{
+  justify-content: space-around;
+}
+.confirm_waiting{
+  color: #768493;
+}
+.media-staff,.media-content-date{
+  font-size: 14px;
+    text-align: right;
+    width: 100%;
+    color: #999;
+}
+.media-best{
+      width: 100%;
+}
+.best-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.best-line-date{
+  font-size:12px;
+  color: #aaa;
+}
+.best-inner{
+  padding: 0px 10px;
+    border: 1px solid #55acee;
+    border-radius: 6px;
+    color: white;
+    background-color: #55acee;
+}
+.comment-date{display:none}
+.media-content-date{display:none}

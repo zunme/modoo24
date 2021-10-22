@@ -14,6 +14,10 @@ Handlebars.registerHelper('isNotEqual', function (expectedValue, value) {
 });
 Handlebars.registerHelper('checkempty', function(value) {
     if ( typeof value == 'undefined') return true;
+    if ( typeof value == 'object'  ) {
+      if( value.length == 0 ) return true;
+      else return false
+    }
     if ( typeof value == 'string') value = value.trim();
     if (value === null) return true;
     else if (value === '') return true;
@@ -21,6 +25,10 @@ Handlebars.registerHelper('checkempty', function(value) {
 });
 Handlebars.registerHelper('checknotempty', function(value) {
     if ( typeof value == 'undefined') return false;
+    if ( typeof value == 'object'  ) {
+      if( value.length == 0 ) return false;
+      else return true
+    }
     if ( typeof value == 'string') value = value.trim();
     if (value === null) return false;
     else if (value === '') return false;
@@ -497,7 +505,7 @@ function ajaxErrorST(jqXHR ){
 $('.loading_wrap').hide();
 if(jqXHR.status != 422 && jqXHR.status != 500 ) {
   iziToast.show({
-      theme: 'light',
+      theme: 'dark',
       message: '잠시후에 이용해주세요',
       position: 'bottomRight'
   });
@@ -515,9 +523,9 @@ console.log(msg) ;
   if(msg) {
     if( msg.message ){
       iziToast.show({
-          theme: 'light',
+          theme: 'dark',
           message: msg.message,
-          position: 'center'
+          position: 'bottomCenter'
       });
     }else {
       for(key in msg) {
@@ -526,14 +534,16 @@ console.log(msg) ;
             $('input[name='+key+']').focus();
           }
           if ( $.isNumeric( key )) {
-            iziToast.error({
-              message: msg,
-              position: 'center',
+            iziToast.show({
+                theme: 'dark',
+                message: msg,
+                position: 'center'
             });
           } else {
-            iziToast.error({
-              message: msg[key][0],
-              position: 'center'
+            iziToast.show({
+                theme: 'dark',
+                message:  msg[key][0],
+                position: 'center'
             });
           }
           break;
@@ -541,9 +551,10 @@ console.log(msg) ;
       }
     }
   } else {
-    iziToast.error({
-      message: '시스템 오류입니다',
-      position: 'bottomRight'
+    iziToast.show({
+        theme: 'dark',
+        message:  '잠시후에 이용해주세요',
+        position: 'bottomCenter'
     });
   }
 }
