@@ -70,4 +70,31 @@ trait ApiResponser
 		return $retArr;
 	}
 
+	private function getType($type, $data){
+
+		$type_arr = array(
+			"1" => "가정이사"
+			, "2" => "사무실이사"
+			, "3" => "소형이사"
+		);
+
+		$t_type_arr = array(
+			"1" => "비대면 소형이사"
+			, "2" => "비대면 가정이사"
+			, "3" => "비대면 사무실이사"
+			, "4" => "비대면 차량만"
+		);
+
+		$clean_type_arr = array(
+			"1" => "입주청소"
+			, "2" => "거주청소"
+			, "3" => "사무실청소"
+		);
+		if( $type == 't' ){
+			return isset($type_arr[$data]) ? $type_arr[$data] : '';
+		}else if( $type == 'clean' ){
+			return isset($clean_type_arr[$data]) ? $clean_type_arr[$data] : '';
+		}else return isset($type_arr[$data]) ? $type_arr[$data] : '';
+	}
+
 }

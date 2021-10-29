@@ -467,6 +467,33 @@ function solarToLunar(solYear, solMonth, solDay, son ) {
         confirmButtonText: '확인'
       })
   }
+
+  function toast(msg,pos,title){
+    title = (typeof title=='undefined') ? '모두이사':title;
+    pos = (typeof pos=='undefined') ? 'topCenter':pos;
+    iziToast.show({
+    id: 'haduken',
+    theme: 'dark',
+    icon: 'icon-contacts',
+    title: title,
+    displayMode: 2,
+    message: msg,
+    position: pos,
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    progressBarColor: 'rgb(0, 255, 184)',
+    image: '/NEW/image/sub/know_logo.png',
+    imageWidth: 70,
+    layout: 2,
+    onClosing: function(){
+        ;
+    },
+    onClosed: function(instance, toast, closedBy){
+        ;
+    },
+    iconColor: 'rgb(0, 255, 184)'
+});
+  }
   function logout(){
 $.ajax({
   url : '/community/refresh',
@@ -792,4 +819,61 @@ $("document").ready( function() {
     })
   });
 
+});
+/* 스크롤 이동 */
+function toScroll(id_name, addoffset){
+  if( typeof addoffset =='undefined') addoffset = 0
+    $('html, body').animate({
+      scrollTop: $("#"+id_name).offset().top +addoffset
+  }, 500);
+}
+
+/* sheet */
+var modalsheet_set_num = 0
+var modal_set_arr=[];
+function open_sheet_modalV1(target, tag){
+  if ( $(target).hasClass("modal-in") ) {
+    console.log ( "opened" )
+    return;
+  }
+  modalsheet_set_num ++;
+  if ( typeof tag == 'undefined') tag = "sheet-" + modalsheet_set_num
+  $("body").addClass("overhide");
+  $(".sheet-backdrop").addClass("backdrop-in")
+  $(target).addClass("modal-in");
+  modal_set_arr.push({'type':'sheet', "target": target });
+  history.pushState({page: modalsheet_set_num, type:'sheet'}, "", "#"+tag);
+}
+function close_swipe(){
+  history.back();
+  return;
+  $(btn).closest('.sheet-modal').removeClass("modal-in")
+  $(".sheet-backdrop").removeClass("backdrop-in")
+  $("body").removeClass("overhide");
+}
+window.onpopstate = function(event) {
+  let pop = modal_set_arr.pop();
+  if( pop.type =='sheet'){
+    $(pop.target).removeClass("modal-in")
+    if(modalsheet_set_num <= 1) $(".sheet-backdrop").removeClass("backdrop-in")
+    $("body").removeClass("overhide");
+  }
+  modalsheet_set_num --;
+};
+let default_sheet_modal = `
+<div class="sheet-backdrop"></div>
+<div class="sheet-modal demo-sheet-swipe-to-close" id="default_sheet_modal">
+  <div class="sheet-modal-inner">
+    <div class="swipe-handler" onClick="close_swipe(this)">
+        <div class="swipe-handler-btn"></div>
+    </div>
+    <div class="page-content" id="default_sheet_modal_content">
+      </div>
+    </div>
+  </div>
+</div>
+`
+$("document").ready( function() {
+  $("body").append('<div id="body_loader_bg" class="loaderWrap loading hide"></div>')
+  $("body").append(default_sheet_modal)
 });

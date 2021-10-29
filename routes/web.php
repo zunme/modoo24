@@ -37,6 +37,13 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 	Route::get('{code}/listapi', 'Front\BulletinController@contentListApi');
 
 	Route::get('{code}/view/{viewid}', 'Front\BulletinController@view');
+  //글 공감
+  Route::post('{code}/favorite/{post_id}', 'Front\BulletinController@postFavorite');
+
+  //2차 COMMENT
+  Route::post('commentv2','Front\BulletinController@commentV2');
+  Route::post('commentv2/del','Front\BulletinController@commentV2Del');
+  Route::get('{code}/comment/view/{post_id}','Front\BulletinController@commentV2view');
 
 	Route::middleware('auth:web')->group(function () {
 		Route::get('{code}/write', 'Front\BulletinController@writeForm');
@@ -44,10 +51,9 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 
 		Route::post('create', 'Front\BulletinController@create');
 
-		Route::post('{code}/update', 'Front\BulletinController@update');
-		Route::post('{code}/delete', 'Front\BulletinController@delete');
+		//Route::post('{code}/update', 'Front\BulletinController@update');
+		//Route::post('{code}/delete', 'Front\BulletinController@delete');
 		Route::post('del','Front\BulletinController@delPrc');
-
 	});
 	//TODO comment 달수있는 사람은??? 회원 or 파트너 ??
 	Route::post('{code}/comment/write/{writeid}', 'Front\BulletinController@commentWrite');
@@ -57,10 +63,17 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 	//Route::post('comment/addfavcnt', 'Front\BulletinController@addfavcnt');
 	//Route::post('comment/addbestcnt', 'Front\BulletinController@addbestcnt');
 
-  //fav & best 통합버전
+  // 댓글 fav & best 통합버전
   Route::post('comment/addbestcntV2', 'Front\BulletinController@addbestcntv2');
 
+
 });
+
+//신청내역
+Route::get('/my/request', 'Front\MyController@requestList');
+Route::post('/my/sendsms', 'Front\MyController@sendsms');
+Route::post('/my/checkAuth', 'Front\MyController@checkAuth');
+
 
 Auth::routes();
 Route::get('/home', function () {

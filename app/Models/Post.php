@@ -25,6 +25,11 @@ class Post extends Model
 		->join('auction_staff', 'post_comments.auction_staff_s_uid','=','auction_staff.s_uid')
 		;
   }
+	public function simplecomments() {
+		return $this->hasMany(PostComment::class,'post_id' )->select('post_comments.*', 'auction_staff_s_uid','s_company','s_mobile_img0')->where('post_comments.is_confirmed', '=', 'Y')->orWhere('post_comments.is_confirmed', '=', 'R')
+		->join('auction_staff', 'post_comments.auction_staff_s_uid','=','auction_staff.s_uid')
+		;
+	}
 	public function files() {
         return $this->hasMany(PostFile::class,'post_id' );
   }

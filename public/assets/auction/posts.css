@@ -1,3 +1,15 @@
+.chocolat-wrapper {
+  z-index: 1051;
+}
+.chocolat-overlay {
+  background-color: #000;
+}
+.sl-wrapper {
+    z-index: 1054;
+  }
+.sl-overlay {
+  z-index: 1053;
+}
 #wrapper{
   margin-top:50px;
 }
@@ -129,3 +141,13 @@ border-bottom: 1px solid #eee;
 }
 .comment-date{display:none}
 .media-content-date{display:none}
+
+.is_not_confirmed{
+  color: #1e9af9;
+}
+.is_not_confirmed:before{
+  content:'('
+}
+.is_not_confirmed:after{
+  content:')'
+}

@@ -9,12 +9,15 @@ use Auth;
 use App\Models\BulletinConfig;
 use App\Models\Post;
 use App\Models\PostComment;
+use App\Models\PostCommentDepth;
 use App\Models\PostFile;
 use App\Models\AuctionStaff;
 
 use App\Models\PostCommentFavLog;
 use App\Models\PostCommentBestLog;
 use App\Models\PostCommentLog;
+
+use App\Models\PostFavorite;
 
 use Yajra\Datatables\Facades\Datatables;
 use Carbon\Carbon;
@@ -32,6 +35,7 @@ use App\Traits\ApiResponser;
 class BulletinController extends Controller
 {
 	use ApiResponser;
+	public $commentPagingNum=3;
 
 	public function contentList(Request $request, $code){
 		Carbon::setLocale('ko');
@@ -39,10 +43,17 @@ class BulletinController extends Controller
 		if( !$config){
 			return back()->with('noti_alert_message', '찾는 페이지가 없습니다.');
 		}
-		$qry = Post::where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N');
+
+		if( $request->ready == 'Y' ) $qry = Post::where(['bulletin_id'=> $config->id])->where('is_confirmed', '==','Y');
+		else $qry = Post::with(['files'])->where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N');
 
 		if( $request->search ){
-			if ( $request->search_option == 'cont' ) $qry =$qry->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
+			if ( $request->search_option == 'cont' )
+			{
+				$qry =$qry->where(function($query) use ($request) {
+					return $query->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
+				});
+			}
 			else if ( $request->search_option == 'writer' ) $qry =$qry->where('nickname', 'like', '%'.$request->search.'%');
 			else $qry = $qry->where('title', 'like', '%'.$request->search.'%');
 		}
@@ -50,19 +61,26 @@ class BulletinController extends Controller
 		if ($request->ajax()) {
 			return Datatables::of($data)->make(true);
 		}else {
-			$data = $qry->latest()->paginate(10);
+			$data = $qry->latest()->paginate(3);
+			$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
 			//return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));
-			if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
+			if( $code !='jisik') return view('Front/Bulletin/community/list', compact(['data','code','request', 'config','pagingres']));
+			else if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
 			else return view('Front/Bulletin/partner/list', compact(['data','code','request', 'config']));
 		}
-
 	}
+
+
+	// 대기중안나오는
 	public function contentListApi(Request $request, $code){
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
 		if( !$config){
 			return view('Front/Bulletin/empty');
 		}
 		$data = Post::where('is_confirmed', '!=','N')->where(['bulletin_id'=> $config->id]);
+		if( $request->ready == 'Y' ) $data = Post::where(['bulletin_id'=> $config->id, 'is_confirmed'=>'Y']);
+		else $data = Post::where('is_confirmed', '!=','N')->where(['bulletin_id'=> $config->id]);
+
 		if( $request->search ){
 			if ( $request->search_option == 'title' ) $data = $data->where('title', 'like', '%'.$request->search.'%');
 			else if ( $request->search_option == 'cont' ) $data =$data->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
@@ -79,7 +97,11 @@ class BulletinController extends Controller
 			return back()->with('noti_alert_message', '찾는 페이지가 없습니다.');
 		}
 
-		$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+		if($request->ajax()){
+			$post = Post::with(['simplecomments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+		}else{
+			$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+		}
 
 		if( $post->is_confirmed =='N' ) return back();
 		else if( $post->is_confirmed == 'R' ){
@@ -93,10 +115,22 @@ class BulletinController extends Controller
 
 		$is_writer = ( Auth::user() && Auth::user()->id == $post->user_id) ? true:false;
 
+		if($request->ajax()){
+			session_start();
+			$session =  $_SESSION;
+			session_write_close();
+			$staff = [
+				"user_id" => $session['m_user_id'],
+				"idx" => $session['m_idx'],
+				"name" => $session['m_name'],
+				"btype" => $session['m_btype'],
+			];
 
-
-		if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
-		else return view('Front/Bulletin/partner/viewpost',compact(['config','post','code','is_writer']));
+			return $this->success( compact(['config','post','code','is_writer','user'=>$session]) );
+		}
+		if( $code !='jisik') return view('Front/Bulletin/community/view',compact(['config','post','code','is_writer']));
+		else if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
+		else return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
 	}
 	public function writeForm(Request $request, $code){
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
@@ -271,14 +305,88 @@ class BulletinController extends Controller
 				return  str_replace('<?xml encoding="utf-8"?>', '', $dom->saveHTML());
 	}
 
+
+	//depth comment
+	public function commentV2(Request $request){
+		$user = Auth::user();
+		if( empty( $user)) return $this->error('로그인후 사용해주세요.', 422);
+		$post = Post::where( ['id'=>$request->post_id])->first();
+		if( empty( $post)) return $this->error('글을 찾을 수 없습니다.', 422);
+		$config = BulletinConfig::active()->where(['id'=>$post->bulletin_id])->first();
+		if( empty( $config)) return $this->error('글을 찾을 수 없습니다.', 422);
+		if( $config->comment_use !='Y') return $this->error('댓글을 허용하지 않습니다.', 422);
+
+		$messages = [
+				'post_id.*' => '글정보를 찾을 수 없습니다.',
+				'comment.*' =>'답글을 작성해주세요.',
+    ];
+    $this->validate($request, [
+      'post_id' => 'bail|required|numeric',
+			'comment' => 'bail|required|string|min:1|max:3000',
+     ],$messages);
+
+		if( !$request->parent_id ){
+			$last_comment = PostCommentDepth::select( \DB::raw('ifnull(max(group_id),0) +1 as nextgroupid'))->where(['post_id'=>$post->id])->first();
+			$data['user_id'] =$user->id;
+			$data['post_id']=$post->id;
+			$data['group_id']=$last_comment->nextgroupid;
+			$data['parent_id'] =$data['depth_no'] = 0;
+			$data['order_no'] = 1;
+			$data['nickname'] =( $user->level > 1023) ? '관리자': $user->nickname;
+			$data['comment'] = $request->comment;
+
+			try{
+				PostCommentDepth::create( $data );
+			} catch( \Exception $e){
+				return $this->error('서버와의 통신이 이루어지지 않았습니다. 잠시후에 사용해주세요',422);
+			}
+			$data = PostCommentDepth::where(['post_id'=>$post->id])->where('is_confirmed','!=','N')->paginate($this->commentPagingNum);
+			$url = "/community/posts/cmt/comment/view/".$post->id."?page=".$data->lastPage();
+			return $this->success(['url'=>$url]);
+		}
+
+	}
+
+	public function commentV2view(Request $request, $code ,$post_id){
+		$comments = PostCommentDepth::where(['post_id'=>$post_id])->where('is_confirmed','!=','N')
+			->orderby('group_id','ASC')
+			->orderby('depth_no','ASC')
+			->orderby('order_no','ASC')
+			->paginate($this->commentPagingNum);
+		$config = Post::select('bulletin_configs.*')->where(['posts.id'=>$post_id])
+			->join('bulletin_configs', 'posts.bulletin_id','=','bulletin_configs.id')
+			->first();
+		$total = $comments->total();
+		return view('Front/Bulletin/community/comments', compact(['comments','total','config']));
+	}
+
+	public function commentV2Del(Request $request){
+		$user = Auth::user();
+		if( empty($user)) return $this->error('로그인후 사용해주세요',422);
+		$comment = PostCommentDepth::where(['id'=>$request->id])->first();
+
+		if( $user->id != $comment->user_id) return $this->error('삭제권한이 없습니다.',422);
+	
+		$child = PostCommentDepth::where(['parent_id'=>$request->id])->count();
+
+		/*TODO 하위 댓글이 있으면?? */
+		if( $child < 1) {
+			PostCommentDepth::where(['id'=>$request->id])->delete();
+			return $this->success();
+		}else {
+			PostCommentDepth::where(['id'=>$request->id])->update(['is_confirmed'=>'D']);
+		}
+
+		return $this->error('ㅅㄷㄴㅅ',422);
+	}
+
 	public function commentCreate(Request $request){
 		session_start();
 		$session =  $_SESSION;
 		if( !isset($session['idx']) || empty($session['idx']) ){
 			return $this->error('로그인후 사용해주세요.', 422);
 		}
-		$user = AuctionStaff::where(['s_uid'=> $session['idx'], 's_id'=>$session['user_id'] ])->first();
-
+		$user = AuctionStaff::where(['s_uid'=> $session['m_idx'], 's_id'=>$session['m_user_id'] ])->first();
 		$messages = [
         'code.*' => '올바른 코드가 아닙니다.',
 				'post_id.*' => '글정보를 찾을 수 없습니다.',
@@ -321,15 +429,35 @@ class BulletinController extends Controller
 		else return $this->error('잠시후에 사용해주세요.', 422);
 	}
 
+	function postFavorite($code, $post_id){
+		$user = Auth::user();
+		if( empty( $user)) return $this->error('로그인후 사용해주세요.', 422);
+		$post = Post::where( ['id'=>$post_id])->first();
+		if( empty( $post)) return $this->error('글을 찾을 수 없습니다.', 422);
+		$fav = PostFavorite::where(['post_id'=>$post_id, 'user_id'=>$user->id])->first();
+		if ( empty($fav)){
+			PostFavorite::create(['post_id'=>$post_id, 'user_id'=>$user->id]);
+			$msg='공감하셨습니다';
+			$add = true;
+		}else {
+			PostFavorite::where(['post_id'=>$post_id, 'user_id'=>$user->id])->delete();
+			$msg='공감을 취소하셨습니다';
+			$add = false;
+		}
+		$post = Post::select('fav_cnt')->where( ['id'=>$post_id])->first();
+		return $this->success(['fav_cnt'=>$post->fav_cnt, 'msg'=>$msg, 'add'=>$add]);
+	}
+
 	private function addfavcnt(Request $request, $session){
-		$user = AuctionStaff::where(['s_uid'=> $session['idx'], 's_id'=>$session['user_id'] ])->first();
+		$user = AuctionStaff::where(['s_uid'=> $session['m_idx'], 's_id'=>$session['m_user_id'] ])->first();
 		if( !$user ){
 			return $this->error('로그인후 사용해주세요');
 		}
 
 		$comment = PostComment::active()->where(['id'=>$request->id ])->first();
 
-		if( $comment->auction_staff_s_uid == $user->s_uid ) return $this->error('자신이 쓴 댓글입니다.', 422);
+		if( $comment->auction_staff_s_uid == $user->s_uid ) return $this->error('자신이 쓴 댓글입니다.', 422, []);
+
 		try{
 			$log = PostCommentFavLog::create(['comment_id'=>$request->id,'auction_staff_s_uid'=> $user->s_uid]);
 			$comment = PostComment::where(['id'=>$request->id])->first();
@@ -340,7 +468,7 @@ class BulletinController extends Controller
 
 			return $this->success(['cnt'=> $comment->best_cnt],'공감하셨습니다');
 		} catch (\Exception $e){
-			return $this->error('이미 공감하신 댓글입니다.', 422, $e);
+			return $this->error('이미 공감하신 댓글입니다.', 422);
 		}
 	}
 	public function addbestcnt(Request $request){
@@ -372,9 +500,9 @@ class BulletinController extends Controller
 			$session =  $_SESSION;
 			session_write_close();
 
-			if( !isset($session['idx']) || empty($session['idx']) ){
+			if( !isset($session['m_idx']) || empty($session['m_idx']) ){
 				return $this->error('로그인 후 사용해주세요');
-			}else $this->addfavcnt($request, $session);
+			}else return $this->addfavcnt($request, $session);
 
 		}else {
 			return $this->addbestcnt($request);
@@ -421,9 +549,6 @@ class BulletinController extends Controller
         return Carbon::now()->format('ymdhis') . '_' . Str::random(9) . "." . $ext;
     }
 	public function update(Request $request, $code){
-
-	}
-	public function delete(Request $request, $code){
 
 	}
 

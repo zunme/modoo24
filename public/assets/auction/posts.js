@@ -73,6 +73,7 @@ var lang_kor = {
       "sortDescending" : " :  내림차순 정렬"
     }
 };
+let choco_instance;
 function pop_tpl( size, id , data, title ){
     if ( typeof id =='undefined') return false;
     var availsize = ['sm', 'lg', 'xl']
@@ -89,7 +90,31 @@ function pop_tpl( size, id , data, title ){
           timePicker24Hour: true,
         });
     }
+
+    choco_instance = new SimpleLightbox('.media-files span', {
+      //overlay : false,
+    });
+    /*
+    console.log (choco_instance )
+
+    choco_instance = $('.media-files').Chocolat({
+      fullScreen: true,
+      enableZoom:true,
+      zoomedPaddingX: function (canvasWidth, imgWidth) {
+        return canvasWidth / 2
+      },
+      zoomedPaddingY: function (canvasHeight, imgHeight) {
+        return canvasHeight / 2
+      }
+    }).data('chocolat');
+    */
 }
+$('.modal').on('hidden.bs.modal', function (e) {
+
+  choco_instance.destroy();
+
+})
+
 function ajaxErrorST(jqXHR ){
 $('.loading_wrap').hide();
 if(jqXHR.status != 422 && jqXHR.status != 500 ) {
@@ -372,12 +397,16 @@ let posttemplate = `
   <div class="media-body">
     <div class="media-files" style="display:flex">
       {{#each post.files}}
-          <div class="image-col item">
+          <!--div class="image-col item">
             <a href="/community/storage/{{url}}" data-lightbox="photos">
               <div class="image-col-bg" style="background: url(/community/storage/thumb{{url}}) no-repeat center center ;" >
               </div>
             </a>
-          </div>
+          </div-->
+          <span href="/community/storage/{{url}}" class="chocolat-image" >
+            <div class="image-col-bg" style="background: url(/community/storage/thumb{{url}}) no-repeat center center ;" >
+            </div>
+          </span>
       {{/each}}
     </div>
   </div>
@@ -406,7 +435,7 @@ let posttemplate = `
         <div class="media-content">
           <div class="media-content-body">
             {{#if ( isEqual is_confirmed 'R') }}
-            <span ckass="confirm_waiting">이사지식인 답글은 고객과의 분쟁 방지를 위해 이사지식인 규정 확인 후 노출됩니다.</span>
+            <span class="confirm_waiting">이사지식인 답글은 고객과의 분쟁 방지를 위해 이사지식인 규정 확인 후 노출됩니다.</span>
             {{/if}}
 
             {{#if ( isEqual is_confirmed 'Y') }}

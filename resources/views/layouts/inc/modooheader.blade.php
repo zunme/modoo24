@@ -83,7 +83,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <!--  custom  -->
-    <script src="/community/assets/js/default.js"></script>
+    <script src="/community/assets/js/default.js?v20211029000000"></script>
     <script src="/community/newmain.js"></script>
 
 
@@ -172,13 +172,13 @@
                 </a>
             </li>
             <li>
-                <a href="void(0);" onclick="alert('준비중입니다.');return false;">
-                    모두살기좋은집
+                <a href="http://116.122.157.150:8084/v1/move/review">
+                    이사후기
                 </a>
             </li>
             <li>
                 <a href="void(0);" onclick="alert('준비중입니다.');return false;">
-                    모두동네소식
+                    이사업체평가하기
                 </a>
             </li>
         </ul>
@@ -198,7 +198,7 @@
                     <li><a href="/v1/customer/notice">모두 뉴스</a></li>
                     <li><a href="/v1/customer/faq">이사견적시 안내</a></li>
                     <li><a href="/v1/customer/contact_info">이사정보</a></li>
-                    <li><a href="/v1/customer/noson">손없는날</a></li>
+                    <li onclick="viewpopcal()"><a>손없는날<div class="ripple-container"><div class="ripple-decorator ripple-on ripple-out" style="left: 62.4584px; top: 12.592px; background-color: rgb(255, 255, 255); transform: scale(20);"></div></div></a></li>
                 </ul>
             </li>
 
@@ -321,9 +321,9 @@
                             <a href="/front/modoo_info" class="dropdown-item">
                                 <i class="material-icons">content_paste</i> 이사정보
                             </a>
-                            <a href="/front/modoo_noson" class="dropdown-item">
-                                <i class="material-icons">content_paste</i> 손없는날
-                            </a>
+                            <a onclick="viewpopcal()" class="dropdown-item">
+                                    <i class="material-icons">content_paste</i> 손없는날
+                                <div class="ripple-container"></div></a>
                         </div>
                     </li>
 @section("login-mobile")

@@ -278,10 +278,6 @@ li.details-control.text-center{
 -->
     </div>
 
-
-    <!--div class="ct">
-      {{ $data->links('vendor.pagination.dots',['pagination_eachside'=>3]) }}
-    </div-->
 </div>
 
 
