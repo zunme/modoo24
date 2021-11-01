@@ -173,19 +173,19 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-			
+
 		//yajra\laravel-datatables-oracle\DatatablesServiceProvider::class,
 			Intervention\Image\ImageServiceProvider::class,
-		
+
 			Laravel\Socialite\SocialiteServiceProvider::class,
     	\SocialiteProviders\Manager\ServiceProvider::class,
 			Laracasts\Flash\FlashServiceProvider::class,
-		
+
 			App\Providers\ComposerServiceProvider::class,
-			
+
 			Yajra\Datatables\DatatablesServiceProvider::class
     ],
 
@@ -235,6 +235,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        //'Pusher' => pusher\pusher::class,
 		//'Datatables' => yajra\laravel-datatables-oracle\Datatables::class,
 		'Image' => Intervention\Image\Facades\Image::class,
 		'Socialite'=> Laravel\Socialite\Facades\Socialite::class,

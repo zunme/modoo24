@@ -13,6 +13,7 @@
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.4",
         "laravel/tinker": "~1.0",
+        "pusher/pusher-php-server": "~2.6",
         "socialiteproviders/kakao": "^4.1",
         "socialiteproviders/naver": "^3.2",
         "yajra/laravel-datatables-oracle": "~6.0"

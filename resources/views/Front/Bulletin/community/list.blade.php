@@ -202,6 +202,9 @@
    .ct > .pagination>.page-item.active>span{
      color:white !important;
    }
+   li.notconfirmed .item-media-imgbox{
+     background-color: black;
+   }
 </style>
 @endsection
 @section('body_bottom','')
@@ -258,7 +261,7 @@
           <div class="list media-list">
     <ul>
     @forelse ($data as $post)
-      <li>
+      <li class="@if($post->is_confirmed == 'R') notconfirmed @endif">
 
         @if($post->is_confirmed != 'Y')
         <span onClick="comfirmMessage()" class="item-link">
@@ -282,7 +285,7 @@
                 <div class="item-subtitle">
                 </div>
                 <div class="item-text">
-                  {{ strip_tags($post->body)}}{{ strip_tags($post->body)}}{{ strip_tags($post->body)}}
+                  {{ strip_tags($post->body)}}
                 </div>
               </div>
               <div class="item-desc-sub">

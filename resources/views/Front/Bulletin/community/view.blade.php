@@ -296,11 +296,6 @@ font-weight: 600;
 }
 
 
-
-
-
-
-
 .overhide{
   overflow: hidden;
 }
@@ -360,7 +355,7 @@ font-weight: 600;
 .swipe-handler-btn {
   content: '';
   width: 36px;
-  height: 6px;
+  height: 8px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -382,8 +377,8 @@ font-weight: 600;
   font-weight: 900;
   margin-top: -1px;
   position: absolute;
-  top: 0;
-    left: 13px;
+  top: 1px;
+  left: 13px;
 }
 .sheet-modal .sheet-modal-inner .page-content {
     overflow: auto;
@@ -425,6 +420,26 @@ font-weight: 600;
 .block-line-title+.block-line {
     margin-top: 0px;
 }
+
+@media screen and (min-width: 820px) {
+  .sheet_modal{
+    transform: translate3d(-50%,100%,0);
+  }
+  .sheet-modal.modal-in{
+    width: 600px;
+    bottom: 50%;
+    left: 50%;
+    transform: translate3d(-50%,+30%,0);
+    border-radius: 15px;
+  }
+}
+
+.toUser:before{
+  content:'@';
+  display: inline-block;
+  margin-right: 5px;
+}
+
 </style>
 @endsection
 @section('body_bottom','')
@@ -514,7 +529,14 @@ font-weight: 600;
 
 
     <div class="comment_write_wrap" id="comment_write_wrap">
-      <div class="comment_write_nickname">{{Auth::user()->nickname}}</div>
+      <div class="comment_write_nickname">
+        @guest
+         로그인 후 답글을 작성하실 수 있습니다.
+        @endguest
+        @auth
+         @if(Auth::user()->level < 1024 ) {{Auth::user()->nickname}} @else 관리자 @endif;
+        @endauth
+      </div>
       <form id="comment_form">
         <div class="row comment_write_box">
           <input type="hidden" name="post_id" value="{{$post->id}}" >
@@ -536,12 +558,12 @@ font-weight: 600;
 <div id="body_loader_bg" class="loaderWrap loading hide"></div>
 
 <div class="sheet-backdrop"></div>
-<div class="sheet-modal demo-sheet-swipe-to-close modal-in" id="sheet_modal">
+<div class="sheet-modal demo-sheet-swipe-to-close" id="sheet_modal">
   <div class="sheet-modal-inner">
     <div class="swipe-handler" onClick="close_swipe(this)">
         <div class="swipe-handler-btn"></div>
     </div>
-    <div class="page-content">
+    <div class="page-content" id="sheet_modal_content">
 
     </div>
   </div>
@@ -552,7 +574,15 @@ font-weight: 600;
 @section('script')
 
 <script>
+@guest
+let logined = false;
+@endguest
+@auth
+let logined = true;
+let nickname = @if(Auth::user()->level < 1024 ) "{{Auth::user()->nickname}}" @else"관리자"@endif;
+@endauth
 
+let currnetCommentPage;
 $("document").ready( function() {
     getComment('/community/posts/{{$code}}/comment/view/'+{{$post->id}},1)
     $('#comment_textarea').keyup(function (e){
@@ -589,6 +619,10 @@ function getComment(url){
 }
 
 function write_comment(btn){
+  if (!logined){
+    toast('로그인 후 사용해주세요','bottomCenter')
+    return;
+  }
   let wrap = $(btn).closest('.comment_write_wrap');
   let notloading = $(wrap).children(".notloading")
   let loading = $(wrap).children(".loading")
@@ -608,28 +642,56 @@ function commentCallback (res){
 function callbackWriteComplete() {
   $('.comment_write_wrap').children(".loading").addClass("hide");
 }
+@verbatim
 let recommenttemplate =`
-<div class="block-line-title">답변달기</div>
+<div class="block-line-title">
+  {{#if id}}
+  답글 수정하기
+  {{else}}
+  {{to}}님의 답글에 답변달기
+  {{/if}}
+</div>
 <div class="block-line">
   <div class="comment_write_wrap" >
-    <div class="comment_write_nickname">{{Auth::user()->nickname}}</div>
+    <div class="comment_write_nickname">{{nickname}}</div>
     <form >
       <div class="row comment_write_box">
-        <input type="hidden" name="post_id" value="{{$post->id}}" >
+        {{#if id}}
+        <input type="hidden" name="comment_id" value="{{id}}" >
+        {{else}}
+        <input type="hidden" name="parent_id" value="{{parent_id}}" >
+        {{/if}}
         <div class="col-12">
-          <textarea name= "comment" class="form-control form-control-sm mb-3" rows="3" placeholder="댓글에 답글 작성을 부탁드립니다. 모두이사 커뮤니티와 연관 없는 댓글은 삭제 될 수 있습니다"></textarea>
+          <textarea name= "comment" class="form-control form-control-sm mb-3" rows="3" placeholder="댓글에 답글 작성을 부탁드립니다. 모두이사 커뮤니티와 연관 없는 댓글은 삭제 될 수 있습니다">{{#if id}}{{comment}}{{/if}}</textarea>
         </div>
 
       </div>
       <div class="comment_write_btn_wrap">
-        <span class="btn btn-white" onClick="write_recomment(this)">등록</span>
+        {{#if id}}
+          <span class="btn btn-white" onClick="update_recomment(this)">수정</span>
+        {{else}}
+          <span class="btn btn-white" onClick="write_recomment(this)">등록</span>
+        {{/if}}
       </div>
     </form>
   </div>
 </div>
 `;
+@endverbatim
 //대댓글
+let recommentCompiled
+function sheet_backdrop_clicked(){
+  history.back()
+}
 function recomment(btn){
+
+  if (!logined){
+    toast('로그인 후 사용해주세요','center')
+    return;
+  }
+  if(typeof recommentCompiled =='undefined') recommentCompiled = Handlebars.compile( recommenttemplate );
+  let data={parent_id : $(btn).data('id'), nickname : nickname,to : $(btn).data('nick') };
+  $("#sheet_modal_content").html( recommentCompiled(data) )
   open_sheet_modalV1("#sheet_modal")
   return;
   Swal.fire({
@@ -641,7 +703,50 @@ function recomment(btn){
     }
   })
 }
+function comment_update(btn){
+  if (!logined){
+    toast('로그인 후 사용해주세요','center')
+    return;
+  }
+  let comment_id = $(btn).data('commentid')
+  if(typeof recommentCompiled =='undefined') recommentCompiled = Handlebars.compile( recommenttemplate );
 
+  $.ajax({
+    url : '/community/posts/commentv2/info?comment_id='+ comment_id,
+    method:'get',
+    dataType:'JSON',
+    success:function(res){
+      if( res.data.use_comment_confirm='Y' && res.data.is_confirmed !='R'){
+        toast('더이상 수정 하실수 없습니다.','center')
+        return;
+      }else if ( res.data.is_confirmed =='R' || res.data.is_confirmed =='Y' ){
+        $("#sheet_modal_content").html( recommentCompiled(res.data) )
+        open_sheet_modalV1("#sheet_modal")
+      }else toast('수정 하실수 없습니다.','center')
+    },
+    error: function ( err ){
+     ajaxErrorST(err)
+    },
+    complete:function() {
+    }
+  });
+}
+
+function write_recomment(btn){
+  let url = "/community/posts/recomment"
+  getpost( url, $(btn).closest('form').serialize(),recommentSuccess );
+  history.back();
+
+}
+function update_recomment(btn){
+  let url = "/community/posts/commentupdate"
+  getpost( url, $(btn).closest('form').serialize(),recommentSuccess );
+  history.back();
+}
+function recommentSuccess(res){
+  let url="/community/posts/{{$code}}/comment/view/{{$post->id}}?page=" + currnetCommentPage;
+  getComment(url)
+}
 function addFavCnt (btn){
   //let url = "/community/posts/comment/addfavcnt"
   let url = "/community/posts/{{$code}}/favorite/{{$post->id}}"
@@ -725,6 +830,7 @@ function comment_del_confirmed(btn){
 }
 function callbackCommentDelComplete(){
   $("#body_loader_bg").addClass("hide");
+  recommentSuccess({})
 }
 </script>
 @endsection

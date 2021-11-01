@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Events\Registered;
 use App\Events\Event;
+use App\Events\PostEvent;
 use Validator;
 use App\User;
+
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -26,6 +29,8 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function test(){
+       $post = Post::first();
+       event(new PostEvent($post));
         return;
         $user = User::where(['email'=>'zunme@nate.com'])->first();
         \Event::fire( new Registered($user) );

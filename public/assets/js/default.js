@@ -860,8 +860,9 @@ window.onpopstate = function(event) {
   }
   modalsheet_set_num --;
 };
+
 let default_sheet_modal = `
-<div class="sheet-backdrop"></div>
+<div class="sheet-backdrop" onClick="sheet_backdrop_clicked()"></div>
 <div class="sheet-modal demo-sheet-swipe-to-close" id="default_sheet_modal">
   <div class="sheet-modal-inner">
     <div class="swipe-handler" onClick="close_swipe(this)">

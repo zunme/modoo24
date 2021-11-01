@@ -43,7 +43,11 @@ Route::prefix('/posts')->name('posts.')->group(function () {
   //2차 COMMENT
   Route::post('commentv2','Front\BulletinController@commentV2');
   Route::post('commentv2/del','Front\BulletinController@commentV2Del');
+  Route::get('commentv2/info','Front\BulletinController@commentV2Info');
+
   Route::get('{code}/comment/view/{post_id}','Front\BulletinController@commentV2view');
+  Route::post('recomment','Front\BulletinController@recomment');
+  Route::post('commentupdate','Front\BulletinController@commentupdate');
 
 	Route::middleware('auth:web')->group(function () {
 		Route::get('{code}/write', 'Front\BulletinController@writeForm');
@@ -55,6 +59,7 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 		//Route::post('{code}/delete', 'Front\BulletinController@delete');
 		Route::post('del','Front\BulletinController@delPrc');
 	});
+
 	//TODO comment 달수있는 사람은??? 회원 or 파트너 ??
 	Route::post('{code}/comment/write/{writeid}', 'Front\BulletinController@commentWrite');
 	Route::post('comment/create', 'Front\BulletinController@commentCreate');

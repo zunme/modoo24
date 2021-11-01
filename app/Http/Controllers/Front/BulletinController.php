@@ -331,13 +331,18 @@ class BulletinController extends Controller
 			$data['post_id']=$post->id;
 			$data['group_id']=$last_comment->nextgroupid;
 			$data['parent_id'] =$data['depth_no'] = 0;
-			$data['order_no'] = 1;
-			$data['nickname'] =( $user->level > 1023) ? '관리자': $user->nickname;
-			$data['comment'] = $request->comment;
 
+			$data['order_no'] = 1;
+			$data['right_max'] = 1;
+
+			$data['nickname'] =( $user->level > 1023) ? '관리자': $user->nickname;
+			$data['comment'] = '<span class="toUser">'.$post->nickname.'</span>'. $request->comment;
+			$data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
+//dd( $data);
 			try{
 				PostCommentDepth::create( $data );
 			} catch( \Exception $e){
+				dd( $e);
 				return $this->error('서버와의 통신이 이루어지지 않았습니다. 잠시후에 사용해주세요',422);
 			}
 			$data = PostCommentDepth::where(['post_id'=>$post->id])->where('is_confirmed','!=','N')->paginate($this->commentPagingNum);
@@ -346,18 +351,94 @@ class BulletinController extends Controller
 		}
 
 	}
+	public function recomment(Request $request){
+		$user = Auth::user();
+		if( empty( $user)) return $this->error('로그인후 사용해주세요.', 422);
+		$comment = PostCommentDepth::select('post_comment_depth.*')
+			->where( ['id'=>$request->parent_id])
+			->first();
+		if( empty( $comment)) return $this->error('답글을 찾을 수 없습니다.', 422);
 
+		$config = Post::select('posts.*','bulletin_configs.comment_use', 'use_comment_confirm')
+			->where( ['posts.id'=>$comment->post_id])
+			->join('bulletin_configs','posts.bulletin_id' ,'=', 'bulletin_configs.id')->first();
+		if( empty( $config)) return $this->error('답글을 찾을 수 없습니다.', 422);
+		if( $config->is_confirmed !='Y') return $this->error('댓글을 허용하지 않습니다.', 422);
+
+		$messages = [
+				'parent_id.*' => '답글정보를 찾을 수 없습니다.',
+				'comment.*' =>'내용을 작성해주세요.',
+    ];
+    $this->validate($request, [
+      'parent_id' => 'bail|required|numeric',
+			'comment' => 'bail|required|string|min:1|max:3000',
+     ],$messages);
+
+		 $data['post_id'] = $comment->post_id;
+		 $data['group_id'] = $comment->group_id;
+		 $data['parent_id'] = $request->parent_id;
+
+		$parent_comment = PostCommentDepth::where(["id"=>$data['parent_id'] ])->first();
+		$order_no = $parent_comment->right_max + 1;
+
+		 $data['user_id'] = $user->id;
+		 $data['depth_no'] = $comment->depth_no+1;
+		 $data['order_no'] = $order_no;
+		 $data['right_max'] = $order_no;
+		 $data['comment'] = '<span class="toUser">'.$parent_comment->nickname.'</span>' . $request->comment;
+		 $data['nickname'] = ($user->level < 1024) ? $user->nickname : '관리자';
+		 $data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
+
+		 try{
+				PostCommentDepth::where([
+					'post_id'=>$comment->post_id,
+					'group_id'=>$comment->group_id
+					])->where('order_no',">=", $order_no)
+					->increment('order_no', 1)
+					;
+					PostCommentDepth::where([
+						'post_id'=>$comment->post_id,
+						'group_id'=>$comment->group_id
+						])->where('right_max',">", $order_no-1)
+						->increment('right_max', 1)
+						;
+					$parent_comment->increment('right_max', 1);
+					PostCommentDepth::create($data);
+
+		 } catch(\Exception $e){
+			 dd ( $e );
+		 }
+
+
+		 return $this->success();
+
+	}
+	public function commentV2Info(Request $request){
+		$user = Auth::user();
+		if( empty( $user)) return $this->error('로그인후 사용해주세요.', 422);
+
+		$comment = PostCommentDepth::where(['id'=>$request->comment_id, 'user_id'=>$user->id])->first();
+
+		$config = Post::select('posts.*','bulletin_configs.comment_use', 'use_comment_confirm')
+			->where( ['posts.id'=>$comment->post_id])
+			->join('bulletin_configs','posts.bulletin_id' ,'=', 'bulletin_configs.id')->first();
+		$comment->use_comment_confirm = $config->use_comment_confirm;
+		$comment->comment_use = $config->comment_use;
+
+		return $this->success( $comment);
+	}
 	public function commentV2view(Request $request, $code ,$post_id){
 		$comments = PostCommentDepth::where(['post_id'=>$post_id])->where('is_confirmed','!=','N')
 			->orderby('group_id','ASC')
-			->orderby('depth_no','ASC')
+			//->orderby('depth_no','ASC')
 			->orderby('order_no','ASC')
 			->paginate($this->commentPagingNum);
 		$config = Post::select('bulletin_configs.*')->where(['posts.id'=>$post_id])
 			->join('bulletin_configs', 'posts.bulletin_id','=','bulletin_configs.id')
 			->first();
 		$total = $comments->total();
-		return view('Front/Bulletin/community/comments', compact(['comments','total','config']));
+		$currentpage = $comments->currentPage();
+		return view('Front/Bulletin/community/comments', compact(['comments','total','config','currentpage']));
 	}
 
 	public function commentV2Del(Request $request){
@@ -366,18 +447,35 @@ class BulletinController extends Controller
 		$comment = PostCommentDepth::where(['id'=>$request->id])->first();
 
 		if( $user->id != $comment->user_id) return $this->error('삭제권한이 없습니다.',422);
-	
+
 		$child = PostCommentDepth::where(['parent_id'=>$request->id])->count();
 
 		/*TODO 하위 댓글이 있으면?? */
 		if( $child < 1) {
 			PostCommentDepth::where(['id'=>$request->id])->delete();
-			return $this->success();
 		}else {
 			PostCommentDepth::where(['id'=>$request->id])->update(['is_confirmed'=>'D']);
 		}
+		return $this->success('삭제되었습니다.');
+	}
 
-		return $this->error('ㅅㄷㄴㅅ',422);
+	public function commentupdate(Request $request){
+		$user = Auth::user();
+		$comment = PostCommentDepth::where(['id'=>$request->comment_id])->first();
+
+		if( $user->id != $comment->user_id) return $this->error('수정권한이 없습니다.',422);
+
+		$config = Post::select('posts.*','bulletin_configs.comment_use', 'use_comment_confirm')
+			->where( ['posts.id'=>$comment->post_id])
+			->join('bulletin_configs','posts.bulletin_id' ,'=', 'bulletin_configs.id')->first();
+
+		if( $config->use_comment_confirm=='Y' && $comment->is_confirmed !='R' ){
+			return $this->error('수정하실 수 없습니다.',422);
+		}else if(  $comment->is_confirmed !='R' &&  $comment->is_confirmed !='Y') return $this->error('수정하실 수 없습니다.',422);
+
+		$comment->comment = $request->comment;
+		$comment->save();
+		return $this->success();
 	}
 
 	public function commentCreate(Request $request){
