@@ -437,9 +437,18 @@ font-weight: 600;
 .toUser:before{
   content:'@';
   display: inline-block;
+  margin-right: 2px;
+}
+.toUser{
   margin-right: 5px;
 }
-
+/* 공감 */
+.myfavorite{
+  color:red;
+}
+.myunfavorite{
+  color:silver;
+}
 </style>
 @endsection
 @section('body_bottom','')
@@ -455,9 +464,9 @@ font-weight: 600;
 <div class="sub_menu">
     <ul class="center">
         <li class="h_icon gotohome"></li>
-        <li class="@if($code=='tip') on @endif"><a href="tip">모두꿀TIP</a></li>
-        <li class="@if($code=='fun') on @endif"><a href="fun">모두FUN</a></li>
-        <li class="@if($code=='hometown') on @endif"><a href="hometown">우리동네자랑하기</a></li>
+        <li class="@if($code=='tip') on @endif"><a href="/community/posts/tip">모두꿀TIP</a></li>
+        <li class="@if($code=='fun') on @endif"><a href="/community/posts/fun">모두FUN</a></li>
+        <li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>
     </ul>
 </div>
 
@@ -497,22 +506,19 @@ font-weight: 600;
             {!! nl2br(e($post->body)) !!}
           @endif
         </div>
-        <div class="bootstrap-tagsinput">
-          <span class="tag badge">오징어게</span>
-          <span class="tag badge">Amsterdam</span>
-          <span class="tag badge">Amsterdam</span>
-        </div>
       </div>
 
       <div class="post_desc_wrap">
         <div class="post_desc_inner">
           <div class="post_desc_left">
-            <span class="btn btn-white btn-lg btn-like" onClick="addFavCnt(this)"><i class="fas fa-heart"></i>공감 <span id="favcnt">{{($post->fav_cnt <1 ? 0 : $post->fav_cnt)}}</span></span>
+            <span class="btn btn-white btn-lg btn-like" onClick="addFavCnt(this)">
+              <i class="fas fa-heart @if($post_favorite) myfavorite @else myunfavorite @endif"></i>공감
+               <span id="favcnt">{{($post->fav_cnt <1 ? 0 : $post->fav_cnt)}}</span></span>
             <span class="btn btn-white btn-lg" onClick="toScroll('comments_wrap',200)">댓글 <span id="post_comment_cnt">{{$post->comment_cnt}}</span></span>
           </div>
           @if ( $is_writer )
           <div class="post_desc_right">
-            <span class="btn btn-white btn-lg">수정</span>
+            <a class="btn btn-white btn-lg" href="{{ Config::get('site.defaultStartUrl') }}/posts/{{$code}}/update/{{$post->id}}">수정</a>
             <span class="btn btn-white btn-lg">삭제</span>
           </div>
           @endif
@@ -758,9 +764,13 @@ function addFavCnt (btn){
   getpost( url, {}, callbackFav ,callbackFavComplete);
 }
 function callbackFav(res){
+  let iclass;
   let data = res.data
   toast(data.msg,'bottomCenter')
   $("#favcnt").text( data.fav_cnt);
+  if( data.add ) iclass="myfavorite";
+  else iclass="myunfavorite";
+  $("#favcnt").closest('.btn-like').children('i.fas').removeClass('myfavorite').removeClass('myunfavorite').addClass(iclass)
 }
 function callbackFavComplete() {
   $('.btn-like').children(".loading").addClass("hide");

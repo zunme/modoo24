@@ -28,7 +28,7 @@
                 (대기중)<br>
                  {!! nl2br($comment->comment)!!}
                 @else
-                  대기중
+                  모두이사 커뮤니티 게시물 규정 확인 후 글이 노출됩니다.
                 @endif
               @endif
             </div>

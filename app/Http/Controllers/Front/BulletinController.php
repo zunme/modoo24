@@ -29,6 +29,8 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+use App\Events\PostEvent;
+
 use App\Traits\ApiResponser;
 
 
@@ -114,6 +116,12 @@ class BulletinController extends Controller
 		$post->save();
 
 		$is_writer = ( Auth::user() && Auth::user()->id == $post->user_id) ? true:false;
+		$post_favorite = false;
+		if ( $user ) {
+			$post_fav = PostFavorite::where(['post_id'=>$post->id , 'user_id'=>$user->id])->count();
+			if( $post_fav > 0 ) $post_favorite = true;
+			else $post_favorite = false;
+		}
 
 		if($request->ajax()){
 			session_start();
@@ -128,9 +136,10 @@ class BulletinController extends Controller
 
 			return $this->success( compact(['config','post','code','is_writer','user'=>$session]) );
 		}
-		if( $code !='jisik') return view('Front/Bulletin/community/view',compact(['config','post','code','is_writer']));
-		else if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
-		else return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer']));
+
+		if( $code !='jisik') return view('Front/Bulletin/community/view',compact(['config','post','code','is_writer','post_favorite']));
+		else if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer','post_favorite']));
+		else return view('Front/Bulletin/viewpost',compact(['config','post','code','is_writer','post_favorite']));
 	}
 	public function writeForm(Request $request, $code){
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
@@ -141,7 +150,8 @@ class BulletinController extends Controller
 			return back()->with('noti_alert_message', '글쓰기 권한이 없습니다.');
 		}
 		$post = new Post();
-		return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
+		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount']) );
+		else return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
 	}
 	public function updateForm(Request $request, $code, $writeid){
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
@@ -160,7 +170,8 @@ class BulletinController extends Controller
 		if ( !$is_writer){
 			return view('Front/Bulletin/421', compact(['config', 'code', 'post','totalImgCount']) );
 		}
-		return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
+		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount']) );
+		else return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
 	}
 
 	public function create(Request $request){
@@ -192,7 +203,7 @@ class BulletinController extends Controller
 		}
 
 		$data['body'] = $this->getimage($data['body']);
-
+		$data['repImg'] = $this->firstImage($data['body'] );
 		/* xss with html purifier */
 		$dir = "HTMLPurifier";
 		$cachePath = storage_path("app/$dir");
@@ -203,7 +214,6 @@ class BulletinController extends Controller
 		$puriconfig->set('Cache.SerializerPath', $cachePath);
 		$purifier = new \HTMLPurifier($puriconfig);
 		$data['body'] = $purifier->purify($data['body']);
-
 		if( $request->id > 0 ){
 			$post = Post::active()->with(['comments','files'])->where([ 'id'=>$request->id ])->first();
 			if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
@@ -224,6 +234,7 @@ class BulletinController extends Controller
 			$data['nickname'] = $user->nickname;
 			$data['is_confirmed'] = ($config->use_confirm =='Y') ? 'R': 'Y';
 			$post = Post::create($data);
+			event(new PostEvent('post', $post));
 		}
 
 
@@ -304,8 +315,14 @@ class BulletinController extends Controller
         /*$returnBody = Str::of($dom->saveHTML())->replace('<?xml encoding="utf-8"?>','');		*/
 				return  str_replace('<?xml encoding="utf-8"?>', '', $dom->saveHTML());
 	}
-
-
+	private function firstImage($body){
+        $dom = new \DOMDocument();
+        @$dom->loadHtml('<?xml encoding="utf-8"?>' . $body , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOXMLDECL);
+        $dom->encoding = 'utf-8';
+        $images = $dom->getElementsByTagName('img');
+				if ( count( $images) > 0 ) return $images[0]->getAttribute('src');
+				else return null;
+	}
 	//depth comment
 	public function commentV2(Request $request){
 		$user = Auth::user();
@@ -340,9 +357,9 @@ class BulletinController extends Controller
 			$data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
 //dd( $data);
 			try{
-				PostCommentDepth::create( $data );
+				$comment = PostCommentDepth::create( $data );
+				event(new PostEvent('recomment', $comment));
 			} catch( \Exception $e){
-				dd( $e);
 				return $this->error('서버와의 통신이 이루어지지 않았습니다. 잠시후에 사용해주세요',422);
 			}
 			$data = PostCommentDepth::where(['post_id'=>$post->id])->where('is_confirmed','!=','N')->paginate($this->commentPagingNum);
@@ -403,10 +420,10 @@ class BulletinController extends Controller
 						->increment('right_max', 1)
 						;
 					$parent_comment->increment('right_max', 1);
-					PostCommentDepth::create($data);
-
+					$recomment = PostCommentDepth::create($data);
+					event(new PostEvent('recomment', $recomment));
 		 } catch(\Exception $e){
-			 dd ( $e );
+			 return $this->error('서버와의 통신이 이루어지지 않았습니다. 잠시후에 사용해주세요',422);
 		 }
 
 
@@ -432,7 +449,8 @@ class BulletinController extends Controller
 			->orderby('group_id','ASC')
 			//->orderby('depth_no','ASC')
 			->orderby('order_no','ASC')
-			->paginate($this->commentPagingNum);
+			->paginate(1000000);
+			//->paginate($this->commentPagingNum);
 		$config = Post::select('bulletin_configs.*')->where(['posts.id'=>$post_id])
 			->join('bulletin_configs', 'posts.bulletin_id','=','bulletin_configs.id')
 			->first();
@@ -516,12 +534,13 @@ class BulletinController extends Controller
 		$data['auction_staff_s_uid'] = $user->s_uid;
 		$data['auction_staff_s_name'] = $user->s_company.' '.$user->s_nickname;
 
-		if ( PostComment::create($data) ) {
+		if ( $comment = PostComment::create($data) ) {
 				if( $config->use_comment_confirm != 'Y'){
 					$post->increment('comment_cnt');
 					$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$user->s_uid]);
 					$log->increment('comment_cnt');
 				}
+			event(new PostEvent('comment', $comment));
 			return $this->success();
 		}
 		else return $this->error('잠시후에 사용해주세요.', 422);
