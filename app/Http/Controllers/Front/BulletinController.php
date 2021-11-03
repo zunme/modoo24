@@ -29,15 +29,13 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-use App\Events\PostEvent;
-
 use App\Traits\ApiResponser;
 
 
 class BulletinController extends Controller
 {
 	use ApiResponser;
-	public $commentPagingNum=3;
+	public $commentPagingNum=1000000000000;
 
 	public function contentList(Request $request, $code){
 		Carbon::setLocale('ko');
@@ -234,7 +232,6 @@ class BulletinController extends Controller
 			$data['nickname'] = $user->nickname;
 			$data['is_confirmed'] = ($config->use_confirm =='Y') ? 'R': 'Y';
 			$post = Post::create($data);
-			event(new PostEvent('post', $post));
 		}
 
 
@@ -320,7 +317,7 @@ class BulletinController extends Controller
         @$dom->loadHtml('<?xml encoding="utf-8"?>' . $body , LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOXMLDECL);
         $dom->encoding = 'utf-8';
         $images = $dom->getElementsByTagName('img');
-				if ( count( $images) > 0 ) return $images[0]->getAttribute('src');
+				if ( isset($images[0]) ) return $images[0]->getAttribute('src');
 				else return null;
 	}
 	//depth comment
@@ -358,7 +355,6 @@ class BulletinController extends Controller
 //dd( $data);
 			try{
 				$comment = PostCommentDepth::create( $data );
-				event(new PostEvent('recomment', $comment));
 			} catch( \Exception $e){
 				return $this->error('서버와의 통신이 이루어지지 않았습니다. 잠시후에 사용해주세요',422);
 			}
@@ -407,21 +403,8 @@ class BulletinController extends Controller
 		 $data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
 
 		 try{
-				PostCommentDepth::where([
-					'post_id'=>$comment->post_id,
-					'group_id'=>$comment->group_id
-					])->where('order_no',">=", $order_no)
-					->increment('order_no', 1)
-					;
-					PostCommentDepth::where([
-						'post_id'=>$comment->post_id,
-						'group_id'=>$comment->group_id
-						])->where('right_max',">", $order_no-1)
-						->increment('right_max', 1)
-						;
 					$parent_comment->increment('right_max', 1);
 					$recomment = PostCommentDepth::create($data);
-					event(new PostEvent('recomment', $recomment));
 		 } catch(\Exception $e){
 			 return $this->error('서버와의 통신이 이루어지지 않았습니다. 잠시후에 사용해주세요',422);
 		 }
@@ -447,10 +430,8 @@ class BulletinController extends Controller
 	public function commentV2view(Request $request, $code ,$post_id){
 		$comments = PostCommentDepth::where(['post_id'=>$post_id])->where('is_confirmed','!=','N')
 			->orderby('group_id','ASC')
-			//->orderby('depth_no','ASC')
 			->orderby('order_no','ASC')
-			->paginate(1000000);
-			//->paginate($this->commentPagingNum);
+			->paginate($this->commentPagingNum);
 		$config = Post::select('bulletin_configs.*')->where(['posts.id'=>$post_id])
 			->join('bulletin_configs', 'posts.bulletin_id','=','bulletin_configs.id')
 			->first();
@@ -540,7 +521,6 @@ class BulletinController extends Controller
 					$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$user->s_uid]);
 					$log->increment('comment_cnt');
 				}
-			event(new PostEvent('comment', $comment));
 			return $this->success();
 		}
 		else return $this->error('잠시후에 사용해주세요.', 422);

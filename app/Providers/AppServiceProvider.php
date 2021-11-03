@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Models\PostCommentDepth;
+use App\Observers\PostCommentObserver;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        PostCommentDepth::observe(PostCommentObserver::class);
     }
 
     /**

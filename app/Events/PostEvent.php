@@ -22,9 +22,9 @@ class PostEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct( $type, $data , $sub = null)
+    public function __construct( Post $post)
     {
-        $this->message = ['type'=>$type,'data'=>$data,'sub'=>$sub];
+        $this->message = ['type'=>'post','command'=>'add','data'=>$post];
     }
 
     public function broadcastOn()

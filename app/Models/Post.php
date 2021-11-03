@@ -3,20 +3,23 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 use App\User;
 use App\Models\PostComment;
 use App\Models\PostFile;
+use App\Events\PostEvent;
 
 class Post extends Model
 {
 	use SoftDeletes;
+	use Notifiable;
 	protected $table = 'posts';
 	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg','fav_cnt','comment_cnt','view_cnt'];
 
-    public function scopeActive($query){
+  public function scopeActive($query){
         return $query->where('is_confirmed', 'Y');
-    }
+  }
 	public function users() {
         return $this->hasOne(User::class,'id', 'user_id' )->select('id','email','nickname')->withTrashed();
   }
@@ -36,4 +39,7 @@ class Post extends Model
 	public function needconfirm(){
 		return $this->hasMany(PostComment::class,'post_id' )->Where('post_comments.is_confirmed', '=', 'R');
 	}
+	protected $events = [
+			 'created' => PostEvent::class,
+	 ];
 }
