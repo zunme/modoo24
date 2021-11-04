@@ -30,7 +30,7 @@ class HomeController extends Controller
      */
      public function test(){
        $post = Post::first();
-       event(new PostEvent('post', $post));
+       event(new PostEvent( $post));
         return;
         $user = User::where(['email'=>'zunme@nate.com'])->first();
         \Event::fire( new Registered($user) );

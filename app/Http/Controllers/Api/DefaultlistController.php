@@ -16,6 +16,7 @@ use Validator;
 use App\Traits\ApiResponser;
 
 use App\Models\CalendarLunar;
+use App\Models\BulletinSido;
 
 class DefaultlistController extends Controller
 {
@@ -43,7 +44,18 @@ class DefaultlistController extends Controller
 
 		return response()->json( $data);
 	}
-
+	public function gugun(Request $request){
+		if( $request->si_code == '36110'){
+			$data = BulletinSido::
+							select('code', 'dong_code as gu_code', \DB::raw("CONCAT(gu, ' ', dong) AS gu"))
+							->where(['si_code'=>$request->si_code, 'depth'=>'2'])->get();
+		}else {
+			$data = BulletinSido::
+							select('code', 'gu_code', 'gu')
+							->where(['si_code'=>$request->si_code, 'depth'=>'2'])->get();
+		}
+		return response()->json( $data);
+	}
 	public function makeinc(){
 		$sub_header = view('header-sub')->render();
 		$fp = fopen("/home/modoo24/public_html/NEW/include/sub_header.php","wb");

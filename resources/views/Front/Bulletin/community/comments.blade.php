@@ -25,7 +25,7 @@
               삭제된 댓글입니다.
               @else
                 @if( Auth::user()->id == $comment->user_id )
-                (대기중)<br>
+                <span class="color_pt">(대기중)</span><br>
                  {!! nl2br($comment->comment)!!}
                 @else
                   모두이사 커뮤니티 게시물 규정 확인 후 글이 노출됩니다.
@@ -38,10 +38,10 @@
             @auth
               @if( Auth::user()->id == $comment->user_id )
                 @if($comment->is_confirmed =='R' || $config->use_comment_confirm !='Y')
-                <span class="btn btn-white btn-sm" data-commentid='{{$comment->id}}' onClick="comment_update(this)">수정</span>
+                <span class="btn btn-white btn-sm btnborder" data-commentid='{{$comment->id}}' onClick="comment_update(this)">수정</span>
                 @endif
                 @if ( $comment->is_confirmed !='D')
-                <span class="btn btn-white btn-sm" data-commentid='{{$comment->id}}' onClick="comment_del_prc(this)">삭제</span>
+                <span class="btn btn-white btn-sm btnborder" data-commentid='{{$comment->id}}' onClick="comment_del_prc(this)">삭제</span>
                 @endif
               @endif
             @endauth
@@ -54,7 +54,7 @@
             <div class="comment_footer_inner">
               <div class="commment_footer_left">
                 @if ( $comment->is_confirmed =='Y')
-                <span class="btn btn-white btn-sm" data-nick="{{$comment->nickname}}" data-id="{{$comment->id}}" onclick="recomment(this)">답글</span>
+                <span class="btn btn-gray btn-sm" data-nick="{{$comment->nickname}}" data-id="{{$comment->id}}" onclick="recomment(this)">댓글</span>
                 @endif
               </div>
               <div class="commment_footer_right">{{$comment->created_at}}</div>
@@ -65,7 +65,7 @@
   @empty
     <li>
       댓글이 없습니다.
-    </li>
+    </li>  
   @endforelse
 </ul>
 <div class="ct">

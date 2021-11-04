@@ -151,7 +151,7 @@
   margin-right:10px;
   padding-bottom: 10px;
   padding-top:5px;
-  position: relative;
+  position: relative;font-size: .9em;color: #999;
 }
 .comments_wrap .commentul li:after {
     content: '';
@@ -176,14 +176,13 @@
 }
 .comment-nick{
   font-size: 14px;
-font-weight: 600;
+font-weight: 600; color: #666
 }
 .comment-row{
   word-break: break-all;
   font-size: 14px;
 }
 .comment_right{
-  display: flex;
     flex-direction: column;
     flex-shrink: 0;
 }
@@ -212,9 +211,6 @@ font-weight: 600;
 }
 
 .comment_write_wrap{
-  padding: 10px;
-  border: 1px solid #a7a7a7;
-  border-radius: 5px;
   position: relative;
 }
 
@@ -242,7 +238,7 @@ font-weight: 600;
 }
 .comment_write_nickname{
   margin-left: 16px;
-  color:#666;
+  color:#666; font-size: .9em
 }
 .comment_write_btn_wrap{
   display: flex;
@@ -264,6 +260,9 @@ font-weight: 600;
   flex-shrink: 0;
   min-width: 18px;
 }
+
+.btnborder{ border: 1px solid #ddd; border-radius: 20px;box-shadow: none;}
+
 .comment_body .reply_depth_icon:last-child{background-color: #eee;}
 @media screen and (max-width: 820px) {
 
@@ -476,6 +475,16 @@ font-weight: 600;
     <div class="post_header_wrap">
       <h1 class="post_header_title">{{$config->title}} 게시물 보기</h1>
     </div>
+
+<!-- 주소 보기 알맞은 위치에 넣어주세요-->
+@if ($config->address_use && $post->address )
+<div>
+  {{$post->address->sido}} {{$post->address->gu}} {{$post->address->dong}}
+</div>
+@endif
+<!-- / 주소 보기 -->
+
+
     <div class="post_wrap">
       <div class="post_title_wrap">
         <div class="post_title_inner">
@@ -486,13 +495,13 @@ font-weight: 600;
           </div>
         </div>
         <div class="post_sns_wrap">
-          <span href="#pablo" class="snsbtn twitter-btn">
-            <i class="fab fa-twitter-square"></i>
+          <span href="#pablo" class="snsbtn twitter-btn" onClick="snsShare( 'twitter', snsdata);">
+            <i class="fab fa-twitter-square" style="color:#1da1f2"></i>
           </span>
-          <span href="#pablo" class="snsbtn facebook-btn">
+          <span href="#pablo" class="snsbtn facebook-btn" onClick="snsShare( 'facebook', snsdata);" style="color:#3a5898">
             <i class="fab fa-facebook-square"></i>
           </span>
-          <span href="#pablo" class="snsbtn kako-btn">
+          <span href="#pablo" class="snsbtn kako-btn" onClick="snsShare( 'kakao', snsdata);">
             <img src='/community/images/kakao.logo.png'>
           </span>
         </div>
@@ -511,15 +520,15 @@ font-weight: 600;
       <div class="post_desc_wrap">
         <div class="post_desc_inner">
           <div class="post_desc_left">
-            <span class="btn btn-white btn-lg btn-like" onClick="addFavCnt(this)">
-              <i class="fas fa-heart @if($post_favorite) myfavorite @else myunfavorite @endif"></i>공감
+            <span class="btn btn-white btn-sm btn-like btnborder" onClick="addFavCnt(this)">
+              <i class="fas fa-heart @if($post_favorite) myfavorite @else myunfavorite @endif"></i> 공감
                <span id="favcnt">{{($post->fav_cnt <1 ? 0 : $post->fav_cnt)}}</span></span>
-            <span class="btn btn-white btn-lg" onClick="toScroll('comments_wrap',200)">댓글 <span id="post_comment_cnt">{{$post->comment_cnt}}</span></span>
+            <span class="btn btn-white btn-sm btnborder" onClick="toScroll('comments_wrap',200)">댓글 <span id="post_comment_cnt">{{$post->comment_cnt}}</span></span>
           </div>
           @if ( $is_writer )
           <div class="post_desc_right">
-            <a class="btn btn-white btn-lg" href="{{ Config::get('site.defaultStartUrl') }}/posts/{{$code}}/update/{{$post->id}}">수정</a>
-            <span class="btn btn-white btn-lg">삭제</span>
+            <span class="btn btn-sm btnborder">수정</span>
+            <span class="btn btn-sm btnborder">삭제</span>
           </div>
           @endif
         </div>
@@ -529,7 +538,7 @@ font-weight: 600;
       <div class="comments_wrap" id="comments_wrap">
 
       </div>
-
+          <a type="button" class="btn btn-white btn-sm btnborder" href="/community/posts/{{$code}}">목록</a>
     </div>
 
 
@@ -537,7 +546,7 @@ font-weight: 600;
     <div class="comment_write_wrap" id="comment_write_wrap">
       <div class="comment_write_nickname">
         @guest
-         로그인 후 답글을 작성하실 수 있습니다.
+         로그인 후 댓글을 작성하실 수 있습니다.
         @endguest
         @auth
          @if(Auth::user()->level < 1024 ) {{Auth::user()->nickname}} @else 관리자 @endif;
@@ -547,14 +556,14 @@ font-weight: 600;
         <div class="row comment_write_box">
           <input type="hidden" name="post_id" value="{{$post->id}}" >
           <div class="col-12">
-            <textarea id="comment_textarea" name= "comment" class="form-control form-control-sm mb-3" rows="3" placeholder="게시물에 답글 작성을 부탁드립니다. 모두이사 커뮤니티와 연관 없는 댓글은 삭제 될 수 있습니다"></textarea>
+            <textarea id="comment_textarea" name= "comment" class="form-control form-control-sm mb-3" rows="3" placeholder="게시물에 댓글 작성을 부탁드립니다. 모두이사 커뮤니티와 연관 없는 댓글은 삭제 될 수 있습니다"></textarea>
           </div>
 
         </div>
       </form>
       <div class="comment_cnt_wrap"> <span id="comment_cnt">0</span>/3000 </div>
       <div class="comment_write_btn_wrap">
-        <span class="btn btn-white" onClick="write_comment(this)">등록</span>
+        <span class="btn cmnty_button_blue" onClick="write_comment(this)">댓글등록</span>
       </div>
     </div>
 
@@ -578,7 +587,8 @@ font-weight: 600;
 @endsection
 
 @section('script')
-
+<script src="/community/assets/js/kakao.min.js"></script>
+<script src="/community/assets/js/sns.js"></script>
 <script>
 @guest
 let logined = false;
@@ -588,8 +598,19 @@ let logined = true;
 let nickname = @if(Auth::user()->level < 1024 ) "{{Auth::user()->nickname}}" @else"관리자"@endif;
 @endauth
 
+let snsdata = {
+        'title' : '{{$post->title}}',
+        'image' : '{{ \URL::to( str_replace('/community/storage/','/storage/',$post->repImg) ) }}',
+        'url' : '{{\URL::to( '/posts/'.$code.'/view/'.$post->id )}}',
+        'description' : ``,
+}
+let snsDefaultImage = '{{ \URL::to( '/snsdefault.jpg' ) }}'
+
 let currnetCommentPage;
 $("document").ready( function() {
+
+    Kakao.init('139b5101d3bf7ebdf5daa822e2b298fc');
+    Kakao.isInitialized();
     getComment('/community/posts/{{$code}}/comment/view/'+{{$post->id}},1)
     $('#comment_textarea').keyup(function (e){
       var content = $(this).val();
@@ -652,9 +673,9 @@ function callbackWriteComplete() {
 let recommenttemplate =`
 <div class="block-line-title">
   {{#if id}}
-  답글 수정하기
+  댓글 수정하기
   {{else}}
-  {{to}}님의 답글에 답변달기
+  {{to}}님의 댓글에 답변달기
   {{/if}}
 </div>
 <div class="block-line">
@@ -668,7 +689,7 @@ let recommenttemplate =`
         <input type="hidden" name="parent_id" value="{{parent_id}}" >
         {{/if}}
         <div class="col-12">
-          <textarea name= "comment" class="form-control form-control-sm mb-3" rows="3" placeholder="댓글에 답글 작성을 부탁드립니다. 모두이사 커뮤니티와 연관 없는 댓글은 삭제 될 수 있습니다">{{#if id}}{{comment}}{{/if}}</textarea>
+          <textarea name= "comment" class="form-control form-control-sm mb-3" rows="3" placeholder="댓글에 댓글 작성을 부탁드립니다. 모두이사 커뮤니티와 연관 없는 댓글은 삭제 될 수 있습니다">{{#if id}}{{comment}}{{/if}}</textarea>
         </div>
 
       </div>
@@ -701,7 +722,7 @@ function recomment(btn){
   open_sheet_modalV1("#sheet_modal")
   return;
   Swal.fire({
-    title: '답글을 적어주세요',
+    title: '댓글을 적어주세요',
     input: 'textarea'
   }).then(function(result) {
     if (result.value) {
@@ -723,7 +744,7 @@ function comment_update(btn){
     dataType:'JSON',
     success:function(res){
       if( res.data.use_comment_confirm='Y' && res.data.is_confirmed !='R'){
-        toast('더이상 수정 하실수 없습니다.','center')
+        toast('더 이상 수정 하실수 없습니다.','center')
         return;
       }else if ( res.data.is_confirmed =='R' || res.data.is_confirmed =='Y' ){
         $("#sheet_modal_content").html( recommentCompiled(res.data) )

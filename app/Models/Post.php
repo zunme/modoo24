@@ -7,15 +7,18 @@ use Illuminate\Notifications\Notifiable;
 
 use App\User;
 use App\Models\PostComment;
+use App\Models\PostCommentDepth;
+
 use App\Models\PostFile;
 use App\Events\PostEvent;
+use App\Models\BulletinSido;
 
 class Post extends Model
 {
 	use SoftDeletes;
 	use Notifiable;
 	protected $table = 'posts';
-	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg','fav_cnt','comment_cnt','view_cnt'];
+	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg','fav_cnt','comment_cnt','view_cnt','si_code','gu_code'];
 
   public function scopeActive($query){
         return $query->where('is_confirmed', 'Y');
@@ -37,7 +40,13 @@ class Post extends Model
         return $this->hasMany(PostFile::class,'post_id' );
   }
 	public function needconfirm(){
-		return $this->hasMany(PostComment::class,'post_id' )->Where('post_comments.is_confirmed', '=', 'R');
+		return $this->hasMany(PostComment::class,'post_id' )->where('post_comments.is_confirmed', '=', 'R');
+	}
+	public function needconfirmdepth(){
+		return $this->hasMany(PostCommentDepth::class,'post_id' )->where('post_comment_depth.is_confirmed', '=', 'R');
+	}
+	public function address() {
+				return $this->hasOne(BulletinSido::class,'gu_code', 'gu_code' )->where(['depth'=>2]);
 	}
 	protected $events = [
 			 'created' => PostEvent::class,

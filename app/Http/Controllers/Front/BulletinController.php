@@ -18,6 +18,7 @@ use App\Models\PostCommentBestLog;
 use App\Models\PostCommentLog;
 
 use App\Models\PostFavorite;
+use App\Models\BulletinSido;
 
 use Yajra\Datatables\Facades\Datatables;
 use Carbon\Carbon;
@@ -100,7 +101,7 @@ class BulletinController extends Controller
 		if($request->ajax()){
 			$post = Post::with(['simplecomments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
 		}else{
-			$post = Post::with(['comments','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+			$post = Post::with(['comments','address','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
 		}
 
 		if( $post->is_confirmed =='N' ) return back();
@@ -148,7 +149,11 @@ class BulletinController extends Controller
 			return back()->with('noti_alert_message', '글쓰기 권한이 없습니다.');
 		}
 		$post = new Post();
-		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount']) );
+
+		if( $config->address_use =='Y') $address = BulletinSido::where(['depth'=>'1'])->orderBy('si_code')->get();
+		else $address = [];
+
+		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount','address']) );
 		else return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
 	}
 	public function updateForm(Request $request, $code, $writeid){
@@ -168,28 +173,40 @@ class BulletinController extends Controller
 		if ( !$is_writer){
 			return view('Front/Bulletin/421', compact(['config', 'code', 'post','totalImgCount']) );
 		}
-		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount']) );
+
+		if( $config->address_use =='Y') $address = BulletinSido::where(['depth'=>'1'])->orderBy('si_code')->get();
+		else $address = [];
+
+		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount','address']) );
 		else return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
 	}
 
 	public function create(Request $request){
 		$user = Auth::user();
 
-		$messages = [
-        'title.*' => '제목을 50자 내외로 작성해주세요.',
-				'body.*' =>'내용을 작성해주세요.',
-    ];
-    $this->validate($request, [
-      'title' => 'bail|required|string|min:2|max:50',
-      'body' => 'bail|required',
-			'code' => 'bail|required',
-     ],$messages);
-		$data = $request->except('id', 'code');
-
 		$config = BulletinConfig::active()->where(['code'=>$request->code])->first();
 		if( !$config){
 			return $this->error('게시판을 찾을 수 없습니다.');
 		}
+
+		if( $config->address_use=='Y') $gu_code_required = 'required';
+		else $gu_code_required = 'nullable';
+
+		$messages = [
+        'title.*' => '제목을 50자 내외로 작성해주세요.',
+				'body.*' =>'내용을 작성해주세요.',
+				'si_code.*'=>"지역을 선택해주세요",
+				'gu_code.*'=>"지역을 선택해주세요",
+    ];
+    $this->validate($request, [
+      'title' => 'bail|required|string|min:1|max:50',
+      'body' => 'bail|required',
+			'code' => 'bail|required',
+			'si_code' => 'bail|'.$gu_code_required,
+			'gu_code' => 'bail|'.$gu_code_required,
+     ],$messages);
+
+		$data = $request->except('id', 'code');
 
 		$storage = Storage::disk('public');
 		if( $request->delfile ){

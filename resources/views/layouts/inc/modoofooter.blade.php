@@ -420,6 +420,8 @@ channel.bind('my-event', function(data) {
   console.log ( data )
   let message = data.message;
   if( message.type == 'post') toast('새로운 글이 등록되었습니다.','bottomRight')
+  else if ( message.type == 'comment') toast('새로운 댓글이 등록되었습니다.','bottomRight')
+  else if ( message.type == 'recomment') toast('새로운 댓글이 등록되었습니다.','bottomRight')
 });
 
 </script>
