@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect('/posts/jisik');
+  return view('welcome');
 });
 Route::get('/test', 'HomeController@test');
 
@@ -63,6 +63,8 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 	//TODO comment 달수있는 사람은??? 회원 or 파트너 ??
 	Route::post('{code}/comment/write/{writeid}', 'Front\BulletinController@commentWrite');
 	Route::post('comment/create', 'Front\BulletinController@commentCreate');
+  Route::post('comment/update', 'Front\BulletinController@jisikCommentUpdate');
+  Route::post('comment/delete', 'Front\BulletinController@jisikCommentDelete');
 
   // fav & best 통합으로 인해 변경함
 	//Route::post('comment/addfavcnt', 'Front\BulletinController@addfavcnt');

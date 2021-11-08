@@ -497,7 +497,8 @@ class BulletinController extends Controller
 	public function commentCreate(Request $request){
 		session_start();
 		$session =  $_SESSION;
-		if( !isset($session['idx']) || empty($session['idx']) ){
+
+		if( !isset($session['m_idx']) || empty($session['m_idx']) ){
 			return $this->error('로그인후 사용해주세요.', 422);
 		}
 		$user = AuctionStaff::where(['s_uid'=> $session['m_idx'], 's_id'=>$session['m_user_id'] ])->first();
@@ -512,7 +513,7 @@ class BulletinController extends Controller
 			'body' => 'bail|required|string',
      ],$messages);
 		$data = $request->all();
-
+		$data['body'] = htmlspecialchars($data['body'], ENT_QUOTES);
 		$config = BulletinConfig::active()->where(['code'=>$request->code])->first();
 
 		if( !$config){
@@ -541,6 +542,63 @@ class BulletinController extends Controller
 			return $this->success();
 		}
 		else return $this->error('잠시후에 사용해주세요.', 422);
+	}
+
+	function jisikCommentUpdate(Request $request){
+		session_start();
+		$session =  $_SESSION;
+
+		if( !isset($session['m_idx']) || empty($session['m_idx']) ){
+			return $this->error('로그인후 사용해주세요.', 422);
+		}
+
+		$messages = [
+				'comment_id.*' => '댓글을 찾을 수 없습니다.',
+				'body.*' =>'답변을 작성해주세요.',
+    ];
+    $this->validate($request, [
+      'comment_id' => 'bail|required|numeric',
+			'body' => 'bail|required|string',
+     ],$messages);
+		$data = $request->all();
+
+		$comment = PostComment::where(['id'=>$request->comment_id])->first();
+
+		if ( !$comment) return $this->error('댓글을 찾을 수 없습니다.',422);
+		if( $session['m_idx'] != $comment->auction_staff_s_uid) {
+			return $this->error('수정권한이 없습니다.',422);
+		}
+
+		if( $comment->is_confirmed != 'R'){
+			return $this->error('더 이상 수정하실 수 없습니다.', 422);
+		}
+
+		$comment->body = htmlspecialchars($data['body'], ENT_QUOTES);
+		$comment->save();
+
+		return $this->success( $comment );
+	}
+
+	function jisikCommentDelete(Request $request){
+		session_start();
+		$session =  $_SESSION;
+
+		if( !isset($session['m_idx']) || empty($session['m_idx']) ){
+			return $this->error('로그인후 사용해주세요.', 422);
+		}
+
+		$comment = PostComment::where(['id'=>$request->comment_id])->first();
+
+		if ( !$comment) return $this->error('댓글을 찾을 수 없습니다.',422);
+		if( $session['m_idx'] != $comment->auction_staff_s_uid) {
+			return $this->error('삭제권한이 없습니다.',422);
+		}
+
+		if( $comment->is_confirmed != 'R'){
+			return $this->error('더 이상 삭제하실 수 없습니다.', 422);
+		}
+		$comment->delete();
+		return $this->success( $comment );
 	}
 
 	function postFavorite($code, $post_id){

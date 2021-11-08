@@ -1,6 +1,9 @@
 Handlebars.registerHelper('nl2br', function(text) {
   text = Handlebars.Utils.escapeExpression(text);
+  console.log ( text )
   text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+  console.log ( new Handlebars.SafeString(text))
+  console.log ( "===============")
   return new Handlebars.SafeString(text);
 });
 Handlebars.registerHelper('encodeMyString',function(inputData){
@@ -11,6 +14,12 @@ Handlebars.registerHelper('isEqual', function (expectedValue, value) {
 });
 Handlebars.registerHelper('isNotEqual', function (expectedValue, value) {
   return value !== expectedValue;
+});
+Handlebars.registerHelper('isMyId', function ( value) {
+  return value == myid;
+});
+Handlebars.registerHelper('isNotMyId', function ( value) {
+  return value != myid;
 });
 Handlebars.registerHelper('checkempty', function(value) {
     if ( typeof value == 'undefined') return true;
@@ -73,6 +82,41 @@ var lang_kor = {
       "sortDescending" : " :  내림차순 정렬"
     }
 };
+function getpost( url,data , callbackSuccess, callbackCompleted, callbackError ){
+  $.ajax({
+            url : '/community/refresh',
+            method:"get",
+            dataType:'JSON',
+            success:function(result){
+              $('meta[name="csrf-token"]').attr('content', result.token);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': result.token
+                    }
+                });
+
+                $.ajax({
+                  url: url,
+                  method:"POST",
+                  data: data ,
+                  dataType:'JSON',
+                  success:function(res)
+                  {
+                    callbackSuccess(res)
+                  },
+                  error: function ( err ){
+                    if( typeof callbackError =='undefined') ajaxErrorST(err)
+                    else callbackError( err )
+                  },
+                  complete : function() {
+                    if ( typeof callbackCompleted != 'undefined') callbackCompleted();
+                  }
+                });
+            }, // end success
+
+          });
+}
+
 let choco_instance;
 function pop_tpl( size, id , data, title ){
     if ( typeof id =='undefined') return false;
@@ -375,8 +419,31 @@ function jisikCommentPrc(btn){
             }
           });
 }
+let commentTarget
+function commentupdateview(btn){
+  $(btn).closest('.comment-media').addClass('isupdateprc').removeClass('isnotupdateprc');
+}
+function updateComment(btn){
+  commentTarget = btn;
+  let data = $(btn).closest('form').serialize()
+  let url = '/community/posts/comment/update'
+  getpost( url, data, updeteCommentSuccess)
+}
+function updeteCommentSuccess(res){
+  $("#view_cmt_"+res.data.id).html( res.data.body.replace(/\n/g, "<br />"));
+  $(commentTarget).closest(".comment-media").removeClass('isupdateprc').addClass('isnotupdateprc')
 
-
+}
+function deleteComment( btn){
+  let data = {'comment_id' : $(btn).data("id") };
+  let url = '/community/posts/comment/delete'
+  console.log ( data );
+  getpost( url, data, deleteCommenSuccess)
+}
+function deleteCommenSuccess(res){
+  getContentAjax(view_post_id)
+  datatable.ajax.reload( null, false )
+}
 let compiledTemplate
 let posttemplate = `
 <div class="modal-header">
@@ -427,37 +494,61 @@ let posttemplate = `
 {{/if}}
 {{#if ( checknotempty post.simplecomments ) }}
     {{#each post.simplecomments}}
-      <div class="media">
+      <div class="media comment-media isnotupdateprc">
         <div class="media-staff">
           <span class="staff-company">{{s_company}}</span>
           <span class="comment-date">{{created_at}}</span>
         </div>
         <div class="media-content">
-          <div class="media-content-body">
+          <div class="media-content-body ">
             {{#if ( isEqual is_confirmed 'R') }}
             <span class="confirm_waiting">이사지식인 답글은 고객과의 분쟁 방지를 위해 이사지식인 규정 확인 후 노출됩니다.</span>
+              {{#if ( isMyId auction_staff_s_uid ) }}
+              <div class="updateformview-rev" id="view_cmt_{{id}}">{{body}}</div>
+              <form class="updateformview">
+                <input type="hidden" name="comment_id" value="{{id}}">
+                <textarea name="body" rows="5">{{ body }}</textarea>
+                <div class="update_form_btn_wrap">
+                  <button class="btn btn-outline-default btn-round btn-sm newsmbtn" type="button" onClick="updateComment(this)">수정완료</button>
+                </div>
+              </form>
+              {{/if}}
+
             {{/if}}
 
             {{#if ( isEqual is_confirmed 'Y') }}
-              {{body}}
+              {{{ nl2br body }}}
             {{/if}}
           </div>
           <div class="media-content-date">
             {{created_at}}
+            <!--div>
+            <button class="btn btn-outline-default btn-round btn-sm newsmbtn" type="button" onClick="commentupdateview(this)">수정하기</button>
+            <!--button class="btn btn-outline-default btn-round btn-sm newsmbtn" type="button">삭제</button-->
+            </div-->
           </div>
         </div>
         <div class="media-best">
           <div class="best-wrap">
             <span class="best-line-date">{{created_at}}</span>
+            <div "best-inner-right">
+            {{#if ( isMyId auction_staff_s_uid ) }}
+                {{#if ( isEqual is_confirmed 'R') }}
+                <button class="btn btn-outline-default btn-round btn-sm newsmbtn updateformview-rev" type="button" onClick="commentupdateview(this)">수정하기</button>
+                <button class="btn btn-outline-default btn-round btn-sm newsmbtn" type="button" data-id="{{id}}" onClick="deleteComment(this)">삭제</button>
+                {{/if}}
+
+            {{/if}}
 {{#if ( isEqual is_confirmed 'Y') }}
-            <div class="best-inner"
-            onClick="addbest(this)"
-            data-commentid = "{{id}}"
-            >
-              <span class="best-icon"><i class="fas fa-heart"></i></span>
-              <span class="best-cnt">{{best_cnt}}</span>
-            </div>
+              <div class="best-inner"
+              onClick="addbest(this)"
+              data-commentid = "{{id}}"
+              >
+                <span class="best-icon"><i class="fas fa-heart"></i></span>
+                <span class="best-cnt">{{best_cnt}}</span>
+              </div>
 {{/if}}
+            </div>
           </div>
         </div>
       </div>

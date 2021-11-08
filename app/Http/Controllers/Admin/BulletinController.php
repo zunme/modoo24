@@ -108,8 +108,15 @@ class BulletinController extends Controller
 			}
 			$comment->is_confirmed = 'Y';
 			$comment->save();
+
+			$commentcnt = PostComment::
+				where(['post_id'=>$comment->post_id, 'is_confirmed'=>'Y'])->count();
+
 			$post = Post::find( $comment->post_id);
-			$post->increment('comment_cnt');
+			//$post->increment('comment_cnt');
+			$post->comment_cnt = $commentcnt;
+			$post->save();
+
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
 			$log->increment('comment_cnt');
 
@@ -140,8 +147,15 @@ class BulletinController extends Controller
 			$comment->is_confirmed = 'N';
 			$comment->save();
 
+			$commentcnt = PostComment::
+				where(['post_id'=>$comment->post_id, 'is_confirmed'=>'Y'])->count();
+
 			$post = Post::find( $comment->post_id);
-			$post->decrement('comment_cnt');
+
+			$post->comment_cnt = $commentcnt;
+			$post->save();
+			//$post->decrement('comment_cnt');
+			
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
 			$log->decrement('comment_cnt');
 
