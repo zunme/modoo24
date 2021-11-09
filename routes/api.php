@@ -15,6 +15,14 @@ use Illuminate\Http\Request;
 Route::post('/simpyreg','Api\OrdertempController@simplyreg');
 Route::get('/movereview','Api\DefaultlistController@reviewMain');
 Route::get('/makeinc','Api\DefaultlistController@makeinc');
+//고객 평가 등급
+Route::get('/evaluationGrade','Api\DefaultlistController@evaluationGrade');
+//소통평가등급
+Route::get('/communityGrade','Api\DefaultlistController@communityGrade');
+//n개월 공감수
+Route::get('/bestRangeCount','Api\DefaultlistController@bestRangeCount');
+
+Route::get('/jisikList','Front\BulletinController@jisikListApi');
 
 
 Route::get('/son','Api\DefaultlistController@sonList');

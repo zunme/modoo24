@@ -50,6 +50,19 @@ Handlebars.registerHelper('ne', function(a, b) {
   return (a !== b);
 });
 
+Handlebars.registerHelper('reverseArray', (array) => array.reverse());
+Handlebars.registerHelper('reverseObj', function(Obj){
+  var TempArr = [];
+  var NewObj = [];
+  for (var Key in Obj){
+      TempArr.push(Key);
+  }
+  for (var i = TempArr.length-1; i >= 0; i--){
+      NewObj.push( Obj[TempArr[i]] );
+  }
+  return NewObj;
+});
+
 const LUNAR_LAST_YEAR = 1939;
         var lunarMonthTable = [
             [2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2],   /* 양력 1940년 1월은 음력 1939년에 있음 그래서 시작년도는 1939년*/

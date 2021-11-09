@@ -89,7 +89,14 @@ class BulletinController extends Controller
 		}
 		return Datatables::of($data)->make(true);
 	}
+	public function jisikListApi(Request $request){
+		$config = BulletinConfig::active()->where(['code'=>'jisik'])->first();
+		$qry = Post::with(['files'])
+					->where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N')
+					->orderBy('id','desc')->limit(5)->get();
+		return $this->success( $qry );
 
+	}
 	public function view(Request $request, $code ,$viewid){
 		$user = Auth::user();
 
@@ -126,13 +133,13 @@ class BulletinController extends Controller
 			session_start();
 			$session =  $_SESSION;
 			session_write_close();
+
 			$staff = [
-				"user_id" => $session['m_user_id'],
-				"idx" => $session['m_idx'],
-				"name" => $session['m_name'],
+				"user_id" => $session['user_id'],
+				"idx" => $session['idx'],
+				"name" => $session['name'],
 				"btype" => $session['m_btype'],
 			];
-
 			return $this->success( compact(['config','post','code','is_writer','user'=>$session]) );
 		}
 
@@ -498,10 +505,10 @@ class BulletinController extends Controller
 		session_start();
 		$session =  $_SESSION;
 
-		if( !isset($session['m_idx']) || empty($session['m_idx']) ){
+		if( !isset($session['idx']) || empty($session['idx']) ){
 			return $this->error('로그인후 사용해주세요.', 422);
 		}
-		$user = AuctionStaff::where(['s_uid'=> $session['m_idx'], 's_id'=>$session['m_user_id'] ])->first();
+		$user = AuctionStaff::where(['s_uid'=> $session['idx'], 's_id'=>$session['user_id'] ])->first();
 		$messages = [
         'code.*' => '올바른 코드가 아닙니다.',
 				'post_id.*' => '글정보를 찾을 수 없습니다.',
@@ -548,7 +555,7 @@ class BulletinController extends Controller
 		session_start();
 		$session =  $_SESSION;
 
-		if( !isset($session['m_idx']) || empty($session['m_idx']) ){
+		if( !isset($session['idx']) || empty($session['idx']) ){
 			return $this->error('로그인후 사용해주세요.', 422);
 		}
 
@@ -565,7 +572,7 @@ class BulletinController extends Controller
 		$comment = PostComment::where(['id'=>$request->comment_id])->first();
 
 		if ( !$comment) return $this->error('댓글을 찾을 수 없습니다.',422);
-		if( $session['m_idx'] != $comment->auction_staff_s_uid) {
+		if( $session['idx'] != $comment->auction_staff_s_uid) {
 			return $this->error('수정권한이 없습니다.',422);
 		}
 
@@ -583,14 +590,14 @@ class BulletinController extends Controller
 		session_start();
 		$session =  $_SESSION;
 
-		if( !isset($session['m_idx']) || empty($session['m_idx']) ){
+		if( !isset($session['idx']) || empty($session['idx']) ){
 			return $this->error('로그인후 사용해주세요.', 422);
 		}
 
 		$comment = PostComment::where(['id'=>$request->comment_id])->first();
 
 		if ( !$comment) return $this->error('댓글을 찾을 수 없습니다.',422);
-		if( $session['m_idx'] != $comment->auction_staff_s_uid) {
+		if( $session['idx'] != $comment->auction_staff_s_uid) {
 			return $this->error('삭제권한이 없습니다.',422);
 		}
 
@@ -621,7 +628,7 @@ class BulletinController extends Controller
 	}
 
 	private function addfavcnt(Request $request, $session){
-		$user = AuctionStaff::where(['s_uid'=> $session['m_idx'], 's_id'=>$session['m_user_id'] ])->first();
+		$user = AuctionStaff::where(['s_uid'=> $session['idx'], 's_id'=>$session['user_id'] ])->first();
 		if( !$user ){
 			return $this->error('로그인후 사용해주세요');
 		}
@@ -672,7 +679,7 @@ class BulletinController extends Controller
 			$session =  $_SESSION;
 			session_write_close();
 
-			if( !isset($session['m_idx']) || empty($session['m_idx']) ){
+			if( !isset($session['idx']) || empty($session['idx']) ){
 				return $this->error('로그인 후 사용해주세요');
 			}else return $this->addfavcnt($request, $session);
 

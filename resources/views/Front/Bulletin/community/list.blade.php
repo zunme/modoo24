@@ -211,7 +211,7 @@
         padding-right: 16px;
         font-size: 14px;
     }
-
+    
     /*****************mkcss***************
     .list>.funlist li {
         width: calc((100% - 75px)/3);
@@ -240,26 +240,7 @@
     .ct {clear: both }***/
     
     }
-    @media (max-width: 600px) {
-        .item-desc {
-            flex-direction: column;
-        }
 
-        .item-desc-sub {
-            display: flex;
-            width: 100%;
-            max-width: 100%;
-            min-width: 100%;
-            justify-content: flex-end;
-            flex-wrap: wrap;    margin: 10px 0;}
-
-        .item-desc-nickname,
-        .item-desc-date,
-        .item-desc-commentcnt {
-            padding-right: 10px;
-        }
-
-    }
 
     .ct>.pagination>.page-item>.page-link,
     .ct>.pagination>.page-item>span {
@@ -274,6 +255,39 @@
     li.notconfirmed .item-media-imgbox {
        background-color: rgba(0,0,0,0.8)!important;background-blend-mode: overlay;
     }
+    
+   @media only screen and (max-width: 600px) { 
+    .item-media-imgbox {width: 80px;height: 50px}
+    .item-desc {
+            flex-direction: column; 
+        }
+        .item-desc-sub {
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            justify-content: flex-end;
+            flex-wrap: wrap;    margin: 10px 0;}
+
+        .item-desc-nickname,
+        .item-desc-date,
+        .item-desc-commentcnt {
+            padding-right: 10px;
+        }
+        
+ 
+       
+    }
+    
+    
+       @media only screen and (max-width: 948px) { 
+    
+        
+       .round_btn {background-color: #1e9af9;color: #fff;border-radius: 100px!important;padding:14px;width: 50px;height: 50px; text-align: center;font-size: 1.2em;}  
+       .round_btn i{color: #fff}
+       
+    }
+    
 
 </style>
 @endsection
@@ -322,7 +336,7 @@
                             </div>
 
                             @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
-                            <a type="button" class="cmnty_button_blue" href="{{$code}}/write">글쓰기</a>
+                            <a type="button" class="cmnty_button_blue pc" href="{{$code}}/write">글쓰기</a>
                             @endif
 
                         </div>
@@ -396,6 +410,9 @@
                 <div class="ct">
                     {{ $pagingres }}
                 </div>
+                <div style="display: flex; flex-direction: row-reverse">
+                <a type="button" class="round_btn mobile btn" href="{{$code}}/write"><i class="fas fa-plus"></i></a>
+                </div>    
             </div>
         </div>
     </div>

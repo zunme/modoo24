@@ -40,12 +40,14 @@
   color: #999; font-size: .9em;
 }
 .round-box-header{font-weight: bold; margin-bottom: 6px}
-.round-box-body{font-size: .8em;line-height: 20px;}    
+.round-box-body{font-size: .8em;line-height: 20px;}
 .nickname-input .input-group-text{
 	display: flex;
     justify-content: flex-end;
     flex-wrap: nowrap;
     overflow: hidden;
+    color: #999;
+    font-size: .9em;
 }
 </style>
 @endsection
@@ -210,6 +212,7 @@
 <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="/community/assets/js/image-resize.min.js"></script>
+<script src="https://unpkg.com/quill-html-edit-button@2.2.7/dist/quill.htmlEditButton.min.js"></script>
 
 <script>
 	var editor;
@@ -222,11 +225,13 @@
 		  'sofia', 'slabo', 'roboto', 'inconsolata', 'ubuntu'
 		];
 		Quill.register(FontAttributor, true);
+    Quill.register({"modules/htmlEditButton": htmlEditButton})
 	editor = new Quill('#editor_content', {
 			modules: {
 				syntax: true,
 				toolbar: '#toolbar-container',
-				imageResize: {}
+				imageResize: {},
+        htmlEditButton: { debug: true, syntax: true },
 			},
 			placeholder: '글을 작성해주세요',
 			theme: 'snow'

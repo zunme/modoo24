@@ -13,7 +13,7 @@
                 제 3자 제공동의
             </li>
             <li>
-                <a href="/NEW/customer/business_up">파트너제휴</a>
+                <a href="/v1/move/custom_business">파트너제휴</a>
             </li>
 
             <li class="tabs">
@@ -55,7 +55,7 @@
             <span class="color_pt">이사서비스의 계약과 운송책임은 이사서비스제공 운송사업자와 계약당사자간에 있습니다.</span>
         </p>
         <p class="copy">Copyright © 모두플랫폼 Corporation All rights reserved.</p>
-        <a href="mailto:modoo24try@naver.com">광고 및 제휴문의 – modoo24try@naver.com </a>
+        <a href="mailto:master@modoo24.net">광고 및 제휴문의 – modoo24try@naver.com </a>
 
     </div>
 
@@ -371,6 +371,27 @@
     });
     //# sourceURL=pen.js
 
+</script>
+
+
+<script>
+   /*************************************
+       Menu Area
+   *************************************/
+   $(".menu-icon").click(function() {
+      $('.menu-area').fadeIn();
+      $('body').css({ "overflow-y": "hidden", "height": "100%" });
+   });
+   
+   $("#colophon .company-information #footer-navigation ul li:nth-child(3)").click(function() {
+      $('.menu-area').fadeIn();
+      $('body').css({ "overflow-y": "hidden", "height": "100%" });
+   });
+
+   $(".menu-area .close-icon").click(function() {
+      $('.menu-area').fadeOut();
+      $('body').css({ "overflow-y": "auto", "height": "auto" });
+   });
 </script>
 
 <script>

@@ -26,6 +26,7 @@ Route::group([
 
 			// 댓글 갯수, best, fav 카운팅
 			Route::get('resetlog', 'BulletinController@resetlog' );
+
 		});
 
 
@@ -39,6 +40,8 @@ Route::group([
 			// STAFF
 		Route::group(['prefix' => 'staff',], function() {
 			Route::get('info', 'StaffController@staffInfo');
+      //업체평가통계
+      Route::get('statics', 'StaffController@statics' );      
 		});
 
     Route::group([

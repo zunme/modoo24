@@ -17,6 +17,7 @@ use App\Traits\ApiResponser;
 
 use App\Models\CalendarLunar;
 use App\Models\BulletinSido;
+use App\Models\PostComment;
 
 class DefaultlistController extends Controller
 {
@@ -73,7 +74,94 @@ class DefaultlistController extends Controller
 		fclose($fp);
 		echo "/home/modoo24/public_html/NEW/include 에 헤더 , 풋터 생성완료";
 	}
+	public function communityGrade(Request $request){
+		session_start();
+		$session =  $_SESSION;
+		session_write_close();
 
+		if( !isset($session['idx']) || empty($session['idx']) ){
+			return $this->error('로그인후 사용해주세요.', 422);
+		}
+
+		$statics = $this->communityStatics($session['idx']);
+		if( $statics ) $cnt = $statics->cnt;
+		else $cnt = 0;
+
+		$ret = ["cnt"=>$cnt, "title"=>$this->communityGradeFullTitle($cnt), "short_title"=>$this->communityGradeTitle($cnt)];
+		return $this->success( $ret);
+	}
+	public function evaluationGrade(Request $request){
+		session_start();
+		$session =  $_SESSION;
+		session_write_close();
+
+		if( !isset($session['idx']) || empty($session['idx']) ){
+			return $this->error('로그인후 사용해주세요.', 422);
+		}
+
+		$uid = $session['idx'];
+		$data = $this->evaluationStatics( $uid );
+		$data->stars = $this->explodeStar( $data->total);
+		return $this->success( $data );
+	}
+	public function bestRangeCount(Request $request){
+		session_start();
+		$session =  $_SESSION;
+		session_write_close();
+
+		if( !isset($session['idx']) || empty($session['idx']) ){
+			return $this->error('로그인후 사용해주세요.', 422);
+		}
+
+		$uid = $session['idx'];
+		$range = ( ( $request->range) ?  $request->range : 3 ) -1;
+
+		$dt = Carbon::now();
+		$before = $dt->copy()->subMonth($range);
+		$yy= $before->format('Y');
+		$mm = $before->format('m');
+		$res =[];
+		for( $yy ; $yy<= $dt->format('Y'); $yy++){
+			for( $mm ; $mm<= 12 ; $mm++){
+				$res[$yy."-".sprintf('%02d',$mm)]=[
+					'yy'=>$yy,
+					'mm'=>sprintf('%02d',$mm),
+					'count'=>0
+					];
+				if( $yy == $dt->format('Y') &&  $mm >= $dt->format('m')) break;
+			}
+			$mm = 1;
+		}
+		$sql = "
+		SELECT ym, COUNT(1) AS cnt
+		FROM (
+
+			      SELECT 'best' AS ctype, a.auction_staff_s_uid , DATE_FORMAT( created_at, '%Y-%m') AS ym
+			      FROM post_comments a
+			      where
+			      a.auction_staff_s_uid =? AND a.is_confirmed = 'Y' AND a.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-01 00:00:00')
+
+			      UNION all
+
+			      SELECT 'fav' AS ctype, a.auction_staff_s_uid , DATE_FORMAT( created_at, '%Y-%m') AS ym
+			      FROM post_comments a
+			      where
+			      a.auction_staff_s_uid =? AND a.is_confirmed = 'Y' AND a.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-01 00:00:00')
+		) grp
+		GROUP BY ym
+		";
+		$data = \DB::select( $sql,[$uid,$uid]);
+
+		$total = 0;
+		foreach( $data as $row ){
+			$res[ $row->ym]['count'] = $row->cnt;
+			$total +=$row->cnt;
+		}
+		$cnt = PostComment::where(['auction_staff_s_uid'=>$uid])
+			->where( 'created_at','>=', $dt->format('Y-m-01 00:00:00') )->count();
+			dd($_SESSION);
+		return $this->success([ "total"=>$total, "data"=>$res,'monthCommentCnt'=>$cnt]);
+	}
 
 	public function reviewMain(Request $request){
 		$sql = "
@@ -114,85 +202,12 @@ class DefaultlistController extends Controller
 			$row->avgstararr = $this->explodeStar($row->avgstar);
 
 			$row->b_note = htmlspecialchars_decode($row->b_note);
-			$row->company_point_title = $this->getCompanyTotal( $row->b_worker_idx);
-
+			$tmp =  $this->evaluationStatics( $row->b_worker_idx);
+			$row->company_point_title = $tmp->title;
 		}
 		if ( count( $data) == 1 ) $data = $data[0];
 
 		return $this->success($data);
 	}
-	private function explodeStar( $data ){
-			$ret = [];
-			$temp = $data ;
-			for( $i = 0 ; $i < 5 ; $i ++ ){
-				if( $data >=1 ) $ret[] = '1';
-				else if ( $data >= 0.5 ) $ret[] = '0.5';
-				else $ret[] = '0';
-				$data--;
-			}
-		return $ret;
-	}
-	private function company_total( $id){
-		$sql = "
-			SELECT
-			round((pro + kind + price + finish + expost + pave)/5/cnt) AS total
-			FROM
-			(
-			SELECT SUM( a.b_star_pro) AS pro, sum(a.b_star_kind) AS kind , SUM( a.b_star_price) AS price, SUM( a.b_star_finish) AS finish
-			, SUM( a.b_star_expost) AS expost, SUM(a.b_star_pave) AS pave, count(1) AS cnt
-			FROM auction_bbs_postscript a
-			WHERE a.b_worker_idx = ".(int)$id."
-			) temp
-		";
-		$data =  \DB::select($sql);
-		$data = (!$data[0]->total) ? '1' : $data[0]->total;
-		$strArr = [
-			"1" => "미흡업체"
-			, "2" => "보통업체"
-			, "3" => "우수업체"
-			, "4" => "최우수업체"
-			, "5" => "명예의전당"
-		];
-		return $strArr[$data];
-	}
-	private function getCompanyTotal($id){
-		if( $this->company_points_cache == null ) {
-			$data = \Cache::remember('conpanyStarPoint', 60, function () {
-				$sql = "SELECT * ,
-					case
-						WHEN ( total = 5 ) THEN '명예의전당'
-						WHEN ( total > 4 ) then '최우수업체'
-						WHEN ( total > 3 ) then '우수업체'
-						WHEN ( total > 2 ) then '보통업체'
-						ELSE '미흡업체'
-					END AS title
-					from
-					(
-					SELECT b_worker_idx, CONCAT('_' , b_worker_idx) AS id,
-					 truncate((pro + kind + price + finish + expost )/5/cnt , 1) AS total
-					FROM
-					(
-					SELECT b_worker_idx,
-						SUM( if( b_star_pro> 5 , 5 , b_star_pro)) AS pro,
-						SUM( if( b_star_price> 5 , 5 , b_star_price)) AS price,
-						SUM( if( b_star_finish> 5 , 5 , b_star_finish)) AS finish,
-						SUM( if( b_star_expost> 5 , 5 , b_star_expost)) AS expost,
-						SUM( if( b_star_kind> 5 , 5 , b_star_kind)) AS kind,
-						count(1) AS cnt
-					FROM auction_bbs_postscript a
-					GROUP BY  a.b_worker_idx
-					) temp
-					) temp2";
-				$data = \DB::select( $sql );
-				$res = [];
-				foreach ( $data as $row ) $res[ $row->id ] = $row;
-				return $res;
-			});
-			$this->company_points_cache = $data;
-		}
 
-		if ( isset( $this->company_points_cache['_'.$id]) ) return $this->company_points_cache['_'.$id]->title;
-		else return '';
-
-	}
 }

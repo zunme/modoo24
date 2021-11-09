@@ -96,5 +96,144 @@ trait ApiResponser
 			return isset($clean_type_arr[$data]) ? $clean_type_arr[$data] : '';
 		}else return isset($type_arr[$data]) ? $type_arr[$data] : '';
 	}
+	/* 소통점수 */
+	private   function communityStatics($id=null) {
+		$data = \Cache::remember('companyCommunityGrade', 60*10, function () {
+	    $sql = "
+	    SELECT auction_staff_s_uid , COUNT(1) AS cnt
+	    FROM (
+	      SELECT 'best' AS ctype, a.auction_staff_s_uid
+	      FROM post_comments a
+	      JOIN post_comment_best_logs b ON a.id = b.comment_id
+	      where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
 
+	      UNION ALL
+
+	      SELECT 'fav' AS ctype, a.auction_staff_s_uid
+	      FROM post_comments a
+	      JOIN post_comment_fav_logs b ON a.id = b.comment_id
+	      where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+	    ) tmp
+	    GROUP BY auction_staff_s_uid
+	    ";
+	    $data =  \DB::select( $sql);
+	    $res =[];
+	    foreach ( $data as $row ) {
+	      $res[ '_'. $row->auction_staff_s_uid ] = $row;
+	    }
+			return $res;
+		});
+		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
+	  return $data;
+  }
+	//6개월 comment 갯수
+	private   function communityCommentNumStatics($id=null) {
+		$data = \Cache::remember('companyCommunityCommentNum', 60*10, function () {
+	    $sql = "
+			SELECT auction_staff_s_uid , COUNT(1) AS comment_cnt
+	    FROM (
+	      SELECT 'best' AS ctype, a.auction_staff_s_uid
+	      FROM post_comments a
+	      where a.is_confirmed = 'Y' AND a.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+
+	      UNION ALL
+
+	      SELECT 'fav' AS ctype, a.auction_staff_s_uid
+	      FROM post_comments a
+	      where a.is_confirmed = 'Y' AND  a.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+	    ) tmp
+	    GROUP BY auction_staff_s_uid
+	    ";
+	    $data =  \DB::select( $sql);
+	    $res =[];
+	    foreach ( $data as $row ) {
+	      $res[ '_'. $row->auction_staff_s_uid ] = $row;
+	    }
+			return $res;
+		});
+		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
+	  return $data;
+  }
+	private function communityGradeTitle($total){
+		if ( $total >= 7 ) return '명예';
+		else if ( $total >= 5 ) return '최우수';
+		else if ( $total >= 3 ) return '우수';
+		else if ( $total >= 2 ) return '보통';
+		else  return '미흡';
+	}
+	private function communityGradeFullTitle($total){
+		if ( $total >= 7 ) return '명예의전당';
+		else if ( $total >= 5 ) return '최우수업체';
+		else if ( $total >= 3 ) return '우수업체';
+		else if ( $total >= 2 ) return '보통업체';
+		else  return '미흡업체';
+	}
+
+	/* 고객평가점수 */
+	private function evaluationStatics($id=null, $all=false){
+		$data = \Cache::remember('companyStarPoint', 60*10, function () {
+			$sql = "
+			SELECT * ,
+				case
+					WHEN ( total >= 5 ) THEN '명예의전당'
+					WHEN ( total > 4 ) then '최우수업체'
+					WHEN ( total > 3 ) then '우수업체'
+					WHEN ( total > 2 ) then '보통업체'
+					ELSE '미흡업체'
+				END AS title ,
+				case
+					WHEN ( total >= 5 ) THEN '명예'
+					WHEN ( total > 4 ) then '최우수'
+					WHEN ( total > 3 ) then '우수'
+					WHEN ( total > 2 ) then '보통'
+					ELSE '미흡'
+				END AS short_title
+			FROM
+			(
+				select
+					b_worker_idx, CAST( ( SUM( total) / COUNT(1)) AS DECIMAL(5,2) ) AS total, COUNT(1) AS cnt
+				FROM(
+					SELECT a.b_worker_idx,
+					CAST(( CAST( IFNULL( if( a.b_star_pro > 5, 5, a.b_star_pro),0) AS DECIMAL(5,2) ) +
+					CAST( IFNULL( if( a.b_star_kind > 5, 5, a.b_star_kind),0) AS DECIMAL(5,2) ) +
+					CAST( IFNULL( if( a.b_star_price > 5, 5, a.b_star_price),0) AS DECIMAL(5,2) ) +
+					CAST( IFNULL( if( a.b_star_finish > 5, 5, a.b_star_finish),0) AS DECIMAL(5,2) ) +
+					CAST( IFNULL( if( a.b_star_expost > 5, 5, a.b_star_expost),0) AS DECIMAL(5,2) ) +
+					CAST( IFNULL( if( a.b_star_pave > 5, 5, a.b_star_pave),0) AS DECIMAL(5,2) ) ) / 6 AS DECIMAL(10,2) ) AS total
+					FROM auction_bbs_postscript a
+					WHERE b_worker_idx  > 0
+				) grp
+				GROUP BY b_worker_idx
+			)res
+			";
+			$data =  \DB::select( $sql);
+			$res =[];
+			foreach ( $data as $row ) {
+				$res[ '_'. $row->b_worker_idx ] = $row;
+			}
+			return $res;
+		});
+
+		if( $id ) {
+			if( isset($data['_'.$id]) ) return $data['_'.$id];
+			$ret = [
+							"b_worker_idx"=>$id, "title"=>"미흡업체", "short_title"=>"미흡",
+							"total"=>0, "cnt"=>0,
+		 				];
+			return $ret;
+		}
+		else return $data;
+	}
+	//별점 분리
+	private function explodeStar( $data ){
+			$ret = [];
+			$temp = $data ;
+			for( $i = 0 ; $i < 5 ; $i ++ ){
+				if( $data >=1 ) $ret[] = '1';
+				else if ( $data >= 0.5 ) $ret[] = '0.5';
+				else $ret[] = '0';
+				$data--;
+			}
+		return $ret;
+	}
 }

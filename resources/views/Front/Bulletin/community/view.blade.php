@@ -94,6 +94,7 @@
   margin: 15px;
   padding-top:15px;
   padding-bottom:15px;
+  font-size: .9em;    
 }
 .post_title_wrap:after {
   content: '';
@@ -211,7 +212,7 @@ font-weight: 600; color: #666
 }
 
 .comment_write_wrap{
-  position: relative;
+  position: relative; margin-top: 15px;
 }
 
 .form-control {
@@ -419,6 +420,7 @@ font-weight: 600; color: #666
 .block-line-title+.block-line {
     margin-top: 0px;
 }
+    .btncolor_pt{background: #1e9af9!important;}
 
 @media screen and (min-width: 820px) {
   .sheet_modal{
@@ -563,7 +565,7 @@ font-weight: 600; color: #666
       </form>
       <div class="comment_cnt_wrap"> <span id="comment_cnt">0</span>/3000 </div>
       <div class="comment_write_btn_wrap">
-        <span class="btn cmnty_button_blue" onClick="write_comment(this)">댓글등록</span>
+        <span class="btn btn-sm btncolor_pt" onClick="write_comment(this)">댓글등록</span>
       </div>
     </div>
 

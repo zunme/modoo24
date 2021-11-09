@@ -54,7 +54,7 @@
             <div class="comment_footer_inner">
               <div class="commment_footer_left">
                 @if ( $comment->is_confirmed =='Y')
-                <span class="btn btn-gray btn-sm" data-nick="{{$comment->nickname}}" data-id="{{$comment->id}}" onclick="recomment(this)">댓글</span>
+                <span class="btn btn-white btn-sm btnborder" data-nick="{{$comment->nickname}}" data-id="{{$comment->id}}" onclick="recomment(this)">댓글</span>
                 @endif
               </div>
               <div class="commment_footer_right">{{$comment->created_at}}</div>
