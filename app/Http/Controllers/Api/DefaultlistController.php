@@ -159,7 +159,6 @@ class DefaultlistController extends Controller
 		}
 		$cnt = PostComment::where(['auction_staff_s_uid'=>$uid])
 			->where( 'created_at','>=', $dt->format('Y-m-01 00:00:00') )->count();
-			dd($_SESSION);
 		return $this->success([ "total"=>$total, "data"=>$res,'monthCommentCnt'=>$cnt]);
 	}
 

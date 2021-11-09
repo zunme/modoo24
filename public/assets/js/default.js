@@ -814,7 +814,7 @@ $("document").ready( function() {
   }
 
   $(".gotohome").on("click", function(e){
-    location.href='/NEW/index'
+    location.href='/v2/'
   });
   $(".modalpop_link").on("click", function(e){
     let url = $(e.target).attr('link');

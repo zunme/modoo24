@@ -20,12 +20,18 @@
             </div>
             <div class="comment-row">
               @if ( $comment->is_confirmed =='Y')
-              {!! nl2br($comment->comment)!!}
+                @if( $comment->parent_user_nickname != '')
+                  <span class="usertag">{{$comment->parent_user_nickname}}</span>
+                @endif
+               {!! nl2br($comment->comment)!!}
               @elseif ( $comment->is_confirmed =='D')
               삭제된 댓글입니다.
               @else
                 @if( Auth::user()->id == $comment->user_id )
                 <span class="color_pt">(대기중)</span><br>
+                  @if( $comment->parent_user_nickname != '')
+                  <span class="usertag">{{$comment->parent_user_nickname}}</span>
+                  @endif
                  {!! nl2br($comment->comment)!!}
                 @else
                   모두이사 커뮤니티 게시물 규정 확인 후 글이 노출됩니다.
@@ -65,7 +71,7 @@
   @empty
     <li>
       댓글이 없습니다.
-    </li>  
+    </li>
   @endforelse
 </ul>
 <div class="ct">

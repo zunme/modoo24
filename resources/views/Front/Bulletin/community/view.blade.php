@@ -94,7 +94,7 @@
   margin: 15px;
   padding-top:15px;
   padding-bottom:15px;
-  font-size: .9em;    
+  font-size: .9em;
 }
 .post_title_wrap:after {
   content: '';
@@ -434,14 +434,16 @@ font-weight: 600; color: #666
     border-radius: 15px;
   }
 }
-
-.toUser:before{
+.usertag:before{
   content:'@';
   display: inline-block;
   margin-right: 2px;
 }
-.toUser{
+.usertag{
   margin-right: 5px;
+}
+.toUser{
+  display: none;
 }
 /* 공감 */
 .myfavorite{
@@ -467,7 +469,7 @@ font-weight: 600; color: #666
         <li class="h_icon gotohome"></li>
         <li class="@if($code=='tip') on @endif"><a href="/community/posts/tip">모두꿀TIP</a></li>
         <li class="@if($code=='fun') on @endif"><a href="/community/posts/fun">모두FUN</a></li>
-        <li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>
+        <!--<li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>-->
     </ul>
 </div>
 

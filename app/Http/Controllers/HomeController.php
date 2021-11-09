@@ -10,7 +10,7 @@ use Validator;
 use App\User;
 
 use App\Models\Post;
-
+use App\Models\PostCommentDepth;
 class HomeController extends Controller
 {
     /**
@@ -29,6 +29,15 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function test(){
+       return;
+       $comments = PostCommentDepth::get();
+       foreach( $comments as $comment){
+         $comment->comment = preg_replace('/<(span)\b.*?class=([\'"\s]?)toUser\2.*?>.*?<\/\1>/i', '', $comment->comment);
+         $comment->save();
+        dump($comment->comment );
+       }
+
+       return;
        $post = Post::first();
        event(new PostEvent( $post));
         return;

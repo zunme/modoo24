@@ -15,7 +15,7 @@
 <style>
 	.writeform{
       margin: 0;
-      width: 100%;    
+      width: 100%;
 	}
 	.editor_wrap{
 		height: 30vh;
@@ -99,7 +99,7 @@
     color: #666;
     padding-top: 10px;
 }
-    
+
 .write_margin{
     width: 100%;
     height: 50px;
@@ -116,8 +116,8 @@
 
 .bmd-form-group .form-control, .bmd-form-group label, .bmd-form-group input::placeholder {
     line-height: 2;
-}    
-    
+}
+
 </style>
 @endsection
 
@@ -222,7 +222,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<ul class="btn_3set" style="margin-top:20px;">
                 <li><button class="btn button_blue button_gray" type="button" onClick="write_cancel()">취소</button></li>
                 <li><button class="btn button_blue" type="button" onClick="write_prc()">등록</button></li>
@@ -335,6 +335,7 @@ function write_prc() {
 	$(".imgprevcol.hide").remove()
 
 	var data= new FormData( document.getElementById(form) );
+	
 	@if( $config->html_use =='Y' )
 		data.set('body', editor.root.innerHTML)
 	@endif

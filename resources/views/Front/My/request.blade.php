@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 @endsection
 
 @section('body_bottom','')

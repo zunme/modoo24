@@ -59,7 +59,7 @@
     <link rel="stylesheet" type="text/css" href="/v1/css/main_ct.css" />
 
     @section('usesub')
-    <link rel="stylesheet" type="text/css" href="/NEW/css/sub.css" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/sub.css" />
     @show
     <link rel="stylesheet" type="text/css" href="/v1/css/common.css" />
     <link rel="stylesheet" type="text/css" href="/v1/css/font.css" />
@@ -83,7 +83,7 @@
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <!--  custom  -->
     <script src="/community/assets/js/default.js?v=20211105151300"></script>
-    
+
     <script>
      /*************************************
      Menu Area
@@ -128,14 +128,14 @@
 					<p class="mobile-only site-title"><a class="fmenu_logo" href="/"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a></p>
 					<strong>사이트맵</strong>
 					<span class="close-icon"></span>
-					
+
 					<nav class="mobile-only" id="lang-navigation">
 						<ul class="mobile-only">
 						</ul>
 					</nav><!-- #lang-navigation -->
-					
+
 					<span class="search-icon mobile-only"></span>
-					
+
 					<nav id="sitemap">
 						<ul>
 							<li class="main-beyond-build has-children">
@@ -205,7 +205,7 @@
 									</li>
 								</ul>
 							</li>
-							
+
 						</ul>
 					</nav>
 					<!-- #utility-line -->
@@ -213,8 +213,8 @@
 				</div><!-- .inner -->
 			</div>
 			<!-- .menu-area end -->
-    
-    
+
+
     <header class="pc" id="menu_wrap">
         <div class="menu_floor01">
             <div class="center">

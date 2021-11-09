@@ -26,6 +26,10 @@ class MyController extends Controller
   */
   function requestList(Request $request){
     $phone = null;
+		if( $request->clean ){
+			$request->session()->forget('userAuth');
+			return view('Front.My.request');
+		}
     if( Auth::user() && !empty(Auth::user()->phone ) ){
       $phone = Auth::user()->phone ;
     }else if( $request->session()->has('userAuth') ) {
@@ -81,6 +85,7 @@ class MyController extends Controller
           $row->kind_title = "입주청소";
         }
       }
+			$tab = '';
       if( $request->tname ){
         $temp = explode( '_',$request->tname);
         $tab = $temp[0];
