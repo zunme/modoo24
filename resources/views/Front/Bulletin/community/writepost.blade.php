@@ -2,7 +2,7 @@
 @section('body_bottom','')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 
 <!-- Theme included stylesheets -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />

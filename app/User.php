@@ -17,10 +17,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','nickname','provider','confirmation_token','simplyMarketting','reasonWithdrawal'
+        'name', 'email', 'password','nickname','provider','confirmation_token','simplyMarketting','reasonWithdrawal','level','deleted_at','phone'
     ];
     protected $dates = [
-        'created_at', 'updated_at', 'confirmed_at'
+        'created_at', 'updated_at', 'confirmed_at','deleted_at'
     ];
     /**
      * The attributes that should be hidden for arrays.

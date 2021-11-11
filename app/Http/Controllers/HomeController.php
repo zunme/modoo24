@@ -8,9 +8,9 @@ use App\Events\Event;
 use App\Events\PostEvent;
 use Validator;
 use App\User;
-
+use Carbon\Carbon;
 use App\Models\Post;
-
+use App\Models\PostCommentDepth;
 class HomeController extends Controller
 {
     /**
@@ -29,6 +29,16 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function test(){
+       return view("Front.sheettest");
+       return;
+       $comments = PostCommentDepth::get();
+       foreach( $comments as $comment){
+         $comment->comment = preg_replace('/<(span)\b.*?class=([\'"\s]?)toUser\2.*?>.*?<\/\1>/i', '', $comment->comment);
+         $comment->save();
+        dump($comment->comment );
+       }
+
+       return;
        $post = Post::first();
        event(new PostEvent( $post));
         return;
@@ -39,7 +49,16 @@ class HomeController extends Controller
      }
     public function index()
     {
-        return view('home');
+      return view('welcome');
+      return view('home');
+    }
+    public function home(){
+      $jisik = Post::with(['firstcomment'])->where(['bulletin_id'=>1,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
+      $fun = Post::where(['bulletin_id'=>2,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(3)->get();
+      $tip = Post::where(['bulletin_id'=>4,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
+
+      $startday = Carbon::now()->format('Y-m-d 00:00:00');
+      return view('welcome', compact(['jisik', 'fun', 'tip','startday']));
     }
 	    /**
      * CSRF 갱신

@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 <style>
 .mypage_odr_list > li > dl {
     height: 96px;
@@ -77,8 +77,8 @@
 
 @empty
 
-<li>
-  <p style="margin:20px 0; font-size:0.9em;">휴대번호로 검색된 이사 신청내역이 없습니다.</p>
+<li class="untact visit clean alltab emptylist" >
+  <p style="margin:20px 0; font-size:0.9em;">휴대폰번호로 검색된 이사 신청내역이 없습니다.</p>
 </li>
 @endforelse
           </ul>

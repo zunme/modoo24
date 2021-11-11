@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 <style>
 :root {
   --device-pixel-ratio: 1;
@@ -94,7 +94,8 @@
   margin: 15px;
   padding-top:15px;
   padding-bottom:15px;
-  font-size: .9em;    
+  font-size: .9em;
+  color: #666;    
 }
 .post_title_wrap:after {
   content: '';
@@ -434,14 +435,16 @@ font-weight: 600; color: #666
     border-radius: 15px;
   }
 }
-
-.toUser:before{
+.usertag:before{
   content:'@';
   display: inline-block;
   margin-right: 2px;
 }
-.toUser{
+.usertag{
   margin-right: 5px;
+}
+.toUser{
+  display: none;
 }
 /* 공감 */
 .myfavorite{
@@ -457,8 +460,7 @@ font-weight: 600; color: #666
 @section('content')
 <!--common_visual-->
 <div class="visual6">
-    <h1>커뮤니티</h1>
-    <h4>모두이사 커뮤니티 페이지입니다.</h4>
+     <h1>{{$config->title}}</h1>
 </div><!--//common_visual-->
 
 
@@ -467,7 +469,7 @@ font-weight: 600; color: #666
         <li class="h_icon gotohome"></li>
         <li class="@if($code=='tip') on @endif"><a href="/community/posts/tip">모두꿀TIP</a></li>
         <li class="@if($code=='fun') on @endif"><a href="/community/posts/fun">모두FUN</a></li>
-        <li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>
+        <!--<li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>-->
     </ul>
 </div>
 

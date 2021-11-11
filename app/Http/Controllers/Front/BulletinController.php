@@ -216,15 +216,9 @@ class BulletinController extends Controller
 		$data = $request->except('id', 'code');
 
 		$storage = Storage::disk('public');
-		if( $request->delfile ){
-			foreach( $request->delfile as $fileno){
-				$file = PostFile::find( $fileno);
-				$this->delfile( $file->url);
-				$file->delete();
-			}
-		}
 
-		$data['body'] = $this->getimage($data['body']);
+		if( $config->html_use =='Y') $data['body'] = $this->getimage($data['body']);
+
 		$data['repImg'] = $this->firstImage($data['body'] );
 		/* xss with html purifier */
 		$dir = "HTMLPurifier";
@@ -235,10 +229,13 @@ class BulletinController extends Controller
 		$puriconfig = \HTMLPurifier_Config::createDefault();
 		$puriconfig->set('Cache.SerializerPath', $cachePath);
 		$purifier = new \HTMLPurifier($puriconfig);
+
 		$data['body'] = $purifier->purify($data['body']);
 		if( $request->id > 0 ){
-			$post = Post::active()->with(['comments','files'])->where([ 'id'=>$request->id ])->first();
+			$post = Post::with(['comments','files'])->where([ 'id'=>$request->id ])->first();
+
 			if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
+			if($post->is_confirmed !='R') return $this->error('더이상 수정하실수 없습니다.', 422);
 
 			$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
 			if ( !$is_writer){
@@ -258,6 +255,13 @@ class BulletinController extends Controller
 			$post = Post::create($data);
 		}
 
+		if( $request->delfile ){
+			foreach( $request->delfile as $fileno){
+				$file = PostFile::find( $fileno);
+				$this->delfile( $file->url);
+				$file->delete();
+			}
+		}
 
 		$files = $request->file('upload');
 
@@ -374,8 +378,11 @@ class BulletinController extends Controller
 			$data['right_max'] = 1;
 
 			$data['nickname'] =( $user->level > 1023) ? '관리자': $user->nickname;
-			$data['comment'] = '<span class="toUser">'.$post->nickname.'</span>'. $request->comment;
+			$data['comment'] =  $request->comment;
 			$data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
+
+			$data['parent_user_id'] = $post->user_id;
+			$data['parent_user_nickname'] = $post->nickname;
 //dd( $data);
 			try{
 				$comment = PostCommentDepth::create( $data );
@@ -422,9 +429,12 @@ class BulletinController extends Controller
 		 $data['depth_no'] = $comment->depth_no+1;
 		 $data['order_no'] = $order_no;
 		 $data['right_max'] = $order_no;
-		 $data['comment'] = '<span class="toUser">'.$parent_comment->nickname.'</span>' . $request->comment;
+		 $data['comment'] =  $request->comment;
 		 $data['nickname'] = ($user->level < 1024) ? $user->nickname : '관리자';
 		 $data['is_confirmed'] = $config->use_comment_confirm == 'Y' ? 'R' : 'Y';
+
+		 $data['parent_user_id'] = $parent_comment->user_id;
+ 		 $data['parent_user_nickname'] = $parent_comment->nickname;
 
 		 try{
 					$parent_comment->increment('right_max', 1);

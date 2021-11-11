@@ -18,7 +18,8 @@ class Post extends Model
 	use SoftDeletes;
 	use Notifiable;
 	protected $table = 'posts';
-	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg','fav_cnt','comment_cnt','view_cnt','si_code','gu_code'];
+	protected $fillable = ['bulletin_id','user_id','nickname','noti','is_confirmed','title','body','repImg'
+		,'fav_cnt','comment_cnt','view_cnt','si_code','gu_code', 'main_post'];
 
   public function scopeActive($query){
         return $query->where('is_confirmed', 'Y');
@@ -31,6 +32,11 @@ class Post extends Model
 		->join('auction_staff', 'post_comments.auction_staff_s_uid','=','auction_staff.s_uid')
 		;
   }
+
+	public function firstcomment(){
+		return  $this->hasOne(PostComment::class,'post_id' )
+			->where(['is_confirmed'=> 'Y'])->orderBy('id','asc');
+	}
 	public function simplecomments() {
 		return $this->hasMany(PostComment::class,'post_id' )->select('post_comments.*', 'auction_staff_s_uid','s_company','s_mobile_img0')->where('post_comments.is_confirmed', '=', 'Y')->orWhere('post_comments.is_confirmed', '=', 'R')
 		->join('auction_staff', 'post_comments.auction_staff_s_uid','=','auction_staff.s_uid')

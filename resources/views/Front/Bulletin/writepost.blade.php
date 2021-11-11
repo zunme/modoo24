@@ -2,7 +2,7 @@
 @section('body_bottom','')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 
 <!-- Theme included stylesheets -->
 <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -15,7 +15,7 @@
 <style>
 	.writeform{
       margin: 0;
-      width: 100%;    
+      width: 100%;
 	}
 	.editor_wrap{
 		height: 30vh;
@@ -99,7 +99,7 @@
     color: #666;
     padding-top: 10px;
 }
-    
+
 .write_margin{
     width: 100%;
     height: 50px;
@@ -116,8 +116,8 @@
 
 .bmd-form-group .form-control, .bmd-form-group label, .bmd-form-group input::placeholder {
     line-height: 2;
-}    
-    
+}
+
 </style>
 @endsection
 
@@ -126,15 +126,14 @@
 <div class="sub-header-wrap">
   <div class="visual6">
       <h1>{{$config->title}}</h1>
-      <h4>{{$config->sub_title}}</h4>
   </div><!--//common_visual-->
-  <div class="sub_menu">
+  <!--<div class="sub_menu">
       <ul class="center">
           <li class="h_icon gotohome"></li>
           <li class="on">{{$config->title}}</li>
       </ul>
   </div>
-</div>
+</div>-->
 
 <section class="container">
 
@@ -222,7 +221,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 			<ul class="btn_3set" style="margin-top:20px;">
                 <li><button class="btn button_blue button_gray" type="button" onClick="write_cancel()">취소</button></li>
                 <li><button class="btn button_blue" type="button" onClick="write_prc()">등록</button></li>
@@ -335,6 +334,7 @@ function write_prc() {
 	$(".imgprevcol.hide").remove()
 
 	var data= new FormData( document.getElementById(form) );
+	
 	@if( $config->html_use =='Y' )
 		data.set('body', editor.root.innerHTML)
 	@endif
