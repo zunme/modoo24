@@ -224,63 +224,38 @@
             <li class="pc">
                 <h4>이사 <span class="color_pt">지식인</span> <span class="plus">+</span></h4>
                 <ul class="know_list">
+@foreach ( $jisik as $row )
                     <li>
                         <a href="/v1/knows/knows_list.php">
-                            <div>Q. 반포장이사시 준비해야 할 것은 어떤게...</div>
-                            <div>A. 반포장이사나 포장이사시 자차로 가셔도 되시고 동승하셔도 되세요.</div>
+                            <div>Q. {{$row->title}}</div>
+                            <div>A.
+                              @if ( $row->firstcomment)
+                              {{$row->firstcomment->body}}
+                              @else
+                              답변대기중입니다.
+                              @endif
+                            </div>
                         </a>
                     </li>
-                    <li>
-                        <a href="/v1/knows/knows_list.php">
-                            <div>Q. 시간이 안되서 오후나 저녁에 이사..</div>
-                            <div>A. 이사할 때 한군데에서만 견적을 받아보시면 안됩니다.</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/v1/knows/knows_list.php">
-                            <div>Q. 다음달쯤에 이사준비로 이사비교견적</div>
-                            <div>A. 저렴한 가격에 중점을 둔 이삿짐센터의 경우, 이용시 서비스 품질저하등으로..</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/v1/knows/knows_list.php">
-                            <div>Q. 비대면 견적은 어떻게 하나요</div>
-                            <div>A. 항목선태과 사진 촬영을 해주시고 등록해 주시면 간편하게 해결됩니다..</div>
-                        </a>
-                    </li>
+@endforeach
                 </ul>
             </li>
             <li>
                 <h4 class="bgg">모두 <span class="color_blue">꿀TIP</span> <a class="plus" href="/v2/posts/tip">+</a></h4>
                 <ul class="huney_list">
-                    <li>
-                        <a href="">
-                            <div>
-                                <img src="/v1/image/main_N/tip01.png" alt="">
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <div>
-                                <img src="/v1/image/main_N/tip02.png" alt="">
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <div>
-                                <img src="/v1/image/main_N/tip03.png" alt="">
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <div>
-                                <img src="/v1/image/main_N/tip04.png" alt="">
-                            </div>
-                        </a>
-                    </li>
+                  @foreach ( $tip as $row)
+                  <li>
+                      <a href="">
+                          <div
+                          @if( $row->repImg && $row->repImg !='')
+                          style="background-image: url('{!!$row->repImg!!}')"
+                          @endif
+                          >
+
+                          </div>
+                      </a>
+                  </li>
+                  @endforeach
                 </ul>
             </li>
             <!--
@@ -298,64 +273,45 @@
                                 신림역, 봉천역</p>
                         </a>
                     </li>
-                    <li>
-                        <a>
-                            <div>
-                                <img src="/v1/image/main_N/img04.jpg" alt="">
-                            </div>
-                            <p>
-                                부산 동원시티비스타
-                                부산광역시 연제구 연산동
-                                1360-13번지 부산시청역,
-                                연산역 환승역 인접
-                            </p>
-                        </a>
-                    </li>
                 </ul>
             </li>
             -->
             <li>
                 <h4 class="bgg"><span class="color_blue">모두</span> FUN<span class="plus">+</span></h4>
                 <ul class="fun_list">
-                    <li>
-                        <a>
-                            <div>
-                                <img src="/v1/image/main_N/img05.jpg" alt="">
+                  @foreach ( $fun as $row)
+                  <li>
+                        <a href="/v2/posts/fun">
+                            <div class="fun_pic"
+                            @if( $row->repImg && $row->repImg !='')
+                            style="background-image: url('{!!$row->repImg!!}')"
+                            @endif
+                            >
+                                <!--이미지-->
                             </div>
-                            <p>
-                                서울시 신정4동 맛집
-                                베이커리 카폐 블라썸
-                                캠패니언 우리 동네는
-                                주변에 맛집이 많다
-                            </p>
+                            <div class="fun_txt">
+                                <p class="fun_title">
+                                  {{$row->title}}
+                                </p>
+                                <div class="item-desc-sub">
+                                    <div class="item-desc-nickname">{{$row->nickname}}</div>
+                                    <div class="item-desc-date">
+                                      @if ($row->created_at > $startday )
+                                        {{$row->created_at->format('H:i')}}
+                                      @else
+                                        {{$row->created_at->format('y.m.d')}}
+                                      @endif
+                                    </div>
+                                    <div class="line100"></div>
+                                    <div class="item-desc-commentcnt">
+                                        <i class="far fa-comment-dots"></i>
+                                        <span>{{$row->comment_cnt}}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </a>
                     </li>
-                    <li>
-                        <a>
-                            <div>
-                                <img src="/v1/image/main_N/img06.jpg" alt="">
-                            </div>
-                            <p>
-                                제가 사는 인천청라는
-                                수변공원 조성이 크고 길게
-                                아주 잘 만들어진 편입니다.
-                                그 수변은 결국에 호수공원.
-                            </p>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <div>
-                                <img src="/v1/image/main_N/img10.jpg" alt="">
-                            </div>
-                            <p>
-                                물들어 가는 단풍, 걷기 좋은 예쁜길,
-                                자전거 타기 좋은 곳 등 어린이 대공원
-                                으로도 불리는 인천 대공원에는 도심 속의
-                                보석 같은 풍경이 있습니다.
-                            </p>
-                        </a>
-                    </li>
+                    @endforeach
                 </ul>
             </li>
 
@@ -576,7 +532,7 @@
 
 
 
-@section('body-bottom')
+@section('body_bottom')
 <!--토글-->
 <div class="mobile" style="z-index: 900;position: fixed">
 		<input type="checkbox" name="toggle" id="toggle" />
@@ -666,6 +622,7 @@
 				</form>
 		</div>
 </div>
+  @parent
 @endsection
 
 

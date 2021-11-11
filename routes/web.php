@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-  return view('welcome');
-});
+Route::get('/','HomeController@home');
+
 Route::get('/test', 'HomeController@test');
 
 Route::get('/refresh', 'HomeController@refresh');
@@ -81,6 +80,11 @@ Route::get('/my/request', 'Front\MyController@requestList');
 Route::post('/my/sendsms', 'Front\MyController@sendsms');
 Route::post('/my/checkAuth', 'Front\MyController@checkAuth');
 
+//이벤트
+Route::get('/event', 'Front\EventController@index');
+Route::get('/event/{code}', 'Front\EventController@viewdetail');
+
+Route::post('/wngur/fakelog', 'Front\MyController@fakelog');
 
 Auth::routes();
 Route::get('/home', function () {

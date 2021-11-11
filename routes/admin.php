@@ -27,21 +27,27 @@ Route::group([
 			// 댓글 갯수, best, fav 카운팅
 			Route::get('resetlog', 'BulletinController@resetlog' );
 
+      //메인노출
+      Route::post('mainpost', 'BulletinController@mainpostchange' );
+
 		});
 
 
 		//유저
 		Route::group(['prefix' => 'user',], function() {
+
+      Route::post('/', 'UserController@userCreate');
+      Route::post('/update', 'UserController@userInfoChange');
+
 			Route::get('info', 'UserController@userInfo');
 			Route::get('list', 'UserController@usersList');
-
 			Route::get('staffInfo', 'UserController@staffInfo');
 		});
 			// STAFF
 		Route::group(['prefix' => 'staff',], function() {
 			Route::get('info', 'StaffController@staffInfo');
       //업체평가통계
-      Route::get('statics', 'StaffController@statics' );      
+      Route::get('statics', 'StaffController@statics' );
 		});
 
     Route::group([

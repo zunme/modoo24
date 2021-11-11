@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 <style>
     .mt-20 {
         margin-top: 20px;
@@ -211,7 +211,7 @@
         padding-right: 16px;
         font-size: 14px;
     }
-    
+
     /*****************mkcss***************
     .list>.funlist li {
         width: calc((100% - 75px)/3);
@@ -228,7 +228,7 @@
         height: 200px;
         background-size: cover;}
     .item-media-imgbox {    width: 100%;height: 100%;background-repeat: no-repeat;}
-    .media-list .item-link{display: block} 
+    .media-list .item-link{display: block}
     .item-desc {display: block;}
     .item-desc-sub{width: 100%;max-width: 100%;overflow: hidden;color: #666;margin-top: 3px}
     .item-text{display: none}
@@ -238,7 +238,7 @@
     .media-list li:not(:last-child):after {height: 0px}
     .media-list .item-link {padding-left: 0px}
     .ct {clear: both }***/
-    
+
     }
 
 
@@ -255,11 +255,11 @@
     li.notconfirmed .item-media-imgbox {
        background-color: rgba(0,0,0,0.8)!important;background-blend-mode: overlay;
     }
-    
-   @media only screen and (max-width: 600px) { 
+
+   @media only screen and (max-width: 600px) {
     .item-media-imgbox {width: 80px;height: 50px}
     .item-desc {
-            flex-direction: column; 
+            flex-direction: column;
         }
         .item-desc-sub {
             display: flex;
@@ -274,20 +274,20 @@
         .item-desc-commentcnt {
             padding-right: 10px;
         }
-        
- 
-       
+
+
+
     }
-    
-    
-       @media only screen and (max-width: 948px) { 
-    
-        
-       .round_btn {background-color: #1e9af9;color: #fff;border-radius: 100px!important;padding:14px;width: 50px;height: 50px; text-align: center;font-size: 1.2em;}  
+
+
+       @media only screen and (max-width: 948px) {
+
+
+       .round_btn {background-color: #1e9af9;color: #fff;border-radius: 100px!important;padding:14px;width: 50px;height: 50px; text-align: center;font-size: 1.2em;}
        .round_btn i{color: #fff}
-       
+
     }
-    
+
 
 </style>
 @endsection
@@ -296,8 +296,7 @@
 @section('content')
 <!--common_visual-->
 <div class="visual6">
-    <h1>커뮤니티</h1>
-    <h4>Community</h4>
+    <h1>{{$config->title}}</h1>
 </div>
 <!--//common_visual-->
 
@@ -315,7 +314,7 @@
 <div class="center">
     <div id="board">
         <div class="good_after">
-            <h1 style="border: 0"><b>{{$config->title}}</b></h1>
+           <!-- <h1 style="border: 0"><b>{{$config->title}}</b></h1>-->
             <div class="mt-20">
 
                 <form id="searchform" action="{{url()->current()}}">
@@ -356,7 +355,7 @@
 
                                         <div class="item-media">
                                             @php
-                                            $imgurl = ( isset($post->files[0]) ) ? '/community/storage'.( $post->files[0]->url) : '/NEW/image/sub/know_logo.png';
+                                            $imgurl = ( $post->repImg ) ? $post->repImg : '/NEW/image/sub/know_logo.png';
                                             @endphp
                                             <div class="item-media-imgbox" style="background: url( '{{$imgurl}}' ) no-repeat center center ;background-size: cover;">
                                             </div>
@@ -412,7 +411,7 @@
                 </div>
                 <div style="display: flex; flex-direction: row-reverse">
                 <a type="button" class="round_btn mobile btn" href="{{$code}}/write"><i class="fas fa-plus"></i></a>
-                </div>    
+                </div>
             </div>
         </div>
     </div>

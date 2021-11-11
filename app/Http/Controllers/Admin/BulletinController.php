@@ -38,8 +38,14 @@ class BulletinController extends Controller
 		return Datatables::of($data)->make(true);
 	}
 	function communtiyList( Request $request, $code = 'jisik' ) {
-		$config = BulletinConfig::where(['code'=>$code])->first();
-		$data = Post::with(['users','needconfirmdepth'])->where(['posts.bulletin_id'=>$config->id]);
+		if($code !='community') $config = BulletinConfig::where(['code'=>$code])->first();
+		else $config = BulletinConfig::where(['code'=>'jisik'])->first();
+
+		$data = Post::with(['users','needconfirmdepth'])
+						->select('posts.*', 'bulletin_configs.title as codetitle')
+						->join( 'bulletin_configs', 'posts.bulletin_id','=','bulletin_configs.id');
+		if($code !='community') $data = $data->where(['posts.bulletin_id'=>$config->id]);
+		else $data = $data->where('posts.bulletin_id','<>',$config->id);
 
 		if( $request->search_str != '' ){
 			if( $request->search_option == 'title') $data = $data->where('title','like','%'.$request->search_str.'%');
@@ -62,10 +68,18 @@ class BulletinController extends Controller
 	}
 	function commentConfirmdepthList( Request $request, $code = 'fun' ) {
 		$config = BulletinConfig::where(['code'=>$code])->first();
-		$data = PostCommentDepth:: select('post_comment_depth.*')
+
+		if($code !='community') $config = BulletinConfig::where(['code'=>$code])->first();
+		else $config = BulletinConfig::where(['code'=>'jisik'])->first();
+
+		$data = PostCommentDepth:: select('post_comment_depth.*', 'bulletin_configs.title as codetitle')
 			->join( 'posts','post_comment_depth.post_id', '=', 'posts.id')
-			->where(['post_comment_depth.is_confirmed'=>'R', 'bulletin_id'=>$config->id])
-			->orderBy('id','asc');
+			->join( 'bulletin_configs', 'posts.bulletin_id','=','bulletin_configs.id')
+			->where(['post_comment_depth.is_confirmed'=>'R']);
+
+		if($code !='community') $data = $data->where([ 'posts.bulletin_id'=>$config->id]);
+		else $data = $data->where('posts.bulletin_id','<>',$config->id);
+
 		return Datatables::of($data)
 		->addColumn('orign', function ($row){
 			if( $row->parent_id > 0 ){
@@ -155,7 +169,7 @@ class BulletinController extends Controller
 			$post->comment_cnt = $commentcnt;
 			$post->save();
 			//$post->decrement('comment_cnt');
-			
+
 			$log = PostCommentLog::firstOrCreate( ['auction_staff_s_uid'=>$comment->auction_staff_s_uid]);
 			$log->decrement('comment_cnt');
 
@@ -195,6 +209,27 @@ class BulletinController extends Controller
 		try{
 			$post = Post::find($request->id);
 			$post->is_confirmed = $request->status;
+			$post->save();
+			return $this->success( $post );
+		} catch ( \Exception $e){
+			return $this->error('상태변경에 실패하였습니다.',422);
+		}
+	}
+	function mainpostchange(Request $request){
+		$messages = [
+				'id.*' => '글 정보가 필요합니다.',
+				'status.*' =>'허용여부가 필요합니다.',
+		];
+		$this->validate($request, [
+			'id' => 'bail|required|numeric',
+			'status' => 'bail|required|in:Y,N',
+		 ],$messages);
+		 $post = Post::find($request->id);
+		 if ( $post->is_confirmed !='Y'){
+			return $this->error('글 허용 후 다시 시도해주세요.',422); 
+		 }
+		 try{
+			$post->main_post = $request->status;
 			$post->save();
 			return $this->success( $post );
 		} catch ( \Exception $e){

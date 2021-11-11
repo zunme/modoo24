@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 <style>
 span.like, a.like{
 	position: relative;
@@ -64,23 +64,23 @@ span.like > div {
 <!--common_visual-->
 <div class="visual6">
     <h1>{{$config->title}}</h1>
-    <h4>{{$config->sub_title}}</h4>
+
 </div><!--//common_visual-->
 
-
+<!--
 <div class="sub_menu">
     <ul class="center">
         <li class="h_icon gotohome"></li>
         <li class="on">{{$config->title}}</li>
     </ul>
-</div>
+</div>-->
 
 <form id="form_submit">
     <input name="cmd" type="hidden" value="write_proc" />
 
     <div class="center">
         <div id="knows_form">
-            <h2 class="cop_title" style="margin-bottom: 5px;">이사지식인</h2>
+            <!--<h2 class="cop_title" style="margin-bottom: 5px;">이사지식인에 답변은 모두이사 파트너 업체에서 답변 드립니다.</h2>-->
             <h4 class="cop_title_s" style="margin-top: 0px;">이사지식인에 답변은 모두이사 파트너 업체에서 답변 드립니다.
             </h4>
             <div class="tbBox" style="margin-top: 10px;">

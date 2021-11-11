@@ -175,7 +175,7 @@ class DefaultlistController extends Controller
 		}else {
 			$sql .= "
 						AND a.b_uid >= 6334
-					ORDER BY RAND()
+					ORDER BY a.b_uid desc
 					LIMIT 10
 			";
 		}

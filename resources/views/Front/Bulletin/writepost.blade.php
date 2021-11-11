@@ -2,7 +2,7 @@
 @section('body_bottom','')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 
 <!-- Theme included stylesheets -->
 <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -126,15 +126,14 @@
 <div class="sub-header-wrap">
   <div class="visual6">
       <h1>{{$config->title}}</h1>
-      <h4>{{$config->sub_title}}</h4>
   </div><!--//common_visual-->
-  <div class="sub_menu">
+  <!--<div class="sub_menu">
       <ul class="center">
           <li class="h_icon gotohome"></li>
           <li class="on">{{$config->title}}</li>
       </ul>
   </div>
-</div>
+</div>-->
 
 <section class="container">
 

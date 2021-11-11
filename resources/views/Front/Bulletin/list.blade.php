@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 
 <style>
 .ct > .pagination>.page-item>.page-link, .ct > .pagination>.page-item>span {
@@ -152,20 +152,19 @@ li.details-control.text-center{
 <!--common_visual-->
 <div class="visual6">
     <h1>{{$config->title}}</h1>
-    <h4>{{$config->sub_title}}</h4>
 </div><!--//common_visual-->
 
-
+<!--
 <div class="sub_menu">
     <ul class="center">
         <li class="h_icon gotohome"></li>
         <li class="on">{{$config->title}}</li>
     </ul>
-</div>
+</div>-->
 <div class="center">
     <div id="board">
         <div class="good_after">
-            <h1 style="border: 0"><b>{{$config->title}}</b></h1>
+            <!--<h1 style="border: 0"><b>{{$config->title}}</b></h1>-->
 
             <div class="mt-20">
 

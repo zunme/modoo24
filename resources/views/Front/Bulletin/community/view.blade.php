@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 <style>
 :root {
   --device-pixel-ratio: 1;
@@ -95,6 +95,7 @@
   padding-top:15px;
   padding-bottom:15px;
   font-size: .9em;
+  color: #666;    
 }
 .post_title_wrap:after {
   content: '';
@@ -459,8 +460,7 @@ font-weight: 600; color: #666
 @section('content')
 <!--common_visual-->
 <div class="visual6">
-    <h1>커뮤니티</h1>
-    <h4>모두이사 커뮤니티 페이지입니다.</h4>
+     <h1>{{$config->title}}</h1>
 </div><!--//common_visual-->
 
 

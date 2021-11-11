@@ -125,7 +125,7 @@
     <!-- .menu-area start -->
 			<div class="menu-area">
 				<div class="inner">
-					<p class="mobile-only site-title"><a class="fmenu_logo" href="/"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a></p>
+					<p class="mobile-only site-title"><a class="fmenu_logo gotohome" href="#"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a></p>
 					<strong>사이트맵</strong>
 					<span class="close-icon"></span>
 
@@ -160,9 +160,9 @@
 								</ul>
 							</li>
 							<li class="main-esg has-children">
-                                <a href="#none">이벤트</a>
+                                <a href="/v2/event">이벤트</a>
                                 <ul class="sub-menu">
-									<li><a href="#none">이벤트</a></li>
+									<li><a href="/v2/event">이벤트</a></li>
 								</ul>
 							</li>
 							<li class="main-career has-children">
@@ -195,7 +195,7 @@
 										<a href="/v1/customer/notice">모두 뉴스</a>
 									</li>
 									<li class="has-children">
-										<a href="/v1/customer/faq.php">이사견적시안내</a>
+										<a href="/v1/customer/faq.php">자주묻는 질문</a>
 									</li>
 									<li class="has-children">
 										<a href="/v1/customer/contact_info.php">이사정보</a>
@@ -218,7 +218,7 @@
     <header class="pc" id="menu_wrap">
         <div class="menu_floor01">
             <div class="center">
-                <a class="logoN" href="/"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a>
+                <a class="logoN gotohome" href="#"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a>
                 <ul class="menu01">
                     <li><a href="/front/orderpop?s=2">비대면견적</a></li>
                     <li><a href="/front/orderpop?s=1">방문견적</a></li>
@@ -302,7 +302,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">고객센터</a>
                     <ul class="dropdown-menu">
                         <li><a href="/v1/customer/notice">모두 뉴스</a></li>
-                        <li><a href="/v1/customer/faq">이사견적시 안내</a></li>
+                        <li><a href="/v1/customer/faq">자주묻는 질문</a></li>
                         <li><a href="/v1/customer/contact_info">이사정보</a></li>
                         <li onclick="viewpopcal()"><a>손없는날<div class="ripple-container">
                                     <div class="ripple-decorator ripple-on ripple-out" style="left: 62.4584px; top: 12.592px; background-color: rgb(255, 255, 255); transform: scale(20);"></div>
@@ -310,7 +310,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="#" role="button" aria-haspopup="true" aria-expanded="false">이벤트</a>
+                    <a href="/v2/event" role="button" aria-haspopup="true" aria-expanded="false">이벤트</a>
                 </li>
 
             </ul>
@@ -336,14 +336,14 @@
         <nav class="navbar  navbar-color-on-scroll fixed-top navbar-expand-lg mobile" color-on-scroll="100" id="sectionsNav">
             <div class="container">
                 <div class="navbar-translate">
-                    <a class="navbar-brand" href="/" style="margin-left: 0">
+                    <a class="navbar-brand gotohome" href="#" style="margin-left: 0">
                         <img src="/v1/image/main_N/logo_w.png" width="40" class="d-inline-block align-top" alt="모두이사">
                     </a>
                     <div class="mtop_btn_set">
                         <a href="/v1/modoo/contact_info.php"><button type="button" class="btn btn_info" onclick=""><span class="infortxt01">모두이사</span> <span class="infortxt02">이사 견적</span> <span class="infortxt03">비교 서비스</span></button></a>
                     </div>
 
-                    <a class="right" href="tel:1600-7728" style="top:12px; right:36px; position: absolute">
+                    <a class="right" href="tel:1600-7728" style="top:12px; right:50px; position: absolute">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z" />
                             <path d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z" fill="rgba(255,255,255,1)" />
@@ -396,7 +396,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/v1/knows/knows_list.php">
+                            <a class="nav-link" href="/v2/event">
                                 <i class="fas fa-calendar-day"></i> 이벤트
                             </a>
                         </li>
@@ -434,7 +434,7 @@
                                     <i class="material-icons">content_paste</i> 모두 뉴스
                                 </a>
                                 <a href="/front/custom_faq" class="dropdown-item">
-                                    <i class="material-icons">content_paste</i> 이사견적시 안내
+                                    <i class="material-icons">content_paste</i> 자주묻는 질문
                                 </a>
                                 <a href="/front/modoo_info" class="dropdown-item">
                                     <i class="material-icons">content_paste</i> 이사정보
@@ -492,7 +492,7 @@
                         <a href="/community/posts/jisik"><b>이사지식인</b></a>
                     </li>
                     <li>
-                        <a href="/v1/knows/knows_form.php">
+                        <a href="/community/posts/jisik">
                             <button type="button" class="btn_question" style="display: inline-block">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
                                     <path fill="none" d="M0 0h24v24H0z"></path>
                                     <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(255,255,255,1)"></path>
@@ -502,10 +502,10 @@
                 </ul>
             </div>
             <ul class="m_floor3">
-                <li><a href="/v2/posts/fun">모두FUN</a></li>
                 <li><a href="/v2/posts/tip">모두꿀TIP</a></li>
+                <li><a href="/v2/posts/fun">모두FUN</a></li>
                 <li><a href="/v1/move/review">이사후기</a></li>
-                <li><a onclick="alert('준비중입니다.');return false;"><b>이벤트</b></a></li>
+                <li><a href="/v2/event"><b>이벤트</b></a></li>
             </ul>
         </div>
     </div>
