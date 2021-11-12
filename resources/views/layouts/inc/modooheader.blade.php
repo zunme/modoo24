@@ -36,7 +36,7 @@
 
 
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
@@ -317,7 +317,7 @@
 
             <ul class="menu_tip">
                 <li>
-                    <a href="http://116.122.157.150:8084/v1/move/review">
+                    <a href="/v1/move/review">
                         이사후기
                     </a>
                 </li>
