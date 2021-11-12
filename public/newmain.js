@@ -131,7 +131,7 @@ let move_review_template =`
 				</div>
 				<div class="move_review_item_star_wrap">
 					<div class="move_review_item_star">
-						<img src="http://116.122.157.150:8084/NEW/image/main_N/big_star.png" alt="star">
+						<img src="/v1/image/main_N/big_star.png" alt="star">
 					</div>
 					<div class="move_review_item_point_wrap">
 						<div class="move_review_item_point">
@@ -366,20 +366,20 @@ let event_template =`
 				<div class="swiper-wrapper">
               <div class="swiper-slide">
                     <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                        <img class="d-block w-100 pc" src="/NEW/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
-                        <img class="d-block w-100 mobile" src="/NEW/image/main_N/event_210923_m.jpg" class="pc" alt="황금열쇠이벤트">
+                        <img class="d-block w-100 pc" src="/v1/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
+                        <img class="d-block w-100 mobile" src="/v1/image/main_N/event_210923_m.jpg" class="pc" alt="황금열쇠이벤트">
                     </a>
                 </div>
                 <div class="swiper-slide">
                     <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                        <img class="d-block w-100 pc" src="/NEW/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
-                        <img class="d-block w-100 mobile" src="/NEW/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
+                        <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+                        <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
                     </a>
                 </div>
                 <div class="swiper-slide">
                     <a href="https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22" target="_blank">
-                        <img class="d-block w-100 pc" src="/NEW/image/main_N/event_it.jpg" class="pc" alt="인터넷신청">
-                        <img class="d-block w-100 mobile" src="/NEW/image/main_N/event_it_m.jpg" class="pc" alt="인터넷신청">
+                        <img class="d-block w-100 pc" src="/v1/image/main_N/event_it.jpg" class="pc" alt="인터넷신청">
+                        <img class="d-block w-100 mobile" src="/v1/image/main_N/event_it_m.jpg" class="pc" alt="인터넷신청">
                     </a>
                 </div>
 				</div>
