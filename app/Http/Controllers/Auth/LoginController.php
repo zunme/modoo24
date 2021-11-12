@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Events\Registered;
 
 class LoginController extends Controller
 {
@@ -49,8 +50,10 @@ class LoginController extends Controller
 		{
 
       if (\Auth::user()->confirmed_at == null) {
+            $user =  \Auth::user();
+            \Event::fire( new Registered( $user) );
             auth()->logout();
-            return back()->with('warning', '이메일인증이 필요합니다.<br>이메일로 인증코드를 발송했으니 이메일을 확인해주세요');
+            return back()->with('warning', '이메일인증이 필요합니다.<br>이메일로 인증코드를 재발송했으니 이메일을 확인해주세요');
         }
 			return redirect(session('link'));
 		}
