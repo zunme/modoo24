@@ -49,6 +49,10 @@ Route::group([
       //업체평가통계
       Route::get('statics', 'StaffController@statics' );
 		});
+    // review
+  Route::group(['prefix' => 'review',], function() {
+    Route::post('del', 'ReviewController@delReview');
+  });
 
     Route::group([
         'prefix' => 'setting',

@@ -14,6 +14,7 @@
 Route::get('/','HomeController@home');
 
 Route::get('/test', 'HomeController@test');
+Route::get('/altest', 'HomeController@altest');
 
 Route::get('/refresh', 'HomeController@refresh');
 Route::get('/welcome', function () {
@@ -91,11 +92,13 @@ Route::get('/home', function () {
     return redirect('/posts/jisik');
 })->name('home');
 
-Route::prefix('/member')->name('member.')->group(function () {
+Route::middleware('auth:web')->prefix('/member')->name('member.')->group(function () {
   Route::get('myinfo', 'Front\UserController@myinfo');
 
   Route::get('modify', 'Front\UserController@modify');
   Route::post('modify', 'Front\UserController@modifyPrc');
+  Route::post('modify-sub', 'Front\UserController@modifySubPrc');
+
   //인증번호 발송
   Route::post('sendsms', 'Front\UserController@sendsms');
   Route::post('modify/tel', 'Front\UserController@modifyTel');

@@ -47,13 +47,6 @@
                           </td>
 
                       </tr>
-                      <tr>
-                          <th class="form_title"><span class="red_cic"></span>이 름 <span class="essential">*선택항목</span></th>
-                          <td data-th="이 름 * 선택항목 " colspan="3">
-                              <input type="text" class="form-control modify-input" placeholder="이름을 입력해 주세요" name="name" value="{{$user->name}}">
-
-                          </td>
-                      </tr>
                   </tbody>
               </table>
           </div>
@@ -63,7 +56,7 @@
         </form>
 
 
-        <form class="form-horizontal" method="POST" action="">
+        <form class="form-horizontal" id="namesub_modify_form">
           <h4 class="cop_title_s" style="margin-top: 0px;">모두이사 문자 알림이 필요하시거나 기존 휴대폰 번호 변경시 입력해 주세요</h4>
           <div class="tbBox" style="margin-top: 10px;">
               <table class="rwd_table">
@@ -75,8 +68,16 @@
 
           <h4 class="cop_title_s" style="margin-top: 0px;">휴대폰 번호 입력시 본인인증을 해주세요 <span class="essential">*선택항목</span></h4>
           <div class="tbBox" style="margin-top: 10px;">
+
               <table class="rwd_table">
                   <tbody>
+                    <tr>
+                        <th class="form_title"><span class="red_cic"></span>이 름 <span class="essential">*선택항목</span></th>
+                        <td data-th="이 름 * 선택항목 " colspan="3">
+                            <input type="text" class="form-control modify-input" placeholder="이름을 입력해 주세요" name="name" value="{{$user->name}}">
+
+                        </td>
+                    </tr>
                       <tr class="checktr">
                           <th class="form_title"><span class="red_cic"></span>휴대폰번호</th>
                           <td data-th="휴대폰번호" colspan="3">
@@ -106,10 +107,11 @@
                       </tr>
                   </tbody>
               </table>
+
           </div>
           <ul class="modibtn_set">
               <li>
-                <button class="btn button_blue" type="button" onclick="modify_tel_prc()">선택항목 회원정보수정<div class="ripple-container"></div></button>
+                <button class="btn button_blue" type="button" onclick="modify_sub_prc()">선택항목 회원정보수정<div class="ripple-container"></div></button>
               </li>
           </ul>
         </form>
@@ -125,6 +127,9 @@ function modify_prc() {
 }
 function modify_ok(res){
   swal.fire("회원정보변경", "회원정보를 변경하였습니다", "success");
+}
+function modify_sub_prc(){
+  getpost( '/community/member/modify-sub',$("#namesub_modify_form").serialize() , modify_ok )
 }
 function callbackModifyCompleted() {
 }

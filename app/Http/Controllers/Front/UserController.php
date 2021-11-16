@@ -58,9 +58,11 @@ class UserController extends Controller
   }
   function sendsms(Request $request){
     $messages = [
+        'name.*' =>'2~10자로 이름을 적어주세요',
         'tel.*' =>'올바른 전화번호(숫자만)를 적어주세요',
     ];
     $data = $this->validate($request, [
+			'name' => 'bail|nullable|string|min:2|max:10',
       'tel' => 'bail|required|regex:/(01)[0-9]{8,9}/|min:10|max:12',
      ],$messages);
 
@@ -104,21 +106,40 @@ class UserController extends Controller
     ];
     $data = $this->validate($request, [
       'nickname' => 'bail|required|string|min:2|max:20',
-      'name' => 'bail|nullable|string|min:2|max:10',
+      //'name' => 'bail|nullable|string|min:2|max:10',
      ],$messages);
-     $data=['nickname'=>$request->nickname, 'name'=>$request->name];
+     $data=['nickname'=>$request->nickname];
      $user = User::where( ['id'=>Auth::user()->id])->first();
 
      if (!$user ) return $this->error('회원 정보를 찾을  수 없습니다.', 422);
 
      try{
        $user->nickname = $request->nickname;
-       $user->name = $request->name;
+       //$user->name = $request->name;
        $user->save();
        return $this->success();
      }catch ( \Exception $e){
        return $this->error('수정 중 오류가 발생했습니다', 422);
      }
   }
+	function modifySubPrc(Request $request){
+		$messages = [
+				'name.*' =>'2~10자로 이름을 적어주세요',
+		];
+		$data = $this->validate($request, [
+			'name' => 'bail|nullable|string|max:20',
+		 ],$messages);
+		 $user = User::where( ['id'=>Auth::user()->id])->first();
+		 $name = ( $request->name ) ? $request->name : "";
+     if (!$user ) return $this->error('회원 정보를 찾을  수 없습니다.', 422);
+
+     try{
+       $user->name = $name;
+       $user->save();
+       return $this->success();
+     }catch ( \Exception $e){
+       return $this->error('수정 중 오류가 발생했습니다', 422);
+     }
+	}
 
 }

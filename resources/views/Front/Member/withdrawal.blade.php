@@ -20,8 +20,8 @@
     <div class="sub_menu">
         <ul class="center">
             <li class="h_icon gotohome"></li>
-            <li class="">회원정보수정</li>
-            <li class="on">나의정보</li>
+            <li class=""><a href="/community/member/modify">회원정보수정</a></li>
+            <li class="on"><a href="/community/member/withdrawal">나의정보</a></li>
         </ul>
     </div>
 
@@ -179,7 +179,7 @@ function withdrawalCompleted (){
   $("#defaultModal").modal("hide");
 }
 function withdrawalok(res){
-  swal.fire("회원탈퇴", "회원탈퇴가 완료 되었습니다<br>메인페이지 index로 이동합니다.", "success")
+  swal.fire("회원탈퇴", "회원탈퇴가 완료 되었습니다<br>메인페이지로 이동합니다.", "success")
   .then((result) => {
     location.replace("/v1/index")
   });
