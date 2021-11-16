@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 use App\Events\Registered;
 use App\Events\Event;
 use App\Events\PostEvent;
@@ -11,6 +13,8 @@ use App\User;
 use Carbon\Carbon;
 use App\Models\Post;
 use App\Models\PostCommentDepth;
+use App\Libraries\Aligo;
+
 class HomeController extends Controller
 {
     /**
@@ -28,6 +32,51 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function altest(){
+
+       $aligo = new Aligo;
+
+       $req["#{고객명}"] = "성택";
+       $req["#{코드}"] = "1132";
+
+       $data = [
+         'sender'=>'1600-7728',
+         'tpl_code'=>'TC_4365',
+         'receiver_1'=>'01025376460',
+         'subject_1'=>'모두이사'
+       ];
+       $aligo->sendKakaoParser($data, $req);
+
+return;
+       $aligo = new Aligo;
+       $msg =[
+         'sender'=>'1600-7728',
+         'tpl_code'=>'TG_0107',
+         'receiver_1'=>'01025376460',
+         'subject_1'=>'모두이사',
+         'message_1'=>"[모두이사]
+태기님  모두이사를 방문해 주셔서 감사합니다.
+
+이사업체 알아보기 번거롭다면?
+모두이사에서 이사 견적 신청으로 해결하세요!
+
+▶간편한 견적 확인
+30초 이사 견적 신청으로 우수 이사업체의 이사 견적을 확인하세요
+
+▶믿을 수 있는 업체 연결
+업체별 평가등급과 이사 후기, 사업자등록증 정보를 확인하세요
+
+※모두이사 마케팅 활용 동의 고객님에 한해 단 1회 전달되는 알림톡입니다. 필요시, 전화 상담이 진행될 수 있습니다.
+
+☎고객만족센터 1600-7728",
+       ];
+       $res =  $aligo->sendTok($msg);
+       if( $res['code']=='validator') return response()->json($res['validator']->messages(), 422);
+
+       return;
+       $list = $aligo->templateList();
+       dd($list);
+     }
      public function test(){
        return view("Front.sheettest");
        return;

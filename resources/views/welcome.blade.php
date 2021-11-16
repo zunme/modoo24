@@ -4,6 +4,9 @@
 
 @section('css')
     <script src="/community/newmain.js"></script>
+    <style>
+    .right_menu {width: 55%}
+    </style>
 @endsection
 
 @section('login-pc','')

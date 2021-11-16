@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Validator;
 
 use App\Traits\ApiResponser;
-
+use App\Libraries\Aligo;
 
 class OrdertempController extends Controller
 {
@@ -53,6 +53,17 @@ class OrdertempController extends Controller
 		if( $dup > 0 ) return $this->error('이미 등록하신 내역이 있습니다.', 422);
 		try{
 			AuctionTempOrder::create($data);
+			return $this->success();
+
+			$aligo = new Aligo;
+			$req["#{고객명}"] = $data['t_name'];
+			$req["#{이사일}"] = $data['t_dday'];
+			$req["#{이사종류}"] = $data['t_kinds'];
+			$data = [
+				'tpl_code'=>'TG_2976',
+				'receiver_1'=>$data['t_hp'],
+			];
+			$res = $aligo->sendKakaoParser($data, $req);
 			return $this->success();
 		}catch( \Exception $e){
 			return $this->error('잠시후에 이용해주세요', 422);

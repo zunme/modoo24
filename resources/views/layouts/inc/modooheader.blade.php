@@ -219,62 +219,66 @@
         <div class="menu_floor01">
             <div class="center">
                 <a class="logoN gotohome" href="#"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a>
-                <ul class="menu01">
-                    <li><a href="/front/orderpop?s=2">비대면견적</a></li>
-                    <li><a href="/front/orderpop?s=1">방문견적</a></li>
-                    <li><a href="/v2/my/request">신청내역</a></li>
-                </ul>
-                <div class="btn_know">
-                    <p class="color_pt"><b>이사지식인</b></p>
-                    <button type="button" class="btn_question" onclick="location.href='/community/posts/jisik' ">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
-                            <path fill="none" d="M0 0h24v24H0z"></path>
-                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(255,255,255,1)"></path>
-                        </svg>
-                    </button>
+                <div class="right_menu">
+                    <ul class="menu01">
+                        <li><a href="/front/orderpop?s=2">비대면견적</a></li>
+                        <li><a href="/front/orderpop?s=1">방문견적</a></li>
+                        <li><a href="/v2/my/request">신청내역</a></li>
+                    </ul>
 
-                </div>
+                    <div class="btn_boxright2">
+                        <div class="btn_know">
+                            <!--<p class="color_pt"><b>이사지식인</b></p>-->
+                            <button type="button" class="btn_question_1 " onclick="location.href='/community/posts/jisik' ">이사지식인 
+                                <i class="fas fa-angle-double-right" style="color:#000"></i>
+                            </button>
 
-                @section ( 'login-pc')
-                @guest
-                <button type="button" class="btn login" onClick="location.href='/community/login';">
-                    <a href="/community/login">
-                        <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>로그인
-                    </a>
-                </button>
-                @endguest
-
-                @auth
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle mypage" id="navbarDropdownMenuMy" data-toggle="dropdown">
-                            <p>My모두</p>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-center mymenu" aria-labelledby="navbarDropdownMenuMy">
-                            <span class="dropdown-item" onClick="logout()">
-                                <i class="fas fa-sign-out-alt"></i>
-                                로그아웃
-                            </span>
-                            <a class="dropdown-item" href="/community/member/modify">
-                                <i class="fab fas fa-edit"></i>
-                                회원정보수정
-                            </a>
-                            <a class="dropdown-item" href="/community/member/myinfo">
-                                <i class="fab fas fa-address-book"></i>
-                                나의정보
-                            </a>
                         </div>
 
-                    </li>
-                </ul>
-                @endauth
-                @show
 
-                <a class="clean_fast" href="http://www.modooclean.com/" target="_blank">
-                    <p class="clean01"><b>청소는</b></p>
-                    <p class="clean03"><b>모두클린</b><span><img src="/v1/image/main_N/clean_icon.png"></span></p>
-                </a>
+                        @section ( 'login-pc')
+                        @guest
+                        <button type="button" class="login" onClick="location.href='/community/login';">
+                            <a href="/community/login">
+                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>로그인
+                            </a>
+                        </button>
+                        @endguest
 
-                <span class="menu-icon"></span>
+                        @auth
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle mypage" id="navbarDropdownMenuMy" data-toggle="dropdown">
+                                    <p>My모두</p>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-center mymenu" aria-labelledby="navbarDropdownMenuMy">
+                                    <span class="dropdown-item" onClick="logout()">
+                                        로그아웃
+                                    </span>
+                                    <a class="dropdown-item" href="/community/member/modify">
+                                        회원정보수정
+                                    </a>
+                                    <a class="dropdown-item" href="/community/member/myinfo">
+                                        나의정보
+                                    </a>
+                                </div>
+
+                            </li>
+                        </ul>
+                        @endauth
+                        @show
+                    </div>    
+
+                   <!-- <a class="clean_fast" href="http://www.modooclean.com/" target="_blank">
+                        <p class="clean01"><b>청소는</b></p>
+                        <p class="clean03"><b>모두클린</b><span><img src="/v1/image/main_N/clean_icon.png"></span></p>
+                    </a>-->
+                    <a class="clean_fast" href="http://www.modooclean.com/" target="_blank">
+                        <p class="clean03">모두클린<span><img src="/v1/image/main_N/clean_icon1.png"></span></p>
+                    </a>
+
+                    <span class="menu-icon"></span>
+                </div>    
             </div>
         </div>
         <div class="menu_floor02">
@@ -449,7 +453,7 @@
                         @section("login-mobile")
                         @guest
                         <li class="nav-item m-login">
-                            <a class="nav-link" href="void(0);" onclick="alert('준비중입니다.');return false;" target="_blank">
+                            <a class="nav-link" href="/community/login">
                                 <i class="fas fa-sign-in-alt"></i> 로그인
                             </a>
                         </li>
@@ -486,17 +490,12 @@
                     <li><a class="color_pt">이사</a></li>
                     <li><a href="http://modooclean.com/" target="_blank">청소</a></li>
                 </ul>
-                <ul class="right_menu">
+                <ul class="right_menu_m">
                     <li>지금 물어보자!</li>
                     <li>
-                        <a href="/community/posts/jisik"><b>이사지식인</b></a>
-                    </li>
-                    <li>
                         <a href="/community/posts/jisik">
-                            <button type="button" class="btn_question" style="display: inline-block">질문하기 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" style="vertical-align: middle;">
-                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(255,255,255,1)"></path>
-                                </svg></button>
+                            <button type="button" class="btn_question_1" style="display: inline-block">이사지식인
+                                <i class="fas fa-angle-double-right" style="color:#000"></i></button>
                         </a>
                     </li>
                 </ul>

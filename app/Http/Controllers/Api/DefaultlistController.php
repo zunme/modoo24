@@ -208,5 +208,48 @@ class DefaultlistController extends Controller
 
 		return $this->success($data);
 	}
+	/*별점 평균 작업 */
+	public function avgStarReq(Request $request){
+		$avg = '3.5';
+		$sql = "
+		INSERT INTO star_points
+		SELECT * FROM (
+
+			SELECT auction_staff_uid,total,cnt,@avgval AS avgpoint , star
+			 , if(star < @avgval , CAST( ( star + @avgval)/2 AS DECIMAL(10,2) ) , star) AS avgstar
+			 , NULL AS forcestar
+			FROM(
+				SELECT
+				auction_staff_uid,total,cnt ,  CAST( total/cnt/6 AS DECIMAL(10,2) ) AS star
+				from
+				(
+					SELECT auction_staff_uid ,
+						SUM( total) AS total, COUNT(1) AS cnt
+					from
+					(
+						SELECT
+							a.b_worker_idx AS auction_staff_uid,
+							(
+							cast(a.b_star_pro AS DECIMAL(5,2) )
+							+ cast(a.b_star_kind AS DECIMAL(5,2) )
+							+ cast(a.b_star_price AS DECIMAL(5,2) )
+							+ cast(a.b_star_finish AS DECIMAL(5,2) )
+							+ cast(a.b_star_expost AS DECIMAL(5,2) )
+							+ cast(a.b_star_pave AS DECIMAL(5,2) )
+							) total
+						FROM auction_bbs_postscript a
+						WHERE b_admin_flag ='Y' ". ( ($request->idx )?  'AND a.b_worker_idx='.(int)$request->idx : '' ) ."
+					)tmp
+					GROUP BY auction_staff_uid
+				) grp
+			) avgtemp
+		)instemp
+		ON DUPLICATE KEY UPDATE
+			total = instemp.total,
+			cnt = instemp.cnt,
+			star = instemp.star,
+			avgstar = instemp.avgstar
+		";
+	}
 
 }
