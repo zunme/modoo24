@@ -209,7 +209,7 @@
         min-width: 116px;
         width: 116px;
         padding-right: 16px;
-        font-size: 14px;
+        font-size: 14px; display: flex;
     }
 
     /*****************mkcss***************
@@ -228,7 +228,7 @@
         height: 200px;
         background-size: cover;}
     .item-media-imgbox {    width: 100%;height: 100%;background-repeat: no-repeat;}
-    .media-list .item-link{display: block}
+    .media-list .item-link{display: block} 
     .item-desc {display: block;}
     .item-desc-sub{width: 100%;max-width: 100%;overflow: hidden;color: #666;margin-top: 3px}
     .item-text{display: none}
@@ -238,9 +238,28 @@
     .media-list li:not(:last-child):after {height: 0px}
     .media-list .item-link {padding-left: 0px}
     .ct {clear: both }***/
+    
+    }
+    @media (max-width: 600px) {
+        .item-desc {
+            flex-direction: column;
+        }
+
+        .item-desc-sub {
+            display: flex;
+            width: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            justify-content: flex-end;
+            flex-wrap: wrap;    margin: 10px 0;}
+
+        .item-desc-nickname,
+        .item-desc-date,
+        .item-desc-commentcnt {
+            padding-right: 10px;
+        }
 
     }
-
 
     .ct>.pagination>.page-item>.page-link,
     .ct>.pagination>.page-item>span {
@@ -256,39 +275,6 @@
        background-color: rgba(0,0,0,0.8)!important;background-blend-mode: overlay;
     }
 
-   @media only screen and (max-width: 600px) {
-    .item-media-imgbox {width: 80px;height: 50px}
-    .item-desc {
-            flex-direction: column;
-        }
-        .item-desc-sub {
-            display: flex;
-            width: 100%;
-            max-width: 100%;
-            min-width: 100%;
-            justify-content: flex-end;
-            flex-wrap: wrap;    margin: 10px 0;}
-
-        .item-desc-nickname,
-        .item-desc-date,
-        .item-desc-commentcnt {
-            padding-right: 10px;
-        }
-
-
-
-    }
-
-
-       @media only screen and (max-width: 948px) {
-
-
-       .round_btn {background-color: #1e9af9;color: #fff;border-radius: 100px!important;padding:14px;width: 50px;height: 50px; text-align: center;font-size: 1.2em;}
-       .round_btn i{color: #fff}
-
-    }
-
-
 </style>
 @endsection
 @section('body_bottom','')
@@ -296,16 +282,15 @@
 @section('content')
 <!--common_visual-->
 <div class="visual6">
-    <h1>{{$config->title}}</h1>
+    <h1>커뮤니티</h1>
+    <h4>Community</h4>
 </div>
 <!--//common_visual-->
 
 
-<div class="sub_menu_N">
-    <ul>
-        <li class="h_icon" onclick="window.open('/v2/')">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"/></svg>
-            </li>
+<div class="sub_menu">
+    <ul class="center">
+        <li class="h_icon gotohome"></li>
         <li class="@if($code=='tip') on @endif"><a href="tip">모두꿀TIP</a></li>
         <li class="@if($code=='fun') on @endif"><a href="fun">모두FUN</a></li>
         <!-- <li class="@if($code=='hometown') on @endif"><a href="hometown">우리동네자랑하기</a></li>-->
@@ -316,7 +301,7 @@
 <div class="center">
     <div id="board">
         <div class="good_after">
-           <!-- <h1 style="border: 0"><b>{{$config->title}}</b></h1>-->
+            <h1 style="border: 0"><b>{{$config->title}}</b></h1>
             <div class="mt-20">
 
                 <form id="searchform" action="{{url()->current()}}">
@@ -337,7 +322,7 @@
                             </div>
 
                             @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
-                            <a type="button" class="cmnty_button_blue pc" href="{{$code}}/write">글쓰기</a>
+                            <a type="button" class="cmnty_button_blue" href="{{$code}}/write">글쓰기</a>
                             @endif
 
                         </div>
@@ -357,9 +342,9 @@
 
                                         <div class="item-media">
                                             @php
-                                            $imgurl = ( $post->repImg ) ? $post->repImg : '/NEW/image/sub/know_logo.png';
+                                            $imgurl = ( isset($post->files[0]) ) ? '/community/storage'.( $post->files[0]->url) : '/NEW/image/sub/know_logo.png';
                                             @endphp
-                                            <div class="item-media-imgbox" style="background: url( '{{$imgurl}}' ) no-repeat center center ;background-size: cover;">
+                                            <div class="item-media-imgbox" style="background: url( '{{$imgurl}}' ) no-repeat center center">
                                             </div>
                                         </div>
                                         <div class="item-inner">
@@ -411,9 +396,6 @@
                 <div class="ct">
                     {{ $pagingres }}
                 </div>
-                <div style="display: flex; flex-direction: row-reverse">
-                <a type="button" class="round_btn mobile btn" href="{{$code}}/write"><i class="fas fa-plus"></i></a>
-                </div>
             </div>
         </div>
     </div>
@@ -431,7 +413,7 @@
     })
 
     function comfirmMessage() {
-        swal.fire('규정 확인 대기중', '커뮤니티 규정 확인 후 글이 노출됩니다.');
+        swal.fire('규정 확인 대기중', '이사지식인 규정 확인 후 글이 노출됩니다.');
     }
 
     function search_data(btn) {

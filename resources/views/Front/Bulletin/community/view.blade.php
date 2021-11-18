@@ -95,7 +95,7 @@
   padding-top:15px;
   padding-bottom:15px;
   font-size: .9em;
-  color: #666;    
+  color: #666;
 }
 .post_title_wrap:after {
   content: '';
@@ -453,7 +453,20 @@ font-weight: 600; color: #666
 .myunfavorite{
   color:silver;
 }
+.ql-editor{
+  font-size: 13px;
+}
 </style>
+<!-- Theme included stylesheets -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+
+<link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+
 @endsection
 @section('body_bottom','')
 
@@ -464,9 +477,11 @@ font-weight: 600; color: #666
 </div><!--//common_visual-->
 
 
-<div class="sub_menu">
-    <ul class="center">
-        <li class="h_icon gotohome"></li>
+<div class="sub_menu_N">
+    <ul>
+        <li class="h_icon" onclick="window.open('/v2/')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"/></svg>
+            </li>
         <li class="@if($code=='tip') on @endif"><a href="/community/posts/tip">모두꿀TIP</a></li>
         <li class="@if($code=='fun') on @endif"><a href="/community/posts/fun">모두FUN</a></li>
         <!--<li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>-->
@@ -512,7 +527,7 @@ font-weight: 600; color: #666
       </div>
 
       <div class="post_body_wrap">
-        <div class="post_body">
+        <div class="post_body ql-editor">
           @if ( $config->html_use =='Y')
             {!! $post->body !!}
           @else
