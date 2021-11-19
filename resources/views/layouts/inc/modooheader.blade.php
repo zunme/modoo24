@@ -166,13 +166,13 @@
 								</ul>
 							</li>
 							<li class="main-career has-children">
-								<a href="/v1/move/review">이사후기</a>
+								<a href="/v1/move/review">후기&amp;평가</a>
 								<ul class="sub-menu">
 									<li class="has-children">
 										<a href="/v1/move/review">이사후기</a>
 									</li>
 									<li class="has-children">
-										<a href="/v1/move/review_write">업체평가하기</a>
+										<a href="/v2/review/my">업체평가하기</a>
 									</li>
 								</ul>
 							</li>
@@ -326,7 +326,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="void(0);" onclick="alert('준비중입니다.');return false;">
+                    <a href="/v2/review/my">
                         이사업체평가하기
                     </a>
                 </li>
@@ -406,13 +406,13 @@
                         </li>
                         <li class="dropdown nav-item">
                             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                <i class="fas fa-bullhorn"></i> 이사후기
+                                <i class="fas fa-bullhorn"></i> 후기&amp;평가
                             </a>
                             <div class="dropdown-menu dropdown-with-icons">
                                 <a href="/v1/move/review" class="dropdown-item">
                                     <i class="material-icons">content_paste</i> 이사후기
                                 </a>
-                                <a href="/v1/move/review_write" class="dropdown-item">
+                                <a href="/v2/review/my" class="dropdown-item">
                                     <i class="material-icons">content_paste</i>업체평가하기
                                 </a>
                             </div>

@@ -59,20 +59,20 @@ class DefaultlistController extends Controller
 	}
 	public function makeinc(){
 		$sub_header = view('header-sub')->render();
-		$fp = fopen("/home/modoo24/public_html/NEW/include/sub_header.php","wb");
+		$fp = fopen("/home/modoo24/public_html/v1/include/sub_header.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
 
 		$sub_header = view('header')->render();
-		$fp = fopen("/home/modoo24/public_html/NEW/include/header.php","wb");
+		$fp = fopen("/home/modoo24/public_html/v1/include/header.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
 
 		$sub_header = view('footer')->render();
-		$fp = fopen("/home/modoo24/public_html/NEW/include/footer.php","wb");
+		$fp = fopen("/home/modoo24/public_html/v1/include/footer.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
-		echo "/home/modoo24/public_html/NEW/include 에 헤더 , 풋터 생성완료";
+		echo "/home/modoo24/public_html/v1/include 에 헤더 , 풋터 생성완료";
 	}
 	public function communityGrade(Request $request){
 		session_start();

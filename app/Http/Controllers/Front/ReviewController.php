@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Traits\ApiResponser;
 
 use App\Models\AuctionOrder;
+use App\Models\AuctionOrderNface;
 use App\Models\AuctionStaff;
 use App\Models\AuctionOrderContract;
 use App\Models\AuctionOrderEstimate;
@@ -28,6 +29,7 @@ class ReviewController extends Controller
 	use ApiResponser;
 	function __construct(){
 		$this->exclsComp = ['736','80'];
+		$this->exclsComp =[];
 	}
   public function myReview(Request $request){
 			$data = $this->getUserdata( $request);
@@ -45,11 +47,33 @@ class ReviewController extends Controller
 		if( $row->s_uid2 > 0 && !in_array($row->s_uid1, $this->exclsComp ) ) $company[] = $row->s_uid2;
 		if( $row->s_uid3 > 0 && !in_array($row->s_uid1, $this->exclsComp ) ) $company[] = $row->s_uid3;
 
-		$companyData = AuctionStaff::select('s_company','s_nickname','s_license1','s_addr1')->whereIn( 's_uid', $company)->get();
+		$companyData = AuctionStaff::select('s_uid','s_company','s_nickname','s_license1','s_addr1')->whereIn( 's_uid', $company)->get();
 		$row->companyData = $companyData;
 		return $this->success($row);
 	}
+	public function myReviewWrite(Request $request, $type, $uid, $s_uid){
+		$userdata = $this->getUserdata($request);
+		if( $userdata === false ) return $this->error("전화번호 인증 후 사용해주세요", 422);
+		$b_type = '이사';
 
+		if( $type=="order_nface"){
+			$row = AuctionOrderNface::where(['uid'=>$uid])->first();
+			if( trim(str_replace('-','',$row->hp)) != $userdata['phone'] ) return $this->error("전화번호가 틀립니다.", 422);
+			$comp = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->get();
+			$s_uid = $comp->s_uid;
+			$b_type = '비대면이사';
+		}elseif($type=="order") {
+			$row = AuctionOrder::where(['uid'=>$uid])->first();
+			if( trim(str_replace('-','',$row->hp)) != $userdata['phone'] ) return $this->error("전화번호가 틀립니다.", 422);
+			if( $row->s_uid1 != $s_uid && $row->s_uid2 != $s_uid && $row->s_uid3 != $s_uid ) return $this->error("매칭된 내용이 아닙니다.", 422);
+
+		}else return $this->error("정보를 찾을 수 없습니다.", 422);
+
+		$staff = AuctionStaff::select('s_uid','s_company','s_nickname','s_license1','s_addr1')->where( ['s_uid'=>$s_uid])->first();
+		//dd( $row);
+		return view('Front.Review.write', compact('row','staff','userdata','type','b_type'));
+
+	}
 	private function  getUserdata(Request $request){
 		$user = Auth::user();
 
@@ -66,7 +90,7 @@ class ReviewController extends Controller
 
 	private function myApplyList($request, $userdata){
 		//제외될 업체 : 히 이중오더 736, 히 모두이사 80
-		$limitdate = $newDateTime = Carbon::now()->subMonths(6)->format('Y-m-d');
+		$limitdate = $newDateTime = Carbon::now()->subMonths(20)->format('Y-m-d');
 
 		$sql = "
 		select * from (
@@ -95,12 +119,11 @@ class ReviewController extends Controller
 				$row->kind_title = "방문 " . $this->getType('type',$row->classify);
 			} else if($row->kind == "비대면") {
 
-					$row->d_cnt = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
-					if( $row->d_cnt < 1) $row->c_cnt = AuctionOrderEstimate::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
+					$row->staff_cnt = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
+					//if( $row->d_cnt < 1) $row->c_cnt = AuctionOrderEstimate::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
 					$row->kind_title = "비대면";
 			}
 		}
-
 		return view("Front.Review.availlist", compact("data"));
 	}
 

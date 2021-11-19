@@ -156,6 +156,140 @@ li.applylist-item {
   flex-grow: 1;
 }
 </style>
+
+<!-- toolbar -->
+<style>
+:root {
+  --topbar-view-height: 100%;
+}
+body.fixed{
+  overflow: hidden;
+}
+.bt_modal-back{
+  position: fixed;
+  top: 0;bottom: 0;left: 0;right: 0;
+  background-color: black;
+  opacity: .3;
+  z-index: 10;
+  display: none;
+}
+.bt_modal-back.open{
+  display:block;
+}
+.bt_modal {
+  width: 99vw;
+  max-width: 500px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+
+  background-color: rgba(255, 255, 255, 83%);
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+
+  transform: translate(-50%, var(--topbar-view-height) );
+  backdrop-filter: blur(6px) saturate(180%);
+  box-shadow: 0 1px 8px #0000001a;
+  z-index: 999999;
+  -webkit-transition: transform 500ms ease-in-out;
+  -moz-transition:transform 500ms ease-in-out;
+  -ms-transition:transform 500ms ease-in-out;
+}
+.bt_modal h3 {
+  text-align: center;
+  font-size: 20px;
+  color: white;
+}
+.bt_modal.open {
+  box-shadow: 0 1px 20px #0000001a;
+  transform: translate(-50%, 0);
+  -webkit-transition: transform 500ms ease-in-out;
+  -moz-transition:transform 500ms ease-in-out;
+  -ms-transition:transform 500ms ease-in-out;
+}
+.bt_modal_header{
+  padding-top: 6px;
+  background-color: #42768e;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.bt_modal div#topBar {
+  width: 50px;
+  height: 7px;
+  background: #aaa;
+  border-radius: 14px;
+  margin: 0 auto 6px;
+  cursor: pointer;
+  position: relative;
+}
+.bt_modal  div#topBar > i.fa-caret-down{display:none}
+.bt_modal.open  div#topBar > i.fa-caret-up{display:none}
+.bt_modal.open  div#topBar > i.fa-caret-down{display:inline-block;}
+
+.bt_modal  div#topBar > i {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 5px;
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color:black;
+}
+.bt_modal > .bt_modal_body{
+  max-height: 50vh;
+  overflow-y: auto;
+  min-height: 30vh;
+}
+footer , .bt_modal_header, .bt_modal_body{
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
+}
+</style>
+
+<!-- 팝업 내부 css -->
+<style>
+.bt_modal_cont_wrap ul li {
+  display:flex;
+  padding: 5px;
+  position: relative;
+  flex-direction: row-reverse;
+}
+.bt_modal_cont_wrap li:after {
+    content: '';
+    position: absolute;
+    background-color: rgba(255, 255, 255, 83%);
+    display: block;
+    z-index: 15;
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    transform-origin: 50% 100%;
+    transform: scaleY(1);
+}
+.bt_modal_cont_btn_wrap, .bt_modal_cont_title_wrap{
+  padding:5px;
+}
+.bt_modal_cont_title{
+  margin-top:3px;
+}
+.bt_modal_cont_title_wrap{
+  flex-grow: 1;
+}
+.btn.btn-selectbtn {
+    color: #fff;
+    background-color: #55acee;
+    border-color: #55acee;
+    box-shadow: 0 2px 2px 0 rgba(85,172,238,.14),0 3px 1px -2px rgba(85,172,238,.2),0 1px 5px 0 rgba(85,172,238,.12);
+    margin:0;
+}
+.none-company{
+  padding: 30px 0;
+text-align: center;
+}
+</style>
 @endsection
 
 
@@ -214,7 +348,7 @@ li.applylist-item {
                 </div>
                 <div class="applylist-item-btn-wrap">
                   <div>
-                    <span class="btn btn-outerline-primary" onClick="review({{$row->uid}},'{{$row->kindtype}}')">이사업체평가</span>
+                    <span class="btn btn-outerline-primary" onClick="review({{$row->uid}},'{{$row->kindtype}}','{{$row->staff_cnt}}')">이사업체평가</span>
                   </div>
                   <div>
                     <span>평가 가능시간 : {{\Carbon\Carbon::createFromFormat('Y-m-d', $row->mdate, 'Asia/Seoul')->addMonth(6)->format('Y-m-d')}}</span>
@@ -236,11 +370,41 @@ li.applylist-item {
   </div>
 </div>
 
+
+
+
+
+<div class="bt_modal-back" onClick="resetElement()">
+</div>
+<div class="bt_modal" id="bt_modal">
+  <div class="bt_modal_header">
+    <div id="topBar">
+      <i class="fas fa-caret-up"></i>
+      <i class="fas fa-caret-down"></i>
+    </div>
+    <h3>이사업체 선택</h3>
+  </div>
+  <div class="bt_modal_body" id="bt_modal_body">
+    <div class="bt_modal_cont_wrap">
+      <ul>
+      </ul>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
 <script>
-function review(id, kindtype){
+var template
+function review(id, kindtype, cnt){
+  if( cnt < 1 ){
+    swal.fire("업체평가", "매칭된(계약완료) 업체가 없습니다.", "error");
+    return;
+  }
+  if( kindtype == 'auction_order_nface') {
+    location.href='/v2/review/write/order_nface/'+id+'/'+id;
+    return;
+  }
   let url = '/v2/review/my/companylist';
   $.ajax({
     url : url,
@@ -258,8 +422,183 @@ function review(id, kindtype){
     }
   });
 }
+function sel( id, s_uid){
+  location.href='/v2/review/write/order/'+id+'/'+s_uid;
+}
 function drawCompany(data){
+    if(!template) template = Handlebars.compile( btmodaltemplate );
+    $("#bt_modal_body" ).html ( template(data) );
+    resetElementUp();
   console.log (data);
 }
+</script>
+<!-- toolbar -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+var css_variable;
+var btmodal_el = document.getElementById("topBar");
+var btmodal = document.getElementById("bt_modal");
+var btmodalHeight;
+
+var START_X = '50%';
+var START_Y = 0;
+var ticking = false;
+var transform;
+var timer;
+var modal_moving = false;
+$("document").ready( function() {
+  css_variable = document.querySelector(':root');
+  //START_Y = ($(".bt_modal").height()-$(".bt_modal_header").outerHeight());
+  START_Y = ($(".bt_modal").height() );
+  btmodalHeight = $(".bt_modal").height();
+  resetElement()
+  //css_variable_set( '--topbar-view-height', START_Y +"px");
+});
+window.onresize = function(event){
+  //START_Y = ($(".bt_modal").height()-$(".bt_modal_header").outerHeight());
+  START_Y = ($(".bt_modal").height() );
+  if( $(".bt_modal").hasClass("open") ) resetElementUp()
+  else resetElement()
+}
+function css_variable_set(variable , val ) {
+  css_variable.style.setProperty(variable, val);
+}
+
+var reqAnimationFrame = (function () {
+	    return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
+	        window.setTimeout(callback, 1000 / 60);
+	    };
+	})();
+
+
+
+var mc = new Hammer.Manager(btmodal_el); //Hammer 이벤트 관리자 생성 및 이벤트 등록
+mc.add( new Hammer.Pan({ direction: Hammer.DIRECTION_VERTICAL , threshold: 0 }) );
+mc.add(new Hammer.Swipe()).recognizeWith(mc.get('pan'));
+mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
+mc.add(new Hammer.Tap());
+//mc.on("doubletap", onDoubleTap);
+mc.on("tap", onDoubleTap);
+mc.on("panstart panmove", onPan);
+
+function onPan(ev) {
+  if(ev.additionalEvent == "panup") onPanDown(ev)
+  else if(ev.additionalEvent == "pandown") onPanUp(ev)
+}
+function onPanUp(ev){
+  if( !$(".bt_modal").hasClass("open")) return;
+  btmodal_el.className = '';
+  transform.translate = {
+      x: '50%',
+      y:  ev.deltaY*5
+  };
+  clearTimeout(timer);
+  if(  ev.deltaY >60){
+    resetElement()
+  }else{
+    timer = setTimeout(function () {
+        resetElementUp();
+    }, 200);
+    requestElementUpdate();
+  }
+}
+function onPanDown(ev){
+  if( $(".bt_modal").hasClass("open")) return;
+  btmodal_el.className = '';
+  transform.translate = {
+      x: '50%',
+      y: START_Y + ev.deltaY*5
+  };
+  clearTimeout(timer);
+  if(  ev.deltaY < -80){
+    resetElementUp()
+  }else{
+    timer = setTimeout(function () {
+        resetElement();
+    }, 200);
+    requestElementUpdate();
+  }
+}
+
+function onDoubleTap(ev) {
+  if( $(".bt_modal").hasClass("open")){
+    resetElement()
+  }else {
+    resetElementUp()
+  }
+}
+
+function updateElementTransform() {
+    var value = [
+        'translate(-50%, ' + transform.translate.y + 'px)'
+    ];
+    if( !modal_moving){
+      value = value.join(" ");
+      btmodal.style.webkitTransform = value;
+      btmodal.style.mozTransform = value;
+      btmodal.style.transform = value;
+    }
+      ticking = false;
+}
+function resetElement() {
+  $("body").removeClass("fixed")
+  $(".bt_modal").removeClass("open")
+  $(".bt_modal-back").removeClass("open")
+  transform = {
+      translate: { x: START_X, y: START_Y },
+      scale: 1,
+      angle: 0,
+      rx: 0,
+      ry: 0,
+      rz: 0
+  };
+  requestElementUpdate();
+}
+function resetElementUp(){
+  $("body").addClass("fixed")
+  $(".bt_modal").addClass("open")
+  $(".bt_modal-back").addClass("open")
+  transform = {
+      translate: { x: START_X, y: 0 },
+      scale: 1,
+      angle: 0,
+      rx: 0,
+      ry: 0,
+      rz: 0
+  };
+  requestElementUpdate();
+
+}
+function requestElementUpdate() {
+	    if(!ticking && !modal_moving) {
+	        reqAnimationFrame(updateElementTransform);
+	        ticking = true;
+	    }
+}
+@verbatim
+let btmodaltemplate = `
+<div class="bt_modal_cont_wrap">
+  <ul>
+    {{#each companyData}}
+    <li>
+      <div class="bt_modal_cont_btn_wrap">
+        <span class="btn btn-selectbtn btn-sm" onClick="sel({{../uid}}, {{s_uid}})">선택</span>
+      </div>
+      <div class="bt_modal_cont_title_wrap">
+        <div class="bt_modal_cont_title">{{s_company}}</div>
+      </div>
+    </li>
+    {{else}}
+    <li>
+      <div class="bt_modal_cont_title_wrap none-company">
+         선택 가능한 업체가 없습니다.
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+</div>
+`
+@endverbatim
 </script>
 @endsection
