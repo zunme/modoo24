@@ -237,7 +237,7 @@ trait ApiResponser
 		return $ret;
 	}
 
-	public function avgStar($idx){
+	public function avgStar($idx=null){
 		$avg = '3.5';
 
 		$sql = "

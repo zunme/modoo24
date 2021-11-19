@@ -119,11 +119,8 @@
 
 
 
-li.applylist-item {
-    position: relative;
-    box-sizing: border-box;
-    padding: 15px 0;
-}
+li.applylist-item {position: relative;box-sizing: border-box;padding: 20px 0; border-bottom: 1px solid #cccccc;}
+li.applylist-item:last-child{border-bottom: 0}    
 .applylist-item .applylist-item-inner {
     color: inherit;
     display: flex;
@@ -148,8 +145,8 @@ li.applylist-item {
     box-sizing: border-box;
 }
 .item-media-imgbox{
-  width: 70px;
-  height: 70px;
+  width: 135px;
+    height: 90px;
   background: url( '/v1/image/sub/know_logo.png' ) no-repeat center center ;background-size: cover;
 }
 .applylist-item-body{
@@ -289,13 +286,36 @@ footer , .bt_modal_header, .bt_modal_body{
   padding: 30px 0;
 text-align: center;
 }
+    
+.nav-tabs,.nav-pills {padding: 20px 0}
+.nav .nav-item {background: #eee;padding: 10px;height: 50px;line-height: 30px;}
+.applylist-header{padding-bottom: 10px;padding-top: 20px}
+.applylist-header-span1{font-size: 1.2em;text-align: center;} 
+.applylist-item-body{margin-left: 20px;font-size: .95em;} 
+.applylist-items{border-bottom: 1px solid #000;border-top: 1px solid #000;margin-bottom: 70px}
+.applylist-item-btn-wrap .applylist-period{font-size: .75em; color: #999}  
+.btn,
+.btn.btn-default {  background-color: #1e9af9;border-color: #1e9af9;border-radius: 10px;} 
+.btn:hover,
+.btn.btn-default:hover {color: #fff;background-color: #4472c4;border-color: #4472c4;} 
+.btn {padding: 12px 40px;font-size: .8em;}  
+    
+.applylist-item .applylist-item-media {} 
+.none-data{padding: 20px 0; background: #e6f8ff}  
+.none-data{display: flex}    
 </style>
 @endsection
 
 
 @section('content')
-<div class="visual3">
-    <h1>이사후기</h1>
+
+<div class="visual4">
+    <h1>후기&amp;평가</h1>
+</div>
+
+
+<div class="visual4" style="display:none">
+    <h1>후기&amp;평가</h1>
     <h4>Review</h4>
     <div class="st-sub-menu-wrap">
       <div class="st-sub-menu-inner">
@@ -314,12 +334,27 @@ text-align: center;
     </div>
 </div>
 
-<div class="content-wrap">
+
+<div class="content-wrap contents_wrap">
+    <div class="sub_menu_N">
+        <ul class="center">
+            <li class="h_icon" onclick="window.open('/v2/')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"/></svg>
+            </li>
+            <li onclick="location.href='/v1/move/review' ">이사후기</li>
+            <li class="on" >이사업체 평가하기</li>
+        </ul>
+    </div>
+    
   <div class="content-inner">
-    <div class="applylist-wrap">
+    <div class="applylist-wrap center">
+         <nav class="nav nav-pills nav-fill">
+            <a class="nav-item nav-link active" href="#a01" id="a01">이사업체 평가하기</a>
+            <a class="nav-item nav-link" href="#a02">이사업체 평가 내역</a>
+        </nav>
     <div class="applylist-inner">
       <div class="applylist-header">
-        <span class="applylist-header-span1">이사업체 평가 작성 가능한 이사</span>
+        <span class="applylist-header-span1"><b>이사업체 평가</b> 작성 가능한 이사</span>
         <span class="applylist-header-span2">(최근 6개월 이사 내역)</span>
       </div>
       <div class="applylist-body">
@@ -327,6 +362,7 @@ text-align: center;
           <ul class="applylist-items">
 
             @forelse( $data as $row)
+              
             <li class="applylist-item">
               <div class="applylist-item-inner">
                 <div class="applylist-item-media">
@@ -350,7 +386,7 @@ text-align: center;
                   <div>
                     <span class="btn btn-outerline-primary" onClick="review({{$row->uid}},'{{$row->kindtype}}','{{$row->staff_cnt}}')">이사업체평가</span>
                   </div>
-                  <div>
+                  <div class="applylist-period">
                     <span>평가 가능시간 : {{\Carbon\Carbon::createFromFormat('Y-m-d', $row->mdate, 'Asia/Seoul')->addMonth(6)->format('Y-m-d')}}</span>
                   </div>
                 </div>
@@ -358,8 +394,17 @@ text-align: center;
             </li>
             @empty
             <li class="none-data">
-              <div>평가 가능한 이사 업체가 없습니다.</div>
-              <div>이사업체 평가는 이사일부터 6개월동안 가능합니다.</div>
+              <div class="applylist-item-media">
+                  <div class="item-media-imgbox"></div>
+                </div>
+                <div>   
+                  <div>평가 가능한 이사 업체가 없습니다.</div>
+                  <div><b>이사업체 평가</b>는 <b class="color_pt">이사일부터 6개월동안</b> 가능합니다.</div>
+                </div> 
+             <div> 
+                 <div>smRlavy</div>
+                 <div>평가가능 <br/>이사업체 없음</div>
+            </div>    
             </li>
             @endforelse
           </ul>

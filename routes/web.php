@@ -87,6 +87,7 @@ Route::prefix('/review')->name('review.')->group(function () {
     Route::get('/my', 'Front\ReviewController@myReview');
     Route::get('/my/companylist', 'Front\ReviewController@companylist');
     Route::get('/write/{type}/{uid}/{s_uid}', 'Front\ReviewController@myReviewWrite');
+    Route::post('/write/{type}', 'Front\ReviewController@reviewWritePrc');
 });
 
 //이벤트

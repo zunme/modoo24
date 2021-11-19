@@ -23,14 +23,23 @@ use App\Models\AuctionStaff;
 use App\Models\AuctionOrderContract;
 use App\Models\AuctionOrderEstimate;
 
+use App\Models\AuctionBbsPostscript;
+use App\Models\ReviewFile;
+use App\Models\ReviewLog;
+
+use App\Libraries\Aligo;
 
 class ReviewController extends Controller
 {
 	use ApiResponser;
 	function __construct(){
+		/*todo*/
 		$this->exclsComp = ['736','80'];
 		$this->exclsComp =[];
+		$this->rangeMonth = 20;					// 6개월
+		$this->alimhp = '01025376460'; // 알림 전화번호 바꿔치기.. '' 로 바꿀것
 	}
+
   public function myReview(Request $request){
 			$data = $this->getUserdata( $request);
 			if( $data === false ) return view("Front.Review.auth");
@@ -51,6 +60,7 @@ class ReviewController extends Controller
 		$row->companyData = $companyData;
 		return $this->success($row);
 	}
+
 	public function myReviewWrite(Request $request, $type, $uid, $s_uid){
 		$userdata = $this->getUserdata($request);
 		if( $userdata === false ) return $this->error("전화번호 인증 후 사용해주세요", 422);
@@ -71,9 +81,126 @@ class ReviewController extends Controller
 
 		$staff = AuctionStaff::select('s_uid','s_company','s_nickname','s_license1','s_addr1')->where( ['s_uid'=>$s_uid])->first();
 		//dd( $row);
-		return view('Front.Review.write', compact('row','staff','userdata','type','b_type'));
-
+		return view('Front.Review.write', compact('row','staff','userdata','type','b_type','uid','s_uid'));
 	}
+
+	public function reviewWritePrc(Request $request, $review_type){
+		$userdata = $this->getUserdata($request);
+		$uid = $request->uid;
+		$type = $request->type;
+		$s_uid = $request->b_worker_idx;
+		/* todo  체크박스 2개 해야함 */
+		if( $userdata === false ) return $this->error("전화번호 인증 후 사용해주세요", 422);
+		$messages = [
+        'b_star_pro.*' => '전문성을 평가해주세요',
+				'b_star_kind.*' => '친절성을 평가해주세요',
+				'b_star_price.*' => '가격도를 평가해주세요',
+				'b_star_finish.*' => '마무리를 평가해주세요',
+				'b_star_expost.*' => '사후관리 평가해주세요',
+				'b_star_pave.*' => '포장도를 평가해주세요',
+				'b_note.*' => '내용을 입력해주세요',
+    ];
+    $this->validate($request, [
+      'b_star_pro' => 'bail|required|numeric|min:0.5|max:5',
+			'b_star_price' => 'bail|required|numeric|min:0.5|max:5',
+			'b_star_expost' => 'bail|required|numeric|min:0.5|max:5',
+			'b_star_kind' => 'bail|required|numeric|min:0.5|max:5',
+			'b_star_finish' => 'bail|required|numeric|min:0.5|max:5',
+			'b_star_pave' => 'bail|required|numeric|min:0.5|max:5',
+			'b_note' => 'bail|required|string|min:1',
+     ],$messages);
+
+		if( $type=="order_nface"){
+			$row = AuctionOrderNface::where(['uid'=>$uid])->first();
+			if( trim(str_replace('-','',$row->hp)) != $userdata['phone'] ) return $this->error("전화번호가 틀립니다.", 422);
+			$comp = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->get();
+			if ($s_uid != $comp->s_uid)  return $this->error("업체정보가 틀립니다.", 422);
+			$b_type = '비대면이사';
+		}elseif($type=="order") {
+			$row = AuctionOrder::where(['uid'=>$uid])->first();
+			if( trim(str_replace('-','',$row->hp)) != $userdata['phone'] ) return $this->error("전화번호가 틀립니다.", 422);
+			if( $row->s_uid1 != $s_uid && $row->s_uid2 != $s_uid && $row->s_uid3 != $s_uid ) return $this->error("매칭된 내용이 아닙니다.", 422);
+		}else return $this->error("정보를 찾을 수 없습니다.", 422);
+		$limitdate = $newDateTime = Carbon::now()->subMonths($this->rangeMonth)->format('Y-m-d');
+		if( $row->mdate < $limitdate) return $this->error("후기 등록기간이 지났습니다.", 422);
+
+		$staff = AuctionStaff::where( ['s_uid'=>$s_uid])->first();
+
+		$data = [
+			"b_name"=>$userdata['name'],
+			"b_ip=>"=>$request->ip(),
+			"b_type"=>( $request->type == "order" ) ? "이사" : "비대면이사",
+			"b_mdate"=>$row->mdate,
+
+		];
+
+		try{
+			$review = AuctionBbsPostscript::create(array_merge($request->except(['upload']), $data));
+			ReviewLog::create([
+				'order_type'=>$type,
+				'order_id'=>$uid,
+				'review_type'=>($review_type =='compliment') ? "칭찬":'불편',
+				'staff_id'=>$s_uid,
+				'review_id'=>$review->b_uid,
+			]);
+		} catch(\Exception $e){
+			if($e->errorInfo[1] == 1062){
+	        return $this->error("이미 후기를 등록하셨습니다.");
+	    }
+			else return $this->error("잠시후에 다시 시도해주세요.");
+		}
+		$files = $request->file('upload');
+
+		if($request->hasFile('upload'))
+		{
+				foreach ($files as $file) {
+					$this->uploadImage( $file ,$review->b_uid );
+				}
+		}
+		$this->avgStar($s_uid);
+
+		//불편사항 알림
+		if($review_type =='inconvenience'){
+			$aligo = new Aligo;
+			$staff_hp = $this->alimhp !='' ? $this->alimhp : str_replace('-','',$staff->s_ceo_hp);
+
+			$req["#{업체명}"] = $staff->s_company;
+			$data = [
+				'tpl_code'=>'TG_5139',
+				'receiver_1'=>$staff_hp,
+				'subject_1'=>'모두이사'
+			];
+			$aligo->sendKakaoParser($data, $req);
+		}
+		return $this->success();
+	}
+	//이미지 업로드
+	private function uploadImage( UploadedFile $file = null, $id)
+		{
+				if ($file === null) return null;
+
+
+				$storage = Storage::disk('public');
+				$path = 'review/'.Carbon::now()->format('ymd').'/';
+
+				$image = Image::make($file);
+
+				$image_name = $id."_".Carbon::now()->format('ymdhis') . '_' . Str::random(9) . "." . $file->getClientOriginalExtension();
+
+				if (!$storage->exists($path)) {
+						$storage->makeDirectory($path, 0775, true);
+				}
+				$storage->put($path . $image_name, $image->stream()->__toString());
+
+				$size=  $file->getSize();
+				$origin =  $file->getClientOriginalName() ;
+				$url = '/'.$path . $image_name;
+				ReviewFile::create([
+					'review_id'=>$id,
+					'url'=>$url,
+				]);
+				return true;
+		}
 	private function  getUserdata(Request $request){
 		$user = Auth::user();
 
@@ -90,19 +217,23 @@ class ReviewController extends Controller
 
 	private function myApplyList($request, $userdata){
 		//제외될 업체 : 히 이중오더 736, 히 모두이사 80
-		$limitdate = $newDateTime = Carbon::now()->subMonths(20)->format('Y-m-d');
+		$limitdate = $newDateTime = Carbon::now()->subMonths($this->rangeMonth)->format('Y-m-d');
 
 		$sql = "
 		select * from (
 			SELECT
-			 '방문' as kind,'auction_order' as kindtype, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton, reg_date, classify, mdate, s_addr1 AS startaddr, e_addr1 AS endaddr, `name` AS username
+			 '방문' as kind,'auction_order' as kindtype, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton
+			 , reg_date, classify, mdate, s_addr1 AS startaddr, e_addr1 AS endaddr, `name` AS username, review_id
 			 FROM auction_order
+			 left join review_logs on auction_order.uid = review_logs.order_id  and order_type='order'
 			 WHERE
 				 mdate >= ?
 				 and REPLACE(hp, '-', '') = ?
 			UNION ALL
-			 SELECT '비대면' as kind,'auction_order_nface' as kindtype, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton, reg_date, classify, mdate , s_addr1 AS startaddr, e_addr1 AS endaddr, `name` AS username
+			 SELECT '비대면' as kind,'auction_order_nface' as kindtype, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton
+			 , reg_date, classify, mdate , s_addr1 AS startaddr, e_addr1 AS endaddr, `name` AS username, review_id
 			 FROM auction_order_nface
+			 left join review_logs on auction_order_nface.uid = review_logs.order_id and order_type='order_nface'
 			 WHERE
 				 mdate >= ?
 				 and REPLACE(hp, '-', '') = ?

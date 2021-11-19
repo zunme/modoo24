@@ -1,14 +1,14 @@
 <fieldset class="rating-half" data-ratingtype="b_star_{{$ratingType}}">
    <input type="radio" class="rating-radio-half" id="star5-{{$ratingType}}" name="rating-{{$ratingType}}" value="5" /><label class = "full-star" for="star5-{{$ratingType}}"></label>
-   <input type="radio" class="rating-radio-half" id="star4half-{{$ratingType}}" name="rating-{{$ratingType}}" value="4 and a half" /><label class="half-star" for="star4half-{{$ratingType}}"></label>
+   <input type="radio" class="rating-radio-half" id="star4half-{{$ratingType}}" name="rating-{{$ratingType}}" value="4.5" /><label class="half-star" for="star4half-{{$ratingType}}"></label>
    <input type="radio" class="rating-radio-half" id="star4-{{$ratingType}}" name="rating-{{$ratingType}}" value="4" /><label class = "full-star" for="star4-{{$ratingType}}"></label>
-   <input type="radio" class="rating-radio-half" id="star3half-{{$ratingType}}" name="rating-{{$ratingType}}" value="3 and a half" /><label class="half-star" for="star3half-{{$ratingType}}"></label>
+   <input type="radio" class="rating-radio-half" id="star3half-{{$ratingType}}" name="rating-{{$ratingType}}" value="3.5" /><label class="half-star" for="star3half-{{$ratingType}}"></label>
    <input type="radio" class="rating-radio-half" id="star3-{{$ratingType}}" name="rating-{{$ratingType}}" value="3" /><label class = "full-star" for="star3-{{$ratingType}}"></label>
-   <input type="radio" class="rating-radio-half" id="star2half-{{$ratingType}}" name="rating-{{$ratingType}}" value="2 and a half" /><label class="half-star" for="star2half-{{$ratingType}}"></label>
+   <input type="radio" class="rating-radio-half" id="star2half-{{$ratingType}}" name="rating-{{$ratingType}}" value=".5" /><label class="half-star" for="star2half-{{$ratingType}}"></label>
    <input type="radio" class="rating-radio-half" id="star2-{{$ratingType}}" name="rating-{{$ratingType}}" value="2" /><label class = "full-star" for="star2-{{$ratingType}}"></label>
-   <input type="radio" class="rating-radio-half" id="star1half-{{$ratingType}}" name="rating-{{$ratingType}}" value="1 and a half" /><label class="half-star" for="star1half-{{$ratingType}}"></label>
+   <input type="radio" class="rating-radio-half" id="star1half-{{$ratingType}}" name="rating-{{$ratingType}}" value="1.5" /><label class="half-star" for="star1half-{{$ratingType}}"></label>
    <input type="radio" class="rating-radio-half" id="star1-{{$ratingType}}" name="rating-{{$ratingType}}" value="1" /><label class = "full-star" for="star1-{{$ratingType}}"></label>
-   <input type="radio" class="rating-radio-half" id="starhalf-{{$ratingType}}" name="rating-{{$ratingType}}" value="half" /><label class="half-star" for="starhalf-{{$ratingType}}"></label>
+   <input type="radio" class="rating-radio-half" id="starhalf-{{$ratingType}}" name="rating-{{$ratingType}}" value="0.5" /><label class="half-star" for="starhalf-{{$ratingType}}"></label>
 </fieldset>
 <!--
 <style>

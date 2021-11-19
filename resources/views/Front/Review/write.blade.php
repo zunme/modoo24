@@ -128,7 +128,7 @@ input.read-only{
 .ratingrow{
   display: flex;
   flex-wrap: wrap;
-  max-width: 900px;
+  max-width: 940px;
 }
 .item-wrap,.item-inner{display: flex;}
 .item-title{width:100px;display: flex;
@@ -139,7 +139,7 @@ input.read-only{
   padding: 0 40px 0 0;
 }
 .rating-item-title{
-  width: 66x;
+  width: 66px;
   display: flex;
   align-self: center;
 }
@@ -183,6 +183,108 @@ input.read-only{
 .rating-half > input:checked ~ label:hover ~ label { color: #34AC9E;  }
 </style>
 
+<!-- 파일첨부 -->
+<style>
+.custom-file-container {
+    box-sizing: border-box;
+    position: relative;
+    display: block
+}
+
+.custom-file-container__custom-file {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    width: 84px;
+    height: calc(2.25rem + 2px);
+    margin-bottom: 0;
+    margin-top: 5px
+}
+
+.custom-file-container__custom-file:hover {
+    cursor: pointer
+}
+
+.custom-file-container__custom-file__custom-file-input {
+    box-sizing: border-box;
+    min-width: 80px;
+    width: 80px;
+    max-width: 100%;
+    height: calc(2.25rem + 2px);
+    margin: 0;
+    opacity: 0
+}
+
+.custom-file-container__custom-file__custom-file-input:focus ~ span {
+    outline: 1px dotted #212121;
+    outline: 5px auto -webkit-focus-ring-color
+}
+
+.custom-file-container__custom-file__custom-file-control {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 5;
+    height: calc(2.25rem + 2px);
+    padding: .5rem .75rem;
+    overflow: hidden;
+    line-height: 1.5;
+    color: #333;
+    user-select: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #c0c0af;
+    border-radius: .25rem
+}
+
+.custom-file-container__custom-file__custom-file-control__button {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 6;
+    display: block;
+    height: calc(2.25rem + 2px);
+    padding: .5rem .75rem;
+    line-height: 1.25;
+    color: #333;
+    background-color: #EDEDE8;
+    border-left: 1px solid #c0c0af;
+    box-sizing: border-box
+}
+  .custom-file-container__image-multi-preview {
+    position: relative;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    float: left;
+    margin: 20px;
+    width: 130px;
+    height: 90px;
+    box-shadow: 0 4px 10px 0 rgb(51 51 51 / 25%);
+  }
+  .custom-file-container__image-multi-preview__single-image-clear {
+      right: -6px;
+      background: #EDEDE8;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      text-align: center;
+      margin-top: -6px;
+      box-shadow: 0 4px 10px 0 rgba(51,51,51,0.25);
+  }
+  .custom-file-container__image-multi-preview__single-image-clear__icon {
+      color: #6a6a53;
+      display: block;
+      margin-top: -2px;
+  }
+</style>
 @endsection
 
 
@@ -212,8 +314,10 @@ input.read-only{
 
 
 
-<form>
+<form id="reviewform">
   <input type="hidden" name="b_worker_idx" value="{{$staff->s_uid}}">
+  <input type="hidden" name="type" value="{{$type}}">
+  <input type="hidden" name="uid" value="{{$uid}}">
 
   <input type="hidden" name="b_star_pro" value="0">
   <input type="hidden" name="b_star_kind" value="0">
@@ -221,6 +325,8 @@ input.read-only{
   <input type="hidden" name="b_star_finish" value="0">
   <input type="hidden" name="b_star_expost" value="0">
   <input type="hidden" name="b_star_pave" value="0">
+
+  <input type="hidden" name="review_type" id="review_type" value="">
 
   <div class="content-body">
 
@@ -258,9 +364,9 @@ input.read-only{
 
     <div class="item-wrap">
       <div class="item-inner">
-        <div class="item-title item-floating-label">이사업체명</div>
+        <div class="item-title item-floating-label">서비스종류</div>
         <div class="item-input-wrap">
-          <input type="text" value="{{$row->s_company1}}" class="read-only" readonly>
+          <input type="text" value="{{ ( $type=="order" ? "방문견적 이사" : "비대면" ) }}" class="read-only" readonly>
         </div>
       </div>
 
@@ -311,7 +417,7 @@ input.read-only{
 
               <div class="ratingrow-item">
                 <div class="rating-item-title">사후관리</div>
-                @include('Front.Review.ratinghalf',['ratingType'=>'expose'])
+                @include('Front.Review.ratinghalf',['ratingType'=>'expost'])
               </div>
 
               <div class="ratingrow-item">
@@ -351,27 +457,14 @@ input.read-only{
         <div class="item-input-wrap">
 
           <div class="custom-file-container" data-upload-id="myUniqueUploadId">
-              <label
-                  >Upload File
-                  <a
-                      href="javascript:void(0)"
-                      class="custom-file-container__image-clear"
-                      title="Clear Image"
-                      >&times;</a
-                  ></label
-              >
+
               <label class="custom-file-container__custom-file">
-                  <input
-                      type="file"
-                      class="custom-file-container__custom-file__custom-file-input"
-                      accept="*"
-                      multiple
-                      aria-label="Choose File"
-                  />
+                  <input type="file" class="custom-file-container__custom-file__custom-file-input" name="upload[]" accept="jpg,png" multiple aria-label="Choose File" />
                   <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-                  <span
-                      class="custom-file-container__custom-file__custom-file-control"
-                  ></span>
+                  <span class="custom-file-container__custom-file__custom-file-control"></span>
+              </label>
+              <label>
+                  <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image" >전체삭제</a>
               </label>
               <div class="custom-file-container__image-preview"></div>
           </div>
@@ -379,52 +472,19 @@ input.read-only{
         </div>
       </div>
     </div>
-    <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
-    <style>
-      .custom-file-container__image-multi-preview {
-        position: relative;
-        box-sizing: border-box;
-        transition: all 0.2s ease;
-        border-radius: 6px;
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-        float: left;
-        margin: 20px;
-        width: 130px;
-        height: 90px;
-        box-shadow: 0 4px 10px 0 rgb(51 51 51 / 25%);
-      }
-      .custom-file-container__image-multi-preview__single-image-clear {
-          right: -6px;
-          background: #EDEDE8;
-          position: absolute;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          text-align: center;
-          margin-top: -6px;
-          box-shadow: 0 4px 10px 0 rgba(51,51,51,0.25);
-      }
-      .custom-file-container__image-multi-preview__single-image-clear__icon {
-          color: #6a6a53;
-          display: block;
-          margin-top: -2px;
-      }
-    </style>
-    <script>
-        var upload = new FileUploadWithPreview("myUniqueUploadId",{
-          options : {
-            maxFileCount:2,
-          }
-        });
-    </script>
+
 
 
   </div>
 </form>
 
 
+<div>
+  <div>
+    <span class="btn btn-success" onClick="review_prc('compliment')">칭찬후기 등록</span>
+    <span class="btn btn-warning" onClick="review_prc('inconvenience')">불편신고 등록</span>
+  </div>
+</div>
 
   </div>
 </div>
@@ -433,13 +493,56 @@ input.read-only{
 @endsection
 
 @section('script')
+<script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
+
 <script>
+var upload;
 $("document").ready( function() {
   $("input.rating-radio-half").on( "click", function(e){
     let val = $(e.target).val();
     let rtype = $(e.target).closest(".rating-half").data("ratingtype");
     $("input[name="+rtype+"]").val( val )
   })
+
+  upload = new FileUploadWithPreview("myUniqueUploadId",{
+    options : {
+      maxFileCount:4,
+    }
+  });
+  upload.options.maxFileCount = 4;
+  upload.options.text.selectedCount = "개 선택"
 })
+function review_prc(type) {
+  $("#review_type").val(type);
+  $.ajax({
+  url : '/community/refresh',
+  method:"get",
+  dataType:'JSON',
+  success:function(result){
+    $('meta[name="csrf-token"]').attr('content', result.token);
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': result.token
+          }
+      });
+      $.ajax({
+        url:"/v2/review/write/"+type,
+        method:"POST",
+        data:new FormData( document.getElementById('reviewform') ),
+        dataType:'JSON',
+        contentType: false,
+        cache: false,
+        processData: false,
+        success:function(res)
+        {
+          console.log (res )
+        },
+        error: function ( err ){
+          ajaxErrorST(err)
+        }
+      });
+  }
+});
+}
 </script>
 @endsection

@@ -119,29 +119,24 @@
 
 
 @section('content')
-<div class="visual3">
-    <h1>이사후기</h1>
-    <h4>Review</h4>
-    <div class="st-sub-menu-wrap">
-      <div class="st-sub-menu-inner">
-        <div class="st-sub-menu">
-          <div class="st-sub-menu-item">
-              <a class="gotohome"><i class="fas fa-home"></i></a>
-          </div>
-          <div class="st-sub-menu-item">
-              <a href="/v1/move/review">이사후기</a>
-          </div>
-          <div class="st-sub-menu-item">
-              <a href="/v2/review/my" class="active">이사업체 평가하기</a>
-          </div>
-        </div>
-      </div>
-    </div>
+
+<div class="visual4">
+    <h1>후기&amp;평가</h1>
 </div>
+
+<div class="sub_menu_N">
+        <ul class="center">
+            <li class="h_icon" onclick="window.open('/v2/')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"/></svg>
+            </li>
+            <li onclick="location.href='/v1/move/review' ">이사후기</li>
+            <li class="on">이사업체 평가하기</li>
+        </ul>
+    </div>
 
 <div class="center">
    <div id="mypage_wrap">
-	<h1>고객님의 <b>이사불편사항</b>을 접수해 보세요.</h1>
+	<h1>이사업체를 <b>평가</b>해 주세요</h1>
         <div>
             <form id="chk_form">
                 <ul class="my_order_num">
