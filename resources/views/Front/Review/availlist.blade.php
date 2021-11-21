@@ -149,6 +149,7 @@ li.applylist-item:last-child{border-bottom: 0}
     height: 90px;
   background: url( '/v1/image/sub/know_logo.png' ) no-repeat center center ;background-size: cover;
 }
+    
 .applylist-item-body{
   flex-grow: 1;
 }
@@ -206,14 +207,14 @@ body.fixed{
 }
 .bt_modal_header{
   padding-top: 6px;
-  background-color: #42768e;
+  background-color: #00beff;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
 .bt_modal div#topBar {
   width: 50px;
   height: 7px;
-  background: #aaa;
+  background: #fff;
   border-radius: 14px;
   margin: 0 auto 6px;
   cursor: pointer;
@@ -231,7 +232,7 @@ body.fixed{
   top: 1px;
   left: 50%;
   transform: translate(-50%, 0);
-  color:black;
+  color:#00beff;
 }
 .bt_modal > .bt_modal_body{
   max-height: 50vh;
@@ -292,7 +293,7 @@ text-align: center;
 .applylist-header{padding-bottom: 10px;padding-top: 20px}
 .applylist-header-span1{font-size: 1.2em;text-align: center;} 
 .applylist-item-body{margin-left: 20px;font-size: .95em;} 
-.applylist-items{border-bottom: 1px solid #000;border-top: 1px solid #000;margin-bottom: 70px}
+.applylist-items{border-bottom: 1px solid #333;border-top: 1px solid #333;margin-bottom: 70px}
 .applylist-item-btn-wrap .applylist-period{font-size: .75em; color: #999}  
 .btn,
 .btn.btn-default {  background-color: #1e9af9;border-color: #1e9af9;border-radius: 10px;} 
@@ -300,9 +301,20 @@ text-align: center;
 .btn.btn-default:hover {color: #fff;background-color: #4472c4;border-color: #4472c4;} 
 .btn {padding: 12px 40px;font-size: .8em;}  
     
-.applylist-item .applylist-item-media {} 
-.none-data{padding: 20px 0; background: #e6f8ff}  
-.none-data{display: flex}    
+
+.none-data{padding: 30px 0; background: #e6f8ff;display: flex;justify-content: center; } 
+.none-data >.icon{margin-right: 10px}
+    .applylist-nomark{background: #fff; border: 5px; color: #00beff; padding: 10px 20px}
+    
+    
+@media only screen and (max-width: 600px) {
+.applylist-item .applylist-item-media {display: none;}
+.applylist-item-body {margin-left: 0px}  
+.applylist-item-body{font-size: .8em}    
+.btn{padding: 10px 10%}  
+.applylist-item-btn-wrap .applylist-period {width: 100px;}    
+
+    }    
 </style>
 @endsection
 
@@ -394,18 +406,14 @@ text-align: center;
             </li>
             @empty
             <li class="none-data">
-              <div class="applylist-item-media">
-                  <div class="item-media-imgbox"></div>
+                <div class="icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="46" height="46"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" fill="rgba(0,190,255,1)"/></svg>
+                </div>    
+                <div>평가 가능한 이사 업체가 없습니다.<br/>
+                      <b>이사업체 평가</b>는 <b class="color_pt">이사일부터 6개월동안</b> 가능합니다.
+                    
                 </div>
-                <div>   
-                  <div>평가 가능한 이사 업체가 없습니다.</div>
-                  <div><b>이사업체 평가</b>는 <b class="color_pt">이사일부터 6개월동안</b> 가능합니다.</div>
-                </div> 
-             <div> 
-                 <div>smRlavy</div>
-                 <div>평가가능 <br/>이사업체 없음</div>
-            </div>    
-            </li>
+             </li>
             @endforelse
           </ul>
         </div>
