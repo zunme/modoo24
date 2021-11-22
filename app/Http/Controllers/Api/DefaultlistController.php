@@ -192,6 +192,11 @@ class DefaultlistController extends Controller
 
 		$data = \DB::select($sql);
 		foreach ( $data as &$row){
+
+			$row->avg = sprintf( '%.2f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
+			if( $row->avg > 5 ) $row->avg = "5.00";
+			$row->avgstar = ( floor($row->avg *2 ) / 2 );
+			
 			$row->b_star_expost = $row->b_star_expost == 0 ? 1 : floor($row->b_star_expost);
 			$row->b_star_expost_arr = $this->explodeStar($row->b_star_expost);
 			$row->b_star_finish = $row->b_star_finish == 0 ? 1 : floor($row->b_star_finish);
@@ -208,7 +213,8 @@ class DefaultlistController extends Controller
 			$row->avg = sprintf( '%.1f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
 			$row->avgstar = ( floor($row->avg *2 ) / 2 );
 			*/
-			$row->avg =$row->avgstar = $row->totalstar;
+			// total => 단건으로 바꿈
+			//$row->avg =$row->avgstar = $row->totalstar;
 
 			$row->avgstararr = [];
 			$row->avgstararr = $this->explodeStar($row->avgstar);

@@ -137,9 +137,9 @@ let move_review_template =`
 						<div class="move_review_item_point">
 							{{avg}}
 						</div>
-						<div class="move_review_item_point_desc">
-							전체 누적 평점
-						</div>
+						<!--iv class="move_review_item_point_desc">
+							전체 평점
+						</div-->
 					</div>
 				</div>
 				<div class="move_review_item_txt">

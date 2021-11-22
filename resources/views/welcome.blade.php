@@ -3,12 +3,14 @@
 @section('usesub','')
 
 @section('css')
-<script src="/community/newmain.js"></script>
+<script src="/community/newmain.js?v20211122114201"></script>
 <style>
     .right_menu {
         width: 55%
     }
-
+    .move_review_item_point {
+        margin-top: 14px;
+    }
 </style>
 @endsection
 
@@ -352,79 +354,16 @@
 
                 <div class="crsl-item" style="position: relative; float: left; overflow: hidden; width: 222px; margin-right: 5px; height: 401px;">
                     <a class="review" href="/v1/move/review" style="display: block">
-                        <h3>all익스프레스</h3>
-                        <h4>(우수업체)</h4>
+                        <h3>업체명</h3>
+                        <h4>(업체등급)</h4>
                         <dl>
                             <dt><img src="/v1/image/main_N/big_star.png" alt="star"></dt>
                             <dd>
-                                <span class="num">4.0</span>
-                                <span class="numtxt">전체 누적 평점</span>
+                                <span class="num">5.0</span>
+                                <span class="numtxt">전체 평점</span>
                             </dd>
                         </dl>
-                        <p class="review_txt">고생하셨습니다. 글을 많이 쓴다면 어떤일이 벌어질까요? 깜짝 놀랄일이 짜자자자잔</p>
-                        <span class="review_date">이사일 2020-11-20</span>
-                    </a>
-                </div>
-                <div class="crsl-item crsl-active" style="position: relative; float: left; overflow: hidden; width: 222px; margin-right: 5px; height: 401px;">
-                    <a class="review" href="/v1/move/review" style="display: block">
-                        <h3>피카츄이사</h3>
-                        <h4>(최우수업체)</h4>
-                        <dl>
-                            <dt><img src="/v1/image/main_N/big_star.png" alt="star"></dt>
-                            <dd>
-                                <span class="num">4.0</span>
-                                <span class="numtxt">전체 누적 평점</span>
-                            </dd>
-                        </dl>
-                        <p class="review_txt">고생하셨습니다. 글을 많이 쓴다면 어떤일이 벌어질까요? 깜짝 놀랄일이 짜자자자잔</p>
-                        <span class="review_date">이사일 2020-11-20</span>
-                    </a>
-                </div>
-
-                <div class="crsl-item" style="position: relative; float: left; overflow: hidden; width: 222px; margin-right: 5px; height: 401px;">
-                    <a class="review" href="/v1/move/review" style="display: block">
-                        <h3>이사공간</h3>
-                        <h4>(우수업체)</h4>
-                        <dl>
-                            <dt><img src="/v1/image/main_N/big_star.png" alt="star"></dt>
-                            <dd>
-                                <span class="num">4.5</span>
-                                <span class="numtxt">전체 누적 평점</span>
-                            </dd>
-                        </dl>
-                        <p class="review_txt">고생하셨습니다. 두줄로 제안합시다.</p>
-                        <span class="review_date">이사일 2020-11-20</span>
-                    </a>
-                </div>
-
-                <div class="crsl-item" style="position: relative; float: left; overflow: hidden; width: 222px; margin-right: 5px; height: 401px;">
-                    <a class="review" href="/v1/move/review" style="display: block">
-                        <h3>우리모두옮겨</h3>
-                        <h4>(우수업체)</h4>
-                        <dl>
-                            <dt><img src="/v1/image/main_N/big_star.png" alt="star"></dt>
-                            <dd>
-                                <span class="num">4.0</span>
-                                <span class="numtxt">전체 누적 평점</span>
-                            </dd>
-                        </dl>
-                        <p class="review_txt">고생하셨습니다. 글을 많이 쓴다면 어떤일이 벌어질까요? 깜짝 놀랄일이 짜자자자잔</p>
-                        <span class="review_date">이사일 2020-11-20</span>
-                    </a>
-                </div>
-
-                <div class="crsl-item" style="position: relative; float: left; overflow: hidden; width: 222px; margin-right: 5px; height: 401px;">
-                    <a class="review" href="/v1/move/review" style="display: block">
-                        <h3>밍밍이이사업체</h3>
-                        <h4>(우수업체)</h4>
-                        <dl>
-                            <dt><img src="/v1/image/main_N/big_star.png" alt="star"></dt>
-                            <dd>
-                                <span class="num">4.0</span>
-                                <span class="numtxt">전체 누적 평점</span>
-                            </dd>
-                        </dl>
-                        <p class="review_txt">고생하셨습니다. 글을 많이 쓴다면 어떤일이 벌어질까요? 깜짝 놀랄일이 짜자자자잔</p>
+                        <p class="review_txt">후기글</p>
                         <span class="review_date">이사일 2020-11-20</span>
                     </a>
                 </div>
