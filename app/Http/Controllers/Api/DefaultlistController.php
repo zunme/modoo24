@@ -196,7 +196,7 @@ class DefaultlistController extends Controller
 			$row->avg = sprintf( '%.2f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
 			if( $row->avg > 5 ) $row->avg = "5.00";
 			$row->avgstar = ( floor($row->avg *2 ) / 2 );
-			
+
 			$row->b_star_expost = $row->b_star_expost == 0 ? 1 : floor($row->b_star_expost);
 			$row->b_star_expost_arr = $this->explodeStar($row->b_star_expost);
 			$row->b_star_finish = $row->b_star_finish == 0 ? 1 : floor($row->b_star_finish);
@@ -232,8 +232,11 @@ class DefaultlistController extends Controller
 		$avg = '3.5';
 		$sql = "
 		INSERT INTO star_points
-		SELECT * FROM (
-
+		SELECT
+			auction_staff_uid,total,cnt,@avgval AS avgpoint , star,
+			if( avgstar > 5 , 5, avgstar) as avgstar
+			,forcestar
+		FROM (
 			SELECT auction_staff_uid,total,cnt,@avgval AS avgpoint , star
 			 , if(star < @avgval , CAST( ( star + @avgval)/2 AS DECIMAL(10,2) ) , star) AS avgstar
 			 , NULL AS forcestar

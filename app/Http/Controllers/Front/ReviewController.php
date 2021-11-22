@@ -39,7 +39,44 @@ class ReviewController extends Controller
 		$this->rangeMonth = 20;					// 6개월
 		$this->alimhp = '01025376460'; // 알림 전화번호 바꿔치기.. '' 로 바꿀것
 	}
+	public function index(Request $request){
+		$this->avgStar();
+		$data = AuctionBbsPostscript::
+			select ( "*")
+			->join( "auction_staff", "auction_bbs_postscript.b_worker_idx",'=',"auction_staff.s_uid")
+			->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
+			->where(["b_admin_flag"=>"Y"])
+			->orderBy("auction_bbs_postscript.b_reg_date","DESC")
+			->orderBy("auction_bbs_postscript.b_uid","DESC")
+			->paginate(10);
+		foreach ( $data as &$row){
+			$row->drawStar = $row->avgstar > $row->forcestar ? $row->avgstar :  $row->forcestar;
+			$temp = $this->companyGrade($row->drawStar);
+			$row->gradeTitle = $temp['title'];
+			$row->gradePic = $temp['pic'];
 
+			$row->avg = sprintf( '%.2f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
+			if( $row->avg > 5 ) $row->avg = "5.00";
+			$row->avgstar = ( floor($row->avg *2 ) / 2 );
+
+			$row->b_star_expost = $row->b_star_expost == 0 ? 1 : floor($row->b_star_expost);
+			$row->b_star_expost_arr = $this->explodeStar($row->b_star_expost);
+			$row->b_star_finish = $row->b_star_finish == 0 ? 1 : floor($row->b_star_finish);
+			$row->b_star_finish_arr = $this->explodeStar($row->b_star_finish);
+			$row->b_star_pave = $row->b_star_pave == 0 ? 1 : floor($row->b_star_pave);
+			$row->b_star_pave_arr = $this->explodeStar($row->b_star_pave);
+			$row->b_star_price = $row->b_star_price == 0 ? 1 : floor($row->b_star_price);
+			$row->b_star_price_arr = $this->explodeStar($row->b_star_price);
+			$row->b_star_pro = $row->b_star_pro == 0 ? 1 : floor($row->b_star_pro);
+			$row->b_star_pro_arr = $this->explodeStar($row->b_star_pro);
+			$row->b_star_kind = $row->b_star_kind == 0 ? 1 : floor($row->b_star_kind);
+			$row->b_star_kind_arr = $this->explodeStar($row->b_star_kind);
+
+			$row->avgstararr = $this->explodeStar($row->avgstar);
+		}
+		$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
+		return view('Front.Review.index', compact(["data",'pagingres']));
+	}
   public function myReview(Request $request){
 			$data = $this->getUserdata( $request);
 			if( $data === false ) return view("Front.Review.auth");
