@@ -546,8 +546,14 @@ font-weight: 600; color: #666
           </div>
           @if ( $is_writer )
           <div class="post_desc_right">
-            <span class="btn btn-sm btnborder">수정</span>
-            <span class="btn btn-sm btnborder">삭제</span>
+            @if ($post->is_confirmed =='R')
+            <span class="btn btn-sm btnborder"><a href="{{ Config::get('site.defaultStartUrl') }}/posts/{{$code}}/update/{{$post->id}}">수정</a></span>
+            @endif
+
+            @if ( count($post->comments) == 0 )
+            <span class="btn btn-sm btnborder" onClick="delpost({{$post->id}})">삭제</span>
+            @endif
+
           </div>
           @endif
         </div>
@@ -561,7 +567,7 @@ font-weight: 600; color: #666
     </div>
 
 
-
+@if ($post->is_confirmed =='Y')
     <div class="comment_write_wrap" id="comment_write_wrap">
       <div class="comment_write_nickname">
         @guest
@@ -585,6 +591,7 @@ font-weight: 600; color: #666
         <span class="btn btn-sm btncolor_pt" onClick="write_comment(this)">댓글등록</span>
       </div>
     </div>
+@endif
 
   </div>
 </div>
@@ -881,6 +888,34 @@ function comment_del_confirmed(btn){
 function callbackCommentDelComplete(){
   $("#body_loader_bg").addClass("hide");
   recommentSuccess({})
+}
+
+function delpost(postid){
+  swal.fire({
+    title : '삭제',
+    text : '작성하신 글을 삭제하시겠습니까?',
+    icon: 'info',
+    showCancelButton : true,
+
+    confirmButtonText : "예",
+    cancelButtonText : "아니오",
+  }).then((result) => {
+    if (result.isConfirmed) getpost( '{{ Config::get('site.defaultStartUrl') }}/posts/del', {id:postid}, callbackDel,callbackComplete);
+    else return false;
+  });
+}
+function callbackDel( res ){
+  Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: '글이 삭제되었습니다.',
+    showConfirmButton: false,
+    timer: 1500
+  }).then((result) => {
+    location.replace("{{ Config::get('site.defaultStartUrl') }}/posts/{{$code}}")
+  })
+}
+function callbackComplete(){
 }
 </script>
 @endsection

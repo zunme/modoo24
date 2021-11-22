@@ -228,7 +228,7 @@
         height: 200px;
         background-size: cover;}
     .item-media-imgbox {    width: 100%;height: 100%;background-repeat: no-repeat;}
-    .media-list .item-link{display: block} 
+    .media-list .item-link{display: block}
     .item-desc {display: block;}
     .item-desc-sub{width: 100%;max-width: 100%;overflow: hidden;color: #666;margin-top: 3px}
     .item-text{display: none}
@@ -238,7 +238,7 @@
     .media-list li:not(:last-child):after {height: 0px}
     .media-list .item-link {padding-left: 0px}
     .ct {clear: both }***/
-    
+
     }
     @media (max-width: 600px) {
         .item-desc {
@@ -334,11 +334,11 @@
                             @forelse ($data as $post)
                             <li class="@if($post->is_confirmed == 'R') notconfirmed @endif">
 
-                                @if($post->is_confirmed != 'Y')
-                                <span onClick="comfirmMessage()" class="item-link">
-                                    @else
-                                    <a href="{{$code}}/view/{{$post->id}}" data-code="{{$code}}" data-id="{{$post->id}}" class="item-link">
-                                        @endif
+                                @if($post->is_confirmed == 'Y' || ( Auth::user()->id ) )
+                                  <a href="{{$code}}/view/{{$post->id}}" data-code="{{$code}}" data-id="{{$post->id}}" class="item-link">
+                                @else
+                                  <span onClick="comfirmMessage()" class="item-link">
+                                @endif
 
                                         <div class="item-media">
                                             @php
@@ -360,7 +360,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="item-desc-sub">
-                                                    <div class="item-desc-nickname">{{$post->nickname}}</div>
+                                                    <div class="item-desc-nickname">{{$post->nickname}}.....</div>
                                                     <div class="item-desc-date">
                                                         @if( $post->created_at > '2021-10-01')
                                                         {{ $post->created_at->format('H:i') }}
@@ -376,10 +376,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if($post->is_confirmed != 'Y')
-                                </span>
-                                @else
+                                @if($post->is_confirmed == 'Y' || ( Auth::user()->id ) )
                                 </a>
+                                @else
+                                </span>
                                 @endif
                             </li>
                             @empty

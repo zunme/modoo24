@@ -349,11 +349,11 @@
                             @forelse ($data as $post)
                             <li class="@if($post->is_confirmed == 'R') notconfirmed @endif">
 
-                                @if($post->is_confirmed != 'Y')
-                                <span onClick="comfirmMessage()" class="item-link">
-                                    @else
-                                    <a href="{{$code}}/view/{{$post->id}}" data-code="{{$code}}" data-id="{{$post->id}}" class="item-link">
-                                        @endif
+                                @if($post->is_confirmed == 'Y' || (Auth::user() && Auth::user()->id == $post->user_id) )
+                                  <a href="{{$code}}/view/{{$post->id}}" data-code="{{$code}}" data-id="{{$post->id}}" class="item-link">
+                                @else
+                                  <span onClick="comfirmMessage()" class="item-link">
+                                @endif
 
                                         <div class="item-media">
                                             @php
@@ -391,10 +391,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if($post->is_confirmed != 'Y')
-                                </span>
+                                @if($post->is_confirmed == 'Y' || (Auth::user() && Auth::user()->id == $post->user_id) )
+                                  </a>
                                 @else
-                                </a>
+                                  </span>
                                 @endif
                             </li>
                             @empty
