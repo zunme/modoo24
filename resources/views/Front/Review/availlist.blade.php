@@ -336,7 +336,7 @@ text-align: center;
               <a class="gotohome"><i class="fas fa-home"></i></a>
           </div>
           <div class="st-sub-menu-item">
-              <a href="/v1/move/review">이사후기</a>
+              <a href="/v2/review">이사후기</a>
           </div>
           <div class="st-sub-menu-item">
               <a href="/v2/review/my" class="active">이사업체 평가하기</a>

@@ -169,7 +169,7 @@
 								<a href="/v1/move/review">후기&amp;평가</a>
 								<ul class="sub-menu">
 									<li class="has-children">
-										<a href="/v1/move/review">이사후기</a>
+										<a href="/v2/review">이사후기</a>
 									</li>
 									<li class="has-children">
 										<a href="/v2/review/my">업체평가하기</a>
@@ -229,7 +229,7 @@
                     <div class="btn_boxright2">
                         <div class="btn_know">
                             <!--<p class="color_pt"><b>이사지식인</b></p>-->
-                            <button type="button" class="btn_question_1 " onclick="location.href='/community/posts/jisik' ">이사지식인 
+                            <button type="button" class="btn_question_1 " onclick="location.href='/community/posts/jisik' ">이사지식인
                                 <i class="fas fa-angle-double-right" style="color:#000"></i>
                             </button>
 
@@ -267,7 +267,7 @@
                         </ul>
                         @endauth
                         @show
-                    </div>    
+                    </div>
 
                    <!-- <a class="clean_fast" href="http://www.modooclean.com/" target="_blank">
                         <p class="clean01"><b>청소는</b></p>
@@ -278,7 +278,7 @@
                     </a>
 
                     <span class="menu-icon"></span>
-                </div>    
+                </div>
             </div>
         </div>
         <div class="menu_floor02">
@@ -321,7 +321,7 @@
 
             <ul class="menu_tip">
                 <li>
-                    <a href="/v1/move/review">
+                    <a href="/v2/review">
                         이사후기
                     </a>
                 </li>
@@ -409,7 +409,7 @@
                                 <i class="fas fa-bullhorn"></i> 후기&amp;평가
                             </a>
                             <div class="dropdown-menu dropdown-with-icons">
-                                <a href="/v1/move/review" class="dropdown-item">
+                                <a href="/v2/review" class="dropdown-item">
                                     <i class="material-icons">content_paste</i> 이사후기
                                 </a>
                                 <a href="/v2/review/my" class="dropdown-item">

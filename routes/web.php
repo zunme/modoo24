@@ -84,6 +84,7 @@ Route::post('/my/checkAuthWithName', 'Front\MyController@checkAuthWithName');
 
 //이사후기
 Route::prefix('/review')->name('review.')->group(function () {
+    Route::get('/', 'Front\ReviewController@index');
     Route::get('/my', 'Front\ReviewController@myReview');
     Route::get('/my/companylist', 'Front\ReviewController@companylist');
     Route::get('/write/{type}/{uid}/{s_uid}', 'Front\ReviewController@myReviewWrite');
