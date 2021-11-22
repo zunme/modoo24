@@ -514,6 +514,15 @@ $("document").ready( function() {
 })
 function review_prc(type) {
   $("#review_type").val(type);
+
+  let title = `후기 등록 완료`
+  let msg =`후기가 등록되었습니다.`
+
+  if( type="inconvenience") {
+    title = `후기 등록 완료`
+    msg = `불편 신고의 진위 확인 처리 시간은 영업일 기준 3-4일이 소요됩니다`
+  }
+
   $.ajax({
   url : '/community/refresh',
   method:"get",
@@ -535,7 +544,17 @@ function review_prc(type) {
         processData: false,
         success:function(res)
         {
-          console.log (res )
+          swal.fire({
+            title : title,
+            text : msg,
+            icon : "success",
+            showCancelButton : false,
+            confirmButtonClass : "btn-danger",
+            confirmButtonText : "확인",
+            cancelButtonText : "아니오",
+          }).then((result) => {
+            location.replace('/')
+          });
         },
         error: function ( err ){
           ajaxErrorST(err)

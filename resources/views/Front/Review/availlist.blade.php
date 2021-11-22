@@ -120,7 +120,7 @@
 
 
 li.applylist-item {position: relative;box-sizing: border-box;padding: 20px 0; border-bottom: 1px solid #cccccc;}
-li.applylist-item:last-child{border-bottom: 0}    
+li.applylist-item:last-child{border-bottom: 0}
 .applylist-item .applylist-item-inner {
     color: inherit;
     display: flex;
@@ -149,7 +149,7 @@ li.applylist-item:last-child{border-bottom: 0}
     height: 90px;
   background: url( '/v1/image/sub/know_logo.png' ) no-repeat center center ;background-size: cover;
 }
-    
+
 .applylist-item-body{
   flex-grow: 1;
 }
@@ -287,34 +287,34 @@ footer , .bt_modal_header, .bt_modal_body{
   padding: 30px 0;
 text-align: center;
 }
-    
+
 .nav-tabs,.nav-pills {padding: 20px 0}
 .nav .nav-item {background: #eee;padding: 10px;height: 50px;line-height: 30px;}
 .applylist-header{padding-bottom: 10px;padding-top: 20px}
-.applylist-header-span1{font-size: 1.2em;text-align: center;} 
-.applylist-item-body{margin-left: 20px;font-size: .95em;} 
+.applylist-header-span1{font-size: 1.2em;text-align: center;}
+.applylist-item-body{margin-left: 20px;font-size: .95em;}
 .applylist-items{border-bottom: 1px solid #333;border-top: 1px solid #333;margin-bottom: 70px}
-.applylist-item-btn-wrap .applylist-period{font-size: .75em; color: #999}  
+.applylist-item-btn-wrap .applylist-period{font-size: .75em; color: #999}
 .btn,
-.btn.btn-default {  background-color: #1e9af9;border-color: #1e9af9;border-radius: 10px;} 
+.btn.btn-default {  background-color: #1e9af9;border-color: #1e9af9;border-radius: 10px;}
 .btn:hover,
-.btn.btn-default:hover {color: #fff;background-color: #4472c4;border-color: #4472c4;} 
-.btn {padding: 12px 40px;font-size: .8em;}  
-    
+.btn.btn-default:hover {color: #fff;background-color: #4472c4;border-color: #4472c4;}
+.btn {padding: 12px 40px;font-size: .8em;}
 
-.none-data{padding: 30px 0; background: #e6f8ff;display: flex;justify-content: center; } 
+
+.none-data{padding: 30px 0; background: #e6f8ff;display: flex;justify-content: center; }
 .none-data >.icon{margin-right: 10px}
     .applylist-nomark{background: #fff; border: 5px; color: #00beff; padding: 10px 20px}
-    
-    
+
+
 @media only screen and (max-width: 600px) {
 .applylist-item .applylist-item-media {display: none;}
-.applylist-item-body {margin-left: 0px}  
-.applylist-item-body{font-size: .8em}    
-.btn{padding: 10px 10%}  
-.applylist-item-btn-wrap .applylist-period {width: 100px;}    
+.applylist-item-body {margin-left: 0px}
+.applylist-item-body{font-size: .8em}
+.btn{padding: 10px 10%}
+.applylist-item-btn-wrap .applylist-period {width: 100px;}
 
-    }    
+    }
 </style>
 @endsection
 
@@ -357,7 +357,7 @@ text-align: center;
             <li class="on" >이사업체 평가하기</li>
         </ul>
     </div>
-    
+
   <div class="content-inner">
     <div class="applylist-wrap center">
          <nav class="nav nav-pills nav-fill">
@@ -374,7 +374,7 @@ text-align: center;
           <ul class="applylist-items">
 
             @forelse( $data as $row)
-              
+
             <li class="applylist-item">
               <div class="applylist-item-inner">
                 <div class="applylist-item-media">
@@ -396,7 +396,11 @@ text-align: center;
                 </div>
                 <div class="applylist-item-btn-wrap">
                   <div>
-                    <span class="btn btn-outerline-primary" onClick="review({{$row->uid}},'{{$row->kindtype}}','{{$row->staff_cnt}}')">이사업체평가</span>
+                    @if( $row->review_id)
+                      <span class="btn btn-info">업체평가완료</span>
+                    @else
+                      <span class="btn btn-outerline-primary" onClick="review({{$row->uid}},'{{$row->kindtype}}','{{$row->staff_cnt}}')">이사업체평가</span>
+                    @endif
                   </div>
                   <div class="applylist-period">
                     <span>평가 가능시간 : {{\Carbon\Carbon::createFromFormat('Y-m-d', $row->mdate, 'Asia/Seoul')->addMonth(6)->format('Y-m-d')}}</span>
@@ -408,10 +412,10 @@ text-align: center;
             <li class="none-data">
                 <div class="icon">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="46" height="46"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" fill="rgba(0,190,255,1)"/></svg>
-                </div>    
+                </div>
                 <div>평가 가능한 이사 업체가 없습니다.<br/>
                       <b>이사업체 평가</b>는 <b class="color_pt">이사일부터 6개월동안</b> 가능합니다.
-                    
+
                 </div>
              </li>
             @endforelse
