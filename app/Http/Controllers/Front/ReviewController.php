@@ -37,7 +37,8 @@ class ReviewController extends Controller
 		$this->exclsComp = ['736','80'];
 		$this->exclsComp =[];
 		$this->rangeMonth = 20;					// 6개월
-		$this->alimhp = '01025376460'; // 알림 전화번호 바꿔치기.. '' 로 바꿀것
+		$this->alimhp = ''; // 알림 전화번호 바꿔치기.. '' 로 바꿀것
+		$this->customerNumPlus = 100000; // b_uid+
 	}
 	public function index(Request $request){
 		$this->avgStar();
@@ -75,7 +76,11 @@ class ReviewController extends Controller
 			$row->avgstararr = $this->explodeStar($row->avgstar);
 		}
 		$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
-		return view('Front.Review.index', compact(["data",'pagingres']));
+		$customerNumPlus = $this->customerNumPlus;
+		return view('Front.Review.index', compact(["data",'pagingres','customerNumPlus']));
+	}
+	public function myReviewList(Request $request){
+		return view("Front/Review/mylist");
 	}
   public function myReview(Request $request){
 			$data = $this->getUserdata( $request);

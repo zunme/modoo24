@@ -8,18 +8,35 @@
 .inline-post{
     display: none;
 }
-.inline-panel{
+.inline-panel {
     margin: 10px;
-    padding: 15px;
+    padding: 30px 22px;
     background-color: #eee;
     margin-top: 30px;
+}
+.inline-panel > div{
+  margin-bottom: 12px;
 }
 .level-inner{
   padding-right:10px;
 }
 .level-inner img{  width:30px;}
-.inline-panel-title > div{
+.inline-panel-title{
+  flex-wrap: wrap;
+    max-width: 580px;
+}
+.inline-panel-title > div.d-flex{
+
+  flex-grow: 1;
+}
+.inline-panel-title > div.d-flex > div:first-child{
   padding-right:10px;
+}
+.inline-panel-title > div.d-flex > div:last-child{
+  padding-left:10px;
+}
+.inline-panel-title > div:last-child{
+  justify-content: flex-end;
 }
 .patn{
   font-size: 1.2em;
@@ -42,16 +59,33 @@
 .inline-panel-rating-wrap{
   margin-right:30px;
 }
+.inline-panel-rating-inner > i.fas{
+  color:#00bcd4;
+}
 .inline-panel-subtitle-inner {
   margin-right: 20px;
 }
 .inline-panel-subtitle-title{
   margin-right: 10px;
 }
+#board ul .border_list2 dl dd {
+    vertical-align: bottom;
+}
 .ellipsis {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.ml-1-depth {
+    /* margin-left: 18px; */
+    /* margin-right: 18px; */
+    word-break: break-all;
+}
+.ml-2-depth{
+  margin-left:36px;
+}
+.newcolor{
+  color: #4c4c4c;
 }
 </style>
 @endsection
@@ -160,20 +194,24 @@
               <!-- panel -->
               <div class="inline-panel">
                 <div class="inline-panel-title d-flex">
-                  <div class="level-wrap">
-                    <span class="level-inner"><img src="/v1/image/sub/rating_{{$row->gradePic}}.png" alt="우수업체"></span>
+                  <div class="d-flex">
+                    <div class="level-wrap">
+                      <span class="level-inner"><img src="/v1/image/sub/rating_{{$row->gradePic}}.png" alt="우수업체"></span>
+                    </div>
+                    <div class="patn">
+                      {{$row->s_company}}
+                    </div>
                   </div>
-                  <div class="patn">
-                    {{$row->s_company}}
-                  </div>
-                  <div class="inline-panel-total-rating d-flex">
-                    @include( "Front.componentstar",["stars"=>$row->avgstararr])
-                  </div>
-                  <div class="patn">
-                    {{$row->avgstar}}점
+                  <div class="d-flex">
+                    <div class="inline-panel-total-rating d-flex">
+                      @include( "Front.componentstar",["stars"=>$row->avgstararr])
+                    </div>
+                    <div class="patn">
+                      {{$row->avgstar}}점
+                    </div>
                   </div>
                 </div>
-                <div class="inline-panel-rating d-flex">
+                <div class="inline-panel-rating d-flex ml-2-depth newcolor">
                   <div class="inline-panel-rating-wrap d-flex">
                     <div class="inline-panel-rating-title">전문성</div>
                     <div class="inline-panel-rating-inner">
@@ -211,17 +249,17 @@
                     </div>
                   </div>
                 </div>
-                <div class="inline-panel-subtitle d-flex">
+                <div class="inline-panel-subtitle d-flex ml-2-depth newcolor">
                   <div class="inline-panel-subtitle-inner d-flex">
                     <div class="inline-panel-subtitle-title">고객 번호</div>
-                    <div class="inline-panel-subtitle-cont">111111</div>
+                    <div class="inline-panel-subtitle-cont">{{$row->b_uid + $customerNumPlus}}</div>
                   </div>
                   <div class="inline-panel-subtitle-inner d-flex">
                     <div class="inline-panel-subtitle-title">고객 이사일</div>
                     <div class="inline-panel-subtitle-cont">{{$row->b_mdate}}</div>
                   </div>
                 </div>
-                <div class="inline-panel-body">
+                <div class="inline-panel-body ml-1-depth">
                   {!! strip_tags(htmlspecialchars_decode($row->b_note, ENT_QUOTES)) !!}
                 </div>
               </div>

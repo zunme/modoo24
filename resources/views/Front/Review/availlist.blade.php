@@ -180,7 +180,7 @@ body.fixed{
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 
-  background-color: rgba(255, 255, 255, 83%);
+  background-color: #fff;
   position: fixed;
   bottom: 0px;
   left: 50%;
@@ -283,10 +283,7 @@ footer , .bt_modal_header, .bt_modal_body{
     box-shadow: 0 2px 2px 0 rgba(85,172,238,.14),0 3px 1px -2px rgba(85,172,238,.2),0 1px 5px 0 rgba(85,172,238,.12);
     margin:0;
 }
-.none-company{
-  padding: 30px 0;
-text-align: center;
-}
+.none-company{padding: 30px 0;text-align: center;}
 
 .nav-tabs,.nav-pills {padding: 20px 0}
 .nav .nav-item {background: #eee;padding: 10px;height: 50px;line-height: 30px;}
@@ -300,7 +297,7 @@ text-align: center;
 .btn:hover,
 .btn.btn-default:hover {color: #fff;background-color: #4472c4;border-color: #4472c4;}
 .btn {padding: 12px 40px;font-size: .8em;}
-
+.btn.btn-info_ok{background: #fff; color: #00beff; border: 1px solid #00beff}
 
 .none-data{padding: 30px 0; background: #e6f8ff;display: flex;justify-content: center; }
 .none-data >.icon{margin-right: 10px}
@@ -313,6 +310,7 @@ text-align: center;
 .applylist-item-body{font-size: .8em}
 .btn{padding: 10px 10%}
 .applylist-item-btn-wrap .applylist-period {width: 100px;}
+.nav .nav-item{height: 40px;line-height: 20px;}
 
     }
 </style>
@@ -362,7 +360,7 @@ text-align: center;
     <div class="applylist-wrap center">
          <nav class="nav nav-pills nav-fill">
             <a class="nav-item nav-link active" href="#a01" id="a01">이사업체 평가하기</a>
-            <a class="nav-item nav-link" href="#a02">이사업체 평가 내역</a>
+            <a class="nav-item nav-link" href="/v2/review/my/list">이사업체 평가 내역</a>
         </nav>
     <div class="applylist-inner">
       <div class="applylist-header">
@@ -397,13 +395,13 @@ text-align: center;
                 <div class="applylist-item-btn-wrap">
                   <div>
                     @if( $row->review_id)
-                      <span class="btn btn-info">업체평가완료</span>
+                      <span class="btn btn-info_ok">업체평가완료</span>
                     @else
                       <span class="btn btn-outerline-primary" onClick="review({{$row->uid}},'{{$row->kindtype}}','{{$row->staff_cnt}}')">이사업체평가</span>
                     @endif
                   </div>
                   <div class="applylist-period">
-                    <span>평가 가능시간 : {{\Carbon\Carbon::createFromFormat('Y-m-d', $row->mdate, 'Asia/Seoul')->addMonth(6)->format('Y-m-d')}}</span>
+                    <span>평가 가능기간 : {{\Carbon\Carbon::createFromFormat('Y-m-d', $row->mdate, 'Asia/Seoul')->addMonth(6)->format('Y-m-d')}}</span>
                   </div>
                 </div>
               </div>

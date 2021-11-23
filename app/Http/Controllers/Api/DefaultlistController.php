@@ -229,6 +229,9 @@ class DefaultlistController extends Controller
 	}
 	/*별점 평균 작업 */
 	public function avgStarReq(Request $request){
+		$this->avgStar( $request->idx);
+		echo "OK";
+		return;
 		$avg = '3.5';
 		$sql = "
 		INSERT INTO star_points
@@ -260,7 +263,7 @@ class DefaultlistController extends Controller
 							+ cast(a.b_star_pave AS DECIMAL(5,2) )
 							) total
 						FROM auction_bbs_postscript a
-						WHERE b_admin_flag ='Y' ". ( ($request->idx )?  'AND a.b_worker_idx='.(int)$request->idx : '' ) ."
+						". ( ($request->idx )?  'where a.b_worker_idx='.(int)$request->idx : '' ) ."
 					)tmp
 					GROUP BY auction_staff_uid
 				) grp
