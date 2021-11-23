@@ -180,10 +180,9 @@
             </a> <!-- / 화살표 버튼 끝 -->
             <!-- 인디케이터 -->
             <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
                 <!--0번부터시작-->
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
                 <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
             </ul> <!-- 인디케이터 끝 -->
         </div>
     </div>
@@ -574,6 +573,29 @@
 @section('script')
 <!--간편접수 퀵메뉴-->
 <script>
+      let eventData = {'data' : [
+      	{
+      		'title': "황금열쇠이벤트",
+      		'href':'https://blog.naver.com/modoo24try/222488994124',
+      		'pc_image':'/v1/image/main_N/event_210923.jpg',
+      		'mobile_image':'/v1/image/main_N/event_210923_m.jpg',
+      		'target' : true,
+      	},
+      	{
+      		'title': "삼성이벤트",
+      		'href':'https://blog.naver.com/modoo24try/222488994124',
+      		'pc_image':'/v1/image/main_N/event_ss.jpg',
+      		'mobile_image':'/v1/image/main_N/event_ss_m.jpg',
+      		'target' : true,
+      	},
+      	{
+      		'title': "인터넷신청",
+      		'href':'https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22',
+      		'pc_image':'/v1/image/main_N/event_it.jpg',
+      		'mobile_image':'/v1/image/main_N/event_it_m.jpg',
+      		'target' : true,
+      	},
+      ]}
     $(document).ready(function() {
         // 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
         var floatPosition = parseInt($("#simpleorder").css('top'));
