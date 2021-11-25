@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="visual_event">
-    <h1>모두이사 이벤트</h1>
+    <h1>이벤트</h1>
    <!-- <h4>Event</h4> -->
 </div>
 <!--//common_visual-->

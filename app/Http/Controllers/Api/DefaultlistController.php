@@ -59,20 +59,20 @@ class DefaultlistController extends Controller
 	}
 	public function makeinc(){
 		$sub_header = view('header-sub')->render();
-		$fp = fopen("/home/modoo24/public_html/NEW/include/sub_header.php","wb");
+		$fp = fopen("/home/modoo24/public_html/v1/include/sub_header.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
 
 		$sub_header = view('header')->render();
-		$fp = fopen("/home/modoo24/public_html/NEW/include/header.php","wb");
+		$fp = fopen("/home/modoo24/public_html/v1/include/header.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
 
 		$sub_header = view('footer')->render();
-		$fp = fopen("/home/modoo24/public_html/NEW/include/footer.php","wb");
+		$fp = fopen("/home/modoo24/public_html/v1/include/footer.php","wb");
 		fwrite($fp,$sub_header);
 		fclose($fp);
-		echo "/home/modoo24/public_html/NEW/include 에 헤더 , 풋터 생성완료";
+		echo "/home/modoo24/public_html/v1/include 에 헤더 , 풋터 생성완료";
 	}
 	public function communityGrade(Request $request){
 		session_start();
@@ -164,24 +164,39 @@ class DefaultlistController extends Controller
 
 	public function reviewMain(Request $request){
 		$sql = "
-				SELECT a.b_uid,b_worker_idx , a.b_mdate,a.b_note,a.b_star_expost,a.b_star_finish,a.b_star_pave,a.b_star_price,a.b_star_pro,b_star_kind , a.b_type,
-				b.s_company from auction_bbs_postscript a
-				join auction_staff b ON a.b_worker_idx = b.s_uid
-				WHERE a.b_admin_flag ='Y' AND b_type IN('이사', '비대면이사')
+		SELECT a.b_uid,b_worker_idx , a.b_mdate,a.b_note,a.b_star_expost,a.b_star_finish,a.b_star_pave,a.b_star_price,a.b_star_pro,b_star_kind , a.b_type,
+		b.s_company ,
+		s.cnt,
+		if( if( s.forcestar > 0 , s.forcestar , s.avgstar ) > 5 , 5 ,if( s.forcestar > 0 , s.forcestar , s.avgstar ) )  AS totalstar,
+		a.b_reg_date
+		from auction_bbs_postscript a
+		join auction_staff b ON a.b_worker_idx = b.s_uid
+		JOIN star_points s ON a.b_worker_idx = s.auction_staff_uid
+
+		WHERE a.b_admin_flag ='Y'
+			AND b_type IN('이사', '비대면이사')
 		";
 
 		if( $request->id ){
 				$sql .='AND a.b_uid >= '. (int)$request->id.' limit 1';
 		}else {
 			$sql .= "
-						AND a.b_uid >= 6334
-					ORDER BY a.b_uid desc
+			AND a.b_uid >= 6334
+			and a.b_reg_date > DATE_SUB( NOW() , INTERVAL 3 MONTH)
+			AND if( s.forcestar > 0 , s.forcestar , s.avgstar ) >= 4.3
+
+			ORDER BY RAND()
 					LIMIT 10
 			";
 		}
 
 		$data = \DB::select($sql);
 		foreach ( $data as &$row){
+
+			$row->avg = sprintf( '%.2f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
+			if( $row->avg > 5 ) $row->avg = "5.00";
+			$row->avgstar = ( floor($row->avg *2 ) / 2 );
+
 			$row->b_star_expost = $row->b_star_expost == 0 ? 1 : floor($row->b_star_expost);
 			$row->b_star_expost_arr = $this->explodeStar($row->b_star_expost);
 			$row->b_star_finish = $row->b_star_finish == 0 ? 1 : floor($row->b_star_finish);
@@ -194,9 +209,13 @@ class DefaultlistController extends Controller
 			$row->b_star_pro_arr = $this->explodeStar($row->b_star_pro);
 			$row->b_star_kind = $row->b_star_kind == 0 ? 1 : floor($row->b_star_kind);
 			$row->b_star_kind_arr = $this->explodeStar($row->b_star_kind);
-
+			/*
 			$row->avg = sprintf( '%.1f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
 			$row->avgstar = ( floor($row->avg *2 ) / 2 );
+			*/
+			// total => 단건으로 바꿈
+			//$row->avg =$row->avgstar = $row->totalstar;
+
 			$row->avgstararr = [];
 			$row->avgstararr = $this->explodeStar($row->avgstar);
 
@@ -210,11 +229,17 @@ class DefaultlistController extends Controller
 	}
 	/*별점 평균 작업 */
 	public function avgStarReq(Request $request){
+		$this->avgStar( $request->idx);
+		echo "OK";
+		return;
 		$avg = '3.5';
 		$sql = "
 		INSERT INTO star_points
-		SELECT * FROM (
-
+		SELECT
+			auction_staff_uid,total,cnt,@avgval AS avgpoint , star,
+			if( avgstar > 5 , 5, avgstar) as avgstar
+			,forcestar
+		FROM (
 			SELECT auction_staff_uid,total,cnt,@avgval AS avgpoint , star
 			 , if(star < @avgval , CAST( ( star + @avgval)/2 AS DECIMAL(10,2) ) , star) AS avgstar
 			 , NULL AS forcestar
@@ -238,7 +263,7 @@ class DefaultlistController extends Controller
 							+ cast(a.b_star_pave AS DECIMAL(5,2) )
 							) total
 						FROM auction_bbs_postscript a
-						WHERE b_admin_flag ='Y' ". ( ($request->idx )?  'AND a.b_worker_idx='.(int)$request->idx : '' ) ."
+						". ( ($request->idx )?  'where a.b_worker_idx='.(int)$request->idx : '' ) ."
 					)tmp
 					GROUP BY auction_staff_uid
 				) grp

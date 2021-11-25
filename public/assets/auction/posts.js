@@ -1,9 +1,6 @@
 Handlebars.registerHelper('nl2br', function(text) {
   text = Handlebars.Utils.escapeExpression(text);
-  console.log ( text )
   text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
-  console.log ( new Handlebars.SafeString(text))
-  console.log ( "===============")
   return new Handlebars.SafeString(text);
 });
 Handlebars.registerHelper('encodeMyString',function(inputData){
@@ -176,7 +173,6 @@ if (jqXHR.responseJSON ) {
   msg = (jqXHR.responseJSON.errors) ? jqXHR.responseJSON.errors : jqXHR.responseJSON;
   exception = jqXHR.responseJSON.exception;
 }
-console.log(msg) ;
 
   if(msg) {
     if( msg.message ){

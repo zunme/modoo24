@@ -169,6 +169,13 @@ trait ApiResponser
 		else  return '미흡업체';
 	}
 
+	private function companyGrade($star){
+		if( $star >= 4) return ["title"=>"최우수업체", "pic"=>"2"];
+		else if( $star >= 3) return ["title"=>"우수업체", "pic"=>"3"];
+		else if( $star >= 2) return ["title"=>"일반업체", "pic"=>"4"];
+		else return ["title"=>"미흡업체", "pic"=>"5"];
+	}
+
 	/* 고객평가점수 */
 	private function evaluationStatics($id=null, $all=false){
 		$data = \Cache::remember('companyStarPoint', 60*10, function () {
@@ -237,12 +244,16 @@ trait ApiResponser
 		return $ret;
 	}
 
-	public function avgStar($idx){
+	public function avgStar($idx=null){
 		$avg = '3.5';
 
 		$sql = "
 		INSERT INTO star_points
-		SELECT * FROM (
+		SELECT
+			auction_staff_uid,total,cnt, avgpoint , star,
+			if( avgstar > 5 , 5 , avgstar ) AS avgstar
+			,forcestar
+		FROM (
 
 			SELECT auction_staff_uid,total,cnt,".$avg." AS avgpoint , star
 			 , if(star < ".$avg." , CAST( ( star + ".$avg.")/2 AS DECIMAL(10,2) ) , star) AS avgstar
@@ -267,7 +278,7 @@ trait ApiResponser
 							+ cast(a.b_star_pave AS DECIMAL(5,2) )
 							) total
 						FROM auction_bbs_postscript a
-						WHERE b_admin_flag ='Y' ". ( ($idx )?  'AND a.b_worker_idx='.(int)$idx : '' ) ."
+						". ( ($idx )?  'WHERE a.b_worker_idx='.(int)$idx : '' ) ."
 					)tmp
 					GROUP BY auction_staff_uid
 				) grp
@@ -277,7 +288,7 @@ trait ApiResponser
 			total = instemp.total,
 			cnt = instemp.cnt,
 			star = instemp.star,
-			avgstar = instemp.avgstar
+			avgstar = if(instemp.avgstar > 5 , 5 , instemp.avgstar)
 		";
 		$res = \DB::statement($sql);
 	}

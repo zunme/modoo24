@@ -95,7 +95,7 @@
   padding-top:15px;
   padding-bottom:15px;
   font-size: .9em;
-  color: #666;    
+  color: #666;
 }
 .post_title_wrap:after {
   content: '';
@@ -453,7 +453,20 @@ font-weight: 600; color: #666
 .myunfavorite{
   color:silver;
 }
+.ql-editor{
+  font-size: 13px;
+}
 </style>
+<!-- Theme included stylesheets -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+
+<link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
+<link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+
+<!-- Core build with no theme, formatting, non-essential modules -->
+<link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet">
+
 @endsection
 @section('body_bottom','')
 
@@ -464,9 +477,11 @@ font-weight: 600; color: #666
 </div><!--//common_visual-->
 
 
-<div class="sub_menu">
-    <ul class="center">
-        <li class="h_icon gotohome"></li>
+<div class="sub_menu_N">
+    <ul>
+        <li class="h_icon" onclick="window.open('/v2/')">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"/></svg>
+            </li>
         <li class="@if($code=='tip') on @endif"><a href="/community/posts/tip">모두꿀TIP</a></li>
         <li class="@if($code=='fun') on @endif"><a href="/community/posts/fun">모두FUN</a></li>
         <!--<li class="@if($code=='hometown') on @endif"><a href="/community/posts/hometown">우리동네자랑하기</a></li>-->
@@ -512,7 +527,7 @@ font-weight: 600; color: #666
       </div>
 
       <div class="post_body_wrap">
-        <div class="post_body">
+        <div class="post_body ql-editor">
           @if ( $config->html_use =='Y')
             {!! $post->body !!}
           @else
@@ -531,8 +546,14 @@ font-weight: 600; color: #666
           </div>
           @if ( $is_writer )
           <div class="post_desc_right">
-            <span class="btn btn-sm btnborder">수정</span>
-            <span class="btn btn-sm btnborder">삭제</span>
+            @if ($post->is_confirmed =='R')
+            <span class="btn btn-sm btnborder"><a href="{{ Config::get('site.defaultStartUrl') }}/posts/{{$code}}/update/{{$post->id}}">수정</a></span>
+            @endif
+
+            @if ( count($post->comments) == 0 )
+            <span class="btn btn-sm btnborder" onClick="delpost({{$post->id}})">삭제</span>
+            @endif
+
           </div>
           @endif
         </div>
@@ -546,7 +567,7 @@ font-weight: 600; color: #666
     </div>
 
 
-
+@if ($post->is_confirmed =='Y')
     <div class="comment_write_wrap" id="comment_write_wrap">
       <div class="comment_write_nickname">
         @guest
@@ -570,6 +591,7 @@ font-weight: 600; color: #666
         <span class="btn btn-sm btncolor_pt" onClick="write_comment(this)">댓글등록</span>
       </div>
     </div>
+@endif
 
   </div>
 </div>
@@ -866,6 +888,34 @@ function comment_del_confirmed(btn){
 function callbackCommentDelComplete(){
   $("#body_loader_bg").addClass("hide");
   recommentSuccess({})
+}
+
+function delpost(postid){
+  swal.fire({
+    title : '삭제',
+    text : '작성하신 글을 삭제하시겠습니까?',
+    icon: 'info',
+    showCancelButton : true,
+
+    confirmButtonText : "예",
+    cancelButtonText : "아니오",
+  }).then((result) => {
+    if (result.isConfirmed) getpost( '{{ Config::get('site.defaultStartUrl') }}/posts/del', {id:postid}, callbackDel,callbackComplete);
+    else return false;
+  });
+}
+function callbackDel( res ){
+  Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: '글이 삭제되었습니다.',
+    showConfirmButton: false,
+    timer: 1500
+  }).then((result) => {
+    location.replace("{{ Config::get('site.defaultStartUrl') }}/posts/{{$code}}")
+  })
+}
+function callbackComplete(){
 }
 </script>
 @endsection

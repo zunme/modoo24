@@ -80,6 +80,18 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 Route::get('/my/request', 'Front\MyController@requestList');
 Route::post('/my/sendsms', 'Front\MyController@sendsms');
 Route::post('/my/checkAuth', 'Front\MyController@checkAuth');
+Route::post('/my/checkAuthWithName', 'Front\MyController@checkAuthWithName');
+
+//이사후기
+Route::prefix('/review')->name('review.')->group(function () {
+    Route::get('/', 'Front\ReviewController@index');
+    Route::get('/my', 'Front\ReviewController@myReview');
+    Route::get('/my/list', 'Front\ReviewController@myReviewList');
+    Route::get('/my/companylist', 'Front\ReviewController@companylist');
+    Route::get('/write/{type}/{uid}/{s_uid}', 'Front\ReviewController@myReviewWrite');
+    Route::post('/write/{type}', 'Front\ReviewController@reviewWritePrc');
+
+});
 
 //이벤트
 Route::get('/event', 'Front\EventController@index');

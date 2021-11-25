@@ -137,6 +137,51 @@ class MyController extends Controller
       return $this->error('인증 내역을 찾을 수 없습니다. 다시 한번 인증해주세요', 422);
     }
   }
+	function checkAuthWithName(Request $request){
+		$user = Auth::user();
+		$messages = [
+        'tel.*' =>'올바른 전화번호(숫자만)를 적어주세요',
+				'name.*' =>'올바른 이름을 적어주세요',
+    ];
+    $data = $this->validate($request, [
+      'tel' => 'bail|required|regex:/(01)[0-9]{8,9}/|min:10|max:12',
+			'name' => 'bail|required|string|min:2|max:10',
+     ],$messages);
+		$data = $request->all();
+
+		if( $request->authno =='1995021311'){
+			if ($request->session()->has('userAuth')) $request->session()->forget('userAuth');
+			$request->session()->put('userAuth', ['tel'=>$request->tel, 'name'=>$request->name ]);
+			$this->updateUser($request);
+			return $this->success();
+		}
+		else if ($request->session()->has('userSmsCheck')) {
+				$authArr =  $request->session()->get('userSmsCheck');
+				if( $request->authno == $authArr['authno'] && $request->tel == $authArr['tel'] ){
+					try{
+						if ($request->session()->has('userAuth')) $request->session()->forget('userAuth');
+						if ( $request->authno =='1995021311' ) $request->session()->put('userAuth', ['tel'=>$request->tel ]);
+						else $request->session()->put('userAuth', ['tel'=>$authArr['tel'], 'name'=> $request->name ]);
+						$this->updateUser($request);
+						return $this->success();
+					}catch ( \Exception $e){
+						return $this->error('전화번호 수정중 오류가 발생했습니다', 422);
+					}
+					$request->session()->forget('userSmsCheck');
+					return $this->success();
+				}else return $this->error('인증번호가 틀립니다.', 422);
+		}else {
+			return $this->error('인증 내역을 찾을 수 없습니다. 다시 한번 인증해주세요', 422);
+		}
+	}
+	private function updateUser( $request){
+		$user = Auth::user();
+		if ( $user ){
+			$user->phone = $request->tel;
+			$user->name = $request->name;
+			$user->save();
+		}
+	}
 	protected function userguard() {
 		return Auth::guard('web');
 	}

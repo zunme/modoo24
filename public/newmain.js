@@ -137,9 +137,9 @@ let move_review_template =`
 						<div class="move_review_item_point">
 							{{avg}}
 						</div>
-						<div class="move_review_item_point_desc">
-							전체 누적 평점
-						</div>
+						<!--iv class="move_review_item_point_desc">
+							전체 평점
+						</div-->
 					</div>
 				</div>
 				<div class="move_review_item_txt">
@@ -285,7 +285,10 @@ let good_ct_after_swiper;
 $("document").ready( function(){
 	///community/api/movereview
 	$(".crsl-items").remove()
-	$(".center.event_wrap").html( event_template );
+
+	var eventtemplateCompiled = Handlebars.compile( event_template );
+	eventtemplateCompiled( eventData);
+	$(".center.event_wrap").html( eventtemplateCompiled( eventData) );
 	$(".good_ct_after > .center").append('<div class="" id="move_review_slider"><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>')
 	$("body").append(move_modal_default_template)
 	getData('get', 'movereview', {}, swipertemplate)
@@ -361,27 +364,18 @@ function viewReviewTemplate( data){
 // end 칭찬후기
 
 //event swiper
+
 let event_template =`
 			<div id="event_swiper" style="position:relative;">
 				<div class="swiper-wrapper">
+				{{#each data}}
               <div class="swiper-slide">
-                    <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                        <img class="d-block w-100 pc" src="/v1/image/main_N/event_210923.jpg" class="pc" alt="황금열쇠이벤트">
-                        <img class="d-block w-100 mobile" src="/v1/image/main_N/event_210923_m.jpg" class="pc" alt="황금열쇠이벤트">
+                    <a href="{{href}}" target="_blank">
+                        <img class="d-block w-100 pc" src="{{pc_image}}" class="pc" alt="{{title}}">
+                        <img class="d-block w-100 mobile" src="{{mobile_image}}" class="pc" alt="{{title}}">
                     </a>
                 </div>
-                <div class="swiper-slide">
-                    <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                        <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
-                        <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22" target="_blank">
-                        <img class="d-block w-100 pc" src="/v1/image/main_N/event_it.jpg" class="pc" alt="인터넷신청">
-                        <img class="d-block w-100 mobile" src="/v1/image/main_N/event_it_m.jpg" class="pc" alt="인터넷신청">
-                    </a>
-                </div>
+				{{/each}}
 				</div>
 
 					<div class="swiper-button-next"></div>
@@ -389,6 +383,7 @@ let event_template =`
 				<div class="swiper-pagination"></div>
 			</div>
 `
+
 $("document").ready( function(){
 	$("nav.slidernav").remove()
 	new Swiper("#event_swiper", {

@@ -15,6 +15,9 @@ use App\Models\Post;
 use App\Models\PostCommentDepth;
 use App\Libraries\Aligo;
 
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+
 class HomeController extends Controller
 {
     /**
@@ -78,6 +81,18 @@ return;
        dd($list);
      }
      public function test(){
+       $client = new Client();
+              $url = "https://new.land.naver.com/api/regions/list?cortarNo=0000000000";
+$response = $client->request('GET', $url);
+
+       $res = json_decode($response->getBody()->getContents());
+       foreach ( $res->regionList as $row){
+         dump( $row->cortarNo);
+         dump( $row->cortarName);
+         dump("=========");
+       }
+       dd($res);
+       return;
        return view("Front.sheettest");
        return;
        $comments = PostCommentDepth::get();

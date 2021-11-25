@@ -72,7 +72,7 @@
 <!--common_visual-->
 <div class="visual_event">
     <h1>이벤트</h1>
-    <h4>Event</h4>
+   <!-- <h4>Event</h4>-->
 </div>
 <!--//common_visual-->
 <div class="sub_menu">

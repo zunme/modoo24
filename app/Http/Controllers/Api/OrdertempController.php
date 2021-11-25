@@ -53,7 +53,6 @@ class OrdertempController extends Controller
 		if( $dup > 0 ) return $this->error('이미 등록하신 내역이 있습니다.', 422);
 		try{
 			AuctionTempOrder::create($data);
-			return $this->success();
 
 			$aligo = new Aligo;
 			$req["#{고객명}"] = $data['t_name'];
