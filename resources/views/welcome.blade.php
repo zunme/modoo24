@@ -344,15 +344,15 @@
         </nav>
 
         <h2 class="gd_title">모두이사 고객 <span class="color_pt">이사 후기</span></h2>
-        <a class="more" href="/v1/move/review">후기 더보기 + </a>
+        <a class="more" href="/v2/review">후기 더보기 + </a>
 
 
         <div class="crsl-items" data-navigation="navbtns" style="width: 100%; overflow: hidden;">
-            <div class="crsl-wrap" onclick="location.href='/v1/move/review' " style="cursor: pointer; width: 1135px; margin-left: -227px;">
+            <div class="crsl-wrap" onclick="location.href='/v2/review' " style="cursor: pointer; width: 1135px; margin-left: -227px;">
 
 
                 <div class="crsl-item" style="position: relative; float: left; overflow: hidden; width: 222px; margin-right: 5px; height: 401px;">
-                    <a class="review" href="/v1/move/review" style="display: block">
+                    <a class="review" href="/v2/review" style="display: block">
                         <h3>업체명</h3>
                         <h4>(업체등급)</h4>
                         <dl>
@@ -454,7 +454,7 @@
             </a>
         </li>
         <li>
-            <a href="/v1/move/review">
+            <a href="/v2/review">
                 <p><img src="/v1/image/main_N/info_good.png" alt="이사후기"></p>
                 <span>이사후기</span>
             </a>
@@ -574,13 +574,13 @@
 <!--간편접수 퀵메뉴-->
 <script>
       let eventData = {'data' : [
-      	{
+      	/*{
       		'title': "황금열쇠이벤트",
       		'href':'https://blog.naver.com/modoo24try/222488994124',
       		'pc_image':'/v1/image/main_N/event_210923.jpg',
       		'mobile_image':'/v1/image/main_N/event_210923_m.jpg',
       		'target' : true,
-      	},
+      	},*/
       	{
       		'title': "삼성이벤트",
       		'href':'https://blog.naver.com/modoo24try/222488994124',

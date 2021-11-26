@@ -367,7 +367,9 @@
 
         });
         //when clicked on mobile-menu, normal menu is shown as a list, classic rwd menu story (thanks mwl from stackoverflow)
-
+        @if (session('warning'))
+          swal.fire('',`{!! session('warning') !!}`)
+        @endif
     });
     //# sourceURL=pen.js
 
@@ -382,7 +384,7 @@
       $('.menu-area').fadeIn();
       $('body').css({ "overflow-y": "hidden", "height": "100%" });
    });
-   
+
    $("#colophon .company-information #footer-navigation ul li:nth-child(3)").click(function() {
       $('.menu-area').fadeIn();
       $('body').css({ "overflow-y": "hidden", "height": "100%" });

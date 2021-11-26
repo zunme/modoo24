@@ -5,85 +5,13 @@
 <style>
     .nav-tabs, .nav-pills {
         padding: 20px 0;}
-        
-  /*  .visual3 {
-        position: relative;
-        background-image: url(https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1073&q=80);
-        background-size: cover;
-        background-position-x: center;
-        background-position-y: center;
-        color: white;
-        overflow: hidden;
+
+    .nav .nav-item {
+        background: #eee;
+        padding: 10px;
+        height: 50px;
+        line-height: 30px;
     }
-
-    .visual3:after {
-        box-sizing: border-box;
-        position: absolute;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        display: block;
-        left: 0;
-        top: 0;
-        content: "";
-        background: rgba(0, 190, 255, .42);
-        background: linear-gradient(45deg, rgba(0, 190, 255, .42), rgba(44, 140, 208, .15));
-        background: -webkit-linear-gradient(135deg, rgb(0 190 255 / 42%), rgb(44 140 208 / 15%));
-    }
-
-    .visual3>h1 {
-        position: absolute;
-        z-index: 2;
-        width: 100%;
-        color: #dbf1fb;
-    }
-
-    .visual3 h4 {
-        color: wheat;
-    }
-
-    .st-sub-menu-wrap {
-        width: 100%;
-        margin: 0 auto;
-        position: absolute;
-        bottom: -1px;
-        z-index: 2;
-        background-color: rgb(85 172 238 / 36%);
-        padding: 6px 0;
-        font-size: 16px;
-    }
-
-    .st-sub-menu-inner {
-        width: 1200px;
-        margin: 0 auto;
-    }
-
-    .st-sub-menu {
-        width: 550px;
-        margin-left: 330px;
-        display: flex;
-        padding: 0 24px 0 12px;
-    }
-
-    .st-sub-menu-item {
-        margin-right: 24px;
-        color: white;
-        font-size: 15px;
-        line-height: 23px;
-    }
-
-    .st-sub-menu-item .fas {
-        color: white;
-    }
-
-    .st-sub-menu-item>a.active {
-        color: wheat !important;
-        background-color: rgb(255 255 255 / 30%);
-        padding: 6px 8px;
-        border-radius: 5px;
-    }*/
-
-    .nav .nav-item {background: #eee;padding: 10px;height: 50px;line-height: 30px;}
     .content-body{padding-top: 20px; overflow: hidden}
     .content-body .afwt_title{font-size: 1.3em;font-weight: bold;}
     .content-body .afwt_txt{padding-top: 10px; color: #666}
@@ -100,7 +28,7 @@
     .afw_end_box{margin: 20px 0; text-align: center}
     .afw_end_box .pt_og{color: #ff6600}
     .btn_set{margin-bottom: 50px; clear: both}
-    .textct{padding: 10px 0}
+
     .item-input-wrap .read-only{color: #7f7f7f}
     .pn_agree li{width: auto;margin-right: 30px;}
 
@@ -113,12 +41,11 @@
     width: 20px;
     background-color: #eee;
 }
-    
+
     .remodoo{margin-left: -40px;padding-right: 20px;}
-    .btn_view {font-size: .7em;}
 
 /* Customize the label (the container) */
-.containermk { margin-top:10px;position: relative;padding-left: 35px;margin-bottom: 12px;cursor: pointer;font-size: .9em;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+.containermk { margin-top:10px;position: relative;padding-left: 35px;margin-bottom: 12px;cursor: pointer;font-size: 12px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 
 /* Hide the browser's default checkbox */
 .containermk input {position: absolute;opacity: 0;cursor: pointer;height: 0;width: 0;}
@@ -139,11 +66,11 @@
 .containermk input:checked ~ .checkmark1:after {display: block;}
 
 /* Style the checkmark/indicator */
-.containermk .checkmark1:after {left: 6px;top: 2px;width: 5px;height: 10px;border: solid white;border-width: 0 3px 3px 0;-webkit-transform: rotate(45deg);-ms-transform: rotate(45deg);transform: rotate(45deg);} 
+.containermk .checkmark1:after {left: 6px;top: 2px;width: 5px;height: 10px;border: solid white;border-width: 0 3px 3px 0;-webkit-transform: rotate(45deg);-ms-transform: rotate(45deg);transform: rotate(45deg);}
 
-    
-    
-   /* @media only screen and (max-width: 630px) {
+
+
+    @media only screen and (max-width: 630px) {
         .st-sub-menu {
             padding-right: 10px;
         }
@@ -151,10 +78,10 @@
         .st-sub-menu>.st-sub-menu-item:last-child {
             margin-right: 0;
         }
-    }*/
+    }
 
-    @media only screen and (max-width: 600px) {
-        
+    @media only screen and (max-width: 959px) {
+
          .item-wrap,
         .item-inner {
         display: block!important;font-size: .9em; }
@@ -165,10 +92,7 @@
         .item-inner{padding: 10px 0; border-bottom: 1px solid #d8d8d8;}
         .remodoo {margin-left: 0;}
         .content-body .afwt_txt {font-size: .9em}
-       .nav .nav-item{height: 40px;line-height: 20px;}
-        .afw_end_box .pt_og {font-size: .8em}
-        .containermk { font-size: .8em;}
-        /*
+
         .visual3 h1 {
             padding-top: 30px;
         }
@@ -200,10 +124,7 @@
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
             color: #666 !important;
-        }*/
-        
-        .btn_view {font-size: .6em;}
-        .pn_agree li {margin: 0}
+        }
     }
 
 </style>
@@ -537,8 +458,8 @@
                             </div>
                         </div>
 
-                  
-                        
+
+
                         <div class="item-inner">
                             <div class="item-title item-floating-label remodoo" style="width:auto"><span class="red_cic"></span>모두이사 재이용 의사</div>
                             <div class="item-input-wrap">
@@ -616,7 +537,7 @@
                         <div class="item-inner">
                             <div class="item-title item-floating-label">파일첨부</div>
                             <div class="item-input-wrap">
-                                
+
                                 <div class="custom-file-container" data-upload-id="myUniqueUploadId">
 
                                     <label class="custom-file-container__custom-file">
@@ -625,9 +546,7 @@
                                         <span class="custom-file-container__custom-file__custom-file-control"></span>
                                     </label>
                                     <label>
-                                        <a href="javascript:void(0)" title="Clear Image">
-                                            <i class="far fa-trash-alt"></i>
-                                            전체삭제</a>
+                                        <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">전체삭제</a>
                                     </label>
                                     <div class="custom-file-container__image-preview"></div>
                                     <p class="af_image_txt">- 파일 첨부는 필수가 아닙니다.<br/>
@@ -642,20 +561,20 @@
                     </div>
                     <div class="afw_end_box">
                         <p class="pt_og">※ 고객님의 업체 평가 내용, 이미지 등은 모두 이사 홍보자료로 활용될 수 있습니다</p>
-                        
-                        <div class="textct">
+
+                        <div class="textct mgt_30">
                             <ul class="pn_agree">
                                 <li>
-                                    <label class="containermk">  
-                                        <input name="chk[]" type="checkbox"> 
+                                    <label class="containermk" style="font-size: 15px">
+                                        <input name="agree1" type="checkbox" value="Y">
                                         <span class="checkmark1"></span>
-                                       개인 정보 수집 및 이용동의 
+                                       개인 정보 수집 및 이용동의
                                     </label>
                                     <button id="myBtn3" type="button" class="btn_view modalpop_link" link="/new_common/popup/accessterms.html">보기</button>
                                 </li>
                                 <li>
-                                    <label class="containermk">
-                                        <input name="chk[]" type="checkbox">
+                                    <label class="containermk" style="font-size: 15px">
+                                        <input name="agree2" type="checkbox" value="Y">
                                         <span class="checkmark1"></span>
                                         제3자 제공 동의
                                     </label>
@@ -663,7 +582,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                 </div>
 
 
@@ -745,7 +664,7 @@
                             confirmButtonText: "확인",
                             cancelButtonText: "아니오",
                         }).then((result) => {
-                            location.replace('/')
+                            location.replace('/v2/review/my')
                         });
                     },
                     error: function(err) {

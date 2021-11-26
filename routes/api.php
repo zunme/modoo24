@@ -23,9 +23,11 @@ Route::get('/evaluationGrade','Api\DefaultlistController@evaluationGrade');
 Route::get('/communityGrade','Api\DefaultlistController@communityGrade');
 //n개월 공감수
 Route::get('/bestRangeCount','Api\DefaultlistController@bestRangeCount');
-
+//지식인 리스트
 Route::get('/jisikList','Front\BulletinController@jisikListApi');
 
+//파트너 전체 리뷰 파일
+Route::get('/review/files/{s_uid}','Api\AuctionstaffController@reviewfiles');
 
 //내 비대면 견적 리스트
 Route::get('/applicationHistory/nfacelist/{uid}','Api\OrderController@nfacelist');

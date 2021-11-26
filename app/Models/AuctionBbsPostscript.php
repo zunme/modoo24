@@ -2,7 +2,8 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\ReviewFile;
+use App\Models\AuctionBbsPostscriptReple;
 class AuctionBbsPostscript extends Model
 {
 	protected $table = 'auction_bbs_postscript';
@@ -13,4 +14,10 @@ class AuctionBbsPostscript extends Model
 		,'b_hp','b_re_use','b_admin_flag'
 	];
 	public $timestamps = false;
+	public function files() {
+				return $this->hasMany(ReviewFile::class,'review_id' );
+	}
+	public function repl() {
+				return $this->hasOne(AuctionBbsPostscriptReple::class,'r_uid' );
+	}
 }
