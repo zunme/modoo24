@@ -80,7 +80,33 @@ class ReviewController extends Controller
 		return view('Front.Review.index', compact(["data",'pagingres','customerNumPlus']));
 	}
 	public function myReviewList(Request $request){
-		return view("Front/Review/mylist");
+		$userdata = $this->getUserdata($request);
+		if( $userdata === false ) return \Redirect::to('/review/my')->with('warning', '전화번호 인증 후 사용해주세요');
+		$data = AuctionBbsPostscript::with(['files','repl'])
+			->select('auction_bbs_postscript.*','review_logs.*','auction_staff.s_company','star_points.*')
+			->join('review_logs','auction_bbs_postscript.b_uid','=','review_logs.review_id')
+			->join('auction_staff','auction_bbs_postscript.b_worker_idx', '=','auction_staff.s_uid' )
+			->leftJoin('star_points','auction_bbs_postscript.b_worker_idx', '=','star_points.auction_staff_uid')
+			->where(['b_hp'=>$userdata['phone']])
+			->orderBy('b_uid','desc')->paginate(10);
+			foreach( $data as &$row){
+				if( $row->order_type =='order'){
+					$row->order = AuctionOrder::select('s_addr1','e_addr1')->where(['uid'=>$row->order_id])->first();
+				}else{
+					$row->order = AuctionOrderNface::select('s_addr1','e_addr1')->where(['uid'=>$row->order_id])->first();
+				}
+				$row->companyGrade = $this->companyGrade( $row->avgstar > $row->forcestar ? $row->avgstar : $row->forcestar );
+			}
+			//dd($data);
+		return view("Front/Review/mylist", compact(['data']));
+	}
+	public function myReviewListApi(Request $request){
+		$userdata = $this->getUserdata($request);
+		if( $userdata === false ) return $this->error("전화번호 인증 후 사용해주세요", 422);
+		$data = AuctionBbsPostscript::where(['b_hp'=>$userdata['phone']])
+						->orderBy('b_uid','desc')->paginate(10);
+
+		return $this->success($data);
 	}
   public function myReview(Request $request){
 			$data = $this->getUserdata( $request);
@@ -105,7 +131,7 @@ class ReviewController extends Controller
 
 	public function myReviewWrite(Request $request, $type, $uid, $s_uid){
 		$userdata = $this->getUserdata($request);
-		if( $userdata === false ) return $this->error("전화번호 인증 후 사용해주세요", 422);
+		if( $userdata === false ) return \Redirect::to('/review/my')->with('warning', '전화번호 인증 후 사용해주세요');
 		$b_type = '이사';
 
 		if( $type=="order_nface"){
@@ -141,6 +167,8 @@ class ReviewController extends Controller
 				'b_star_expost.*' => '사후관리 평가해주세요',
 				'b_star_pave.*' => '포장도를 평가해주세요',
 				'b_note.*' => '내용을 입력해주세요',
+				'agree1.*' => '개인정보 수집 및 이용동의가 필요합니다.',
+				'agree2.*' => '제3자 제공동의가 필요합니다.',
     ];
     $this->validate($request, [
       'b_star_pro' => 'bail|required|numeric|min:0.5|max:5',
@@ -150,6 +178,8 @@ class ReviewController extends Controller
 			'b_star_finish' => 'bail|required|numeric|min:0.5|max:5',
 			'b_star_pave' => 'bail|required|numeric|min:0.5|max:5',
 			'b_note' => 'bail|required|string|min:1',
+			'agree1' => 'bail|required|in:Y',
+			'agree2' => 'bail|required|in:Y',
      ],$messages);
 
 		if( $type=="order_nface"){

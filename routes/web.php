@@ -87,6 +87,7 @@ Route::prefix('/review')->name('review.')->group(function () {
     Route::get('/', 'Front\ReviewController@index');
     Route::get('/my', 'Front\ReviewController@myReview');
     Route::get('/my/list', 'Front\ReviewController@myReviewList');
+    Route::get('/my/list/api', 'Front\ReviewController@myReviewListApi');
     Route::get('/my/companylist', 'Front\ReviewController@companylist');
     Route::get('/write/{type}/{uid}/{s_uid}', 'Front\ReviewController@myReviewWrite');
     Route::post('/write/{type}', 'Front\ReviewController@reviewWritePrc');
