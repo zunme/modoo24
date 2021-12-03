@@ -36,7 +36,7 @@ class ReviewController extends Controller
 		/*todo*/
 		$this->exclsComp = ['736','80'];
 		$this->exclsComp =[];
-		$this->rangeMonth = 20;					// 6개월
+		$this->rangeMonth = 6;					// 6개월
 		$this->alimhp = ''; // 알림 전화번호 바꿔치기.. '' 로 바꿀것
 		$this->customerNumPlus = 100000; // b_uid+
 	}

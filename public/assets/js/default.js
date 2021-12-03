@@ -16,6 +16,9 @@ Handlebars.registerHelper('numberFormat', function (value, options) {
     // Returns the formatted number
     return (ds ? num.replace('.', ds) : num).replace(new RegExp(re, 'g'), '$&' + ts);
 });
+Handlebars.registerHelper("dateformat", function(lvalue,rvalue, options) {
+  return moment(lvalue,"YYYY-MM-DD HH:mm:ss").format(rvalue);
+})
 Handlebars.registerHelper('nl2br', function(text) {
   text = Handlebars.Utils.escapeExpression(text);
   text = text.replace(/(\r\n|\n|\r)/gm, '<br>');

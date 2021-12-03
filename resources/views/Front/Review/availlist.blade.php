@@ -289,6 +289,7 @@ footer , .bt_modal_header, .bt_modal_body{
 .nav .nav-item {background: #eee;padding: 10px;height: 50px;line-height: 30px;}
 .applylist-header{padding-bottom: 10px;padding-top: 20px}
 .applylist-header-span1{font-size: 1.2em;text-align: center;}
+.applylist-header-p1{color: #999}
 .applylist-item-body{margin-left: 20px;font-size: .95em;}
 .applylist-items{border-bottom: 1px solid #333;border-top: 1px solid #333;margin-bottom: 70px}
 .applylist-item-btn-wrap .applylist-period{font-size: .75em; color: #999}
@@ -351,7 +352,7 @@ footer , .bt_modal_header, .bt_modal_body{
             <li class="h_icon" onclick="window.open('/v2/')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path fill="none" d="M0 0h24v24H0z"/><path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"/></svg>
             </li>
-            <li onclick="location.href='/v1/move/review' ">이사후기</li>
+            <li onclick="location.href='/v2/review' ">이사후기</li>
             <li class="on" >이사업체 평가하기</li>
         </ul>
     </div>
@@ -365,7 +366,7 @@ footer , .bt_modal_header, .bt_modal_body{
     <div class="applylist-inner">
       <div class="applylist-header">
         <span class="applylist-header-span1"><b>이사업체 평가</b> 작성 가능한 이사</span>
-        <span class="applylist-header-span2">(최근 6개월 이사 내역)</span>
+        <p class="applylist-header-p1">이사업체 평가는 이사일부터 6개월 동안 가능합니다.</p>
       </div>
       <div class="applylist-body">
         <div class="applylist-body-inner">
@@ -379,6 +380,15 @@ footer , .bt_modal_header, .bt_modal_body{
                   <div class="item-media-imgbox"></div>
                 </div>
                 <div class="applylist-item-body">
+                <div class="applylist-item-body-line">
+                    <span class="applylist-item-body-text">
+                      @if( $row->kindtype =='auction_order')
+                      방문 견적 이사
+                      @else
+                      비대면 견적 이사
+                      @endif
+                    </span>
+                  </div>
                   <div class="applylist-item-body-line">
                     <span class="applylist-item-body-title">이사일 :</span>
                     <span class="applylist-item-body-text">{{$row->mdate}}</span>
@@ -411,8 +421,7 @@ footer , .bt_modal_header, .bt_modal_body{
                 <div class="icon">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="46" height="46"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm0-8h2v6h-2V7z" fill="rgba(0,190,255,1)"/></svg>
                 </div>
-                <div>평가 가능한 이사 업체가 없습니다.<br/>
-                      <b>이사업체 평가</b>는 <b class="color_pt">이사일부터 6개월동안</b> 가능합니다.
+                <div>평가 가능한 이사 업체가 없습니다.
 
                 </div>
              </li>

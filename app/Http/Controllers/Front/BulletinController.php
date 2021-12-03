@@ -62,7 +62,7 @@ class BulletinController extends Controller
 		if ($request->ajax()) {
 			return Datatables::of($data)->make(true);
 		}else {
-			$data = $qry->latest()->paginate(3);
+			$data = $qry->latest()->paginate(10);
 			$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
 			//return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));
 			if( $code !='jisik') return view('Front/Bulletin/community/list', compact(['data','code','request', 'config','pagingres']));

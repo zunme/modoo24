@@ -355,25 +355,7 @@
 </div>
 
 
-<div class="visual3" style="display:none">
-    <h1>이사후기</h1>
-    <h4>Review</h4>
-    <div class="st-sub-menu-wrap">
-        <div class="st-sub-menu-inner">
-            <div class="st-sub-menu">
-                <div class="st-sub-menu-item">
-                    <a class="gotohome"><i class="fas fa-home"></i></a>
-                </div>
-                <div class="st-sub-menu-item">
-                    <a href="/v1/move/review">이사후기</a>
-                </div>
-                <div class="st-sub-menu-item">
-                    <a href="/v2/review/my" class="active">이사업체 평가하기</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="content-wrap contents_wrap">
     <div class="sub_menu_N">
@@ -384,7 +366,7 @@
                     <path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)" />
                 </svg>
             </li>
-            <li onclick="location.href='/v1/move/review' ">이사후기</li>
+            <li onclick="location.href='/v2/review' ">이사후기</li>
             <li class="on">이사업체 평가하기</li>
         </ul>
     </div>
@@ -415,7 +397,7 @@
                     작성해주신 평가 내역은 해당 업체에게 전달됩니다.<br/>
                     견적 신청 시 작성해주신 고객님의 정보와 일치하지 않을 경우, 업체 평가가 어렵습니다.<br/>
                     <span class="point">불편 신고의 진위 확인 처리 시간은 영업일 기준 3-4일이 소요됩니다. </span>
-
+                    <p class="">● 필수 입력 사항 입니다.</p>
                 </div>
                 <div class="afwt_wrap">
                     <div class="item-wrap">
@@ -454,7 +436,7 @@
                         <div class="item-inner">
                             <div class="item-title item-floating-label">서비스종류</div>
                             <div class="item-input-wrap">
-                                <input type="text" value="{{ ( $type==" order" ? "방문견적 이사" : "비대면견적 이사" ) }}" class="read-only wd50" readonly>
+                                <input type="text" value="{{ ( $type==" order" ? "방문 견적 이사" : "비대면 견적 이사" ) }}" class="read-only wd50" readonly>
                             </div>
                         </div>
 
@@ -560,7 +542,7 @@
                         </div>
                     </div>
                     <div class="afw_end_box">
-                        <p class="pt_og">※ 고객님의 업체 평가 내용, 이미지 등은 모두 이사 홍보자료로 활용될 수 있습니다</p>
+                        <p class="pt_og">※ 고객님의 업체 평가 내용, 이미지 등은 모두이사 홍보자료로 활용될 수 있습니다</p>
 
                         <div class="textct mgt_30">
                             <ul class="pn_agree">

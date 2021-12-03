@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 
 <style>
 .loaderWrap {
@@ -37,7 +37,7 @@
     <!--common_visual-->
     <div class="visual_pass">
     <h1>비밀번호 재설정</h1>
-    <h4>이메일로 본인인증을 진행 합니다</h4>
+    <!--<h4>이메일로 본인인증을 진행 합니다</h4>-->
 </div>    <!--//common_visual-->
 
     <!-- content ST -->
@@ -47,7 +47,7 @@
             <div class="col-xl-6 col-lg-8 col-md-8 mx-auto">
                 <div class="repass_title">
                     <h3 class="font-weight-bolder text-black">모두이사 회원 비밀번호 재설정</h3>
-                    <p class="mb-0 text-sm">비밀번호 재설정을 위해 본인인증 이메일로 주소가 발송합니다.</p>
+                    <!--<p class="mb-0 text-sm">비밀번호 재설정을 위해 본인인증 이메일로 주소가 발송합니다.</p>-->
                 </div>
                 <div class="card mt-8">
                     <div class="card-body py-4">

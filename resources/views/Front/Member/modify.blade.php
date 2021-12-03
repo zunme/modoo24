@@ -11,15 +11,21 @@
 
   <div class="visual_mymodoo">
       <h1>모두이사 회원</h1>
-      <h4>모두이사 회원정보 페이지입니다.</h4>
+      <!--<h4>모두이사 회원정보 페이지입니다.</h4>-->
   </div>
-
-  <div class="sub_menu">
-    <ul class="center">
-        <li class="h_icon gotohome"></li>
-        <li class="on">회원정보수정</li>
-        <li class="">나의정보</li>
-    </ul>
+  
+  <div class="sub_menu_N">
+      <ul>
+          <li class="h_icon" onclick="window.open('/v2/')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="none" d="M0 0h24v24H0z"></path>
+                  <path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)"></path>
+              </svg>
+          </li>
+          <li class=" on "><a href="modify">회원정보수정</a></li>
+          <li class=""><a href="myinfo">나의정보</a></li>
+          <!-- <li class=""><a href="hometown">우리동네자랑하기</a></li>-->
+      </ul>
   </div>
 
   <div class="center">

@@ -33,6 +33,7 @@
         margin: 0 0 50px;
         border-top: 1px solid #333;
         margin-bottom: 70px;
+        border-bottom: 1px solid #333;
     }
 
     #board ul .border_list:after {
@@ -42,6 +43,13 @@
     #board ul .border_list {
         padding: 0px;
     }
+    
+li.mylist-item {    border-top: 1px solid #ccc;}
+li.mylist-item:first {    border-top: 1px solid #000;}
+    
+    
+    #board .panel{background: #f5f5f5;
+    border-radius: 15px;}
 
     .item-media-imgbox {
         width: 135px;
@@ -57,16 +65,9 @@
         position: relative;
         box-sizing: border-box;
         padding: 20px 0;
-        border-bottom: 1px solid #cccccc;
+        border-bottom: 0
     }
-
-    li.mylist-item {
-        position: relative;
-        box-sizing: border-box;
-        padding: 20px 0;
-        border-bottom: 1px solid #cccccc;
-    }
-
+    #board ul .border_list{border-bottom: 0}
     li.mylist-item:last-child {
         border-bottom: 0
     }
@@ -280,13 +281,14 @@
     }
 
     .after-pt-wrap .after-pt-name {
-        font-weight: bold
+        font-weight: bold;margin-right: 10px;
+
     }
 
     .after-pt-notice {
         border: 1px solid #ddd;
         display: flex;
-        padding: 40px 100px;
+        padding: 20px 100px;
         border-radius: 20px;
         margin-bottom: 40px
     }
@@ -306,12 +308,13 @@
         color: #666;
         font-weight: 200;
         align-self: center;
+        font-size: .85em
     }
 
     .after-pt-notice-title-txt {
         color: #999
     }
-
+.panel { border: 0px }
     @media only screen and (max-width: 600px) {
         .nav .nav-item {
             height: 40px;
@@ -335,9 +338,7 @@
             padding: 20px 30px
         }
 
-        .after-pt-notice-txt {
-            font-size: .9em
-        }
+       
 
         .mylist_img {
             flex-wrap: wrap;
@@ -359,6 +360,7 @@
         #board {
             margin-bottom: 20px;
         }
+        .inline-panel {padding-top: 5px}
 
 
     }
@@ -390,7 +392,7 @@
                     <path d="M19 21H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM6 19h12V9.157l-6-5.454-6 5.454V19z" fill="rgba(255,255,255,1)" />
                 </svg>
             </li>
-            <li onclick="location.href='/v1/move/review' ">이사후기</li>
+            <li onclick="location.href='/v2/review' ">이사후기</li>
             <li class="on">이사업체 평가하기</li>
         </ul>
     </div>
@@ -414,6 +416,9 @@
                                           <div class="item-media-imgbox"></div>
                                       </div>
                                       <div class="mylist-item-body">
+                                          <div class="mylist-item-body-line">
+                                              <span class="mylist-item-body-text"> 비대면 견적 이사 <!--방문 견적 이사--></span>
+                                          </div>
                                           <div class="mylist-item-body-line">
                                               <span class="mylist-item-body-title">이사일 :</span>
                                               <span class="mylist-item-body-text"> {{$row->b_mdate}}</span>
@@ -538,7 +543,7 @@
                 <div class="after-pt-notice">
                     <div class="after-pt-notice-title">
                         <div class="after-pt-notice-title-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="80" height="80">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50" height="50">
                                 <path fill="none" d="M0 0h24v24H0z" />
                                 <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-7v2h2v-2h-2zm0-8v6h2V7h-2z" fill="rgba(253,126,13,1)" />
                             </svg>

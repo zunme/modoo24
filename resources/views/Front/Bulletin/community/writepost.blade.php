@@ -23,7 +23,7 @@
 .body-inner{
 	position: relative;
 }
-.ql-editor {
+.ql-editor {font-family: 'GmarketSansMedium';
   min-height: 200px;
 }
 #writeform > .row.form-row{

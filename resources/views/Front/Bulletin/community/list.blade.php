@@ -133,8 +133,8 @@
     }
 
     .item-media-imgbox {
-        width: 135px;
-        height: 90px;
+        width: 100px;
+        height: 100px;
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -148,7 +148,7 @@
         box-sizing: border-box;
         align-items: center;
         align-self: stretch;
-        padding-left: 16px;
+        padding-left: 30px;
         padding-top: 16px;
         padding-bottom: 6px;
         min-height: 44px;

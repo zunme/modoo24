@@ -434,13 +434,13 @@
                                 <i class="fas fa-user-tag"></i> 고객센터
                             </a>
                             <div class="dropdown-menu dropdown-with-icons">
-                                <a href="/front/custom_notice" class="dropdown-item">
+                                <a href="/v1/customer/notice" class="dropdown-item">
                                     <i class="material-icons">content_paste</i> 모두 뉴스
                                 </a>
-                                <a href="/front/custom_faq" class="dropdown-item">
+                                <a href="/v1/customer/faq" class="dropdown-item">
                                     <i class="material-icons">content_paste</i> 자주묻는 질문
                                 </a>
-                                <a href="/front/modoo_info" class="dropdown-item">
+                                <a href="/v1/customer/contact_info" class="dropdown-item">
                                     <i class="material-icons">content_paste</i> 이사정보
                                 </a>
                                 <a onclick="viewpopcal()" class="dropdown-item">

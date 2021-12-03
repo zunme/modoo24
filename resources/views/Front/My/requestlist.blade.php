@@ -107,7 +107,11 @@ $("document").ready( function() {
     $("#{{$tab}}_mypage").prop('checked', true)
     changeSelTab('{{$tab}}')
   @endif
+  setTimeout ( seltab , 800)
 })
+function seltab(){
+  changeSelTab( $("input[name=tab_item]:checked").val())
+}
 function changeSelTab(val){
   $("#mypage_odr_list > li").each( function(i, e) {
     /*

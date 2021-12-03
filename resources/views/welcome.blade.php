@@ -11,6 +11,18 @@
     .move_review_item_point {
         margin-top: 14px;
     }
+    
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+       bottom: -5px;
+    }
+    
+    .swiper-button-next {
+      display: none;
+    }
+
+    .swiper-button-prev {
+      display: none;
+    }
 </style>
 @endsection
 
@@ -193,7 +205,7 @@
     <div class="left_box">
         <i><img src="/v1/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
         <h5>
-            <span class="color_pt">이사지식인</span> 검색
+            <a href="/community/posts/jisik"><span class="color_pt">이사지식인</span></a> 검색
         </h5>
         <div class="search_Box">
             <form action="/community/posts/jisik" id="jisikform">
@@ -211,7 +223,7 @@
             파트너업체가 답변해 드립니다.
         </div>
         <p><img src="/v1/image/main_N/icon_qna.png" alt="qna"></p>
-        <button type="button" class="btn_question">
+        <button type="button" onclick="location.href='/community/posts/jisik'" class="btn_question">
             자세히보기
         </button>
     </div>
@@ -394,8 +406,9 @@
                 <dt class="pn_title">광고 및 제휴제안</dt>
                 <dd class="pn_tel">모든 <span class="color_pt">업종 업태</span> </dd>
                 <dd class="pn_txt">
-                    모두플랫폼은 다양한 분야의 사업자와 함께 합니다.
+                    모두플랫폼은 다양한 분야의<br> 사업자와 함께 합니다.
                 </dd>
+                <button type="button" class="btn_part" onclick="window.open('/v1/image/modoo24_partnership_211130.pdf')">자세히 보기</button>
             </dl>
         </div>
 
@@ -424,32 +437,32 @@
             </a>
         </li>
         <li>
-            <a href="http://modooclean.com/" target="_blank">
-                <p><img src="/v1/image/main_N/info_mc.png" alt="청소서비스"></p>
-                <span>청소서비스</span>
+            <a href="https://www.youtube.com/channel/UCwoLZ9U8q024cWzjMk5qPKA" target="_blank">
+                <p><img src="/v1/image/main_N/info_youtube.png" alt="모플유튜브"></p>
+                <span>모플유튜브</span>
             </a>
         </li>
         <li>
             <a href="https://blog.naver.com/modoo24try" target="_blank">
-                <p><img src="/v1/image/main_N/info_bg.png" alt="모두블로그"></p>
+                <p><img src="/v1/image/main_N/info_bg.png" alt="모플블로그"></p>
                 <span>모플블로그</span>
             </a>
         </li>
         <li>
             <a href="https://www.facebook.com/modoomoving" target="_blank">
-                <p><img src="/v1/image/main_N/info_fb.png" alt="모두페이스북"></p>
+                <p><img src="/v1/image/main_N/info_fb.png" alt="모플페이스북"></p>
                 <span>모플페이스북</span>
             </a>
         </li>
         <li>
             <a href="https://www.instagram.com/modoo24_official/" target="_blank">
-                <p><img src="/v1/image/main_N/info_it" alt="모두인스타"></p>
+                <p><img src="/v1/image/main_N/info_it" alt="모플인스타"></p>
                 <span>모플인스타</span>
             </a>
         </li>
         <li>
             <a href="/v2/event">
-                <p><img src="/v1/image/main_N/info_evt.png" alt="모두이벤트"></p>
+                <p><img src="/v1/image/main_N/info_evt.png" alt="모플이벤트"></p>
                 <span>모플이벤트</span>
             </a>
         </li>
@@ -583,18 +596,19 @@
       	},*/
       	{
       		'title': "삼성이벤트",
-      		'href':'https://blog.naver.com/modoo24try/222488994124',
+      		'href':'https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002',
       		'pc_image':'/v1/image/main_N/event_ss.jpg',
       		'mobile_image':'/v1/image/main_N/event_ss_m.jpg',
       		'target' : true,
       	},
+        /*  
       	{
-      		'title': "인터넷신청",
-      		'href':'https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22',
-      		'pc_image':'/v1/image/main_N/event_it.jpg',
-      		'mobile_image':'/v1/image/main_N/event_it_m.jpg',
+      		'title': "모두클린",
+      		'href':'http://modooclean.com/',
+      		'pc_image':'/v1/image/main_N/event_clean.jpg',
+      		'mobile_image':'/v1/image/main_N/event_clean_m.jpg',
       		'target' : true,
-      	},
+      	},*/
       ]}
     $(document).ready(function() {
         // 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.

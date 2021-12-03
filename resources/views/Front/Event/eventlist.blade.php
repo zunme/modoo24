@@ -30,19 +30,19 @@
 			<article class="inner">
 				<ul class="popular-list cf">
 					<li>
-						<a href="https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22" target="_blank">
-							<div class="pic pic1"></div>
+						<a href="/v2/event/samsung">
+							<div class="pic pic2"></div>
 							<div class="textGroup">
-								<strong><span class="ongoing">진행중</span></strong>
+								<strong ><span class="ongoing">진행중</span></strong>
 								<p>기간 : 제휴기간 동안 진행</p>
 							</div>
 						</a>
 					</li>
 					<li>
-						<a href="/v2/event/samsung">
-							<div class="pic pic2"></div>
+						<a onClick='btnClick()' target="_blank">
+							<div class="pic pic1"></div>
 							<div class="textGroup">
-								<strong ><span class="ongoing">진행중</span></strong>
+								<strong>종료 </strong>
 								<p>기간 : 제휴기간 동안 진행</p>
 							</div>
 						</a>
@@ -67,5 +67,8 @@
 
 @section('script')
 <script>
+</script>
+<script>
+    function btnClick(){alert('이벤트가 종료되었습니다.');}
 </script>
 @endsection

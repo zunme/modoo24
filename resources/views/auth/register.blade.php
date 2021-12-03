@@ -32,9 +32,9 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
-    <link href="/NEW/css/material-kit.css?v=2.0.7" rel="stylesheet" />
+    <link href="/v1/css/material-kit.css?v=2.0.7" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="/NEW/css/demo.css" rel="stylesheet" />
+    <link href="/v1/css/demo.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
@@ -43,15 +43,15 @@
     <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="/NEW/css/common.css" />
-    <link rel="stylesheet" type="text/css" href="/NEW/css/font.css" />
-    <link rel="stylesheet" type="text/css" href="/NEW/css/main_popup.css" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/font.css" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/main_popup.css" />
 
     <!--   Core JS Files 메뉴    -->
-    <script src="/NEW/js/core/popper.min.js" type="text/javascript"></script>
-    <script src="/NEW/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+    <script src="/v1/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/v1/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
     <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-    <script src="/NEW/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+    <script src="/v1/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
 
     <!-- handlebar -->
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -71,7 +71,7 @@
     <!-- Styles -->
     <link rel="shortcut icon" href="/modoo24.ico" />
 
-    <link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 </head>
 
 <body>
@@ -80,15 +80,15 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="login_title">
-                        <h1>회원가입</h1><a href="/"><img src="/NEW/image/main_N/logo.png">모두이사</a>
+                        <h1>회원가입</h1><a href="/"><img src="/v1/image/main_N/logo.png">모두이사</a>
                     </div>
                     <div class="social_login_wrap">
                         <div class="social_register">
                             <a class="btn btn_login_kakao" href="login/kakao">
-                                <span><img src="/NEW/image/sub/kakaol.png" alt="kakaoci"></span>카카오로 회원가입
+                                <span><img src="/v1/image/sub/kakaol.png" alt="kakaoci"></span>카카오로 회원가입
                             </a>
                             <a class="btn btn_login_naver" href="login/naver">
-                                <span><img src="/NEW/image/sub/naver_ci.png" alt="naverci"></span>네이버로 회원가입
+                                <span><img src="/v1/image/sub/naver_ci.png" alt="naverci"></span>네이버로 회원가입
                             </a>
                         </div>
                     </div>
