@@ -12,6 +12,7 @@ use Yajra\Datatables\Facades\Datatables;
 use Carbon\Carbon;
 
 use Validator;
+use App\Models\AuctionStaff;
 use App\Models\AuctionBbsPostscript;
 use App\Traits\ApiResponser;
 
@@ -34,7 +35,13 @@ class AuctionstaffController extends Controller
 			$companyGrade = ['title'=>'미평가업체', 'pic'=>"2"];
 		}
 		else $companyGrade = $this->companyGrade( $rating->totalstar);
-    return $this->success( compact(['files','rating','companyGrade','stararr']));
+		$staffinfo = AuctionStaff::find( $s_uid);
+		$regfiles = [
+			//"logo"=>(isset($staffinfo->s_mobile_img0[0]) )  ? $staffinfo->s_mobile_img0[0] : null,
+			"사업자등록증"=>(isset($staffinfo->s_mobile_img1[0]) )  ? $staffinfo->s_mobile_img1[0] : null,
+			"주선허가증"=>(isset($staffinfo->s_mobile_img2[0]) )  ? $staffinfo->s_mobile_img2[0] : null,
+		];
+    return $this->success( compact(['files','rating','companyGrade','stararr','regfiles']));
   }
 	public function getStaffRating( Request $request, $s_uid){
 		$sql = "

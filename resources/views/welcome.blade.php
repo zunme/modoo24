@@ -161,8 +161,10 @@
         <p class="img"><img src="/v1/image/main_N/tact_info.jpg" alt="방문 견적 가이드"></p>
     </div>
 </section>
-<!--이벤트-->
-<section class="center event_wrap">
+
+
+<!--이벤트 롤링될때 디스플레이 :none  해제 하고 사용-->
+<section class="center event_wrap" style="display:none">
     <div id="demo" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <!-- 슬라이드 쇼 -->
@@ -192,6 +194,17 @@
         </div>
     </div>
 </section>
+<!--이벤트 하나 일때 사용해야함-->
+<section class="center">
+    <div>
+        <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
+            <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+            <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
+        </a>
+    </div>
+</section>
+
+
 <!--지식인검색-->
 <section class="center search_wrap">
     <h2><b>이사에 대해 알고 싶은것!</b> <b class="color_pt">이사지식인</b>에 문의하세요!</h2>

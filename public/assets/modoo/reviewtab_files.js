@@ -4,11 +4,13 @@ let reviewTenplate
 let isViewTab = false;
 
 $('document').ready( function() {
+  /*
   $(".move_consulting > .imgC >span").each( function(index, item) {
     let src = $(item).attr('src')
     let title = $(item).text();
     $(item).html( `<a href="${src}" data-lightbox="imageView1" data-title="${title}">${title}</a>` )
   })
+  */
   $("ul.btn_set2.pdt15").remove()
   $.ajax({
     url : '/v2/api/review/files/'+ s_uid,
@@ -18,12 +20,14 @@ $('document').ready( function() {
 
       var template = Handlebars.compile( imgTemplate );
       var gradetemplate = Handlebars.compile( gradeTemplate )
+      var regfilestempate = Handlebars.compile( regfilesTempate )
 
       if( res.data.files.length > 0 ){
         filesLength = ( res.data.files.length > 2 ) ? 3 : res.data.files.length;
         //$("#tab2 > ul.move_pic").empty();
         $("#tab2 > ul.move_pic").html(template(res.data))
       }else   $("#tab2 > ul.move_pic").empty()
+      $(".move_consulting").html( regfilestempate(res.data) )
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
       reviews();
     },
@@ -308,4 +312,15 @@ let review =`
 {{else}}
 <!--div class="none-review">작성된 리뷰가 없습니다.</div-->
 {{/if}}
+`
+let regfilesTempate=`
+{{#each regfiles}}
+<li class="imgC">
+  <span>
+    <a href="http://24auction.co.kr{{path}}/{{file_name_real}}" data-lightbox="imageView1" data-title="사업자등록증">
+    {{@key}}
+    </a>
+  </span>
+</li>
+{{/each}}
 `
