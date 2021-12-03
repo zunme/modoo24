@@ -276,7 +276,7 @@ font-weight: 600; color: #666
 
 .ql-align-center{text-align: center!important}
 .ql-editor p img{margin: 5px 0;}    
-    
+.ql-editor img{ display:inherit}
     
     
     

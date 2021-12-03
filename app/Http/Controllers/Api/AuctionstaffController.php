@@ -39,7 +39,14 @@ class AuctionstaffController extends Controller
 	public function getStaffRating( Request $request, $s_uid){
 		$sql = "
 			SELECT
-				*, if ( ifnull(avgstar,1) > ifnull(forcestar,0) , ifnull(avgstar,1) , forcestar) totalstar,'1' as cnt
+				tmp.auction_staff_uid,
+				if ( star_pro > 5 , 5 ,star_pro) star_pro,
+				if ( star_kind > 5 , 5 ,star_kind) star_kind,
+				if ( star_price > 5 , 5 ,star_price) star_price,
+				if ( star_finish > 5 , 5 ,star_finish) star_finish,
+				if ( star_expost > 5 , 5 ,star_expost) star_expost,
+				if ( star_pave > 5 , 5, star_pave) star_pave,
+				if ( ifnull(avgstar,1) > ifnull(forcestar,0) , ifnull(avgstar,1) , forcestar) totalstar,'1' as cnt
 			FROM
 			(
 				SELECT b_worker_idx as auction_staff_uid,

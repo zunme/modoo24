@@ -43,11 +43,11 @@
     #board ul .border_list {
         padding: 0px;
     }
-    
+
 li.mylist-item {    border-top: 1px solid #ccc;}
 li.mylist-item:first {    border-top: 1px solid #000;}
-    
-    
+
+
     #board .panel{background: #f5f5f5;
     border-radius: 15px;}
 
@@ -138,7 +138,7 @@ li.mylist-item:first {    border-top: 1px solid #000;}
     }
 
     .mylist_img li {
-        background: url('/v1/image/sub/know_logo.png') no-repeat center center;
+       
         width: 23%;
         height: 150px;
         background-size: cover;
@@ -338,7 +338,7 @@ li.mylist-item:first {    border-top: 1px solid #000;}
             padding: 20px 30px
         }
 
-       
+
 
         .mylist_img {
             flex-wrap: wrap;
@@ -599,7 +599,6 @@ li.mylist-item:first {    border-top: 1px solid #000;}
 <script>
 let template;
 
-return;
 $.ajax({
   url : '/v2/review/my/list/api',
   method:'get',

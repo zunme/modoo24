@@ -217,7 +217,7 @@
 
           <div class="header header-primary text-center">
                           <div class="logo-container">
-                              <img src="https://modoo24.run.goorm.io/front/image/main/logo.png" alt="">
+                              모두이사
                           </div>
                       </div>
         </div>

@@ -521,10 +521,10 @@
                             <div class="item-input-wrap">
 
                                 <div class="custom-file-container" data-upload-id="myUniqueUploadId">
-
                                     <label class="custom-file-container__custom-file">
-                                        <input type="file" class="custom-file-container__custom-file__custom-file-input" name="upload[]" accept="jpg,png" multiple aria-label="Choose File" />
-                                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                        <input type="file" class="custom-file-container__custom-file__custom-file-input" name="upload[]"
+                                          accept="jpg,png" multiple aria-label="Choose File" maxlength="4" />
+                                        <input type="hidden" name="MAX_FILE_SIZE" value="12582912" />
                                         <span class="custom-file-container__custom-file__custom-file-control"></span>
                                     </label>
                                     <label>
@@ -537,7 +537,6 @@
 
                                     ※ 이미지 사이즈는 3MB 이하 / 4개 까지 업로드 가능</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -616,6 +615,13 @@
             title = `후기 등록 완료`
             msg = `불편 신고의 진위 확인 처리 시간은 영업일 기준 3-4일이 소요됩니다`
         }
+
+        const dt = new DataTransfer()
+        let files = upload.cachedFileArray
+          for (let file of files){
+           dt.items.add(file)
+          }
+        $("input[type='file']").get(0).files = dt.files
 
         $.ajax({
             url: '/community/refresh',

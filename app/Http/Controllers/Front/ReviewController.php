@@ -42,8 +42,8 @@ class ReviewController extends Controller
 	}
 	public function index(Request $request){
 		$this->avgStar();
-		$data = AuctionBbsPostscript::
-			select ( "*")
+		$data = AuctionBbsPostscript::with(['files'])
+			->select ( "*")
 			->join( "auction_staff", "auction_bbs_postscript.b_worker_idx",'=',"auction_staff.s_uid")
 			->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
 			->where(["b_admin_flag"=>"Y"])
