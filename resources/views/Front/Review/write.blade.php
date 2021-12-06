@@ -434,9 +434,9 @@
 
                     <div class="item-wrap">
                         <div class="item-inner">
-                            <div class="item-title item-floating-label">서비스종류</div>
+                            <div class="item-title item-floating-label">서비스종류{{$row->type}}</div>
                             <div class="item-input-wrap">
-                                <input type="text" value="{{ ( $type==" order" ? "방문 견적 이사" : "비대면 견적 이사" ) }}" class="read-only wd50" readonly>
+                                <input type="text" value="{{ ( $type=="order" ? "방문 견적 이사" : "비대면 견적 이사" ) }}" class="read-only wd50" readonly>
                             </div>
                         </div>
 
