@@ -83,7 +83,17 @@ Handlebars.registerHelper('reverseObj', function(Obj){
   }
   return NewObj;
 });
-
+Handlebars.registerHelper("star", function(value, options) {
+  let ret = `${value}`
+  let star = parseFloat( value);
+  for( let i =0; i < 5 ;i ++ ){
+    let val = star - i;
+    if( val - 1 >= 0) ret += '<i class="fas fa-star"></i>'
+    else if ( val - 0.5 >= 0) ret += '<i class="fas fa-star-half-alt"></i>'
+    else ret += '<i class="far fa-star"></i>'
+  }
+  return ret
+})
 const LUNAR_LAST_YEAR = 1939;
         var lunarMonthTable = [
             [2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2],   /* 양력 1940년 1월은 음력 1939년에 있음 그래서 시작년도는 1939년*/
@@ -410,7 +420,7 @@ function solarToLunar(solYear, solMonth, solDay, son ) {
 }
 
 
-
+  $.ajaxSetup({cache:false});
 
   var totalImgCnt = 0;
   var inpCnt = 0;

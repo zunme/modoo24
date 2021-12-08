@@ -30,6 +30,9 @@ Route::get('/jisikList','Front\BulletinController@jisikListApi');
 Route::get('/review/files/{s_uid}','Api\AuctionstaffController@reviewfiles');
 Route::get('/review/staff/{s_uid}','Api\AuctionstaffController@staffReviews');
 
+Route::post('/review/staffMyReviews','Api\AuctionstaffController@staffMyReviewsWrite');
+Route::get('/review/staffMyReviews/{type}','Api\AuctionstaffController@staffMyReviews');
+
 //내 비대면 견적 리스트
 Route::get('/applicationHistory/nfacelist/{uid}','Api\OrderController@nfacelist');
 

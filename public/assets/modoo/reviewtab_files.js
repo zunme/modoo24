@@ -11,7 +11,9 @@ $('document').ready( function() {
     $(item).html( `<a href="${src}" data-lightbox="imageView1" data-title="${title}">${title}</a>` )
   })
   */
-  $("ul.btn_set2.pdt15").remove()
+  //$("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").clone()  )
+  $("#tab2 ul.btn_set2.pdt15").empty();
+
   $.ajax({
     url : '/v2/api/review/files/'+ s_uid,
     method:'get',
@@ -30,6 +32,7 @@ $('document').ready( function() {
       $(".move_consulting").html( regfilestempate(res.data) )
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
       reviews();
+      $("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").html()  )
     },
     error: function ( err ){
 
@@ -302,8 +305,8 @@ let review =`
     <div class="review_img">
         <div class="d-flex">
           {{#each files}}
-
-            <div class="four_img pic01" style="background-image:url(/v2/storage{{url}})"><a href="/v2/storage{{url}}" data-lightbox="image-{{idx}}" data-title="이사후기"></a></div>
+            <div class="four_img pic01" style="background-image:url(/v2/storage{{url}})"><a href="/v2/storage{{url}}" data-lightbox="image-r-{{review_id}}"
+             data-title="{{../b_mdate}} [{{#if ( isEqual ../b_type '이사')}}방문이사{{else }}{{b_type}}{{/if}}]" style="display:block;height:100%;"></a></div>
           {{/each}}
         </div>
     </div>

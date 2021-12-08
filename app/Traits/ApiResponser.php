@@ -6,11 +6,14 @@ trait ApiResponser
 {
 	protected function success($data=[], $message = null, $code = 200)
 	{
-		return response()->json([
+		return response()
+			//->header('Pragma', 'no-cache')
+			//->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
+			->json([
 			'status' => 'Success',
 			'message' => $message,
 			'data' => $data
-		], $code);
+		], $code,['Pragma'=> 'no-cache','Cache-Control'=> 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']);
 	}
 	protected function error($message, $code = 422, $data = null)
 	{
@@ -18,7 +21,7 @@ trait ApiResponser
 			'status' => 'Error',
 			'message' => $message,
 			'data' => $data
-		], $code);
+		], $code,['Pragma'=> 'no-cache','Cache-Control'=> 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']);
 	}
 	protected function sms($number, $title, $message, $image=null)
 	{

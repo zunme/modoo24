@@ -37,13 +37,13 @@
     <ul>
         <li>
             <a class="pc" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_bn01.png"></a>
-            <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
-            <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</a>
+            <a class="mobile" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_m_bn02.png"></a>
+            <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</a>
         </li>
         <li>
             <a class="pc" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_bn02.png"></a>
-            <a class="mobile" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_m_bn02.png"></a>
-            <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</a>
+            <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
+            <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</a>
         </li>
         <li class="pc">
             <a href="http://modooclean.com/" target="_blank"><img src="/v1/image/main_N/main_bn03.png"></a>
@@ -113,8 +113,8 @@
                     <div class="checks etrans">
                         <input type="checkbox" id="ex_chk2" name="simplyRegPrivacy" value="Y">
                         <label for="ex_chk2"></label>
-                        <p class="modalpop_link" link="/new_common/popup/personal_data.html">
-                            개인정보수집 및 이용에 동의(필수)
+                        <p class="modalpop_link" link="/new_common/popup/accessterms.html">
+                            이용약관
                         </p>
                     </div>
                 </div>
@@ -124,8 +124,8 @@
                     <div class="checks etrans">
                         <input type="checkbox" id="ex_chk3" name="simplyRegJoint" value="Y">
                         <label for="ex_chk3"></label>
-                        <p class="modalpop_link" link="/new_common/popup/personal_3.html">
-                            개인정보의 제3자 제공 동의(필수)
+                        <p  class="modalpop_link" link="/new_common/popup/personal_data.html">
+                            개인정보처리방침
                         </p>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                         <input type="checkbox" id="ex_chk4" name="simplyMarketting" value="Y">
                         <label for="ex_chk4"></label>
                         <p>
-                            마케팅 동의(선택)
+                            <a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의</a> / <a class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅 동의</a>
                         </p>
                     </div>
                 </div>
@@ -194,15 +194,6 @@
         </div>
     </div>
 </section>
-<!--이벤트 하나 일때 사용해야함-->
-<section class="center">
-    <div>
-        <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-            <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
-            <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
-        </a>
-    </div>
-</section>
 
 
 <!--지식인검색-->
@@ -211,7 +202,7 @@
     <div class="left_box">
         <i><img src="/v1/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
         <h5>
-            <a href="/community/posts/jisik"><span class="color_pt">이사지식인</span></a> 검색
+            <a href="/community/posts/jisik"><i class="fas fa-search"></i><span class="color_pt m_color_pt">이사지식인</span></a> 검색
         </h5>
         <div class="search_Box">
             <form action="/community/posts/jisik" id="jisikform">
@@ -242,6 +233,18 @@
     </div>
 
 </section>
+
+<!--이벤트 하나 일때 사용해야함-->
+<section class="center">
+    <div>
+        <a href="https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002" target="_blank">
+            <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+            <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
+        </a>
+    </div>
+</section>
+
+
 <!--커뮤니티-->
 <section class="community_wrap center">
     <h2>모두이사 고객과 <span class="color_pt">함께하는 커뮤니티</span></h2>
@@ -549,8 +552,8 @@
                         <div class="checks etrans">
                             <input type="checkbox" id="ex_m_chk2" name="simplyRegPrivacy" value="Y">
                             <label for="ex_m_chk2"></label>
-                            <p class="modalpop_link" link="/new_common/popup/personal_data.html">
-                                개인정보수집 및 이용에 동의(필수)
+                            <p class="modalpop_link" link="/new_common/popup/accessterms.html">
+                                이용약관
                             </p>
                         </div>
                     </div>
@@ -560,8 +563,8 @@
                         <div class="checks etrans">
                             <input type="checkbox" id="ex_m_chk3" name="simplyRegJoint" value="Y">
                             <label for="ex_m_chk3"></label>
-                            <p class="modalpop_link" link="/new_common/popup/personal_3.html">
-                                개인정보의 제3자 제공 동의(필수)
+                            <p class="modalpop_link" link="/new_common/popup/personal_data.html">
+                                 개인정보처리방침
                             </p>
                         </div>
                     </div>
@@ -572,7 +575,7 @@
                             <input type="checkbox" id="ex_m_chk4" name="simplyMarketting" value="Y">
                             <label for="ex_m_chk4"></label>
                             <p>
-                                마케팅동의
+                               <a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의</a> / <a class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅 동의</a>
                             </p>
                         </div>
                     </div>

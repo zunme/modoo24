@@ -231,45 +231,52 @@ class BulletinController extends Controller
 		$purifier = new \HTMLPurifier($puriconfig);
 
 		$data['body'] = $purifier->purify($data['body']);
-		if( $request->id > 0 ){
-			$post = Post::with(['comments','files'])->where([ 'id'=>$request->id ])->first();
+		\DB::beginTransaction();
+		try{
+				if( $request->id > 0 ){
+					$post = Post::with(['comments','files'])->where([ 'id'=>$request->id ])->first();
 
-			if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
-			if($post->is_confirmed !='R') return $this->error('더이상 수정하실수 없습니다.', 422);
+					if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
+					if($post->is_confirmed !='R') return $this->error('더이상 수정하실수 없습니다.', 422);
 
-			$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
-			if ( !$is_writer){
-				return $this->error('수정 권한이 없습니다.', 422);
-			}
-			try{
-				$post->update( $data );
-			}catch ( \Exception $e){
-				return $this->error('잠시 후에 이용해주세요.', 422);
-			}
-		}else {
-			$data['code'] = $request->code;
-			$data['bulletin_id'] = $config->id;
-			$data['user_id'] = $user->id;
-			$data['nickname'] = $user->nickname;
-			$data['is_confirmed'] = ($config->use_confirm =='Y') ? 'R': 'Y';
-			$post = Post::create($data);
-		}
-
-		if( $request->delfile ){
-			foreach( $request->delfile as $fileno){
-				$file = PostFile::find( $fileno);
-				$this->delfile( $file->url);
-				$file->delete();
-			}
-		}
-
-		$files = $request->file('upload');
-
-		if($request->hasFile('upload'))
-		{
-				foreach ($files as $file) {
-					$this->uploadImage( $file ,$post->id );
+					$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
+					if ( !$is_writer){
+						return $this->error('수정 권한이 없습니다.', 422);
+					}
+					try{
+						$post->update( $data );
+					}catch ( \Exception $e){
+						return $this->error('잠시 후에 이용해주세요.', 422);
+					}
+				}else {
+					$data['code'] = $request->code;
+					$data['bulletin_id'] = $config->id;
+					$data['user_id'] = $user->id;
+					$data['nickname'] = $user->nickname;
+					$data['is_confirmed'] = ($config->use_confirm =='Y') ? 'R': 'Y';
+					$post = Post::create($data);
 				}
+
+				if( $request->delfile ){
+					foreach( $request->delfile as $fileno){
+						$file = PostFile::find( $fileno);
+						$this->delfile( $file->url);
+						$file->delete();
+					}
+				}
+
+				$files = $request->file('upload');
+
+				if($request->hasFile('upload'))
+				{
+						foreach ($files as $file) {
+							$this->uploadImage( $file ,$post->id );
+						}
+				}
+			\DB::commit();
+		} catch ( \Exception $e){
+			\DB::rollback();
+			return $this->error('잠시 후에 이용해주세요.', 422);
 		}
 		return $this->success();
 	}

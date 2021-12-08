@@ -27,6 +27,7 @@ use App\Models\AuctionBbsPostscript;
 use App\Models\ReviewFile;
 use App\Models\ReviewLog;
 
+use App\Events\ReviewEvent;
 use App\Libraries\Aligo;
 
 class ReviewController extends Controller
@@ -244,6 +245,7 @@ class ReviewController extends Controller
 			];
 			$aligo->sendKakaoParser($data, $req);
 		}
+		event(new ReviewEvent( $review));
 		return $this->success();
 	}
 	//이미지 업로드

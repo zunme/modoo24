@@ -344,6 +344,8 @@
         display: block;
         margin-top: -2px;
     }
+    
+    .essent{color:#ec3320;}
 
 </style>
 @endsection
@@ -372,8 +374,8 @@
     </div>
     <div class="content-inner center">
         <nav class="nav nav-pills nav-fill">
-            <a class="nav-item nav-link" href="/v2/review/my">이사업체 평가하기</a>
-            <a class="nav-item nav-link  active">이사업체 평가 내역</a>
+            <a class="nav-item nav-link active" href="/v2/review/my">이사업체 평가하기</a>
+            <a class="nav-item nav-link"  href="/v2/review/my/list">이사업체 평가 내역</a>
         </nav>
 
         <form id="reviewform">
@@ -397,7 +399,7 @@
                     작성해주신 평가 내역은 해당 업체에게 전달됩니다.<br/>
                     견적 신청 시 작성해주신 고객님의 정보와 일치하지 않을 경우, 업체 평가가 어렵습니다.<br/>
                     <span class="point">불편 신고의 진위 확인 처리 시간은 영업일 기준 3-4일이 소요됩니다. </span>
-                    <p class="">● 필수 입력 사항 입니다.</p>
+                    <p class="essent">● 필수 입력 사항 입니다.</p>
                 </div>
                 <div class="afwt_wrap">
                     <div class="item-wrap">

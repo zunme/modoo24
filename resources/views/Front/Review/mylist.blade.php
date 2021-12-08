@@ -138,7 +138,7 @@ li.mylist-item:first {    border-top: 1px solid #000;}
     }
 
     .mylist_img li {
-       
+
         width: 23%;
         height: 150px;
         background-size: cover;
@@ -417,7 +417,13 @@ li.mylist-item:first {    border-top: 1px solid #000;}
                                       </div>
                                       <div class="mylist-item-body">
                                           <div class="mylist-item-body-line">
-                                              <span class="mylist-item-body-text"> 비대면 견적 이사 <!--방문 견적 이사--></span>
+                                              <span class="mylist-item-body-text">
+                                                @if( $row->b_type =='이사')
+                                                방문 견적 이사
+                                                @else
+                                                비대면 견적 이사
+                                                @endif
+                                              </span>
                                           </div>
                                           <div class="mylist-item-body-line">
                                               <span class="mylist-item-body-title">이사일 :</span>

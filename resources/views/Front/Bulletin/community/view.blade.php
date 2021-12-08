@@ -270,15 +270,19 @@ font-weight: 600; color: #666
 .ql-editor{font-family: 'GmarketSansMedium';}
 
 .ql-editor  h1{font-size: 2em!important;}
-    .ql-editor .ql-align-right {text-align: right;!important;    display: inherit;}
+.ql-editor .ql-align-right {text-align: right;!important; display: inherit;}
   
 .ql-editor h2{font-size: 1.5em}  
 
 .ql-align-center{text-align: center!important}
 .ql-editor p img{margin: 5px 0;}    
-.ql-editor img{ display:inherit}
+.ql-editor img{display:inline-block;}
     
-    
+#board .ql-editor h1{text-align:left;}
+#board .ql-editor h1.ql-align-center{text-align: center;}
+#board .ql-editor h1.ql-align-right{text-align: right;}
+
+.ql-editor .ql-align-justify img{display:block;}
     
     
 @media screen and (max-width: 820px) {
