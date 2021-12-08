@@ -266,6 +266,25 @@ font-weight: 600; color: #666
 .btnborder{ border: 1px solid #ddd; border-radius: 20px;box-shadow: none;}
 
 .comment_body .reply_depth_icon:last-child{background-color: #eee;}
+/*에디터*/   
+.ql-editor{font-family: 'GmarketSansMedium';}
+
+.ql-editor  h1{font-size: 2em!important;}
+.ql-editor .ql-align-right {text-align: right;!important; display: inherit;}
+  
+.ql-editor h2{font-size: 1.5em}  
+
+.ql-align-center{text-align: center!important}
+.ql-editor p img{margin: 5px 0;}    
+.ql-editor img{display:inline-block;}
+    
+#board .ql-editor h1{text-align:left;}
+#board .ql-editor h1.ql-align-center{text-align: center;}
+#board .ql-editor h1.ql-align-right{text-align: right;}
+
+.ql-editor .ql-align-justify img{display:block;}
+    
+    
 @media screen and (max-width: 820px) {
 
   .post_title_wrap{
@@ -294,6 +313,9 @@ font-weight: 600; color: #666
     font-size: .75rem;
     line-height: 1.428571;
   }
+    
+    .ql-editor p img {width:100% } 
+    .ql-editor h1{font-size: 1.5em!important}
 }
 
 
@@ -434,6 +456,9 @@ font-weight: 600; color: #666
     transform: translate3d(-50%,+30%,0);
     border-radius: 15px;
   }
+    /*에디터*/    
+.ql-editor{font-size: 13px;padding: 0}
+  
 }
 .usertag:before{
   content:'@';
@@ -453,9 +478,10 @@ font-weight: 600; color: #666
 .myunfavorite{
   color:silver;
 }
-.ql-editor{
-  font-size: 13px;
-}
+ 
+    
+    }
+   
 </style>
 <!-- Theme included stylesheets -->
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />

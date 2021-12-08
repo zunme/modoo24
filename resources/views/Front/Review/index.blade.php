@@ -11,8 +11,9 @@
 .inline-panel {
     margin: 10px;
     padding: 30px 22px;
-    background-color: #eee;
+    background-color: #f5f5f5;
     margin-top: 30px;
+    border-radius: 15px;
 }
 .inline-panel > div{
   margin-bottom: 12px;
@@ -59,6 +60,11 @@ padding-right: 20px
 .inline-panel-rating-inner > i.fas{
   color:#00beff;
 }
+
+.inline-panel-rating-inner > i.far {
+    color: #00beff;
+}
+
 .inline-panel-subtitle-inner {
   margin-right: 20px;
 }
@@ -85,16 +91,39 @@ padding-right: 20px
 .newcolor{
   color: #4c4c4c;
 }
-    
+
+.mylist_img {
+        display: flex;
+        margin: 20px 40px
+    }
+
+    .mylist_img li {
+
+        width: 23%;
+        height: 150px;
+        background-size: cover;
+        border: 1px solid #eee;
+        margin-right: 3px !important;
+        float: none
+    }
+
+
+     .thumbnail2{
+    background-repeat:no-repeat; background-position:100%; background-size:cover; height: 100%; width:100%;display: block;
+ }
+
   @media only screen and (max-width: 600px) {
-    .inline-panel-title > div.d-flex > div:last-child {font-size: .9em}  
+    .inline-panel-title > div.d-flex > div:last-child {font-size: .9em}
     .ml-2-depth {
         margin-left: 10px;flex-direction: column}
       .ml-1-depth {margin: 0 5px}
+.mylist_img {
+        display: flex;
+        margin: 20px 0}
 
-  
     }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
 @endsection
 
 
@@ -269,6 +298,18 @@ padding-right: 20px
                 <div class="inline-panel-body ml-1-depth">
                   {!! strip_tags(htmlspecialchars_decode($row->b_note, ENT_QUOTES)) !!}
                 </div>
+@if( $row->files)
+                <ul class="mylist_img">
+                  @foreach( $row->files as $file)
+                  <li>
+                    <!--a href="/v2/storage/review/211130/6545_211130122127_RAxlnKQUt.jpg" data-lightbox="img_6545">히 모두이사(주)</a-->
+                    <a href="/v2/storage{{$file->url}}" data-lightbox="photos_{{$row->b_uid}}" class="thumbnail2" style="background-image: url(/v2/storage{{$file->url}});">
+
+                    </a>
+                  </li>
+                  @endforeach
+                </ul>
+@endif
               </div>
               <!-- / panel -->
             </dl>
@@ -290,6 +331,7 @@ padding-right: 20px
 @endsection
 
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 <script type="text/javascript">
     function showmap() {
         if (document.all.spot.style.visibility == "hidden") {

@@ -217,7 +217,7 @@
 
           <div class="header header-primary text-center">
                           <div class="logo-container">
-                              <img src="https://modoo24.run.goorm.io/front/image/main/logo.png" alt="">
+                              모두이사
                           </div>
                       </div>
         </div>
@@ -285,8 +285,7 @@
 <link href="/community/assets/css/fullcalendar.css" rel="stylesheet">
 <script src="/community/assets/js/fullcalendar.js"></script>
 <script src="/community/assets/js/calendar_locale.js?v=2"></script>
-<!-- pusher -->
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
 
 <style>
 .fc {
@@ -429,23 +428,6 @@ function drawcal(){
   calendar.render()
   $("#popcalendar_pop").modal('handleUpdate')
 }
-
-// PUSHER TEST
-// Enable pusher logging - don't include this in production
-Pusher.logToConsole = true;
-
-var pusher = new Pusher('13fc7ff1bb9caecd8347', {
-  cluster: 'ap3'
-});
-
-var channel = pusher.subscribe('my-channel');
-channel.bind('my-event', function(data) {
-  console.log ( data )
-  let message = data.message;
-  if( message.type == 'post') toast('새로운 글이 등록되었습니다.','bottomRight')
-  else if ( message.type == 'comment') toast('새로운 댓글이 등록되었습니다.','bottomRight')
-  else if ( message.type == 'recomment') toast('새로운 댓글이 등록되었습니다.','bottomRight')
-});
 
 </script>
 @yield('script')

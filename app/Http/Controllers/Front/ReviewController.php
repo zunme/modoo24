@@ -27,6 +27,7 @@ use App\Models\AuctionBbsPostscript;
 use App\Models\ReviewFile;
 use App\Models\ReviewLog;
 
+use App\Events\ReviewEvent;
 use App\Libraries\Aligo;
 
 class ReviewController extends Controller
@@ -36,14 +37,14 @@ class ReviewController extends Controller
 		/*todo*/
 		$this->exclsComp = ['736','80'];
 		$this->exclsComp =[];
-		$this->rangeMonth = 20;					// 6개월
+		$this->rangeMonth = 6;					// 6개월
 		$this->alimhp = ''; // 알림 전화번호 바꿔치기.. '' 로 바꿀것
 		$this->customerNumPlus = 100000; // b_uid+
 	}
 	public function index(Request $request){
 		$this->avgStar();
-		$data = AuctionBbsPostscript::
-			select ( "*")
+		$data = AuctionBbsPostscript::with(['files'])
+			->select ( "*")
 			->join( "auction_staff", "auction_bbs_postscript.b_worker_idx",'=',"auction_staff.s_uid")
 			->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
 			->where(["b_admin_flag"=>"Y"])
@@ -244,6 +245,7 @@ class ReviewController extends Controller
 			];
 			$aligo->sendKakaoParser($data, $req);
 		}
+		event(new ReviewEvent( $review));
 		return $this->success();
 	}
 	//이미지 업로드

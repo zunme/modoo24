@@ -53,6 +53,11 @@ span.like > div {
 .image-col-bg{
 	width:100px;height:100px;background-size:contain !important;margin: auto;
 }
+  
+.rwd_table table, .rwd_table td, .rwd_table tr, .rwd_table th, .rwd_table table1, .rwd_table1 td, .rwd_table1 tr, .rwd_table1 th {border: 0px ;border-bottom: 1px solid #dedede;}
+.rwd_table table, .rwd_table td, .rwd_table tr, .rwd_table th, .rwd_table table1, .rwd_table1 td, .rwd_table1 tr, .rwd_table1 th {padding: 10px;}
+    #knows_form .rwd_table td {padding: 10px}
+  
 </style>
 @endsection
 
@@ -88,7 +93,7 @@ span.like > div {
                     <tbody>
                         <tr class="title">
                             <th><span class="red_cic"></span>제목</th>
-                            <td data-th="제목" colspan="3">
+                            <td data-th="제목" colspan="3" style="padding:10px">
                                 {{$post->title}}
 																@if( $post->is_confirmed =='R')
 			                          <span>(등록 대기중)</span>
@@ -107,8 +112,8 @@ span.like > div {
                             </td>
                         </tr>
                         <tr>
-                            <th><span class="red_cic"></span>내용</th>
-                            <td data-th="내용" colspan="3">
+                            <!--<th><span class="red_cic"></span>내용</th>-->
+                            <td data-th="내용" colspan="4">
 															@if ( $config->html_use =='Y')
 																{!! $post->body !!}
 															@else
@@ -126,8 +131,8 @@ span.like > div {
 												 @endif
 @if( count($post->files)>0 )
                         <tr>
-                            <th>이미지보기</th>
-                            <td data-th="이미지등록" colspan="3" id="add_area" class="font085">
+                            <!--<th>이미지보기</th>-->
+                            <td data-th="이미지등록" colspan="4" id="add_area" class="font085">
 	@foreach ( $post->files as $idx=>$file)
                                 <div class="col-xs-5 col-md-3">
                                    <a href="/community/storage/{{$file->url}}" data-lightbox="photos" class="thumbnail">

@@ -51,6 +51,7 @@ Route::group([
 		});
     // review
   Route::group(['prefix' => 'review',], function() {
+    Route::get('/', 'ReviewController@index');
     Route::post('del', 'ReviewController@delReview');
   });
 

@@ -340,6 +340,7 @@ function submitbtn(btn){
 <script>
   let datatable;
   let userid
+  let dtapi
   @if ( Auth::user() )
   userid = {{Auth::user()->id}};
   @endif
@@ -434,11 +435,25 @@ function submitbtn(btn){
           });
       },
       "drawCallback": function( settings ) {
+        var api = this.api();
+        dtapi = api
+        var perpage = 10;
+        var records_displayed = api.page.info().recordsTotal;
+        var page = api.page.info().page;
+        var length = api.page.info().length;
+        datatable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = records_displayed - (page*length) - i ;
+        })
       },
       "preDrawCallback": function( settings ) {
 
       },
   });
+  datatable.on( 'order.dt search.dt', function () {
+        datatable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            //cell.innerHTML = i+1;
+        } );
+    } ).draw();
 } );
 </script>
 @endsection

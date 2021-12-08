@@ -11,6 +11,11 @@
     .move_review_item_point {
         margin-top: 14px;
     }
+    
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+       bottom: -5px;
+    }
+    
 </style>
 @endsection
 
@@ -32,13 +37,13 @@
     <ul>
         <li>
             <a class="pc" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_bn01.png"></a>
-            <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
-            <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</a>
+            <a class="mobile" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_m_bn02.png"></a>
+            <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</a>
         </li>
         <li>
             <a class="pc" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_bn02.png"></a>
-            <a class="mobile" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_m_bn02.png"></a>
-            <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</a>
+            <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
+            <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</a>
         </li>
         <li class="pc">
             <a href="http://modooclean.com/" target="_blank"><img src="/v1/image/main_N/main_bn03.png"></a>
@@ -108,8 +113,8 @@
                     <div class="checks etrans">
                         <input type="checkbox" id="ex_chk2" name="simplyRegPrivacy" value="Y">
                         <label for="ex_chk2"></label>
-                        <p class="modalpop_link" link="/new_common/popup/personal_data.html">
-                            개인정보수집 및 이용에 동의(필수)
+                        <p class="modalpop_link" link="/new_common/popup/accessterms.html">
+                            이용약관
                         </p>
                     </div>
                 </div>
@@ -119,8 +124,8 @@
                     <div class="checks etrans">
                         <input type="checkbox" id="ex_chk3" name="simplyRegJoint" value="Y">
                         <label for="ex_chk3"></label>
-                        <p class="modalpop_link" link="/new_common/popup/personal_3.html">
-                            개인정보의 제3자 제공 동의(필수)
+                        <p  class="modalpop_link" link="/new_common/popup/personal_data.html">
+                            개인정보처리방침
                         </p>
                     </div>
                 </div>
@@ -131,7 +136,7 @@
                         <input type="checkbox" id="ex_chk4" name="simplyMarketting" value="Y">
                         <label for="ex_chk4"></label>
                         <p>
-                            마케팅 동의(선택)
+                            <a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의</a> / <a class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅 동의</a>
                         </p>
                     </div>
                 </div>
@@ -156,8 +161,10 @@
         <p class="img"><img src="/v1/image/main_N/tact_info.jpg" alt="방문 견적 가이드"></p>
     </div>
 </section>
-<!--이벤트-->
-<section class="center event_wrap">
+
+
+<!--이벤트 롤링될때 디스플레이 :none  해제 하고 사용-->
+<section class="center event_wrap" style="display:none">
     <div id="demo" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <!-- 슬라이드 쇼 -->
@@ -187,13 +194,15 @@
         </div>
     </div>
 </section>
+
+
 <!--지식인검색-->
 <section class="center search_wrap">
     <h2><b>이사에 대해 알고 싶은것!</b> <b class="color_pt">이사지식인</b>에 문의하세요!</h2>
     <div class="left_box">
         <i><img src="/v1/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
         <h5>
-            <span class="color_pt">이사지식인</span> 검색
+            <a href="/community/posts/jisik"><i class="fas fa-search"></i><span class="color_pt m_color_pt">이사지식인</span></a> 검색
         </h5>
         <div class="search_Box">
             <form action="/community/posts/jisik" id="jisikform">
@@ -211,7 +220,7 @@
             파트너업체가 답변해 드립니다.
         </div>
         <p><img src="/v1/image/main_N/icon_qna.png" alt="qna"></p>
-        <button type="button" class="btn_question">
+        <button type="button" onclick="location.href='/community/posts/jisik'" class="btn_question">
             자세히보기
         </button>
     </div>
@@ -224,6 +233,18 @@
     </div>
 
 </section>
+
+<!--이벤트 하나 일때 사용해야함-->
+<section class="center">
+    <div>
+        <a href="https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002" target="_blank">
+            <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+            <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
+        </a>
+    </div>
+</section>
+
+
 <!--커뮤니티-->
 <section class="community_wrap center">
     <h2>모두이사 고객과 <span class="color_pt">함께하는 커뮤니티</span></h2>
@@ -394,8 +415,9 @@
                 <dt class="pn_title">광고 및 제휴제안</dt>
                 <dd class="pn_tel">모든 <span class="color_pt">업종 업태</span> </dd>
                 <dd class="pn_txt">
-                    모두플랫폼은 다양한 분야의 사업자와 함께 합니다.
+                    모두플랫폼은 다양한 분야의<br> 사업자와 함께 합니다.
                 </dd>
+                <button type="button" class="btn_part" onclick="window.open('/v1/image/modoo24_partnership_211130.pdf')">자세히 보기</button>
             </dl>
         </div>
 
@@ -424,32 +446,32 @@
             </a>
         </li>
         <li>
-            <a href="http://modooclean.com/" target="_blank">
-                <p><img src="/v1/image/main_N/info_mc.png" alt="청소서비스"></p>
-                <span>청소서비스</span>
+            <a href="https://www.youtube.com/channel/UCwoLZ9U8q024cWzjMk5qPKA" target="_blank">
+                <p><img src="/v1/image/main_N/info_youtube.png" alt="모플유튜브"></p>
+                <span>모플유튜브</span>
             </a>
         </li>
         <li>
             <a href="https://blog.naver.com/modoo24try" target="_blank">
-                <p><img src="/v1/image/main_N/info_bg.png" alt="모두블로그"></p>
+                <p><img src="/v1/image/main_N/info_bg.png" alt="모플블로그"></p>
                 <span>모플블로그</span>
             </a>
         </li>
         <li>
             <a href="https://www.facebook.com/modoomoving" target="_blank">
-                <p><img src="/v1/image/main_N/info_fb.png" alt="모두페이스북"></p>
+                <p><img src="/v1/image/main_N/info_fb.png" alt="모플페이스북"></p>
                 <span>모플페이스북</span>
             </a>
         </li>
         <li>
             <a href="https://www.instagram.com/modoo24_official/" target="_blank">
-                <p><img src="/v1/image/main_N/info_it" alt="모두인스타"></p>
+                <p><img src="/v1/image/main_N/info_it" alt="모플인스타"></p>
                 <span>모플인스타</span>
             </a>
         </li>
         <li>
             <a href="/v2/event">
-                <p><img src="/v1/image/main_N/info_evt.png" alt="모두이벤트"></p>
+                <p><img src="/v1/image/main_N/info_evt.png" alt="모플이벤트"></p>
                 <span>모플이벤트</span>
             </a>
         </li>
@@ -530,8 +552,8 @@
                         <div class="checks etrans">
                             <input type="checkbox" id="ex_m_chk2" name="simplyRegPrivacy" value="Y">
                             <label for="ex_m_chk2"></label>
-                            <p class="modalpop_link" link="/new_common/popup/personal_data.html">
-                                개인정보수집 및 이용에 동의(필수)
+                            <p class="modalpop_link" link="/new_common/popup/accessterms.html">
+                                이용약관
                             </p>
                         </div>
                     </div>
@@ -541,8 +563,8 @@
                         <div class="checks etrans">
                             <input type="checkbox" id="ex_m_chk3" name="simplyRegJoint" value="Y">
                             <label for="ex_m_chk3"></label>
-                            <p class="modalpop_link" link="/new_common/popup/personal_3.html">
-                                개인정보의 제3자 제공 동의(필수)
+                            <p class="modalpop_link" link="/new_common/popup/personal_data.html">
+                                 개인정보처리방침
                             </p>
                         </div>
                     </div>
@@ -553,7 +575,7 @@
                             <input type="checkbox" id="ex_m_chk4" name="simplyMarketting" value="Y">
                             <label for="ex_m_chk4"></label>
                             <p>
-                                마케팅동의
+                               <a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의</a> / <a class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅 동의</a>
                             </p>
                         </div>
                     </div>
@@ -583,18 +605,19 @@
       	},*/
       	{
       		'title': "삼성이벤트",
-      		'href':'https://blog.naver.com/modoo24try/222488994124',
+      		'href':'https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002',
       		'pc_image':'/v1/image/main_N/event_ss.jpg',
       		'mobile_image':'/v1/image/main_N/event_ss_m.jpg',
       		'target' : true,
       	},
+        /*  
       	{
-      		'title': "인터넷신청",
-      		'href':'https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22',
-      		'pc_image':'/v1/image/main_N/event_it.jpg',
-      		'mobile_image':'/v1/image/main_N/event_it_m.jpg',
+      		'title': "모두클린",
+      		'href':'http://modooclean.com/',
+      		'pc_image':'/v1/image/main_N/event_clean.jpg',
+      		'mobile_image':'/v1/image/main_N/event_clean_m.jpg',
       		'target' : true,
-      	},
+      	},*/
       ]}
     $(document).ready(function() {
         // 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.

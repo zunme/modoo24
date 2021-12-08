@@ -221,7 +221,7 @@
 					</div>
 				</div>
 			</div>
-
+            <div style="display:inline-block; margin-top:20px;"><a type="button" class="button_blue" href="/community/posts/jisik">목록</a></div>
 			<ul class="btn_3set" style="margin-top:20px;">
                 <li><button class="btn button_blue button_gray" type="button" onClick="write_cancel()">취소</button></li>
                 <li><button class="btn button_blue" type="button" onClick="write_prc()">등록</button></li>

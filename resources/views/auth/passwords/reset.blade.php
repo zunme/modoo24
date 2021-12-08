@@ -1,7 +1,7 @@
 @extends('layouts.modooblank')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/NEW/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
                 <a class="ereset_logo" href="/"><img src="/NEW/image/main_N/logo.png">모두이사</a>
                 <div class="login_title">
                  <h1 class="ereset_title">비밀번호 재설정</h1>
-                 <h5>본인인증 이메일 클릭 후 비밀번호 재설정 페이지입니다.</h5>
+                <!-- <h5>본인인증 이메일 클릭 후 비밀번호 재설정 페이지입니다.</h5>-->
                 </div>
                 <div class="panel-body">
                      <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">

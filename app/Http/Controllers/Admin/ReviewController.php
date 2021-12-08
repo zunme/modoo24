@@ -28,4 +28,45 @@ class ReviewController extends Controller
 
     return $this->success();
   }
+	function index(Request $request){
+		$this->avgStar();
+		$data = AuctionBbsPostscript::with(['files'])
+			->select ( "*")
+			//->join( "auction_staff", "auction_bbs_postscript.b_worker_idx",'=',"auction_staff.s_uid")
+			->leftJoin('review_logs', "auction_bbs_postscript.b_uid",'=',"review_logs.review_id")
+			->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
+			->orderBy("auction_bbs_postscript.b_reg_date","DESC")
+			->orderBy("auction_bbs_postscript.b_uid","DESC")
+			->paginate(10);
+		foreach ( $data as &$row){
+			$row->drawStar = $row->avgstar > $row->forcestar ? $row->avgstar :  $row->forcestar;
+			$temp = $this->companyGrade($row->drawStar);
+			$row->gradeTitle = $temp['title'];
+			$row->gradePic = $temp['pic'];
+
+			$row->avg = sprintf( '%.2f', floor(($row->b_star_expost + $row->b_star_finish + $row->b_star_pave + $row->b_star_price + $row->b_star_pro + $row->b_star_kind)/6*10)/10 );
+			if( $row->avg > 5 ) $row->avg = "5.00";
+			$row->avgstar = ( floor($row->avg *2 ) / 2 );
+
+			$row->b_star_expost = $row->b_star_expost == 0 ? 1 : floor($row->b_star_expost);
+			$row->b_star_expost_arr = $this->explodeStar($row->b_star_expost);
+			$row->b_star_finish = $row->b_star_finish == 0 ? 1 : floor($row->b_star_finish);
+			$row->b_star_finish_arr = $this->explodeStar($row->b_star_finish);
+			$row->b_star_pave = $row->b_star_pave == 0 ? 1 : floor($row->b_star_pave);
+			$row->b_star_pave_arr = $this->explodeStar($row->b_star_pave);
+			$row->b_star_price = $row->b_star_price == 0 ? 1 : floor($row->b_star_price);
+			$row->b_star_price_arr = $this->explodeStar($row->b_star_price);
+			$row->b_star_pro = $row->b_star_pro == 0 ? 1 : floor($row->b_star_pro);
+			$row->b_star_pro_arr = $this->explodeStar($row->b_star_pro);
+			$row->b_star_kind = $row->b_star_kind == 0 ? 1 : floor($row->b_star_kind);
+			$row->b_star_kind_arr = $this->explodeStar($row->b_star_kind);
+
+			$row->avgstararr = $this->explodeStar($row->avgstar);
+			if( $row->review_id) $row->b_note = nl2br($row->b_note);
+			
+		}
+		$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
+		$customerNumPlus = 100000;
+		return $this->success( compact(["data",'pagingres','customerNumPlus']));
+	}
 }

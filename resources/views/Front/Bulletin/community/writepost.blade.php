@@ -23,7 +23,7 @@
 .body-inner{
 	position: relative;
 }
-.ql-editor {
+.ql-editor {font-family: 'GmarketSansMedium';
   min-height: 200px;
 }
 #writeform > .row.form-row{
@@ -49,6 +49,14 @@
     color: #999;
     font-size: .9em;
 }
+    
+.ql-container.ql-snow {
+    height: auto;
+}
+.ql-editor {
+    height: 50em;
+    overflow-y: scroll;
+}    
 </style>
 @endsection
 

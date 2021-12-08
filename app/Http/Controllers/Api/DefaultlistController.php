@@ -175,6 +175,7 @@ class DefaultlistController extends Controller
 
 		WHERE a.b_admin_flag ='Y'
 			AND b_type IN('이사', '비대면이사')
+			AND a.b_atype <> '불편'
 		";
 
 		if( $request->id ){
