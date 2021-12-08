@@ -153,7 +153,8 @@ console.log(msg) ;
 
 let reviewTemplate;
 let reviewpage = {'uncomment':1, 'comment':1};
-let imgurl = 'http://116.122.157.150:8084'
+//let imgurl = 'http://116.122.157.150:8084'
+let imgurl ='';
 
 function uncomment(){
   $.ajax({

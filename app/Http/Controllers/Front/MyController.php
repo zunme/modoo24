@@ -13,7 +13,12 @@ use App\Traits\ApiResponser;
 use App\User;
 use App\Models\AuctionOrderContract;
 use App\Models\AuctionOrderEstimate;
+
+use App\Models\AuctionSmsConfirm;
+
 use Illuminate\Support\Str;
+
+use App\Libraries\Aligo;
 
 class MyController extends Controller
 {
@@ -102,14 +107,34 @@ class MyController extends Controller
       'tel' => 'bail|required|regex:/(01)[0-9]{8,9}/|min:10|max:12',
      ],$messages);
 
-    $randomNumber = random_int(100, 9999);
+    $randomNumber = sprintf("%04d", random_int(100, 9999) );
     $request->session()->put('userSmsCheck', ['tel'=>$request->tel, 'authno'=>$randomNumber]);
 
+		$aligo = new Aligo;
+		//$staff_hp = $this->alimhp !='' ? $this->alimhp : str_replace('-','',$staff->s_ceo_hp);
+
+		$req["#{인증번호}"] = $randomNumber;
+		$data = [
+			'tpl_code'=>'TG_2462',
+			'receiver_1'=>$request->tel,
+			'subject_1'=>'모두이사'
+		];
+		$res = $aligo->sendKakaoParser($data, $req);
+		if( !$res){
+			$request->session()->forget('userSmsCheck');
+      return $this->error('인증번호를 발송하지 못했습니다. 잠시후에 이용해주세요', 422);
+    }else {
+			AuctionSmsConfirm::create(['ascn_auth_no'=>$randomNumber, 'ascn_hp'=>$request->tel]);
+			return $this->success();
+		}
+		//문자에서 톡으로 변경됨
+		/*
     $res = $this->sms($request->tel, '모두이사', '본인인증번호 ['.$randomNumber.']를 입력해주세요');
     if( !isset($res['result_code']) || $res['result_code'] != '1'){
       $request->session()->forget('userSmsCheck');
       return $this->error('문자가 발송되지 못했습니다.잠시후에 이용해주세요', 422);
     }else return $this->success();
+		*/
   }
 
   function checkAuth(Request $request){
