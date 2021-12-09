@@ -103,7 +103,7 @@
                         <input type="checkbox" id="ex_chk0" onclick="selectAll(this)">
                         <label for="ex_chk0"></label>
                         <p>
-                            전체 동의
+                            <b style="color:#000">전체 동의</b>
                         </p>
                     </div>
                 </div>
@@ -542,7 +542,7 @@
                             <input type="checkbox" id="ex_m_chk0" onclick="selectAll(this)">
                             <label for="ex_m_chk0"></label>
                             <p>
-                                전체 동의
+                                <b style="color:#000">전체 동의</b>
                             </p>
                         </div>
                     </div>

@@ -544,6 +544,7 @@
                     </div>
                     <div class="afw_end_box">
                         <p class="pt_og">※ 고객님의 업체 평가 내용, 이미지 등은 모두이사 홍보자료로 활용될 수 있습니다</p>
+                        <p class="pt_og">※ 불편 신고의 진위 확인 처리 시간은 영업일 기준 3-4일이 소요되며, 해당 업체에게만 노출됩니다.</p>
 
                         <div class="textct mgt_30">
                             <ul class="pn_agree">
@@ -551,17 +552,26 @@
                                     <label class="containermk" style="font-size: 15px">
                                         <input name="agree1" type="checkbox" value="Y">
                                         <span class="checkmark1"></span>
-                                       개인 정보 수집 및 이용동의
+                                       <a class="modalpop_link" link="/new_common/popup/accessterms.html">이용약관</a>
                                     </label>
-                                    <button id="myBtn3" type="button" class="btn_view modalpop_link" link="/new_common/popup/accessterms.html">보기</button>
+                                    
+                                </li>
+                                <li>
+                                    <label class="containermk" style="font-size: 15px">
+                                        <input name="agree1" type="checkbox" value="Y">
+                                        <span class="checkmark1"></span>
+                                       <a class="modalpop_link" link="/new_common/popup/personal_data.html">개인정보처리방침</a>
+                                    </label>
+                                    
                                 </li>
                                 <li>
                                     <label class="containermk" style="font-size: 15px">
                                         <input name="agree2" type="checkbox" value="Y">
                                         <span class="checkmark1"></span>
-                                        제3자 제공 동의
+                                        <a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의 /</a>
+                                        <a class="modalpop_link" link="/new_common/popup/mkt_ok.html"> 마케팅 동의</a>
+                                        
                                     </label>
-                                    <button id="myBtn4" type="button" class="btn_view modalpop_link" link="/new_common/popup/personal_3.html">보기</button>
                                 </li>
                             </ul>
                         </div>

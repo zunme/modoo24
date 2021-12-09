@@ -325,7 +325,9 @@ class ReviewController extends Controller
 			} else if($row->kind == "비대면") {
 
 					$row->staff_cnt = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
-					//if( $row->d_cnt < 1) $row->c_cnt = AuctionOrderEstimate::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
+					//견적제안은 가져올필요가 없다
+					//if( $row->staff_cnt < 1) $row->staff_cnt2 = AuctionOrderEstimate::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->count();
+
 					$row->kind_title = "비대면";
 			}
 		}

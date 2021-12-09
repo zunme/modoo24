@@ -40,6 +40,7 @@ table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorti
 table.dataTable>thead .sorting_desc_disabled:before, table.dataTable>thead .sorting_desc_disabled:after {
     bottom: 1em !important;
 }
+.even:last-of-type,.odd:last-of-type{border-bottom: 1px solid #ddd}
 table.dataTable.nowrap th, table.dataTable.nowrap td:not(.btn-td) {
     padding-bottom: 14px !important;
     padding-top: 12px !important;
