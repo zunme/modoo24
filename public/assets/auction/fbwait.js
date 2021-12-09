@@ -374,7 +374,7 @@ let review=`
             <div class="review_img">
                 <div class="review_row">
                     {{#each files}}
-                      <div class="four_img pic" style="background-image:url(${imgurl}/v2/storage{{url}})"><a href="${imgurl}/v2/storage{{url}}" data-lightbox="image-r-{{review_id}}"
+                      <div class="four_img pic" style="background-image:url(${imgurl}/community/storage{{url}})"><a href="${imgurl}/community/storage{{url}}" data-lightbox="image-r-{{review_id}}"
                        data-title="{{../b_mdate}} [{{#if ( isEqual ../b_type '이사')}}방문이사{{else }}{{b_type}}{{/if}}]" style="display:block;height:100%;"></a></div>
                     {{/each}}
                 </div>
