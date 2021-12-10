@@ -78,15 +78,21 @@ class BulletinController extends Controller
 		if( !$config){
 			return view('Front/Bulletin/empty');
 		}
-		$data = Post::where('is_confirmed', '!=','N')->where(['bulletin_id'=> $config->id]);
+		$data = Post::where('is_confirmed', '<>','N')->where(['bulletin_id'=> $config->id]);
 		if( $request->ready == 'Y' ) $data = Post::where(['bulletin_id'=> $config->id, 'is_confirmed'=>'Y']);
-		else $data = Post::where('is_confirmed', '!=','N')->where(['bulletin_id'=> $config->id]);
+		else $data = Post::where('is_confirmed', '<>','N')->where(['bulletin_id'=> $config->id]);
 
 		if( $request->search ){
 			if ( $request->search_option == 'title' ) $data = $data->where('title', 'like', '%'.$request->search.'%');
-			else if ( $request->search_option == 'cont' ) $data =$data->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
+			else if ( $request->search_option == 'cont' ) {
+				$searchstr = $request->search;
+				$data = $data->where( function($query) use($searchstr) {
+					return $query->where('title', 'like', '%'.$searchstr.'%')->orWhere('body', 'like', '%'.$searchstr.'%');
+				});
+			}
 			else if ( $request->search_option == 'writer' ) $data =$data->where('nickname', 'like', '%'.$request->search.'%');
 		}
+
 		return Datatables::of($data)->make(true);
 	}
 	public function jisikListApi(Request $request){
