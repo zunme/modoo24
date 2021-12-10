@@ -7,13 +7,13 @@
 
     @if( empty($meta) )
     <meta property="og:title" content="우리집 이사, 청소엔 모두이사" />
-    <meta property="og:image" content="/v1/image/main_N/logo.png">
+    <meta property="og:image" content="/v1/image/share.jpg">
     <meta property="og:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자" />
     <meta property="og:url" content="http://modoo24.net" />
     <meta name="description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자">
     @else
     <meta property="og:title" content="{{$meta->title}}" />
-    <meta property="og:image" content="/v1/image/main_N/logo.png" />
+    <meta property="og:image" content="/v1/image/share.jpg" />
     <meta property="og:description" content="{{$meta->description}}" />
     <meta property="og:url" content="{{$meta->url}}" />
     <meta name="description" content="{{$meta->description}}">

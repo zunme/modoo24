@@ -187,7 +187,10 @@ class BulletinController extends Controller
 		if( $config->code !='jisik') return view('Front/Bulletin/community/writepost', compact(['config', 'code', 'post','totalImgCount','address']) );
 		else return view('Front/Bulletin/writepost', compact(['config', 'code', 'post','totalImgCount']) );
 	}
-
+	private function delEmoticon($str) {
+		$rst = preg_replace("/\xF0[\x90-\xBF][\x80-\xBF]{2}|[\xF1-\xF3][\x80-\xBF]{3}|\xF4[\x80-\x8F][\x80-\xBF]{2}/", "", $str);
+		return $rst;
+}
 	public function create(Request $request){
 		$user = Auth::user();
 
@@ -230,7 +233,7 @@ class BulletinController extends Controller
 		$puriconfig->set('Cache.SerializerPath', $cachePath);
 		$purifier = new \HTMLPurifier($puriconfig);
 
-		$data['body'] = $purifier->purify($data['body']);
+		$data['body'] = $this->delEmoticon($purifier->purify($data['body']));
 		\DB::beginTransaction();
 		try{
 				if( $request->id > 0 ){
