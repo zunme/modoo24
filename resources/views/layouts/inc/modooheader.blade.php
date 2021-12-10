@@ -4,19 +4,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta property="og:site_name" content="모두이사" />
+    <meta name="twitter:card" content="summary" />
     @if( empty($meta) )
+    <meta name="twitter:image" content="https://modoo24.net/v1/image/share.jpg" />
+    <meta property="og:image" content="https://modoo24.net/v1/image/share.jpg" />
+    <meta property="og:url" content="https://modoo24.net/v2" />
+    <meta name="twitter:url" content="https://modoo24.net/v2" />
     <meta property="og:title" content="우리집 이사, 청소엔 모두이사" />
-    <meta property="og:image" content="/v1/image/share.jpg">
+    <meta name="twitter:title" content="우리집 이사, 청소엔 모두이사" />
     <meta property="og:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자" />
-    <meta property="og:url" content="http://modoo24.net" />
-    <meta name="description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자">
+    <meta name="twitter:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자" />
     @else
-    <meta property="og:title" content="{{$meta->title}}" />
-    <meta property="og:image" content="/v1/image/share.jpg" />
-    <meta property="og:description" content="{{$meta->description}}" />
+    <meta name="twitter:image" content="https://modoo24.net/v1/image/share.jpg" />
+    <meta property="og:image" content="https://modoo24.net/v1/image/share.jpg" />
     <meta property="og:url" content="{{$meta->url}}" />
-    <meta name="description" content="{{$meta->description}}">
+    <meta name="twitter:url" content="{{$meta->url}}" />
+    <meta property="og:title" content="{{$meta->title}}" />
+    <meta name="twitter:title" content="{{$meta->title}}" />
+    <meta property="og:description" content="{{$meta->description}}" />
+    <meta name="twitter:description" content="{{$meta->description}}" />
     @endif
     <meta name="author" content="모두이사">
     <meta name="keywords" content="이사,포장이사,비대면이사,비대면">
