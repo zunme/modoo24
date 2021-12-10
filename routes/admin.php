@@ -5,6 +5,9 @@ Route::group([
 ], function () {
     Route::get('home', 'HomeController@index')->name('home');
 
+    Route::post('order/userinfo/del', 'OrderController@deleteUserInfo');
+    Route::get('order/userinfo/list', 'OrderController@deleteUserList');
+
 		//게시판
 		Route::group(['prefix' => 'bulletin',], function() {
 			Route::get('list/{code}', 'BulletinController@bulletinList' );
@@ -17,6 +20,8 @@ Route::group([
       Route::get('postwithdepth/{post_id}', 'BulletinController@postwithdepth' );
 
 			Route::post('post/changestatus', 'BulletinController@changePostStatus' );
+      Route::post('post/changeDate', 'BulletinController@changeDate' );
+
 
 			Route::post('comment/deny/{comment_id}', 'BulletinController@denyComment' );
       Route::post('commentdepth/deny', 'BulletinController@denyCommentdepth' );
@@ -29,7 +34,6 @@ Route::group([
 
       //메인노출
       Route::post('mainpost', 'BulletinController@mainpostchange' );
-
 		});
 
 

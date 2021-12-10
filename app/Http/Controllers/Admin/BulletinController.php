@@ -199,21 +199,43 @@ class BulletinController extends Controller
 	function changePostStatus(  Request $request  ){
 		$messages = [
         'id.*' => '글 정보가 필요합니다.',
-				'status.*' =>'허용여부가 필요합니다.',
+				'status.*' =>'허용, 미허용,삭제만 가능합니다.',
     ];
     $this->validate($request, [
       'id' => 'bail|required|numeric',
-      'status' => 'bail|required|in:Y,N',
+      'status' => 'bail|required|in:Y,N,D',
      ],$messages);
 
 		try{
 			$post = Post::find($request->id);
-			$post->is_confirmed = $request->status;
-			$post->save();
+			if( $request->status=='D'){
+				$post->delete();
+			}else {
+				$post->is_confirmed = $request->status;
+				$post->save();
+			}
 			return $this->success( $post );
 		} catch ( \Exception $e){
 			return $this->error('상태변경에 실패하였습니다.',422);
 		}
+	}
+	function changeDate(Request $request  ){
+		$messages = [
+        'id.*' => '글 정보가 필요합니다.',
+				'date.*' =>'날짜 시간을 입력해주세요.',
+    ];
+    $this->validate($request, [
+      'id' => 'bail|required|numeric',
+      'date' => 'bail|required|date_format:Y-m-d H:i:s',
+     ],$messages);
+		 try{
+	 		$post = Post::find($request->id);
+ 			$post->created_at = $request->date;
+ 			$post->save();
+	 		return $this->success( $post );
+	 	} catch ( \Exception $e){
+	 		return $this->error('상태변경에 실패하였습니다.',422);
+	 	}
 	}
 	function mainpostchange(Request $request){
 		$messages = [
@@ -226,7 +248,7 @@ class BulletinController extends Controller
 		 ],$messages);
 		 $post = Post::find($request->id);
 		 if ( $post->is_confirmed !='Y'){
-			return $this->error('글 허용 후 다시 시도해주세요.',422); 
+			return $this->error('글 허용 후 다시 시도해주세요.',422);
 		 }
 		 try{
 			$post->main_post = $request->status;
