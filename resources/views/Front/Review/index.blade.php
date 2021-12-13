@@ -211,7 +211,7 @@ padding-right: 20px
             <dl>
               <dt class="name">{{$row->b_type}}</dt>
               <dt class="company">{{$row->s_company}}</dt>
-              <dd class="ellipsis">{!! strip_tags(htmlspecialchars_decode($row->b_note, ENT_QUOTES)) !!}</dd>
+              <dd class="ellipsis">{{ $row->b_note }}</dd>
               <dt class="star">
                 <ul class="star_list">
                   <li><img src="/image/sub/star_on.png" alt=""></li>
@@ -296,7 +296,7 @@ padding-right: 20px
                   </div>
                 </div>
                 <div class="inline-panel-body ml-1-depth">
-                  {!! strip_tags(htmlspecialchars_decode($row->b_note, ENT_QUOTES)) !!}
+                  {!! nl2br($row->b_note) !!}
                 </div>
 @if( $row->files)
                 <ul class="mylist_img">
