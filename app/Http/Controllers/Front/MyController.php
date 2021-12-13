@@ -52,8 +52,9 @@ class MyController extends Controller
 
     if( !$phone ) return view('Front.My.request');
 		*/
+
 		if ( !$userdata ) return view('Front.My.request');
-    else return $this->mylist($request, $phone);
+    else return $this->mylist($request, $userdata['phone']);
   }
 
 	private function  getUserdata(Request $request){
