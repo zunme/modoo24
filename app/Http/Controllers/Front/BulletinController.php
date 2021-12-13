@@ -58,7 +58,7 @@ class BulletinController extends Controller
 			else if ( $request->search_option == 'writer' ) $qry =$qry->where('nickname', 'like', '%'.$request->search.'%');
 			else $qry = $qry->where('title', 'like', '%'.$request->search.'%');
 		}
-
+		//$host = request()->getHttpHost();
 		if ($request->ajax()) {
 			return Datatables::of($data)->make(true);
 		}else {
@@ -66,8 +66,9 @@ class BulletinController extends Controller
 			$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
 			//return view('Front/Bulletin/testlist', compact(['data','code','request', 'config']));
 			if( $code !='jisik') return view('Front/Bulletin/community/list', compact(['data','code','request', 'config','pagingres']));
-			else if( config('site.isPartnerSite')== 'N') return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
-			else return view('Front/Bulletin/partner/list', compact(['data','code','request', 'config']));
+			return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
+			//else if( $host == 'modoo24.net') return view('Front/Bulletin/list', compact(['data','code','request', 'config']));
+			//else return view('Front/Bulletin/partner/list', compact(['data','code','request', 'config']));
 		}
 	}
 
