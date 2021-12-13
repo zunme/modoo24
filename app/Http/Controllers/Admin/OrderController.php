@@ -11,6 +11,8 @@ use App\Models\AuctionOrderNface;
 
 use App\Models\AuctionOrderInfoEnc;
 
+use App\Events\OrderuserinfodeletedEvent;
+
 use App\Traits\ApiResponser;
 
 class OrderController extends Controller
@@ -29,7 +31,7 @@ class OrderController extends Controller
      ],$messages);
 
       $id = $request->id;
-
+      /*TODO*/
       if( $request->type=='order') $id = "227743";
       else $id = '191802';
 
@@ -59,7 +61,7 @@ class OrderController extends Controller
 
       \DB::beginTransaction();
   		try{
-        AuctionOrderInfoEnc::create($ins);
+        $deleteuserinfo = AuctionOrderInfoEnc::create($ins);
         $order->name = '고객정보삭제';
         $order->hp = '고객정보삭제';
         $order->save();
@@ -71,9 +73,14 @@ class OrderController extends Controller
             return $this->error('이미 정보삭제 처리되었습니다.', 422, $e->getMessage() );
         }else return $this->error('잠시 후에 이용해주세요.', 422, $e->getMessage() );
   		}
+      event(new OrderuserinfodeletedEvent( $deleteuserinfo ));
       return $this->success($order);
   }
   function deleteUserList(Request $request){
+
+    event(new OrderuserinfodeletedEvent( AuctionOrderInfoEnc::find(8) ));
+    event(new OrderuserinfodeletedEvent( AuctionOrderInfoEnc::find(10) ));
+    
     $list = AuctionOrderInfoEnc::paginate(10);
     foreach( $list as &$row){
       $row->phone= decrypt($row->phone);

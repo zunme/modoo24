@@ -257,7 +257,7 @@
     }
 
    @media only screen and (max-width: 600px) {
-    .item-media-imgbox {width: 80px;height: 50px}
+    .item-media-imgbox {width: 100px;height:100px}
     .item-desc {
             flex-direction: column;
         }

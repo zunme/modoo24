@@ -4,7 +4,7 @@ Route::group([
     'middleware' => ['level:admin'],
 ], function () {
     Route::get('home', 'HomeController@index')->name('home');
-
+    //고객정보삭제
     Route::post('order/userinfo/del', 'OrderController@deleteUserInfo');
     Route::get('order/userinfo/list', 'OrderController@deleteUserList');
 

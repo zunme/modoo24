@@ -119,7 +119,7 @@ class Aligo {
       return;
     }
     public function templateList() {
-      // \Cache::forget('kakaoTemplateList');
+       //\Cache::forget('kakaoTemplateList');
       $data = \Cache::remember('kakaoTemplateList', 60*60*24, function () {
         $this->token();
         $response = $this->client->request('POST',   $this->base_url.'/akv10/template/list/', [

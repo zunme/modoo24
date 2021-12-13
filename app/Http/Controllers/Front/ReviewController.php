@@ -204,7 +204,7 @@ class ReviewController extends Controller
 			"b_ip=>"=>$request->ip(),
 			"b_type"=>( $request->type == "order" ) ? "이사" : "비대면이사",
 			"b_mdate"=>$row->mdate,
-
+			"b_atype"=> ($review_type =='compliment') ? "후기":'불편'
 		];
 
 		try{
@@ -239,7 +239,7 @@ class ReviewController extends Controller
 
 			$req["#{업체명}"] = $staff->s_company;
 			$data = [
-				'tpl_code'=>'TG_5139',
+				'tpl_code'=>'TG_5327',
 				'receiver_1'=>$staff_hp,
 				'subject_1'=>'모두이사'
 			];
