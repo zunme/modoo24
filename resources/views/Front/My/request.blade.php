@@ -24,6 +24,11 @@
         <div>
             <form id="chk_form">
                 <ul class="my_order_num">
+                  <li>
+                      <div class="myorder_Box" id="wrap_arrive_adr">
+                          <input name="name" id="newname" type="text" maxlength="13" placeholder="이름을 입력해주세요">
+                      </div>
+                  </li>
                     <li>
                         <div class="myorder_Box" id="wrap_arrive_adr">
                             <input name="tel" id="newtel" type="number" maxlength="12" placeholder="핸드폰번호를 입력해주세요">
@@ -51,14 +56,28 @@
 @section('script')
 <script>
 function sms() {
+  if( $("#newname").val().trim() =='' ){
+    toast("이름을 입력해주세요")
+    return;
+  }
   getpost( '/community/my/sendsms',{tel:$('#newtel').val() } , smssended )
 }
 function smssended(res) {
   $('#newtel').prop('readonly',true)
   swal.fire("인증번호발송", "입력하신 휴대폰 번호로 인증번호가 발송되었습니다.<br>SMS로 받으신 인증번호를 입력하시기 바랍니다", "success");
 }
-function checkAuth() {
+function checkAuthold() {
   getpost( '/community/my/checkAuth',{tel:$('#newtel').val(), authno: $("#AuthNo").val() } , authsuccess )
+}
+function checkAuth() {
+  if( $("#newname").val().trim() =='' ){
+    toast("이름을 입력해주세요")
+    return;
+  }else if ( $("#AuthNo").val().trim() =='' ){
+    toast("인증번호를 입력해주세요")
+    return;
+  }
+  getpost( '/community/my/checkAuthWithName',{tel:$('#newtel').val(), authno: $("#AuthNo").val().trim(), name : $("#newname").val().trim()  } , authsuccess )
 }
 function authsuccess(res) {
   location.reload()
