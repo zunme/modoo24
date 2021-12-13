@@ -35,6 +35,8 @@ class MyController extends Controller
 			$request->session()->forget('userAuth');
 			return view('Front.My.request');
 		}
+		$userdata = $this->getUserdata( $request );
+		/*
     if( Auth::user() && !empty(Auth::user()->phone ) ){
       $phone = Auth::user()->phone ;
     }else if( $request->session()->has('userAuth') ) {
@@ -49,8 +51,25 @@ class MyController extends Controller
     }
 
     if( !$phone ) return view('Front.My.request');
+		*/
+		if ( !$userdata ) return view('Front.My.request');
     else return $this->mylist($request, $phone);
   }
+
+	private function  getUserdata(Request $request){
+		$user = Auth::user();
+
+		if( $user && $user->phone && $user->name){
+				return ['name'=>$user->name, "phone"=>$user->phone];
+		}else if( $request->session()->has('userAuth') ){
+			$authArr =  $request->session()->get('userAuth');
+			if( isset($authArr['tel']) && isset($authArr['name']) ){
+				return ['name'=>$authArr['name'], "phone"=>$authArr['tel'] ];
+			}
+		}
+		return false;
+	}
+
   private function mylist($request, $phone){
       $sql = "
       SELECT * FROM (
