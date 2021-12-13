@@ -75,6 +75,7 @@ class ReviewController extends Controller
 			$row->b_star_kind_arr = $this->explodeStar($row->b_star_kind);
 
 			$row->avgstararr = $this->explodeStar($row->avgstar);
+			$row->b_note =str_replace("&nbsp;"," ", strip_tags(preg_replace('#<br\s*/?>#i', "\n", htmlspecialchars_decode($row->b_note,ENT_QUOTES ))));
 		}
 		$pagingres = $data->appends($request->except('page'))->links('vendor.pagination.dots',['pagination_eachside'=>3]);
 		$customerNumPlus = $this->customerNumPlus;
