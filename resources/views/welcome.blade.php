@@ -36,12 +36,12 @@
 <section id="banner_visual">
     <ul>
         <li>
-            <a class="pc" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_bn01.png"></a>
+            <a class="pc" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_bn02.png"></a>
             <a class="mobile" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_m_bn02.png"></a>
             <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</a>
         </li>
         <li>
-            <a class="pc" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_bn02.png"></a>
+            <a class="pc" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_bn01.png"></a>
             <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
             <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</a>
         </li>
