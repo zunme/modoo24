@@ -344,7 +344,7 @@
         display: block;
         margin-top: -2px;
     }
-    
+
     .essent{color:#ec3320;}
 
 </style>
@@ -554,7 +554,7 @@
                                         <span class="checkmark1"></span>
                                        <a class="modalpop_link" link="/new_common/popup/accessterms.html">이용약관</a>
                                     </label>
-                                    
+
                                 </li>
                                 <li>
                                     <label class="containermk" style="font-size: 15px">
@@ -562,7 +562,7 @@
                                         <span class="checkmark1"></span>
                                        <a class="modalpop_link" link="/new_common/popup/personal_data.html">개인정보처리방침</a>
                                     </label>
-                                    
+
                                 </li>
                                 <li>
                                     <label class="containermk" style="font-size: 15px">
@@ -570,7 +570,7 @@
                                         <span class="checkmark1"></span>
                                         <a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의 /</a>
                                         <a class="modalpop_link" link="/new_common/popup/mkt_ok.html"> 마케팅 동의</a>
-                                        
+
                                     </label>
                                 </li>
                             </ul>
@@ -623,7 +623,7 @@
         let title = `후기 등록 완료`
         let msg = `후기가 등록되었습니다.`
 
-        if (type = "inconvenience") {
+        if (type == "inconvenience") {
             title = `후기 등록 완료`
             msg = `불편 신고의 진위 확인 처리 시간은 영업일 기준 3-4일이 소요됩니다`
         }

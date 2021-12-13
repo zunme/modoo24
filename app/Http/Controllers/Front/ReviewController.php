@@ -139,7 +139,7 @@ class ReviewController extends Controller
 		if( $type=="order_nface"){
 			$row = AuctionOrderNface::where(['uid'=>$uid])->first();
 			if( trim(str_replace('-','',$row->hp)) != $userdata['phone'] ) return $this->error("전화번호가 틀립니다.", 422);
-			$comp = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->get();
+			$comp = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->first();
 			$s_uid = $comp->s_uid;
 			$b_type = '비대면이사';
 		}elseif($type=="order") {
@@ -293,6 +293,7 @@ class ReviewController extends Controller
 	private function myApplyList($request, $userdata){
 		//제외될 업체 : 히 이중오더 736, 히 모두이사 80
 		$limitdate = $newDateTime = Carbon::now()->subMonths($this->rangeMonth)->format('Y-m-d');
+		$nowdate = Carbon::now()->format('Y-m-d');
 
 		$sql = "
 		select * from (
@@ -302,7 +303,7 @@ class ReviewController extends Controller
 			 FROM auction_order
 			 left join review_logs on auction_order.uid = review_logs.order_id  and order_type='order'
 			 WHERE
-				 mdate >= ?
+				 mdate >= ? and mdate < ?
 				 and REPLACE(hp, '-', '') = ?
 			UNION ALL
 			 SELECT '비대면' as kind,'auction_order_nface' as kindtype, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton
@@ -310,11 +311,11 @@ class ReviewController extends Controller
 			 FROM auction_order_nface
 			 left join review_logs on auction_order_nface.uid = review_logs.order_id and order_type='order_nface'
 			 WHERE
-				 mdate >= ?
+				 mdate >= ? and mdate < ?
 				 and REPLACE(hp, '-', '') = ?
 			) tmp order by mdate desc
 		";
-		$data = \DB::select($sql,[ $limitdate,$userdata['phone'], $limitdate,$userdata['phone'] ]);
+		$data = \DB::select($sql,[ $limitdate,$nowdate,$userdata['phone'], $limitdate,$nowdate,$userdata['phone'] ]);
 		foreach ( $data as &$row){
 			if ( $row->kind =="방문") {
 				$staff_cnt = 0;
