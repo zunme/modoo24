@@ -36,6 +36,7 @@ class ReviewController extends Controller
 			->leftJoin('review_logs', "auction_bbs_postscript.b_uid",'=',"review_logs.review_id")
 			->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
 			//->orderBy("auction_bbs_postscript.b_reg_date","DESC")
+			->orderBy("auction_bbs_postscript.b_uid","DESC")
 			;
 		 if( $request->search_val) {
 			 $data = $data->where( $request->search_sel,'like','%'.$request->search_val.'%' );
