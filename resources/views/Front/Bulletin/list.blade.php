@@ -190,7 +190,7 @@ li.details-control.text-center{
                     </div>
 
                     @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
-                    <a type="button" class="cmnty_button_blue" href="{{$code}}/write">질문하기</a>
+                    <a type="button" class="cmnty_button_blue btn" href="{{$code}}/write">질문하기</a>
                     @endif
 
                 </div>
