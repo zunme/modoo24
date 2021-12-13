@@ -31,9 +31,6 @@ class OrderController extends Controller
      ],$messages);
 
       $id = $request->id;
-      /*TODO*/
-      if( $request->type=='order') $id = "227743";
-      else $id = '191802';
 
       $admin = $this->userinfo();
       if( !$admin){
@@ -80,7 +77,7 @@ class OrderController extends Controller
 
     event(new OrderuserinfodeletedEvent( AuctionOrderInfoEnc::find(8) ));
     event(new OrderuserinfodeletedEvent( AuctionOrderInfoEnc::find(10) ));
-    
+
     $list = AuctionOrderInfoEnc::paginate(10);
     foreach( $list as &$row){
       $row->phone= decrypt($row->phone);
