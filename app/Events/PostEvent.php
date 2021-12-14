@@ -24,6 +24,7 @@ class PostEvent implements ShouldBroadcast
      */
     public function __construct( Post $post)
     {
+        $post->body=''; // exeed 때문에 삭제
         $this->message = ['type'=>'post','command'=>'add','data'=>$post];
     }
 
