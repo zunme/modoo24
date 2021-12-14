@@ -432,5 +432,51 @@ function drawcal(){
 </script>
 @yield('script')
 
+
+<!-- 공통 적용 스크립트 , 모든 페이지에 노출되도록 설치. 단 전환페이지 설정값보다 항상 하단에 위치해야함 -->
+<script type="text/javascript" src="//wcs.naver.net/wcslog.js"> </script>
+<script type="text/javascript">
+if (!wcs_add) var wcs_add={};
+wcs_add["wa"] = "s_3a589317ff16";
+if (!_nasa) var _nasa={};
+if(window.wcs){
+wcs.inflow();
+wcs_do(_nasa);
+}
+</script>
+
+
+<!-- 공통 적용 스크립트 20210730 엣지랭크 크로스타켓 -->
+<script type='text/javascript'>
+    !function (w,d,s,u,t,ss,fs) {
+        if(w.ex2cts)return;t=w.ex2cts={};if(!window.t) window.t = t;
+        t.push = function() {t.callFunc?t.callFunc.apply(t,arguments) : t.cmd.push(arguments);};
+        t.cmd=[];ss = document.createElement(s);ss.async=!0;ss.src=u;
+        fs=d.getElementsByTagName(s)[0];fs.parentNode.insertBefore(ss,fs);
+    }(window,document,'script','//st2.exelbid.com/js/cts2.js');
+    ex2cts.push('init', '60f8d4488d0fd855188b456c' , '.modoo24.net');
+
+</script>
+
+<!-- 공통 적용 스크립트 20210730 Global site tag (gtag.js) - Google Ads: 328335033 -->
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-328335033"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-328335033');
+</script>
+
+
+
+<!-- AceCounter Log Gathering Script V.8.0.2019080601 -->
+<script language='javascript'>
+	var _AceGID=(function(){var Inf=['gtp7.acecounter.com','8080','BH6A44246780886','AW','0','NaPm,Ncisy','ALL','0']; var _CI=(!_AceGID)?[]:_AceGID.val;var _N=0;var _T=new Image(0,0);if(_CI.join('.').indexOf(Inf[3])<0){ _T.src =( location.protocol=="https:"?"https://"+Inf[0]:"http://"+Inf[0]+":"+Inf[1]) +'/?cookie'; _CI.push(Inf);  _N=_CI.length; } return {o: _N,val:_CI}; })();
+	var _AceCounter=(function(){var G=_AceGID;var _sc=document.createElement('script');var _sm=document.getElementsByTagName('script')[0];if(G.o!=0){var _A=G.val[G.o-1];var _G=(_A[0]).substr(0,_A[0].indexOf('.'));var _C=(_A[7]!='0')?(_A[2]):_A[3];var _U=(_A[5]).replace(/\,/g,'_');_sc.src=(location.protocol.indexOf('http')==0?location.protocol:'http:')+'//cr.acecounter.com/Web/AceCounter_'+_C+'.js?gc='+_A[2]+'&py='+_A[4]+'&gd='+_G+'&gp='+_A[1]+'&up='+_U+'&rd='+(new Date().getTime());_sm.parentNode.insertBefore(_sc,_sm);return _sc.src;}})();
+</script>
+<noscript><img src='http://gtp7.acecounter.com:8080/?uid=BH6A44246780886&je=n&' border='0' width='0' height='0' alt=''></noscript>
+<!-- AceCounter Log Gathering Script End -->
+
 </body>
 </html>
