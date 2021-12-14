@@ -87,11 +87,11 @@
                             <a class="btn btn_login_kakao" href="login/kakao">
                                 <span><img src="/v1/image/sub/kakaol.png" alt="kakaoci"></span>카카오로 회원가입
                             </a>
-                            <!--
+
                             <a class="btn btn_login_naver" href="login/naver">
                                 <span><img src="/v1/image/sub/naver_ci.png" alt="naverci"></span>네이버로 회원가입
                             </a>
-                            -->
+                            
                         </div>
                     </div>
 
