@@ -99,7 +99,9 @@ class BulletinController extends Controller
 	public function jisikListApi(Request $request){
 		$config = BulletinConfig::active()->where(['code'=>'jisik'])->first();
 		$qry = Post::with(['files'])
-					->where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N')
+					->where(['bulletin_id'=> $config->id])
+					->where('is_confirmed', '=','Y')
+					//->where('comment_cnt','>','0')
 					->orderBy('id','desc')->limit(5)->get();
 		return $this->success( $qry );
 
