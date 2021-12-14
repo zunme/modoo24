@@ -550,7 +550,7 @@
                             <ul class="pn_agree">
                                 <li>
                                     <label class="containermk" style="font-size: 15px">
-                                        <input name="agree1" type="checkbox" value="Y">
+                                        <input name="agree3" type="checkbox" value="Y">
                                         <span class="checkmark1"></span>
                                        <a class="modalpop_link" link="/new_common/popup/accessterms.html">이용약관</a>
                                     </label>
