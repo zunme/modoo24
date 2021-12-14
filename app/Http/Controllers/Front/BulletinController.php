@@ -216,11 +216,13 @@ class BulletinController extends Controller
 				'body.*' =>'내용을 작성해주세요.',
 				'si_code.*'=>"지역을 선택해주세요",
 				'gu_code.*'=>"지역을 선택해주세요",
+				'upload.*'=>'3M 이하의 JPG, PNG 파일만 업로드 해 주세요.'
     ];
     $this->validate($request, [
       'title' => 'bail|required|string|min:1|max:50',
       'body' => 'bail|required',
 			'code' => 'bail|required',
+			'upload.*'=>'bail|mimes:jpeg,jpg,png|nullable|max:3072',
 			'si_code' => 'bail|'.$gu_code_required,
 			'gu_code' => 'bail|'.$gu_code_required,
      ],$messages);

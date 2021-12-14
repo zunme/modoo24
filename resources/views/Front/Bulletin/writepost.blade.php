@@ -117,10 +117,10 @@
 .bmd-form-group .form-control, .bmd-form-group label, .bmd-form-group input::placeholder {
     line-height: 2;
 }
-    
+
        @media only screen and (max-width: 600px) {
 .btn.btn-outline-info {width: 40%;font-size: .9em;margin: 10px 0 0 0}
-           
+
     }
 
 </style>
@@ -257,7 +257,7 @@
 							<div class="thumbnail-title ellipsis" id="upfile{{ inpCnt }}_filename">
 								name
 							</div>
-							<input type="file" name="upload[]" class="hide" id="upfile{{ inpCnt }}_imp" onChange="readURL(this, 'upfile{{ inpCnt }}')"/>
+							<input type="file" name="upload[]" accept=".jpg, .png, .jpeg" class="hide" id="upfile{{ inpCnt }}_imp" onChange="readURL(this, 'upfile{{ inpCnt }}')"/>
 						</div>
 					</div>
 </script>
@@ -339,7 +339,7 @@ function write_prc() {
 	$(".imgprevcol.hide").remove()
 
 	var data= new FormData( document.getElementById(form) );
-	
+
 	@if( $config->html_use =='Y' )
 		data.set('body', editor.root.innerHTML)
 	@endif
