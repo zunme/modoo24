@@ -169,6 +169,7 @@ class ReviewController extends Controller
 				'b_star_expost.*' => '사후관리 평가해주세요',
 				'b_star_pave.*' => '포장도를 평가해주세요',
 				'b_note.*' => '내용을 입력해주세요',
+				'agree3.*' => '이용약관 동의가 필요합니다.',
 				'agree1.*' => '개인정보 수집 및 이용동의가 필요합니다.',
 				'agree2.*' => '제3자 제공동의가 필요합니다.',
     ];
@@ -180,6 +181,7 @@ class ReviewController extends Controller
 			'b_star_finish' => 'bail|required|numeric|min:0.5|max:5',
 			'b_star_pave' => 'bail|required|numeric|min:0.5|max:5',
 			'b_note' => 'bail|required|string|min:1',
+			'agree3' => 'bail|required|in:Y',
 			'agree1' => 'bail|required|in:Y',
 			'agree2' => 'bail|required|in:Y',
      ],$messages);
