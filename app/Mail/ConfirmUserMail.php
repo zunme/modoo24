@@ -43,7 +43,7 @@ class ConfirmUserMail extends Mailable
             ->view('emails.confirmation', [
             'token' => $this->user->confirmation_token,
             'id' => $this->user->email,
-            'url'=>url(config('app.url').'community/users/'.$this->user->email.'/'.$this->user->confirmation_token.'/confirm')
+            'url'=>url(config('app.url').'/community/users/'.$this->user->email.'/'.$this->user->confirmation_token.'/confirm')
         ]);
     }
 }
