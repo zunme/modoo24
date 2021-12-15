@@ -28,6 +28,7 @@
     <meta name="author" content="모두이사">
     <meta name="keywords" content="이사,포장이사,비대면이사,비대면">
     <meta name="format-detection" content="telephone=no, address=no, email=no">
+    <meta name="title" content="모두이사">
     <meta name="description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
