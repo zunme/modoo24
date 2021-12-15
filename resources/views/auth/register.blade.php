@@ -23,7 +23,7 @@
 
 
 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
@@ -91,7 +91,7 @@
                             <a class="btn btn_login_naver" href="login/naver">
                                 <span><img src="/v1/image/sub/naver_ci.png" alt="naverci"></span>네이버로 회원가입
                             </a>
-                            
+
                         </div>
                     </div>
 
@@ -173,22 +173,23 @@
                                         <div class="checks etrans">
                                             <input type="checkbox" id="ex_chk2" name="simplyRegPrivacy" value="Y">
                                             <label for="ex_chk2"></label>
-                                            <p class="modalpop_link" link="/new_common/popup/personal_data.html">
-                                                개인정보수집 및 이용에 동의(필수)
+                                            <p class="modalpop_link" link="/new_common/popup/accessterms.html">
+                                                이용약관
                                             </p>
                                         </div>
                                         <div class="checks etrans">
                                             <input type="checkbox" id="ex_chk3" name="simplyRegJoint" value="Y">
                                             <label for="ex_chk3"></label>
-                                            <p class="modalpop_link" link="/new_common/popup/personal_3.html">
-                                                개인정보의 제3자 제공 동의(필수)
+                                            <p class="modalpop_link" link="/new_common/popup/personal_data.html">
+                                                개인정보처리방침
                                             </p>
                                         </div>
                                         <div class="checks etrans">
                                             <input type="checkbox" id="ex_chk4" name="simplyMarketting" value="Y">
                                             <label for="ex_chk4"></label>
                                             <p>
-                                                마케팅 동의(선택)
+                                                <span class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의</span> /
+                                                <span class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅 동의</span>
                                             </p>
                                         </div>
                                     </div>
