@@ -35,7 +35,9 @@ class StaffController extends Controller
 	function statics(  Request $request ){
 		//$statics = $this->allStatics();
 		$range = ( $request->range && $request->range > 0 )? $request->range : '6';
+
 		$statics = $this->communityStatics();
+		//$statics = $this->allStatics();
 
 		$favcnt = PostCommentFavLog::
 							select ( 'comment_id')
@@ -44,7 +46,7 @@ class StaffController extends Controller
 		$bsetUnion = PostCommentBestLog::
 				select ( 'comment_id')
 				->whereRaw("post_comment_best_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$range." MONTH), '%Y-%m-%d 00:00:00')")
-				->union( $favcnt);
+				->unionAll( $favcnt);
 		$bestcnt = PostComment::select ( 'auction_staff_s_uid', \DB::raw("count(1) as bestCountDuration") )
 				->join(
 						\DB::raw( '(' . $bsetUnion->toSql(). ') AS bestunion' ),
@@ -84,7 +86,7 @@ class StaffController extends Controller
 		return Datatables::of($user)
 		->addColumn( 'grade', function ($user) use($statics) {
 			if( isset($statics["_".$user->s_uid]) ) $total = $statics[ "_".$user->s_uid ]->cnt;
-			else $total=0;
+			else $total = 0;
 			return $this->communityGradeTitle($total);
 		})
 		/*
