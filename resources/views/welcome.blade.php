@@ -601,8 +601,30 @@
         </form>
     </div>
 </div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>
+<!-- pop -->
 
-
+@if( $pops )
+  @foreach ($pops as $zind=>$pop)
+    <div id="popup_{{$pop->bp_idx}}" class="popup_common"
+      style="z-index:{{ 1200 + $zind }};top:{{$pop->bp_y}}px; left:{{$pop->bp_x}}px; width:{{$pop->bp_width}}px;
+      /* height:{{$pop->pop_h}}px;*/
+       background:{{$pop->bp_bg_color}};">
+       <div class="popup_title"><!--{{$pop->bp_title}}--><span onclick="$('#popup_{{$pop->bp_idx}}').hide();"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg></span><div style="clear:both;"></div></div>
+       <div class="popup_body">
+         <a href="@if( $pop->url ){{$pop->url}}@else#@endif">
+           @foreach ( $pop->bp_file as $file )
+           <img src="https://www.24auction.co.kr{{$file->path}}/{{$file->file_name_real}}" title="{{$file->file_name}}" class="popup_img"/>
+           @endforeach
+         </a>
+       </div>
+       <div class="pop_btn_area">
+         <a href="javascript:closeBenner('{{$pop->bp_idx}}');" class="btn_today_close">오늘 하루 안보기</a>
+       </div>
+     </div>
+  @endforeach
+@endif
+<!-- / pop -->
 
 @parent
 @endsection
@@ -656,7 +678,22 @@
         }).scroll();
     });
     //
+    function event_benner_close(n)
+  	{
+  		$("#popup_"+n).hide();
+  	}
 
+    function setCookie( name, value, expiredays ) {
+       var todayDate = new Date();
+       todayDate.setDate( todayDate.getDate() + expiredays );
+       document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+    }
+
+  	function closeBenner(no)
+  	{
+  		setCookie("popup_div_"+no, 'popupviewdone', 1,'/');
+  		event_benner_close(no);
+  	}
 </script>
 <!--//간편접수 퀵메뉴-->
 
