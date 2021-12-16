@@ -8,6 +8,12 @@ Route::group([
     Route::post('order/userinfo/del', 'OrderController@deleteUserInfo');
     Route::get('order/userinfo/list', 'OrderController@deleteUserList');
 
+    //알람
+    Route::get('alarm/form', 'AlarmController@alarmform');
+    Route::get('alarm', 'AlarmController@alarmlist');
+    Route::post('alarm', 'AlarmController@alarmDone');
+    Route::post('alarm/regist', 'AlarmController@alarmCreate');
+
 		//게시판
 		Route::group(['prefix' => 'bulletin',], function() {
 			Route::get('list/{code}', 'BulletinController@bulletinList' );
@@ -52,6 +58,7 @@ Route::group([
 			Route::get('info', 'StaffController@staffInfo');
       //업체평가통계
       Route::get('statics', 'StaffController@statics' );
+      Route::get('staticsv2', 'StaffController@staticsv2' );
 		});
     // review
   Route::group(['prefix' => 'review',], function() {
