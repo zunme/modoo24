@@ -117,7 +117,7 @@ $response = $client->request('GET', $url);
       }
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
       $pops = AuctionPopup::
-          where(['bp_use_flag'=>'N'])
+          where(['bp_use_flag'=>'Y'])
           ->whereNotIn('bp_idx', $notin )
           ->where('bp_start_date','<=',$today )
           ->where('bp_end_date','>=',$today )
