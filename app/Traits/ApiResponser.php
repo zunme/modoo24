@@ -248,7 +248,7 @@ trait ApiResponser
 
 		if( $id ) {
 			if( isset($data['_'.$id]) ) return $data['_'.$id];
-			$ret = [
+			$ret = (object)[
 							"b_worker_idx"=>$id, "title"=>"미흡업체", "short_title"=>"미흡",
 							"total"=>0, "cnt"=>0,
 		 				];
