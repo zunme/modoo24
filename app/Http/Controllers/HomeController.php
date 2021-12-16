@@ -116,12 +116,7 @@ $response = $client->request('GET', $url);
         }
       }
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
-      $pops = AuctionPopup::
-          where(['bp_use_flag'=>'N'])
-          ->whereNotIn('bp_idx', $notin )
-          ->where('bp_start_date','<=',$today )
-          ->where('bp_end_date','>=',$today )
-          ->get();
+      $pops =[];
       foreach( $pops as &$row){
         $row->pop_w = ($chkMobile) ? ($row->bp_width - 300 ) :($row->bp_width);
         $row->pop_h = ($chkMobile) ? ($row->bp_height - 300 + 76 ) :($row->bp_height+76);
