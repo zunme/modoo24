@@ -154,8 +154,10 @@ class DefaultlistController extends Controller
 
 		$total = 0;
 		foreach( $data as $row ){
-			$res[ $row->ym]['count'] = $row->cnt;
-			$total +=$row->cnt;
+			if( isset($res[ $row->ym]) ){
+				$res[ $row->ym]['count'] = $row->cnt;
+				$total +=$row->cnt;
+			}
 		}
 		$cnt = PostComment::where(['auction_staff_s_uid'=>$uid])
 			->where( 'created_at','>=', $dt->format('Y-m-01 00:00:00') )->count();
