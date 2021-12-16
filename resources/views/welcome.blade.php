@@ -11,11 +11,11 @@
     .move_review_item_point {
         margin-top: 14px;
     }
-    
+
     .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
        bottom: -5px;
     }
-    
+
 </style>
 @endsection
 
@@ -38,12 +38,12 @@
         <li>
             <a class="pc" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_bn02.png"></a>
             <a class="mobile" href="/front/orderpop?s=1"><img src="/v1/image/main_N/main_m_bn02.png"></a>
-            <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;margin-top:10px"><b>방문 견적 </b>가이드</a>
+            <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;"><svg style="vertical-align: middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(153,153,153,1)"/></svg><b class="color_blue" style="padding-left:3px">방문 견적</b>가이드 <span></span></a>
         </li>
         <li>
             <a class="pc" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_bn01.png"></a>
             <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
-            <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%; margin-top:10px"><b>비대면 견적 </b>가이드</a>
+            <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%;"><svg style="vertical-align: middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(153,153,153,1)"/></svg><b class="color_pt" style="padding-left:3px">비대면 견적</b>가이드</a>
         </li>
         <li class="pc">
             <a href="http://modooclean.com/" target="_blank"><img src="/v1/image/main_N/main_bn03.png"></a>
@@ -60,7 +60,7 @@
 <section id="simply_move" class="center pc">
     <form>
         <div class="box01">
-            <h2><span class="color_pt">간편</span> 이사견적</h2>
+            <h2><span class="color_pt">무료견적</span> 간편신청</h2>
             <p>간단한 정보 입력과 동의로
                 이사견적 신청 완료
             </p>
@@ -142,7 +142,7 @@
                 </div>
             </li>
         </ul>
-        <button type="button" class="btn_simply simple-reg-btn"><span class="color_yw">간편견적</span><br />신청하기</button>
+        <button type="button" class="btn_simply simple-reg-btn"><span class="color_yw">무료견적</span><br />간편신청</button>
     </form>
 </section>
 <!--견적가이드-->
@@ -198,30 +198,45 @@
 
 <!--지식인검색-->
 <section class="center search_wrap">
-    <h2><b>이사에 대해 알고 싶은것!</b> <b class="color_pt">이사지식인</b>에 문의하세요!</h2>
+    <h2 class="pc"><b>이사에 대해 알고 싶은것!</b> <b class="color_pt">이사지식인</b>에 문의하세요!</h2>
+    <div class="mobile">
+        <div style="float:left">
+        <h3 class="jstitle">
+            <b class="color_pt">이사지식인</b>에 <b>질문</b>하세요
+        </h3>
+         <h4 class="jstitle_sm">이사에 대해 알고 싶은것!</h4>
+        </div>
+        <a href="/community/posts/jisik" style="float:right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11H7v2h4v4h2v-4h4v-2h-4V7h-2v4z" fill="rgba(0,190,255,1)"/></svg>
+        </a>
+
+    </div>
     <div class="left_box">
-        <i><img src="/v1/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
-        <h5>
-            <a href="/community/posts/jisik"><i class="fas fa-search"></i><span class="color_pt m_color_pt">이사지식인</span></a> 검색
-        </h5>
+        <div class="pc">
+            <i><img src="/v1/image/main_N/icon_truck.png" alt="이사지식인아이콘"></i>
+            <h5>
+                <a href="/community/posts/jisik"><i class="fas fa-search"></i><span class="color_pt m_color_pt">이사지식인</span></a> 검색
+            </h5>
+        </div>
         <div class="search_Box">
             <form action="/community/posts/jisik" id="jisikform">
                 <input type="search_option" type="hidden" value="title" style="display: none">
-                <input type="text" name="search" placeholder="이사지식인검색">
+                <input type="text" name="search" placeholder="ex)포장이사 후회하지 않고 하는 법">
                 <label></label>
                 <span class="btn_form" href="/community/posts/jisik" onclick="$('#jisikform').submit()">검색</span>
             </form>
         </div>
     </div>
     <div class="mobile know_m_info">
-        <h4><b>이사 지식인<span class="plus color_pt">+</span></b></h4>
         <div>
-            이사에 대한 궁금한 사항을 모두이사
-            파트너업체가 답변해 드립니다.
+            <b>이사</b>에 관한 <b>궁금증</b>을 질문하시면<br/>
+            <b class="color_pt">현업에 계신 전문가</b>들의 <br/>
+            <b>진솔한 답변</b>을 받으실 수 있습니다.
+
         </div>
         <p><img src="/v1/image/main_N/icon_qna.png" alt="qna"></p>
         <button type="button" onclick="location.href='/community/posts/jisik'" class="btn_question">
-            자세히보기
+            <i class="fas fa-pen" style="color:#fff"></i> 질문하기
         </button>
     </div>
     <div class="faq_box pc">
@@ -269,7 +284,7 @@
             </ul>
         </li>
         <li>
-            <h4 class="bgg">모두 <span class="color_blue">꿀TIP</span> <a class="plus" href="/v2/posts/tip">+</a></h4>
+            <h4 class="bgg">모두<span class="color_blue">꿀TIP</span> <a class="plus" href="/v2/posts/tip">+</a></h4>
             <ul class="huney_list">
                 @foreach ( $tip as $row)
                 <li>
@@ -581,11 +596,14 @@
                     </div>
                 </li>
             </ul>
-            <button type="button" class="btn_simply simple-reg-btn"><span class="color_yw">간편견적</span><br />신청하기</button>
+            <button type="button" class="btn_simply simple-reg-btn"><span class="color_yw">무료견적</span><br />간편신청</button>
 
         </form>
     </div>
 </div>
+
+
+
 @parent
 @endsection
 
@@ -610,7 +628,7 @@
       		'mobile_image':'/v1/image/main_N/event_ss_m.jpg',
       		'target' : true,
       	},
-        /*  
+        /*
       	{
       		'title': "모두클린",
       		'href':'http://modooclean.com/',

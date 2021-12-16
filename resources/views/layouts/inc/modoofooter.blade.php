@@ -6,7 +6,7 @@
             <li class="modalpop_link" link="/new_common/popup/accessterms.html">
                 이용약관
             </li>
-            <li class="modalpop_link" link="/new_common/popup/personal_data.html">
+            <li class="modalpop_link color_pt" link="/new_common/popup/personal_data.html">
                개인정보처리방침
             </li>
             <li class="modalpop_link" link="/new_common/popup/personal_3.html">
