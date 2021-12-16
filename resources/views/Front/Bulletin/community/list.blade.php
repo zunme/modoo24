@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css?v=20211216" />
 <style>
     .mt-20 {
         margin-top: 20px;
@@ -324,6 +324,20 @@
                     <div class="display-flex justify-space-between ">
                         <div class="search_box clearboth">
 
+                          @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
+                            <div class="jic-qustion-box">
+                                <div class="mobile" style="width:100%">
+                                    <b><span class="color_pt">이사</span> 및 <span class="color_pt">생활 커뮤니티</span>를<br/> 
+                                       자유롭게 남겨 주세요
+                                    </b>
+                                </div>
+                                 <a type="button" class="cmnty_button_blue" href="{{$code}}/write">글쓰기</a>
+                                </div>  
+                            
+                           
+                            @endif
+                            
+                            
                             <select class="cmt_select" id="search_option" name="search_option">
                                 <option value="title" @if($request->search_option !='cont' && $request->search_option !='writer' ) selected @endif >제목</option>
                                 <option value="cont" @if($request->search_option=='cont') selected @endif >제목+내용</option>
@@ -336,9 +350,7 @@
                                 <span class="btn_form" onClick="search_data(this)">검색</button>
                             </div>
 
-                            @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
-                            <a type="button" class="cmnty_button_blue pc" href="{{$code}}/write">글쓰기</a>
-                            @endif
+                          
 
                         </div>
                     </div>
@@ -411,8 +423,9 @@
                 <div class="ct">
                     {{ $pagingres }}
                 </div>
-                <div style="display: flex; flex-direction: row-reverse">
-                <a type="button" class="round_btn mobile btn" href="{{$code}}/write"><i class="fas fa-plus"></i></a>
+                <div class="mobile" style="display: flex; flex-direction: row-reverse">
+                    <a type="button" class="cmnty_button_blue" href="{{$code}}/write">글쓰기</a>
+               <!-- <a type="button" class="round_btn mobile btn" href="{{$code}}/write"><i class="fas fa-plus"></i></a>-->
                 </div>
             </div>
         </div>

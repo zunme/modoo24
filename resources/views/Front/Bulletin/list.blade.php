@@ -1,7 +1,7 @@
 @extends('layouts.modoo')
 
 @section('css')
-<link rel="stylesheet" type="text/css" href="/v1/css/community.css" />
+<link rel="stylesheet" type="text/css" href="/v1/css/community.css?v=20211216" />
 
 <style>
 .ct > .pagination>.page-item>.page-link, .ct > .pagination>.page-item>span {
@@ -45,7 +45,7 @@ table.dataTable {
     border-bottom: 1px solid #ddd;
 }
         
-    
+ 
 table.dataTable.nowrap th, table.dataTable.nowrap td:not(.btn-td) {
     padding-bottom: 14px !important;
     padding-top: 12px !important;
@@ -103,6 +103,7 @@ td.child{
 }
 
 @media only screen and ( min-width : 450px) {
+
   #datatable > thead > tr > th:nth-child(2){
         min-width: 280px;
   }
@@ -178,6 +179,19 @@ li.details-control.text-center{
               <div class="display-flex justify-space-between">
                 <div class="searchlist_Box">
 
+                    
+                    
+                    @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
+                    <div class="jic-qustion-box">
+                    <div class="mobile" style="width:100%">
+                        <b>이사가 어려울땐?<br/> 
+                            <span class="color_pt">질문하세요!</span>
+                        </b>
+                    </div>
+                    <a class="cmnty_button_blue" href="{{$code}}/write">질문하기</a>
+                    </div>    
+                    @endif
+                    
                     <select class="cmt_select" id="search_option" name="search_option">
                       <option value="title" @if($request->search_option !='cont' && $request->search_option !='writer' ) selected @endif >제목</option>
                       <option value="cont" @if($request->search_option=='cont') selected @endif >제목+내용</option>
@@ -190,14 +204,12 @@ li.details-control.text-center{
                         <span class="btn_form" onClick="search_data()">검색</span>
                     </div>
 
-                    @if ( $config->use_write=='Y' || (Auth::user() && Auth::user()->level >= 1024) )
-                    <a type="button" class="cmnty_button_blue btn" href="{{$code}}/write">질문하기</a>
-                    @endif
+                    
 
                 </div>
               </div>
 
-              <div class="table-responsive">
+              <div class="table-responsive" style="border:0">
                 <table class="table responsive dt-responsive display nowrap" id="datatable" width="100%">
                   <thead>
                     <tr>
@@ -213,6 +225,11 @@ li.details-control.text-center{
             </div>
 
         </div>
+        
+        <div class="mobile" style="display: flex; flex-direction: row-reverse">
+            <a class="cmnty_button_blue" href="{{$code}}/write">질문하기</a>
+        </div>
+        
 
 <!--
         <div class="searchlist_Box">
