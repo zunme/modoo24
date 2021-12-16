@@ -99,9 +99,12 @@ trait ApiResponser
 			return isset($clean_type_arr[$data]) ? $clean_type_arr[$data] : '';
 		}else return isset($type_arr[$data]) ? $type_arr[$data] : '';
 	}
+
 	/* 소통점수 */
 	private   function communityStatics($id=null) {
+		\Cache::forget('companyCommunityGrade');
 		$data = \Cache::remember('companyCommunityGrade', 60*10, function () {
+			/*
 	    $sql = "
 	    SELECT auction_staff_s_uid , COUNT(1) AS cnt
 	    FROM (
@@ -119,6 +122,24 @@ trait ApiResponser
 	    ) tmp
 	    GROUP BY auction_staff_s_uid
 	    ";
+			*/
+			$sql = "
+			SELECT auction_staff_s_uid , COUNT(1) AS cnt
+			FROM (
+				SELECT 'best' AS ctype, a.auction_staff_s_uid
+				FROM post_comments a
+				JOIN post_comment_best_logs b ON a.id = b.comment_id
+				where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+
+				UNION ALL
+
+				SELECT 'fav' AS ctype, a.auction_staff_s_uid
+				FROM post_comments a
+				JOIN post_comment_fav_logs b ON a.id = b.comment_id
+				where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+			) tmp
+			GROUP BY auction_staff_s_uid
+			";
 	    $data =  \DB::select( $sql);
 	    $res =[];
 	    foreach ( $data as $row ) {
@@ -130,7 +151,7 @@ trait ApiResponser
 	  return $data;
   }
 	//6개월 comment 갯수
-	private   function communityCommentNumStatics($id=null) {
+	private function communityCommentNumStatics($id=null) {
 		$data = \Cache::remember('companyCommunityCommentNum', 60*10, function () {
 	    $sql = "
 			SELECT auction_staff_s_uid , COUNT(1) AS comment_cnt
@@ -157,6 +178,7 @@ trait ApiResponser
 		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
 	  return $data;
   }
+
 	private function communityGradeTitle($total){
 		if ( $total >= 7 ) return '명예';
 		else if ( $total >= 5 ) return '최우수';
