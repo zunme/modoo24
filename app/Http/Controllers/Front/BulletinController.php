@@ -186,6 +186,8 @@ class BulletinController extends Controller
 		$totalImgCount = $post->files->count();
 
 		$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
+		if( Auth::user()->level > 1000 ) $is_writer =true;
+
 		if ( !$is_writer){
 			return view('Front/Bulletin/421', compact(['config', 'code', 'post','totalImgCount']) );
 		}
@@ -247,6 +249,7 @@ class BulletinController extends Controller
 
 		//$data['body'] = $this->delEmoticon($purifier->purify($data['body']));
 		$data['body'] = $this->delEmoticon($data['body']);
+		$userlevel = (Auth::user()->level > 1000 ) ? true : false;
 
 		\DB::beginTransaction();
 		try{
@@ -254,9 +257,11 @@ class BulletinController extends Controller
 					$post = Post::with(['comments','files'])->where([ 'id'=>$request->id ])->first();
 
 					if(!$post) return $this->error('글을 찾을 수 없습니다.', 422);
-					if($post->is_confirmed !='R') return $this->error('더이상 수정하실수 없습니다.', 422);
+					if(!$userlevel && $post->is_confirmed !='R') return $this->error('더이상 수정하실수 없습니다.', 422);
 
 					$is_writer = ( Auth::user()->id == $post->user_id) ? true:false;
+					if( $userlevel ) $is_writer = true;
+
 					if ( !$is_writer){
 						return $this->error('수정 권한이 없습니다.', 422);
 					}
