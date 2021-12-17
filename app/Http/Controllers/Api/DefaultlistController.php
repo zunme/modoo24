@@ -132,21 +132,24 @@ class DefaultlistController extends Controller
 			}
 			$mm = 1;
 		}
+
 		$sql = "
 		SELECT ym, COUNT(1) AS cnt
 		FROM (
 
-			      SELECT 'best' AS ctype, a.auction_staff_s_uid , DATE_FORMAT( created_at, '%Y-%m') AS ym
+			      SELECT 'best' AS ctype, a.auction_staff_s_uid , DATE_FORMAT( b.created_at, '%Y-%m') AS ym
 			      FROM post_comments a
+						JOIN post_comment_best_logs b ON a.id = b.comment_id
 			      where
-			      a.auction_staff_s_uid =? AND a.is_confirmed = 'Y' AND a.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-01 00:00:00')
+			      a.auction_staff_s_uid =? AND a.is_confirmed = 'Y' AND b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-01 00:00:00')
 
 			      UNION all
 
-			      SELECT 'fav' AS ctype, a.auction_staff_s_uid , DATE_FORMAT( created_at, '%Y-%m') AS ym
+			      SELECT 'fav' AS ctype, a.auction_staff_s_uid , DATE_FORMAT( b.created_at, '%Y-%m') AS ym
 			      FROM post_comments a
+						JOIN post_comment_fav_logs b ON a.id = b.comment_id
 			      where
-			      a.auction_staff_s_uid =? AND a.is_confirmed = 'Y' AND a.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-01 00:00:00')
+			      a.auction_staff_s_uid =? AND a.is_confirmed = 'Y' AND b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-01 00:00:00')
 		) grp
 		GROUP BY ym
 		";
@@ -161,7 +164,15 @@ class DefaultlistController extends Controller
 		}
 		$cnt = PostComment::where(['auction_staff_s_uid'=>$uid])
 			->where( 'created_at','>=', $dt->format('Y-m-01 00:00:00') )->count();
-		return $this->success([ "total"=>$total, "data"=>$res,'monthCommentCnt'=>$cnt]);
+
+
+		$statics = $this->communityStatics($session['idx']);
+		if( $statics ) $statics_cnt = $statics->cnt;
+		else $statics_cnt = 0;
+
+		$ret = ["cnt"=>$statics_cnt, "title"=>$this->communityGradeFullTitle($statics_cnt), "short_title"=>$this->communityGradeTitle($statics_cnt)];
+
+		return $this->success([ "total"=>$total, "data"=>$res,'monthCommentCnt'=>$cnt,'grade'=>$ret]);
 	}
 
 	public function reviewMain(Request $request){

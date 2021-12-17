@@ -57,7 +57,8 @@ Route::group([
 		Route::group(['prefix' => 'staff',], function() {
 			Route::get('info', 'StaffController@staffInfo');
       //업체평가통계
-      Route::get('statics', 'StaffController@statics' );
+      //Route::get('statics', 'StaffController@statics' );
+      Route::get('statics', 'StaffController@staticsv2' );
       Route::get('staticsv2', 'StaffController@staticsv2' );
 		});
     // review

@@ -104,25 +104,6 @@ trait ApiResponser
 	private   function communityStatics($id=null) {
 		\Cache::forget('companyCommunityGrade');
 		$data = \Cache::remember('companyCommunityGrade', 60*10, function () {
-			/*
-	    $sql = "
-	    SELECT auction_staff_s_uid , COUNT(1) AS cnt
-	    FROM (
-	      SELECT 'best' AS ctype, a.auction_staff_s_uid
-	      FROM post_comments a
-	      JOIN post_comment_best_logs b ON a.id = b.comment_id
-	      where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
-
-	      UNION ALL
-
-	      SELECT 'fav' AS ctype, a.auction_staff_s_uid
-	      FROM post_comments a
-	      JOIN post_comment_fav_logs b ON a.id = b.comment_id
-	      where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
-	    ) tmp
-	    GROUP BY auction_staff_s_uid
-	    ";
-			*/
 			$sql = "
 			SELECT auction_staff_s_uid , COUNT(1) AS cnt
 			FROM (
@@ -130,6 +111,7 @@ trait ApiResponser
 				FROM post_comments a
 				JOIN post_comment_best_logs b ON a.id = b.comment_id
 				where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+					AND a.is_confirmed ='Y'
 
 				UNION ALL
 
@@ -137,6 +119,7 @@ trait ApiResponser
 				FROM post_comments a
 				JOIN post_comment_fav_logs b ON a.id = b.comment_id
 				where b.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+					AND a.is_confirmed ='Y'
 			) tmp
 			GROUP BY auction_staff_s_uid
 			";
@@ -150,6 +133,71 @@ trait ApiResponser
 		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
 	  return $data;
   }
+	private function communityStaticsv2($id=null) {
+		$staffpoint = config('staffpoint');
+		\Cache::forget('companyCommunityGradev2');
+		$data = \Cache::remember('companyCommunityGradev2', 60*2, function () use($staffpoint){
+			$sql = "
+			SELECT
+				auction_staff.s_uid,auction_staff.s_uid AS auction_staff_s_uid, auction_staff.s_id, auction_staff.s_company
+				, IFNULL( bestcnt.cnt , 0 ) AS totalcnt
+				, IFNULL( bestcnt.best_cnt , 0 ) AS user_cnt
+				, IFNULL( bestcnt.fav_cnt , 0 ) AS staff_cnt
+				, IFNULL( click.click_cnt , 0 ) AS click_cnt
+				, IFNULL( postcnt.comment_cnt , 0 ) comment_cnt
+				, IFNULL( bestcnt.cnt , 0 )* ".$staffpoint['best']." +  IFNULL( click.click_cnt , 0 )*".$staffpoint['click']." +  IFNULL( postcnt.comment_cnt , 0 )*".$staffpoint['comment']." AS   total_point
+				, IFNULL( bestcnt.cnt , 0 )* ".$staffpoint['best']." +  IFNULL( click.click_cnt , 0 )*".$staffpoint['click']." +  IFNULL( postcnt.comment_cnt , 0 )*".$staffpoint['comment']." AS   cnt
+			FROM auction_staff
+			LEFT JOIN
+				(
+					select
+						auction_staff_s_uid, COUNT(1) AS comment_cnt
+					FROM post_comments
+					WHERE post_comments.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+					GROUP BY auction_staff_s_uid
+				) postcnt ON auction_staff.s_uid = postcnt.auction_staff_s_uid
+			LEFT JOIN
+				(
+					SELECT a.auction_staff_s_uid, COUNT(1) AS cnt,
+						SUM( if( ctype ='best' , 1 , 0 ) ) AS best_cnt,
+						SUM( if( ctype ='fav' , 1 , 0 ) ) AS fav_cnt
+					FROM post_comments a
+					JOIN
+					(
+						SELECT 'best' AS ctype, comment_id
+						FROM post_comments a1
+						join post_comment_best_logs ON a1.id = post_comment_best_logs.comment_id
+						where post_comment_best_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$range." MONTH), '%Y-%m-%d 00:00:00')
+							AND a1.is_confirmed ='Y'
+						UNION ALL
+						SELECT 'fav' AS ctype, comment_id
+						FROM post_comments a2
+						join post_comment_fav_logs ON a2.id = post_comment_fav_logs.comment_id
+						where post_comment_fav_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$range." MONTH), '%Y-%m-%d 00:00:00')
+							AND a2.is_confirmed ='Y'
+					)grp1 ON a.id = grp1.comment_id
+					GROUP BY a.auction_staff_s_uid
+				) bestcnt ON auction_staff.s_uid = bestcnt.auction_staff_s_uid
+
+			LEFT Join
+				(
+					select
+						auction_staff_s_uid, COUNT(1) AS click_cnt
+					FROM post_comment_fav_logs
+					where post_comment_fav_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+					GROUP BY auction_staff_s_uid
+				) click ON auction_staff.s_uid = click.auction_staff_s_uid
+			";
+			$data =  \DB::select( $sql);
+			$res =[];
+			foreach ( $data as $row ) {
+				$res[ '_'. $row->auction_staff_s_uid ] = $row;
+			}
+			return $res;
+		});
+		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
+		return $data;
+	}
 	//6개월 comment 갯수
 	private function communityCommentNumStatics($id=null) {
 		$data = \Cache::remember('companyCommunityCommentNum', 60*10, function () {
