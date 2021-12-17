@@ -102,8 +102,8 @@ trait ApiResponser
 
 	/* 소통점수 */
 	private   function communityStatics($id=null) {
-		\Cache::forget('companyCommunityGrade');
-		$data = \Cache::remember('companyCommunityGrade', 60*10, function () {
+		//\Cache::forget('companyCommunityGrade');
+		$data = \Cache::remember('companyCommunityGrade', 60*5, function () {
 			$sql = "
 			SELECT auction_staff_s_uid , COUNT(1) AS cnt
 			FROM (
@@ -135,8 +135,8 @@ trait ApiResponser
   }
 	private function communityStaticsv2($id=null) {
 		$staffpoint = config('staffpoint');
-		\Cache::forget('companyCommunityGradev2');
-		$data = \Cache::remember('companyCommunityGradev2', 60*2, function () use($staffpoint){
+		//\Cache::forget('companyCommunityGradev2');
+		$data = \Cache::remember('companyCommunityGradev2', 60*5, function () use($staffpoint){
 			$sql = "
 			SELECT
 				auction_staff.s_uid,auction_staff.s_uid AS auction_staff_s_uid, auction_staff.s_id, auction_staff.s_company
@@ -154,6 +154,7 @@ trait ApiResponser
 						auction_staff_s_uid, COUNT(1) AS comment_cnt
 					FROM post_comments
 					WHERE post_comments.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+							and post_comments.is_confirmed ='Y'
 					GROUP BY auction_staff_s_uid
 				) postcnt ON auction_staff.s_uid = postcnt.auction_staff_s_uid
 			LEFT JOIN

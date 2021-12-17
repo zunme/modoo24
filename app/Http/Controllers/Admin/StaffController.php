@@ -43,6 +43,7 @@ class StaffController extends Controller
 				auction_staff_s_uid, COUNT(1) AS comment_cnt
 			FROM post_comments
 			WHERE post_comments.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$range." MONTH), '%Y-%m-%d 00:00:00')
+			and post_comments.is_confirmed ='Y'
 			GROUP BY auction_staff_s_uid
 		";
 		$bestcnt = "
