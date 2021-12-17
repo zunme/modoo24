@@ -218,6 +218,7 @@ class BulletinController extends Controller
 				'gu_code.*'=>"지역을 선택해주세요",
 				'upload.*'=>'3M 이하의 JPG, PNG 파일만 업로드 해 주세요.'
     ];
+
     $this->validate($request, [
       'title' => 'bail|required|string|min:1|max:50',
       'body' => 'bail|required',
@@ -244,7 +245,9 @@ class BulletinController extends Controller
 		$puriconfig->set('Cache.SerializerPath', $cachePath);
 		$purifier = new \HTMLPurifier($puriconfig);
 
-		$data['body'] = $this->delEmoticon($purifier->purify($data['body']));
+		//$data['body'] = $this->delEmoticon($purifier->purify($data['body']));
+		$data['body'] = $this->delEmoticon($data['body']);
+
 		\DB::beginTransaction();
 		try{
 				if( $request->id > 0 ){
@@ -359,7 +362,7 @@ class BulletinController extends Controller
         }
 
         /*$returnBody = Str::of($dom->saveHTML())->replace('<?xml encoding="utf-8"?>','');		*/
-				return  str_replace('<?xml encoding="utf-8"?>', '', $dom->saveHTML());
+				return  substr(trim(str_replace('<?xml encoding="utf-8"?>', '', $dom->saveHTML())) ,119,-14);
 	}
 	private function firstImage($body){
         $dom = new \DOMDocument();
