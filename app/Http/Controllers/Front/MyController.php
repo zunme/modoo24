@@ -129,7 +129,8 @@ class MyController extends Controller
 
     $randomNumber = sprintf("%04d", random_int(100, 9999) );
     $request->session()->put('userSmsCheck', ['tel'=>$request->tel, 'authno'=>$randomNumber]);
-
+			//톡에서 문자로 다시 변경됨
+/*
 		$aligo = new Aligo;
 		//$staff_hp = $this->alimhp !='' ? $this->alimhp : str_replace('-','',$staff->s_ceo_hp);
 
@@ -147,14 +148,18 @@ class MyController extends Controller
 			AuctionSmsConfirm::create(['ascn_auth_no'=>$randomNumber, 'ascn_hp'=>$request->tel]);
 			return $this->success();
 		}
-		//문자에서 톡으로 변경됨
-		/*
+
+*/
+
     $res = $this->sms($request->tel, '모두이사', '본인인증번호 ['.$randomNumber.']를 입력해주세요');
     if( !isset($res['result_code']) || $res['result_code'] != '1'){
       $request->session()->forget('userSmsCheck');
       return $this->error('문자가 발송되지 못했습니다.잠시후에 이용해주세요', 422);
-    }else return $this->success();
-		*/
+    }else {
+			AuctionSmsConfirm::create(['ascn_auth_no'=>$randomNumber, 'ascn_hp'=>$request->tel]);
+			return $this->success();
+		}
+
   }
 
   function checkAuth(Request $request){
