@@ -36,11 +36,11 @@ class AlarmController extends Controller
       ->join( 'auction_alram_member', 'auction_alram.aa_idx','=','auction_alram_member.aam_aa_idx')
       ->where('aa_alram_date','>', \DB::raw('DATE_SUB( NOW(), INTERVAL 12 hour)') )
       ->where([
-        'auction_alram_member.aam_flag'=> 'Y',
+        'auction_alram_member.aam_flag'=> 'N',
         'aam_mem_idx'=> $userinfo['id']
       ])
       ->orderby( 'aa_alram_date', 'desc')
-      ->limit(1)
+      //->limit(1)
       ->get();
       return $this->success( ['data'=>$data, 'userid'=>$userinfo['id']] );
   }
@@ -94,11 +94,12 @@ class AlarmController extends Controller
     return $this->success();
   }
   function alarmDone(Request $request){
-
+/*
+test
     $alarm = Alarm::with(['members'])->where(['aa_idx'=>$request->aa_idx])->first();
     event(new AlarmEvent( $alarm ));
     return $this->success( $alarm );
-
+*/
     $userinfo = $this->userinfo();
     if( !$userinfo) return $this->error("로그인후 사용해주세요", 401);
     $alarm = AlarmMember::where(['aam_aa_idx'=>$request->aa_idx, 'aam_mem_idx'=>$userinfo['id'] ])->first();
