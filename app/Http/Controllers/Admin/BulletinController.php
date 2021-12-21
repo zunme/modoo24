@@ -58,7 +58,8 @@ class BulletinController extends Controller
 
 		return Datatables::of($data)->make(true);
 	}
-	function commentConfirmList( Request $request, $code = 'jisik' ) {
+	/* 컨펌전 리스트*/
+	function commentConfirmList_old( Request $request, $code = 'jisik' ) {
 		$config = BulletinConfig::where(['code'=>$code])->first();
 		$data = Post::select('post_comments.*')
 			->join('post_comments', 'posts.id','=','post_comments.post_id')
@@ -66,6 +67,22 @@ class BulletinController extends Controller
 
 		return Datatables::of($data)->make(true);
 	}
+	/* 전체리스트로 변경*/
+	function commentConfirmList( Request $request, $code = 'jisik' ) {
+		$config = BulletinConfig::where(['code'=>$code])->first();
+		$data = Post::select('post_comments.*')
+			->join('post_comments', 'posts.id','=','post_comments.post_id')
+			->where(['posts.bulletin_id'=>$config->id])
+			;
+		if ( $request->search_option ) {
+			$data = $data->where( 'post_comments.is_confirmed','=',$request->search_option);
+		}
+		if( $request->search_str){
+			$data->where( 'post_comments.body','like','%'.$request->search_str.'%');
+		}
+		return Datatables::of($data)->make(true);
+	}
+
 	function commentConfirmdepthList( Request $request, $code = 'fun' ) {
 		$config = BulletinConfig::where(['code'=>$code])->first();
 
