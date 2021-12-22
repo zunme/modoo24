@@ -74,7 +74,7 @@ Route::group([
   });
 
 	Route::group(['prefix' => 'push'], function() {
-    Route::get('add', 'PusherController@store');
+    Route::post('add', 'PusherController@store');
   });
 });
 ?>
