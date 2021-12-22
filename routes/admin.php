@@ -67,10 +67,14 @@ Route::group([
     Route::post('del', 'ReviewController@delReview');
   });
 
-    Route::group([
-        'prefix' => 'setting',
-    ], function () {
-        Route::resource('board-infos', BoardController::class);
-    });
+  Route::group([
+      'prefix' => 'setting',
+  ], function () {
+      Route::resource('board-infos', BoardController::class);
+  });
+
+	Route::group(['prefix' => 'push'], function() {
+    Route::get('add', 'PusherController@store');
+  });
 });
 ?>
