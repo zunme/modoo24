@@ -18,8 +18,8 @@ class PusherController extends Controller
   function store(Request $request){
     $userinfo = $this->userinfo();
     if( !$userinfo) return $this->error("로그인후 사용해주세요", 401);
-    $request->validate([
-           'token' => 'required',
+   $this->validate($request, [
+     'token' => 'required|string',
    ]);
    $token = AdminPusher::where( ['admin_id'=>$userinfo['id'], 'token'=>$request->token ])->first();
    if(!$token) {
