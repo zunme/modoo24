@@ -28,7 +28,7 @@
   .swal2-title {
     font-size: 1.675em !important;
   }
-  
+
   </style>
   @yield('css')
 </head>
@@ -96,16 +96,16 @@
                 </li>
             @endif
         @endforeach
-              
+
           </ul>
         </aside>
       </div>
 
       <!-- Main Content -->
       <div class="main-content">
-      
+
         @yield('content')
-      
+
       </div>
       <footer class="main-footer">
         <div class="footer-left">
@@ -168,9 +168,9 @@
   <script src="{{$defaultStartUrl}}/assets/stisla/node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
   <script src="{{$defaultStartUrl}}/assets/stisla/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="{{$defaultStartUrl}}/assets/stisla/node_modules/datatables.net-select-bs4/js/select.bootstrap4.min.js"></script>
-  
+
   <script src="{{$defaultStartUrl}}/assets/js/handlebars.js"></script>
-  
+
   <!--script src="/stisla/node_modules/sweetalert/dist/sweetalert.min.js"></script-->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{{$defaultStartUrl}}/assets/stisla/node_modules/izitoast/dist/js/iziToast.min.js"></script>
@@ -184,13 +184,14 @@
   <script src="{{$defaultStartUrl}}/assets/stisla/assets/js/custom.js"></script>
 
   <script src="{{$defaultStartUrl}}/assets/stisla/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+  <script src="/community/assets/js/default.js"></script>
 
 <!-- echo -->
 	<!--
 <script>
         window.laravel_echo_port='{{env("LARAVEL_ECHO_PORT")}}';
 </script>
- 
+
 <script src="//{{ Request::getHost() }}:{{env('LARAVEL_ECHO_PORT')}}/socket.io/socket.io.js"></script>
 <script src="{{ asset('js/laravelecho.js') }}" defer></script>
 
@@ -206,219 +207,67 @@
         	console.log(data);
         });
     });
-    
+
 </script>
       -->
-	
+<script type="module">
 
-  <!-- Page Specific JS File -->
-<script>
-  Handlebars.registerHelper('encodeMyString',function(inputData){
-      return new Handlebars.SafeString(inputData);
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getMessaging, getToken, isSupported, onMessage } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging.js";
+
+  const firebaseApp = initializeApp({
+    apiKey: "AIzaSyDYRKqViJVIN5lPFTESo94vhWATUX5IN6U",
+    authDomain: "modoo24-ed21f.firebaseapp.com",
+    projectId: "modoo24-ed21f",
+    storageBucket: "modoo24-ed21f.appspot.com",
+    messagingSenderId: "267389339203",
+    appId: "1:267389339203:web:ced6578e3716dfbd4236f6"
   });
-  Handlebars.registerHelper('isEqual', function (expectedValue, value) {
-    return value === expectedValue;
-  });
-  Handlebars.registerHelper('isNotEqual', function (expectedValue, value) {
-    return value !== expectedValue;
-  });
-  Handlebars.registerHelper('checkempty', function(value) {
-      if ( typeof value == 'undefined') return true;
-      if (value === null) return true;
-      else if (value === '') return true;
-      else return false;
-  });
-  Handlebars.registerHelper('gt', function(a, b) {
-    return (a > b);
-  });
-  Handlebars.registerHelper('gte', function(a, b) {
-    return (a >= b);
-  });
-  Handlebars.registerHelper('lt', function(a, b) {
-    return (a < b);
-  });
-  Handlebars.registerHelper('lte', function(a, b) {
-    return (a <= b);
-  });
-  Handlebars.registerHelper('ne', function(a, b) {
-    return (a !== b);
-  });
- moment.locale("ko");
- var datatable_lang_kor = {
-        "decimal" : "",
-        "emptyTable" : "데이터가 없습니다.",
-        "info" : "_START_ - _END_ (총 _TOTAL_ )",
-        "infoEmpty" : "0",
-        "infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
-        "infoPostFix" : "",
-        "thousands" : ",",
-        "lengthMenu" : "_MENU_ 개씩 보기",
-        "loadingRecords" : "로딩중...",
-        "processing" : "처리중...",
-        "search" : "검색 : ",
-        "zeroRecords" : "검색된 데이터가 없습니다.",
-        "paginate" : {
-            "first" : "첫 페이지",
-            "last" : "마지막 페이지",
-            "next" : "다음",
-            "previous" : "이전"
-        },
-        "aria" : {
-            "sortAscending" : " :  오름차순 정렬",
-            "sortDescending" : " :  내림차순 정렬"
-        }
-    };
-function ajaxErrorST(jqXHR ){
-  $('.loading_wrap').hide();
-  if(jqXHR.status != 422 && jqXHR.status != 500 ) {
-    iziToast.error({
-        message: '잠시후에 이용해주세요',
-        position: 'topRight'
-    });
-    console.log ( jqXHR  )
-    return;
-  }
-  var msg ;
-  var exception ;
-  if (jqXHR.responseJSON ) {
-    msg = jqXHR.responseJSON.errors;
-    exception = jqXHR.responseJSON.exception;
-  }
-    if(msg) {
-      for(key in msg) {
-      if(msg.hasOwnProperty(key)) {
-        if(key.indexOf('.') < 0 ) {
-          $('input[name='+key+']').focus();
-        }
-        if ( $.isNumeric( key )) {
-          iziToast.error({
-            message: msg,
-            position: 'topRight'
-          });
-        } else {
-          iziToast.error({
-            message: msg[key][0],
-            position: 'topRight'
-          });
-        }
-        break;
-      }
-    }
+  const messaging = getMessaging(firebaseApp);
+  getToken(messaging, { vapidKey: 'BMicKlRLZecHzS6Z21bF3l8nhKRJBS40FPIlooeJOoonU5U5MMYSjg2XVgWlGe344sSo2R2OR9nv5oB6i1KqrrQ' }).then((currentToken) => {
+    if (currentToken) {
+      console.log (currentToken)
+      getpost('/community/rhksfl/push/add', {token:currentToken}, console.log , console.log, console.log )
     } else {
-      iziToast.error({
-        message: '시스템 오류입니다',
-        position: 'topRight'
-      });
+      console.log('No registration token available. Request permission to generate one.');
+      toast('알람권한 승인이 필요합니다')
     }
-}    
-function pop_tpl( size, id , data, title ){
-  if ( typeof id =='undefined') return false;
-  var availsize = ['sm', 'lg', 'xl']
-  if ( !availsize.includes(size) ) size='default';
-  var template = Handlebars.compile( $( "#"+id ).html() );
-  $("#modal_"+size+"_body" ).html ( template(data) );
-  $( "#"+size+"Modal" ).modal('handleUpdate')
-  $( "#"+size+"Modal" ).modal('show')
-  if($(".datetimepicker").length) {
-    $('.datetimepicker').daterangepicker({
-        locale: {format: 'YYYY-MM-DD HH:mm'},
-        singleDatePicker: true,
-        timePicker: true,
-        timePicker24Hour: true,
-      });
-  }
-}
-// onClick="default_form_prc({'form':'updateform', 'url':'/adm/rooms/save','reload':datatable})" 
-function default_form_prc(info) {
-  var msg = ( typeof info.msg =='undefined') ? '정상적으로 처리되었습니다.' : info.msg;
-  $.ajax({
-    url : '/adm/refresh',
-    method:"get",
-    dataType:'JSON',
-    success:function(result){
-      $('meta[name="csrf-token"]').attr('content', result.token);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': result.token
-            }
-        });
-        $.ajax({
-          url:info.url,
-          method:"POST",
-          data:new FormData( document.getElementById(info.form) ),
-          dataType:'JSON',
-          contentType: false,
-          cache: false,
-          processData: false,
-          success:function(res)
-          {
-            if( res.result =='error'){
-              iziToast.success({
-                message: res.msg,
-                position: 'topRight'
-              });
-              return;
-            } else {
-              iziToast.success({
-                message: msg,
-                position: 'topRight'
-              });
-            }
-            if( typeof info.reload !='undefined')   {
-                if ( info.reload=="self"){
-                  location.reload();
-                } else info.reload.ajax.reload(null, false);
-              }
-            $('.modal.show').modal('hide');
-          },
-          error: function ( err ){
-            ajaxErrorST(err)
-          }
-        });
-    }
+  }).catch((err) => {
+    console.log('An error occurred while retrieving token. ', err);
   });
-}
-function default_form_delete( info ){
-  let title='';
-  if (typeof info.title != 'undefined') title = `[${info.title}] 을(를) 삭제합니다.`;
-  swal({
-      title: '삭제하시겠습니까?',
-      text : title,
-      icon: 'warning',
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        $.ajax({
-           url: info.url,
-           method:"POST",
-           data:{delete_id: info.id },
-           dataType:'JSON',
-           success:function(res)
-           {
-             if( res.result =='error'){
-               iziToast.success({
-                 message: res.msg,
-                 position: 'topRight'
-               });
-               return;
-             } else {
-               iziToast.success({
-                 message: '삭제되었습니다.',
-                 position: 'topRight'
-               });
-             }
-             if( typeof info.reload !='undefined')   info.reload.ajax.reload(null, false);
-          },
-           error: function ( err ){
-             ajaxErrorST(err)
-           }
-         });
-      } else {
-      swal('취소되었습니다.');
-      }
-    });
+
+  onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload);
+    payloadMsg(payload.notification.title+'<br>'+payload.notification.body, 'bottomRight');
+    if( typeof payloadPrc != 'undefined') payloadPrc(payload);
+    // ...
+  });
+</script>
+
+<script>
+function payloadMsg(msg,pos,title){
+  title = (typeof title=='undefined') ? 'Push 알림':title;
+  pos = (typeof pos=='undefined') ? 'topRight':pos;
+  iziToast.show({
+    id: 'payload',
+    theme: 'dark',
+    icon: 'fab fa-pushed',
+    title: title,
+    displayMode: 0,
+    message: msg,
+    position: pos,
+    transitionIn: 'flipInX',
+    transitionOut: 'flipOutX',
+    progressBarColor: 'rgb(0, 255, 184)',
+    layout: 2,
+    onClosing: function(){
+        ;
+    },
+    onClosed: function(instance, toast, closedBy){
+        ;
+    },
+    iconColor: 'rgb(0, 255, 184)'
+  });
 }
 </script>
 @yield('script')
