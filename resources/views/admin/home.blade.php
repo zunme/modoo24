@@ -1,26 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
-<style>
-.main-content {
-    padding-left: 265px;
-    padding-right: 15px;
-    padding-top: 80px;
-}
-@media (max-width: 1024px){
-  .main-content {
-      padding-left: 10px;
-      padding-right: 10px;
-      width: 100% !important;
-  }
-}
-.container {
-    max-width: 100%;
-    width: 100%;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-</style>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-12">

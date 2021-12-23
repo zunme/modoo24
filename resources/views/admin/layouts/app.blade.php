@@ -28,8 +28,27 @@
   .swal2-title {
     font-size: 1.675em !important;
   }
-
+  .main-content {
+      padding-left: 265px;
+      padding-right: 15px;
+      padding-top: 80px;
+  }
+  @media (max-width: 1024px){
+    .main-content {
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 100% !important;
+    }
+  }
+  .container {
+      max-width: 100%;
+      width: 100%;
+      padding-left: 5px;
+      padding-right: 5px;
+  }
   </style>
+
+
   @yield('css')
 </head>
 
@@ -134,6 +153,11 @@
 
 <div class="modal fade" id="smModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
+    <div>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" style="color: white;">&times;</span>
+      </button>
+    </div>
     <div class="modal-content" id="modal_sm_body">
 
     </div>
@@ -141,17 +165,31 @@
 </div>
 <div class="modal fade" id="lgModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
+    <div>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" style="color: white;">&times;</span>
+      </button>
+    </div>
     <div class="modal-content" id="modal_lg_body">
 
     </div>
   </div>
 </div>
 <div class="modal fade" id="xlModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content" id="modal_xl_body">
+  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal_xl_body">
 
+      </div>
     </div>
   </div>
+
 </div>
   <!-- General JS Scripts -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -184,8 +222,39 @@
   <script src="{{$defaultStartUrl}}/assets/stisla/assets/js/custom.js"></script>
 
   <script src="{{$defaultStartUrl}}/assets/stisla/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
-  <script src="/community/assets/js/default.js"></script>
 
+  <script src="/community/assets/stisla/node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+
+  <!-- pusher -->
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+  <script src="/community/assets/js/default.js"></script>
+  <script>
+  var datatable_lang_kor = {
+       "decimal" : "",
+       "emptyTable" : "데이터가 없습니다.",
+       "info" : "_START_ - _END_ (총 _TOTAL_ )",
+       "infoEmpty" : "0",
+       "infoFiltered" : "(전체 _MAX_ 명 중 검색결과)",
+       "infoPostFix" : "",
+       "thousands" : ",",
+       "lengthMenu" : "_MENU_ 개씩 보기",
+       "loadingRecords" : "로딩중...",
+       "processing" : "처리중...",
+       "search" : "검색 : ",
+       "zeroRecords" : "검색된 데이터가 없습니다.",
+       "paginate" : {
+           "first" : "첫 페이지",
+           "last" : "마지막 페이지",
+           "next" : "다음",
+           "previous" : "이전"
+       },
+       "aria" : {
+           "sortAscending" : " :  오름차순 정렬",
+           "sortDescending" : " :  내림차순 정렬"
+       }
+   };
+  </script>
 <!-- echo -->
 	<!--
 <script>
@@ -210,6 +279,9 @@
 
 </script>
       -->
+
+@yield('script')
+
 <script type="module">
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
@@ -270,6 +342,5 @@ function payloadMsg(msg,pos,title){
   });
 }
 </script>
-@yield('script')
 </body>
 </html>
