@@ -64,6 +64,22 @@ class AdminMenuComposer
         } else {
             $this->menus = $common;
         }
+        session_start();
+        $session =  $_SESSION;
+        session_write_close();
+        if( !isset ( $session['ad_idx'] ) ) {
+          $this->adminUser = [
+            'id'=>null,
+            'level'=>null,
+            'name'=>null
+          ];
+        } else {
+          $this->adminUser = [
+            'id'=>$session['ad_idx'],
+            'level'=>$session['ad_level'],
+            'name'=>$session['ad_name']
+          ];
+        }
     }
 
     public function compose(View $view)
@@ -71,6 +87,8 @@ class AdminMenuComposer
         $view->with('adminTopMenus', $this->topMenus);
         $view->with('adminMenus', $this->menus);
 		$view->with('defaultStartUrl', $this->defaultStartUrl);
+        $view->with('adminUser', $this->adminUser);
+        
         $nowPath = request()->server('REQUEST_URI');
 
         $nowMenu = 0;
