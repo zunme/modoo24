@@ -111,7 +111,7 @@
 
             @if(!empty($menu['sub']))
                 <li class="dropdown @if ( $nowMenu == $index ) active @endif">
-                    <a href="#" class="nav-link has-dropdown"><span>{{ $menu['title'] }}</span></a>
+                    <a href="#" class="nav-link has-dropdown"><i class="{{$menu['icon']}}"></i><span>{{ $menu['title'] }}</span></a>
                 <ul class="dropdown-menu">
                     @foreach($menu['sub'] as $subIndex => $subMenu)
                         <li class="@if( $nowMenu == $index &&  $subIndex== $nowPosition) active @endif" >
@@ -126,7 +126,7 @@
                 <li class=" @if($nowMenu === $index) active @endif ">
                     <a class="nav-link" href="{{ $menu['url'] }}">
                         <!--i class="far fa-user"></i-->
-                        <span>{{ $menu['title'] }}</span>
+                        <i class="{{$menu['icon']}}"></i><span>{{ $menu['title'] }}</span>
                     </a>
                 </li>
             @endif

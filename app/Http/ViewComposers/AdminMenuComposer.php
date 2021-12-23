@@ -18,10 +18,12 @@ class AdminMenuComposer
         $common = [
             [
                 'title' => 'Dashboard',
+                'icon'=>'fas fa-home',
                 'url' => $this->defaultStartUrl.route('rhksfl.home', null, false), // 반드시 이렇게 작성함.
             ],
 [
                 'title' => '게시판',
+                'icon'=>"fas fa-list-alt",
                 'sub'=>[
                     [
                         'title' => '지식인',

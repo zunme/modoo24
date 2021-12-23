@@ -11,15 +11,13 @@
     <div class="row justify-content-center">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header">지식인</div>
-
                 <div class="card-body">
                   <!-- body -->
 
                   <section class="section none-min-height">
                   				<div class="section-header split_title">
-                  					<span>댓글 리스트</span>
-                  					<div class="section-header-breadcrumb">
+                  					<span>지식인 댓글 리스트</span>
+                  					<div class="section-header-breadcrumb" style="flex-basis: 10px;">
                   						<div class="breadcrumb-item active">
                   							<i class="fas fa-caret-down upanddown"></i>
                   						</div>
@@ -42,6 +40,50 @@
                   				</div>
                   			</section>
 
+                  <!-- /body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                  <!-- body -->
+
+                  <section class="section none-min-height">
+                  				<div class="section-header split_title">
+                  					<span>지식인 글 리스트</span>
+                  					<div class="section-header-breadcrumb" style="flex-basis: 10px;">
+                  						<div class="breadcrumb-item active">
+                  							<i class="fas fa-caret-down upanddown"></i>
+                  						</div>
+                  					</div>
+                  				</div>
+                  				<div class="section-body">
+                            <table id="datatable" class="display" width="100%">
+                              <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>title</th>
+                                    <th>유저</th>
+                                    <th>날짜</th>
+                                    <th>허용여부</th>
+                                    <th>메인</th>
+                                    <th>comment</th>
+                                    <th>대기중댓글</th>
+                                    <th>view</th>
+                                    <th>etc</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              </tbody>
+                            </table>
+                  				</div>
+                  			</section>
 
                   <!-- /body -->
                 </div>
@@ -86,7 +128,9 @@ channel.bind('my-event', function(data) {
 		color:#03a9f4;
 		margin-right: 5px;
 	}
-
+.section-header.split_title{
+  background-color: #f3f3f3;
+}
   #comment > tbody  td {
     padding-bottom: 10px;
     padding-top: 10px;
@@ -108,6 +152,12 @@ channel.bind('my-event', function(data) {
     .staff-td{
       min-width: 60px;
     }
+  }
+
+  #datatable_wrapper > div.row:nth-child(1) > div:last-child{
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
   }
 </style>
 <script>
@@ -304,12 +354,15 @@ channel.bind('my-event', function(data) {
 			],
 				"initComplete": function(settings, json) {
 							$('#comment_filter label input').unbind();
-							let opt = `<select id="comment_confirm_search" onChange="searchcomment()">
-								<option value="" selected>전체</option>
-								<option value="R">대기</option>
-								<option value="Y">승인</option>
-								<option value="N">비허용</option>
-							</select>`
+							let opt = `<div class="form-group">
+                      <select class="form-control" id="comment_confirm_search" onChange="searchcomment()">
+        								<option value="" selected>전체</option>
+        								<option value="R">대기</option>
+        								<option value="Y">승인</option>
+        								<option value="N">비허용</option>
+        							</select>
+              </div>`
+
 							$('#comment_filter').html(opt)
 							var textBox = $('#comment_filter label')
 							textBox.bind('keyup input', function(e) {
