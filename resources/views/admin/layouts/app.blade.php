@@ -46,6 +46,22 @@
       padding-left: 5px;
       padding-right: 5px;
   }
+  .modal {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  @media (min-width: 576px){
+    .modal-dialog.modal-xl {
+        max-width: 99vw;
+        margin: 1.75rem auto;
+    }
+  }
+  @media (max-width: 576px){
+    .modal {
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+  }
   </style>
 
 
@@ -88,17 +104,17 @@
 
           @foreach($adminMenus as $index => $menu)
             @if(!empty($menu['nav_title']))
-                <li class="menu-header">
+                <li class="menu-header @if ( $nowMenu == $index) active @endif">
                     {{ $menu['nav_title'] }}
                 </li>
             @endif
 
             @if(!empty($menu['sub']))
-                <li class="dropdown">
+                <li class="dropdown @if ( $nowMenu == $index ) active @endif">
                     <a href="#" class="nav-link has-dropdown"><span>{{ $menu['title'] }}</span></a>
                 <ul class="dropdown-menu">
                     @foreach($menu['sub'] as $subIndex => $subMenu)
-                        <li>
+                        <li class="@if( $nowMenu == $index &&  $subIndex== $nowPosition) active @endif" >
                             <a class="nav-link @if($nowMenu === $index && $nowPosition === $subIndex) active @endif " href="{{ $subMenu['url'] }}">
                                 {{ $subMenu['title'] }}
                             </a>
@@ -176,8 +192,8 @@
   </div>
 </div>
 <div class="modal fade" id="xlModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  
-  <div class="modal-dialog" role="document">
+
+  <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

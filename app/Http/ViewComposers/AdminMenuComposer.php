@@ -9,11 +9,11 @@ class AdminMenuComposer
     protected $menus;
     protected $topMenus;
 	protected $defaultStartUrl;
-	
+
     public function __construct()
     {
 		$this->defaultStartUrl = '/community';
-		
+
         // 메뉴 설정 {
         $common = [
             [
@@ -21,19 +21,21 @@ class AdminMenuComposer
                 'url' => $this->defaultStartUrl.route('rhksfl.home', null, false), // 반드시 이렇게 작성함.
             ],
 [
-                'title' => 'submenu',
+                'title' => '게시판',
                 'sub'=>[
                     [
-                        'title' => 'Dashboard',
-                        'url' => route('rhksfl.home', null, false),
+                        'title' => '지식인',
+                        'url' => $this->defaultStartUrl.route('rhksfl.jisik', null, false),
                     ],
+                    /*
                     [
                         'title' => 'Dashboard',
                         'url' => route('rhksfl.home', null, false),
                     ],
+                    */
                 ],
-            ],   
-			
+            ],
+
         ];
 
         $setting = [
@@ -54,7 +56,6 @@ class AdminMenuComposer
         ];
 
         $prefix = explode('/', request()->route()->getPrefix());
-
         if (count($prefix) > 1) {
             $prefix = $prefix[1];
             $this->menus = $$prefix;
@@ -80,7 +81,6 @@ class AdminMenuComposer
                 if (!empty($menu['nav_title'])) {
                     $topMenuTitle = $menu['nav_title'];
                 }
-
                 if (!empty($menu['sub'])) {
                     foreach ($menu['sub'] as $subIndex => $subMenu) {
                         if (preg_match('/^(' . str_replace('/', '\/', $subMenu['url']) . ')(\/|\?|$)/', $nowPath)) {

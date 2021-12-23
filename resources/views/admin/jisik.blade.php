@@ -1,5 +1,10 @@
 @extends('admin.layouts.app')
 
+@section('css')
+<style>
+
+</style>
+@endsection
 @section('content')
 
 <div class="container">
@@ -81,6 +86,29 @@ channel.bind('my-event', function(data) {
 		color:#03a9f4;
 		margin-right: 5px;
 	}
+
+  #comment > tbody  td {
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+  #comment > tbody >tr{
+    border-bottom: 1px solid silver;
+  }
+  .btn-td{
+    width:130px;
+    max-width: 130px !important;
+  }
+  .staff-td{
+    min-width: 110px;
+  }
+  @media (max-width: 576px){
+    .btn-td{
+      max-width: 88px !important;
+    }
+    .staff-td{
+      min-width: 60px;
+    }
+  }
 </style>
 <script>
 	let datatable, commenttable, statics_table, chocolateapi;
@@ -248,9 +276,10 @@ channel.bind('my-event', function(data) {
         },
         "columnDefs": [
             {"targets": [ 0 ],"visible": false,"searchable": false,"className":'details-control'},
-						{"targets": [ 1 ],"visible": true,"searchable": false,sortable:false,"className":'details-control'},
+						{"targets": [ 1 ],"visible": true,"searchable": false,sortable:false,"className":'details-control staff-td'},
 						{"targets": [ 2 ],"visible": true,"searchable": true,sortable:false,"className":'details-control ellipsetd', },
-						{"targets": [ 3,4 ],"visible": true,"searchable": false,sortable:false,"className":'details-control ellipsetd'},
+						{"targets": [ 3 ],"visible": true,"searchable": false,sortable:false,"className":'details-control','width':'40px'},
+            {"targets": [ 4 ],"visible": true,"searchable": false,sortable:false,"className":'details-control btn-td'},
 				],
 			"columns" : [
 				{"data" : "id"},
@@ -276,8 +305,8 @@ channel.bind('my-event', function(data) {
 				"initComplete": function(settings, json) {
 							$('#comment_filter label input').unbind();
 							let opt = `<select id="comment_confirm_search" onChange="searchcomment()">
-								<option value="">전체</option>
-								<option value="R" selected>대기</option>
+								<option value="" selected>전체</option>
+								<option value="R">대기</option>
 								<option value="Y">승인</option>
 								<option value="N">비허용</option>
 							</select>`
@@ -429,7 +458,9 @@ channel.bind('my-event', function(data) {
 			}
 		});
 	}
+  let redrawtest
 	function denyComment( comment_id, redraw ){
+    redrawtest = redraw
 		swal.fire({
 			title : '거부',
 			text : '선택하신 댓글을 거부하시겠습니까?',
@@ -467,7 +498,7 @@ channel.bind('my-event', function(data) {
 										if ( typeof redraw !='undefined') {
 											var compiledTemplate = Handlebars.compile( $('#commentline').html() );
 											var html = compiledTemplate(res.data);
-											$(redraw).closest('tr').html(html);
+											$(redraw).closest('.new_post_comments_item').html(html);
 										}
 									},
 									error: function ( err ){
@@ -517,9 +548,9 @@ channel.bind('my-event', function(data) {
 										commenttable.ajax.reload(null, false)
 										datatable.ajax.reload(null, false)
 										if ( typeof redraw !='undefined') {
-											var compiledTemplate = Handlebars.compile( $('#commentline').html() );
+                      var compiledTemplate = Handlebars.compile( $('#commentline').html() );
 											var html = compiledTemplate(res.data);
-											$(redraw).closest('tr').html(html);
+											$(redraw).closest('.new_post_comments_item').html(html);
 										}
 									},
 									error: function ( err ){
@@ -824,6 +855,45 @@ function reloadpages( dt ) {
     font-size: 12px;
     margin-right: 5px;
 	}
+  .post_body{
+    margin: 10px;
+  }
+  .postconfirmline .buttons{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 15px;
+  }
+  .new_post_comments_item{
+    padding: 10px 5px;
+    margin-bottom: 15px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+  }
+  .new_post_comment_staffinfo{
+
+  }
+  .new_post_comment_time{
+    text-align: right;
+    color: #919191;
+    font-size: 12px;
+  }
+  .new_post_comment_body{
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+  .new_post_comment_status{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .new_post_comment_status_now{
+    padding-top: 5px;
+    margin-right: 15px;
+  }
+  .new_post_comment_status_change{
+    margin-right: 30px;
+  }
 </style>
 
 
@@ -1259,27 +1329,36 @@ function reloadpages( dt ) {
 	</div>
 </script>
 <script id="commentline" type="text/template">
-
-							<td>{{auction_staff_s_name}}</td>
-							<td>{{nl2br body }}</td>
-							<td>{{ created_at }}</td>
-							<td>
-							{{#if (isEqual is_confirmed 'Y') }}허용{{/if}}
-							{{#if (isEqual is_confirmed 'N') }}미허용{{/if}}
-							{{#if (isEqual is_confirmed 'R') }}대기중{{/if}}
-							</td>
-							<td>
-								{{#if (isEqual is_confirmed 'Y') }}
-									<span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
-								{{/if}}
-								{{#if (isEqual is_confirmed 'N') }}
-									<span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
-								{{/if}}
-								{{#if (isEqual is_confirmed 'R') }}
-									<span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
-									<span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
-								{{/if}}
-							</td>
+  <div class="new_post_comments_item">
+    <div class="new_post_comment_staffinfo">
+      <span class="ellipsis user-icon" onclick="viewStaffInfo( {{auction_staff_s_uid}})"><i class="far fa-address-card"></i> {{auction_staff_s_name}}</span>
+    </div>
+    <div class="new_post_comment_time">
+      {{ created_at }}
+    </div>
+    <div class="new_post_comment_body">
+      {{nl2br body }}
+    </div>
+    <div class="new_post_comment_status">
+      <div class="new_post_comment_status_now">
+        {{#if (isEqual is_confirmed 'Y') }}허용{{/if}}
+        {{#if (isEqual is_confirmed 'N') }}미허용{{/if}}
+        {{#if (isEqual is_confirmed 'R') }}대기중{{/if}}
+      </div>
+      <div class="new_post_comment_status_change">
+        {{#if (isEqual is_confirmed 'Y') }}
+          <span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
+        {{/if}}
+        {{#if (isEqual is_confirmed 'N') }}
+          <span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
+        {{/if}}
+        {{#if (isEqual is_confirmed 'R') }}
+          <span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
+          <span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
+        {{/if}}
+      </div>
+    </div>
+  </div>
 
 </script>
 <script id="postmodal" type="text/template">
@@ -1331,48 +1410,41 @@ function reloadpages( dt ) {
 	</div>
 </div>
 		<h5>댓글</h5>
-		<div class="post_comments">
-			<div class="table-responsive">
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>지점</th>
-							<th>댓글</th>
-							<th>날짜</th>
-							<th>상태</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-					{{#each comments}}
-						<tr>
-							<td>
-								<span class="ellipsis user-icon" onclick="viewStaffInfo( {{auction_staff_s_uid}})"><i class="far fa-address-card"></i> {{auction_staff_s_name}}</span>
-							</td>
-							<td>{{nl2br body }}</td>
-							<td>{{ created_at }}</td>
-							<td>
-							{{#if (isEqual is_confirmed 'Y') }}허용{{/if}}
-							{{#if (isEqual is_confirmed 'N') }}미허용{{/if}}
-							{{#if (isEqual is_confirmed 'R') }}대기중{{/if}}
-							</td>
-							<td>
-								{{#if (isEqual is_confirmed 'Y') }}
-									<span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
-								{{/if}}
-								{{#if (isEqual is_confirmed 'N') }}
-									<span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
-								{{/if}}
-								{{#if (isEqual is_confirmed 'R') }}
-									<span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
-									<span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
-								{{/if}}
-							</td>
-						</tr>
-					{{/each}}
-				</tbody></table>
-			</div>
-		</div>
+
+    <div class="new_post_comments">
+      {{#each comments}}
+      <div class="new_post_comments_item">
+        <div class="new_post_comment_staffinfo">
+          <span class="ellipsis user-icon" onclick="viewStaffInfo( {{auction_staff_s_uid}})"><i class="far fa-address-card"></i> {{auction_staff_s_name}}</span>
+        </div>
+        <div class="new_post_comment_time">
+          {{ created_at }}
+        </div>
+        <div class="new_post_comment_body">
+          {{nl2br body }}
+        </div>
+        <div class="new_post_comment_status">
+          <div class="new_post_comment_status_now">
+            {{#if (isEqual is_confirmed 'Y') }}허용{{/if}}
+            {{#if (isEqual is_confirmed 'N') }}미허용{{/if}}
+            {{#if (isEqual is_confirmed 'R') }}대기중{{/if}}
+          </div>
+          <div class="new_post_comment_status_change">
+            {{#if (isEqual is_confirmed 'Y') }}
+              <span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
+            {{/if}}
+            {{#if (isEqual is_confirmed 'N') }}
+              <span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
+            {{/if}}
+            {{#if (isEqual is_confirmed 'R') }}
+              <span class="btn btn-info btn-sm" onClick="confirmComment({{id}}, this )">허용하기</span>
+              <span class="btn btn-warning btn-sm" onClick="denyComment({{id}}, this )">미허용하기</span>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
 </script>
 @endverbatim
 
