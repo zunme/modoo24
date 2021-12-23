@@ -11,14 +11,16 @@ class CheckLevel
     {
         switch ($role) {
             case 'admin':
+
 							session_start();
 							$session =  $_SESSION;
 							session_write_close();
 
-							if (!isset($session['ad_idx']) || $session['ad_level'] < 2 ) {
+							if (!isset($session['ad_idx']) ) {
                 $domain = str_replace('/community', '', $request->root());
 								return redirect($domain.'/admin');
 							}
+
 							break;
             case 'user':
                 if (auth()->user()->id < 1 ) {
