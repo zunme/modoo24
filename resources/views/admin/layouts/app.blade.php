@@ -62,6 +62,11 @@
       padding-right: 10px !important;
     }
   }
+
+  .dataTables_filter{
+    display: flex;
+    justify-content: flex-end;
+  }
   </style>
 
 
@@ -297,7 +302,7 @@
       -->
 
 @yield('script')
-
+@if ( \Request::secure() )
 <script type="module">
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
@@ -331,7 +336,7 @@
     // ...
   });
 </script>
-
+@endif
 <script>
 function payloadMsg(msg,pos,title){
   title = (typeof title=='undefined') ? 'Push 알림':title;

@@ -73,8 +73,8 @@
                                     <th>날짜</th>
                                     <th>허용여부</th>
                                     <th>메인</th>
-                                    <th>comment</th>
-                                    <th>대기중댓글</th>
+                                    <th>댓글</th>
+                                    <th>대기</th>
                                     <th>view</th>
                                     <th>etc</th>
                                   </tr>
@@ -147,18 +147,42 @@ channel.bind('my-event', function(data) {
   }
   @media (max-width: 576px){
     .btn-td{
-      max-width: 88px !important;
+      max-width: 35px !important;
     }
     .staff-td{
       min-width: 60px;
     }
   }
-
   #datatable_wrapper > div.row:nth-child(1) > div:last-child{
     text-align: right;
     display: flex;
     justify-content: flex-end;
   }
+  #datatable_wrapper td{
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  .hidden_user{
+    display:none;
+    font-size: 12px;
+    padding-right: 10px;
+  }
+  @media (max-width: 900px){
+    #datatable tr > td:nth-child(2), #datatable tr > th:nth-child(2){
+      display:none;
+    }
+    #datatable tr > td:nth-child(3), #datatable tr > th:nth-child(3),
+    #datatable tr > td:nth-child(6), #datatable tr > th:nth-child(6),
+    #datatable tr > td:nth-child(8), #datatable tr > th:nth-child(8)
+    {
+      display:none;
+    }
+    .hidden_user{
+      display:flex;
+      justify-content: flex-end;
+    }
+  }
+
 </style>
 <script>
 	let datatable, commenttable, statics_table, chocolateapi;
@@ -220,7 +244,20 @@ channel.bind('my-event', function(data) {
 				],
 			"columns" : [
 				{"data" : "id"},
-				{"data" : "title"},
+				{"data" : "title",
+          "render": function( data, type, row, meta) {
+            var classstr = '';
+            if ( row.view_cnt > 0 ) classstr="comment_ready_body"
+            return `
+            <div class="${classstr}">${data}</div>
+            <div class="hidden_user">
+              <span class="user-icon" onClick="viewUserInfo(${row.user_id})">
+                <i class="fas fa-user-tag"></i> ${row.nickname}<span class="user_id_span">(${row.users.email})</span>
+              </span>
+            </div>
+            `
+          }
+        },
 				{
 					//"data" : "users.email",
 					"data" : "nickname",
@@ -241,9 +278,9 @@ channel.bind('my-event', function(data) {
 						else optionR ='selected'
 						return `
 						<select data-id="${row.id}" onChange="confirmStatusChange(this)">
-							<option value="Y" ${optionY}>허용</option>
-							<option value="N" ${optionN}>미허용</option>
-							<option value="R" ${optionR}>대기</option>
+							<option value="Y" ${optionY}>Y</option>
+							<option value="N" ${optionN}>N</option>
+							<option value="R" ${optionR} disabled>대기</option>
 							<option value="D">삭제</option>
 						</select>
 						`
