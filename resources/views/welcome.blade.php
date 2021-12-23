@@ -3,7 +3,7 @@
 @section('usesub','')
 
 @section('css')
-<script src="/community/newmain.js?v20211122114201"></script>
+<script src="/community/newmain.js?v=20211223092000"></script>
 <style>
     .right_menu {
         width: 55%
