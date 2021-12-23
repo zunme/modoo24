@@ -473,6 +473,12 @@ wcs_do(_nasa);
   gtag('config', 'AW-328335033');
 </script>
 
+<!-- 공통 적용 스크립트 카카오 픽셀-->
+<script type="text/javascript" charset="UTF-8" src="//t1.daumcdn.net/adfit/static/kp.js"></script>
+<script type="text/javascript">
+      kakaoPixel('4566851021171111416').pageView('modoo24_view');
+</script>
+
 
 
 <!-- AceCounter Log Gathering Script V.8.0.2019080601 -->

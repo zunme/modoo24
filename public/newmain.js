@@ -88,6 +88,11 @@ function simplyRegcallback(res){
 	wcs.cnv("4","6000")
 	wcs.inflow();
 	wcs_do(_nasa);
+
+	kakaoPixel('4566851021171111416').pageView();
+	kakaoPixel('4566851021171111416').completeRegistration('Order_into');
+
+
 }
 function simplyRegcallbackCompltet() {
 	loaderAttach("#simply_move", false)
