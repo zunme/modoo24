@@ -80,6 +80,7 @@ Route::group([
 	Route::group(['prefix' => 'push'], function() {
     Route::post('add', 'PusherController@store');
     Route::get('send', 'PusherController@sendmsg');
+    Route::get('status', 'PusherController@getStatus');
   });
 });
 ?>

@@ -251,6 +251,7 @@
 
   <script src="/community/assets/js/default.js"></script>
   <script>
+  let fcmToken='';
   var datatable_lang_kor = {
        "decimal" : "",
        "emptyTable" : "데이터가 없습니다.",
@@ -319,8 +320,10 @@
   const messaging = getMessaging(firebaseApp);
   getToken(messaging, { vapidKey: 'BMicKlRLZecHzS6Z21bF3l8nhKRJBS40FPIlooeJOoonU5U5MMYSjg2XVgWlGe344sSo2R2OR9nv5oB6i1KqrrQ' }).then((currentToken) => {
     if (currentToken) {
-      console.log (currentToken)
+      fcmToken = currentToken
       getpost('/community/rhksfl/push/add', {token:currentToken}, console.log , console.log, console.log )
+      if(typeof tokenStatusView == 'function') tokenStatusView();
+      
     } else {
       console.log('No registration token available. Request permission to generate one.');
       toast('알람권한 승인이 필요합니다')

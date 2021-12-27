@@ -77,6 +77,14 @@ class PusherController extends Controller
   dump(  $downstreamResponse->tokensWithError());
   */
   }
+  public function getStatus(Request $request){
+    $token = null;
+    $staff = $this->userinfo();
+    if( $request->token){
+      $token = AdminPusher::select('id','is_use')->where(['admin_id'=>$staff->id, 'token'=>$request->token])->first();
+    }
+    $this->success($token);
+  }
   private function userinfo(){
     session_start();
     $session =  $_SESSION;
