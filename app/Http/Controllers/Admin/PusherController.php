@@ -32,7 +32,7 @@ class PusherController extends Controller
        'admin_id'=>$userinfo['id'],
        'token'=>$request->token
      ]);
-   }else if( $token->admin_id != $userinfo['id'];) {
+   }else if( $token->admin_id != $userinfo['id']) {
      $token->admin_id = $userinfo['id'];
      $token->save();
    }
