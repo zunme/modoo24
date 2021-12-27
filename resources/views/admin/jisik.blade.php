@@ -98,14 +98,24 @@
 <script>
 Pusher.logToConsole = true;
 
-var pusher = new Pusher('13fc7ff1bb9caecd8347', {
-  cluster: 'ap3'
-});
-var channel = pusher.subscribe('my-channel');
+if( typeof pusher == 'undefined'){
+  var pusher = new Pusher('13fc7ff1bb9caecd8347', {
+    cluster: 'ap3'
+  });
+}
+if( typeof channel == 'undefined'){
+  var channel = pusher.subscribe('my-channel');
+}
+
 channel.bind('my-event', function(data) {
   let message = data.message;
   if( message.type == 'post') toast('새로운 글이 등록되었습니다.','bottomRight')
-  else if ( message.type == 'comment') toast('댓글이 등록되었습니다.','bottomRight')
+  else if ( message.type == 'comment') {
+
+    toast('댓글이 등록되었습니다.','bottomRight')
+    var currentpage = commenttable.page.info()
+    if ( currentpage.page == 0 ) commenttable.ajax.reload(null, false)
+  }
   else if ( message.type == 'recomment') toast('커뮤니티 댓글이 등록되었습니다.','bottomRight')
 });
 </script>
@@ -383,7 +393,7 @@ channel.bind('my-event', function(data) {
 				}},
 
 				{"data" : "id", "render": function( data, type, row, meta) {
-						return `<span class="btn btn-sm btn-info" onClick="viewComment(${row.post_id})">보기</span>
+						return `<span class="btn btn-sm btn-info" onClick="viewComment(${row.post_id}, ${row.id})">보기</span>
 									<span class="btn btn-sm btn-success" onClick="confirmComment(${row.id})">승인</span>
 <span class="btn btn-sm btn-warning" onClick="denyComment(${row.id})">거부</span>
 										`
@@ -518,7 +528,7 @@ channel.bind('my-event', function(data) {
 		datatable.ajax.reload(null, false)
 	}
 
-	function viewComment(post_id) {
+	function viewComment(post_id, comment_id) {
 		//var data =  commenttable.row($(btn).closest('tr')).data();
 
 		$.ajax({
@@ -531,6 +541,7 @@ channel.bind('my-event', function(data) {
 			 //pop_tpl('lg','formmodal' , res.data )
 
 				var compiledTemplate = Handlebars.compile( $('#postmodal').html() );
+        res.data['viewcommentid'] = comment_id
 				var html = compiledTemplate(res.data);
 
 			  $("#modal_xl_body" ).html ( html );
@@ -945,6 +956,11 @@ function reloadpages( dt ) {
     font-size: 12px;
     margin-right: 5px;
 	}
+  .post_title{
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+  }
   .post_body{
     margin: 10px;
   }
@@ -983,6 +999,22 @@ function reloadpages( dt ) {
   }
   .new_post_comment_status_change{
     margin-right: 30px;
+  }
+
+  .user-icon:after{
+    content: '▪';
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  .selectedcomment{
+    background-color: #888;
+    color: white;
+  }
+  .selectedcomment .user-icon{
+    color: wheat;
+  }
+  .selectedcomment .new_post_comment_time{
+    color: whitesmoke;
   }
 </style>
 
@@ -1419,7 +1451,7 @@ function reloadpages( dt ) {
 	</div>
 </script>
 <script id="commentline" type="text/template">
-  <div class="new_post_comments_item">
+  <!--div class="new_post_comments_item"-->
     <div class="new_post_comment_staffinfo">
       <span class="ellipsis user-icon" onclick="viewStaffInfo( {{auction_staff_s_uid}})"><i class="far fa-address-card"></i> {{auction_staff_s_name}}</span>
     </div>
@@ -1448,7 +1480,7 @@ function reloadpages( dt ) {
         {{/if}}
       </div>
     </div>
-  </div>
+  <!-- /div-->
 
 </script>
 <script id="postmodal" type="text/template">
@@ -1503,7 +1535,11 @@ function reloadpages( dt ) {
 
     <div class="new_post_comments">
       {{#each comments}}
-      <div class="new_post_comments_item">
+      <div class="new_post_comments_item
+      {{#if ( isEqual id ../viewcommentid )}}
+      selectedcomment
+      {{/if}}
+      ">
         <div class="new_post_comment_staffinfo">
           <span class="ellipsis user-icon" onclick="viewStaffInfo( {{auction_staff_s_uid}})"><i class="far fa-address-card"></i> {{auction_staff_s_name}}</span>
         </div>
