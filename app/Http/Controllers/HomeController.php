@@ -9,10 +9,13 @@ use App\Events\Registered;
 use App\Events\Event;
 use App\Events\PostEvent;
 use App\Events\ReviewEvent;
+use App\Events\CommentEvent;
+
 use Validator;
 use App\User;
 use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\PostCommentDepth;
 use App\Models\AuctionPopup;
 
@@ -41,6 +44,9 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function altest(){
+       $comment = PostComment::find('211');
+       event(new CommentEvent( $comment));
+       return;
        $review =AuctionBbsPostscript::find('6611')->first();
        event(new ReviewEvent( $review));
        $post = Post::first();

@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Registered' => [
             'App\Listeners\UserRegistered',
         ],
+        'App\Events\CommentEvent' => [
+            'App\Listeners\CommentEventPushListener',
+        ],
 		\SocialiteProviders\Manager\SocialiteWasCalled::class => [
 			'SocialiteProviders\\Kakao\\KakaoExtendSocialite@handle',
 			'SocialiteProviders\\Naver\\NaverExtendSocialite@handle',
