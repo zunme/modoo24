@@ -34,13 +34,16 @@
 @endsection
 
 @section('script')
-
+@verbatim
 <script>
   let pushertemplate = `
   <label class="custom-switch">
-    <input type="radio" name="option" value="1"
-        class="custom-switch-input"
-        checked=""
+    <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
+      data-id ="{{statusdata.id}}"
+      onChange="changeFcmPushStatus(this)"
+    {{#if statusdata.is_use }}
+    checked=""
+    {{/if}}
     >
     <span class="custom-switch-indicator"></span>
   </label>
@@ -55,11 +58,21 @@
       url : '/community/rhksfl/push/status',
       method:"get",
       dataType:'JSON',
+      data:{token:fcmToken},
       success:function(result){
+         var template = Handlebars.compile( pushertemplate );
+         $("#pusherStatus").html (template(result.data) )
       }
     });
   }
+  let chkg
+  function changeFcmPushStatus(chk){
+    let is_use = $(chk).prop('checked') ? 'Y' : 'N'
+    let data = {id: $(chk).data('id'), is_use : is_use}
+    console.log ( data );
+    getpost( '/community/rhksfl/push/status', data, console.log )
+  }
 </script>
-
+@endverbatim
 
 @endsection

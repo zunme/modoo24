@@ -81,9 +81,21 @@ class PusherController extends Controller
     $token = null;
     $staff = $this->userinfo();
     if( $request->token){
-      $token = AdminPusher::select('id','is_use')->where(['admin_id'=>$staff->id, 'token'=>$request->token])->first();
+      $tokenres = AdminPusher::select('id','is_use')->where(['admin_id'=>$staff['id'], 'token'=>$request->token])->first();
+      $tokenres->is_use=='Y' ? true:false;
+      $token = ['id'=>$tokenres->id, 'is_use'=>$tokenres->is_use=='Y' ? true:false];
     }
-    $this->success($token);
+    return $this->success(['statusdata'=>$token]);
+  }
+  public function changeStatus(Request $request){
+    $staff = $this->userinfo();
+    $token = AdminPusher::where(['id'=>$request->id])->first();
+    if( $token->admin_id != $staff['id']){
+      return $this->error('권한이 없습니다');
+    }
+    $token->is_use = $request->is_use;
+    $token->save();
+    return $this->success(['statusdata'=>$token]);
   }
   private function userinfo(){
     session_start();

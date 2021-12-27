@@ -81,6 +81,7 @@ Route::group([
     Route::post('add', 'PusherController@store');
     Route::get('send', 'PusherController@sendmsg');
     Route::get('status', 'PusherController@getStatus');
+    Route::post('status', 'PusherController@changeStatus');
   });
 });
 ?>
