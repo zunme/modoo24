@@ -28,7 +28,7 @@ class PusherController extends Controller
    ]);
    $token = AdminPusher::where( ['token'=>$request->token ])->first();
    if(!$token) {
-     AdminPusher::create([
+     $token = AdminPusher::create([
        'admin_id'=>$userinfo['id'],
        'token'=>$request->token
      ]);
@@ -36,7 +36,7 @@ class PusherController extends Controller
      $token->admin_id = $userinfo['id'];
      $token->save();
    }
-   return $this->success();
+   return $this->success($token);
   }
   public function sendmsg(){
     $title = "test1234";

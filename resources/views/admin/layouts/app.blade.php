@@ -304,6 +304,12 @@
 
 @yield('script')
 @if ( \Request::secure() )
+<script>
+function setTokenSuccessCallback(res){
+  //fcmToken = res.data.token
+  if(typeof tokenStatusView == 'function') tokenStatusView();
+}
+</script>
 <script type="module">
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
@@ -321,9 +327,9 @@
   getToken(messaging, { vapidKey: 'BMicKlRLZecHzS6Z21bF3l8nhKRJBS40FPIlooeJOoonU5U5MMYSjg2XVgWlGe344sSo2R2OR9nv5oB6i1KqrrQ' }).then((currentToken) => {
     if (currentToken) {
       fcmToken = currentToken
-      getpost('/community/rhksfl/push/add', {token:currentToken}, console.log , console.log, console.log )
-      if(typeof tokenStatusView == 'function') tokenStatusView();
-      
+      getpost('/community/rhksfl/push/add', {token:currentToken}, setTokenSuccessCallback , console.log, console.log )
+
+
     } else {
       console.log('No registration token available. Request permission to generate one.');
       toast('알람권한 승인이 필요합니다')
