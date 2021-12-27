@@ -23,6 +23,11 @@ trait ApiResponser
 			'data' => $data
 		], $code,['Pragma'=> 'no-cache','Cache-Control'=> 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']);
 	}
+
+	/* ex 0.5단위 내림 roundDown($number, 0.5) */
+	protected function roundDown($number, $nearest){
+	    return $number - fmod($number, $nearest);
+	}
 	protected function sms($number, $title, $message, $image=null)
 	{
 		/**************** 문자전송하기 예제 ******************/
