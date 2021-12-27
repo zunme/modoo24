@@ -186,7 +186,8 @@ return [
 
 			App\Providers\ComposerServiceProvider::class,
 
-			Yajra\Datatables\DatatablesServiceProvider::class
+			Yajra\Datatables\DatatablesServiceProvider::class,
+      LaravelFCM\FCMServiceProvider::class,
     ],
 
     /*
@@ -237,8 +238,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         //'Pusher' => pusher\pusher::class,
 		//'Datatables' => yajra\laravel-datatables-oracle\Datatables::class,
-		'Image' => Intervention\Image\Facades\Image::class,
-		'Socialite'=> Laravel\Socialite\Facades\Socialite::class,
+  		'Image' => Intervention\Image\Facades\Image::class,
+  		'Socialite'=> Laravel\Socialite\Facades\Socialite::class,
+      'FCM'      => LaravelFCM\Facades\FCM::class,
+      'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
     ],
 
 ];
