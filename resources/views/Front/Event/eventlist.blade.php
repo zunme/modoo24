@@ -2,6 +2,9 @@
 
 @section('css')
 
+<style>
+#event {min-height: 600px;}
+</style>
 @endsection
 
 
@@ -38,7 +41,7 @@
 							</div>
 						</a>
 					</li>
-					<li>
+					<!--<li>
 						<a onClick='btnClick()' target="_blank">
 							<div class="pic pic1"></div>
 							<div class="textGroup">
@@ -46,7 +49,7 @@
 								<p>기간 : 제휴기간 동안 진행</p>
 							</div>
 						</a>
-					</li>
+					</li>-->
 					<li>
 						<a href="/v2/event/goldkey">
 							<div class="pic pic3"></div>
