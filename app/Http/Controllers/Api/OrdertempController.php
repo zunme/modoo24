@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Auth;
 
 use App\Models\AuctionTempOrder;
+use App\Models\AuctionOrder;
 
 use Yajra\Datatables\Facades\Datatables;
 use Carbon\Carbon;
@@ -42,7 +43,44 @@ class OrdertempController extends Controller
 
 		$data['t_type'] = '간편';
 		$data['t_memo'] = "[ 신청 IP : ".$request->ip().']'.PHP_EOL;
+		switch( $data['t_kinds'] ){
+			case "가정" :
+				$classify = 1;
+			break;
+			case "사무실" :
+				$classify = 2;
+			break;
+			case "소형" :
+				$classify = 3;
+			break;
+			default :
+				$classify = 0;
+		}
+		if( $classify == 0 ) {
+			return $this->error('이사종류를 확인 할 수 없습니다.', 422);
+		}
 
+		$newdata = [
+			"name" => $data['t_name']
+			, "passwd" => $data['t_hp']
+			, "hp" => $this->tel($data['t_hp'])
+			, "mdate" => $data['t_dday']
+			, "order_path" => '1'
+			, "stype" => '1'
+			, "classify" => $classify
+			, "cstype" => '0'
+			, "cafe_name" => '모두이사_official_auth'
+			, "reg_company_type" => '모두이사'
+			,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0
+			,'goods'=>'','note'=>'','memo'=>''
+			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
+			,'aircon_yn'=>'Y'
+			,'aircon_wall_cnt'=>'0','aircon_stand_cnt'=>'0','aircon_system_cnt'=>'0','aircon_double_cnt'=>'0'
+			,'type'=>'','user_memo'=>''
+			,'area'=>'A','share_status'=>'ING','auto_share'=>'N','clean_yn'=>'N','bds_id'=>''
+		];
+		$dup = AuctionOrder::where( $newdata )->where('reg_date' , '>' , Carbon::now()->subDays(1) )->count();
+	/*
 		$dup = AuctionTempOrder::where([
 			't_type'=> '간편',
 			't_name'=> $data['t_name'],
@@ -50,10 +88,11 @@ class OrdertempController extends Controller
 			't_kinds'=> $data['t_kinds'],
 			't_dday'=>$data['t_dday']
 			])->count();
+			*/
 		if( $dup > 0 ) return $this->error('이미 등록하신 내역이 있습니다.', 422);
 		try{
-			AuctionTempOrder::create($data);
-
+			//AuctionTempOrder::create($data);
+			AuctionOrder::create($newdata);
 			$aligo = new Aligo;
 			$req["#{고객명}"] = $data['t_name'];
 			$req["#{이사일}"] = $data['t_dday'];
@@ -65,7 +104,15 @@ class OrdertempController extends Controller
 			$res = $aligo->sendKakaoParser($data, $req);
 			return $this->success();
 		}catch( \Exception $e){
-			return $this->error('잠시후에 이용해주세요', 422);
+			return $this->error('잠시후에 이용해주세요', 422, $e->getMessage() );
 		}
 	}
+
+	private function tel($tel){
+		$tel = preg_replace("/[^0-9]*/s","",$tel);
+		if (substr($tel,0,2) =='02' ) return preg_replace("/([0-9]{2})([0-9]{3,4})([0-9]{4})$/","\\1-\\2-\\3", $tel);
+		else if(substr($tel,0,2) =='8' && substr($tel,0,2) =='15' || substr($tel,0,2) =='16'||  substr($tel,0,2) =='18'  ) return preg_replace("/([0-9]{4})([0-9]{4})$/","\\1-\\2",tel);
+		else return preg_replace("/([0-9]{3})([0-9]{3,4})([0-9]{4})$/","\\1-\\2-\\3" ,$tel);
+	}
+
 }
