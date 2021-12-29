@@ -1,7 +1,7 @@
 <?php
 namespace App\Traits;
 use Carbon\Carbon;
-
+use App\Models\SiteConfig;
 trait ApiResponser
 {
 	protected function success($data=[], $message = null, $code = 200)
@@ -22,6 +22,11 @@ trait ApiResponser
 			'message' => $message,
 			'data' => $data
 		], $code,['Pragma'=> 'no-cache','Cache-Control'=> 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']);
+	}
+	protected function validatormessage($inputname, $message)
+	{
+		$ret[$inputname][] = $message;
+		return response()->json($ret, 422,['Pragma'=> 'no-cache','Cache-Control'=> 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']);
 	}
 
 	/* ex 0.5단위 내림 roundDown($number, 0.5) */
@@ -138,9 +143,23 @@ trait ApiResponser
 		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
 	  return $data;
   }
+	private function getSiteConfig( $code ){
+		$data = \Cache::remember('siteConfig_'.$code , 86400*30, function () use($code){
+			$tmp = SiteConfig::where(['code'=>$code])->first();
+			if ( !$tmp ) return false;
+			$val = $tmp->code_value;
+			$ret = [];
+			foreach ($val as $row) {
+				$ret[ $row['id'] ] = $row['val'];
+			}
+			return $ret;
+		});
+		return $data;
+	}
 	private function communityStaticsv2($id=null) {
-		$staffpoint = config('staffpoint');
-		//\Cache::forget('companyCommunityGradev2');
+		//$staffpoint = config('staffpoint');
+		$staffpoint = $this->getSiteConfig('staffpoint');
+		// \Cache::forget('companyCommunityGradev2');
 		$data = \Cache::remember('companyCommunityGradev2', 60*5, function () use($staffpoint){
 			$sql = "
 			SELECT
@@ -158,7 +177,7 @@ trait ApiResponser
 					select
 						auction_staff_s_uid, COUNT(1) AS comment_cnt
 					FROM post_comments
-					WHERE post_comments.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+					WHERE post_comments.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$staffpoint['range']." MONTH), '%Y-%m-%d 00:00:00')
 							and post_comments.is_confirmed ='Y'
 					GROUP BY auction_staff_s_uid
 				) postcnt ON auction_staff.s_uid = postcnt.auction_staff_s_uid
@@ -173,13 +192,13 @@ trait ApiResponser
 						SELECT 'best' AS ctype, comment_id
 						FROM post_comments a1
 						join post_comment_best_logs ON a1.id = post_comment_best_logs.comment_id
-						where post_comment_best_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$range." MONTH), '%Y-%m-%d 00:00:00')
+						where post_comment_best_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$staffpoint['range']." MONTH), '%Y-%m-%d 00:00:00')
 							AND a1.is_confirmed ='Y'
 						UNION ALL
 						SELECT 'fav' AS ctype, comment_id
 						FROM post_comments a2
 						join post_comment_fav_logs ON a2.id = post_comment_fav_logs.comment_id
-						where post_comment_fav_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$range." MONTH), '%Y-%m-%d 00:00:00')
+						where post_comment_fav_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$staffpoint['range']." MONTH), '%Y-%m-%d 00:00:00')
 							AND a2.is_confirmed ='Y'
 					)grp1 ON a.id = grp1.comment_id
 					GROUP BY a.auction_staff_s_uid
@@ -190,7 +209,7 @@ trait ApiResponser
 					select
 						auction_staff_s_uid, COUNT(1) AS click_cnt
 					FROM post_comment_fav_logs
-					where post_comment_fav_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL 6 MONTH), '%Y-%m-%d 00:00:00')
+					where post_comment_fav_logs.created_at >=DATE_FORMAT( DATE_SUB( NOW(), INTERVAL ".$staffpoint['range']." MONTH), '%Y-%m-%d 00:00:00')
 					GROUP BY auction_staff_s_uid
 				) click ON auction_staff.s_uid = click.auction_staff_s_uid
 			";
@@ -201,7 +220,9 @@ trait ApiResponser
 			}
 			return $res;
 		});
-		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
+		if( $id ) {
+			return isset($data['_'.$id]) ? $data['_'.$id] : null;
+		}
 		return $data;
 	}
 	//6개월 comment 갯수
@@ -232,7 +253,13 @@ trait ApiResponser
 		if( $id ) return isset($data['_'.$id]) ? $data['_'.$id] : null;
 	  return $data;
   }
-
+	private function communityGradeV2($total){
+		$grade = $this->getSiteConfig('staffpointgrade');
+		foreach ( $grade as $grade=>$val){
+				if( $total >= $val) return $grade;
+		}
+	}
+	
 	private function communityGradeTitle($total){
 		if ( $total >= 7 ) return '명예';
 		else if ( $total >= 5 ) return '최우수';

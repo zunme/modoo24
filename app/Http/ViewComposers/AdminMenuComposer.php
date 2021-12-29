@@ -21,7 +21,7 @@ class AdminMenuComposer
                 'icon'=>'fas fa-home',
                 'url' => $this->defaultStartUrl.route('rhksfl.home', null, false), // 반드시 이렇게 작성함.
             ],
-[
+            [
                 'title' => '게시판',
                 'icon'=>"fas fa-list-alt",
                 'sub'=>[
@@ -29,13 +29,12 @@ class AdminMenuComposer
                         'title' => '지식인',
                         'url' => $this->defaultStartUrl.route('rhksfl.jisik', null, false),
                     ],
-                    /*
-                    [
-                        'title' => 'Dashboard',
-                        'url' => route('rhksfl.home', null, false),
-                    ],
-                    */
                 ],
+            ],
+            [
+                'title' => 'config',
+                'icon'=>'fas fa-cog',
+                'url' => $this->defaultStartUrl.route('rhksfl.siteconfigs', null, false), // 반드시 이렇게 작성함.
             ],
 
         ];
@@ -88,7 +87,7 @@ class AdminMenuComposer
         $view->with('adminMenus', $this->menus);
 		$view->with('defaultStartUrl', $this->defaultStartUrl);
         $view->with('adminUser', $this->adminUser);
-        
+
         $nowPath = request()->server('REQUEST_URI');
 
         $nowMenu = 0;

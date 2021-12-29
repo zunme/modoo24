@@ -6,7 +6,9 @@ Route::group([
     //newHOME
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('jisik', 'HomeController@jisik')->name('jisik');
-
+    Route::get('siteconfigs', 'SiteconfigController@index')->name('siteconfigs');
+    Route::post('siteconfigs', 'SiteconfigController@store');
+    Route::post('siteconfigs/item', 'SiteconfigController@itemstore');
 
     //고객정보삭제
     Route::post('order/userinfo/del', 'OrderController@deleteUserInfo');
@@ -83,5 +85,6 @@ Route::group([
     Route::get('status', 'PusherController@getStatus');
     Route::post('status', 'PusherController@changeStatus');
   });
+
 });
 ?>

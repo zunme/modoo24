@@ -35,8 +35,8 @@ class StaffController extends Controller
 
 	function staticsv2 ( Request $request ){
 		$range = ( $request->range && $request->range > 0 )? $request->range : '6';
-		$statics = $this->communityStatics();
-		$staffpoint = config('staffpoint');
+		$statics = $this->communityStaticsv2();
+		$staffpoint = $this->getSiteConfig('staffpoint');
 
 		$postcnt = "
 			select
@@ -107,7 +107,8 @@ class StaffController extends Controller
 		 ->addColumn( 'grade', function ($user) use($statics) {
 			 if( isset($statics["_".$user->s_uid]) ) $total = $statics[ "_".$user->s_uid ]->cnt;
 			 else $total = 0;
-			 return $this->communityGradeTitle($total);
+			 //return $this->communityGradeTitle($total);
+			 return $this->communityGradeV2($total);
 		 })
 		 ->make(true);
 	}

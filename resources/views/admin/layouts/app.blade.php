@@ -22,6 +22,18 @@
   <link rel="stylesheet" href="{{$defaultStartUrl}}/assets/stisla/node_modules/bootstrap-daterangepicker/daterangepicker.css">
 
   <style>
+  .main-content {
+    padding-left: 265px;
+    padding-right: 15px;
+    padding-top: 80px;
+    overflow-x: hidden;
+}
+.container {
+    max-width: 100%;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
   div.dataTables_wrapper div.dataTables_length select {
     width: 66px;
   }

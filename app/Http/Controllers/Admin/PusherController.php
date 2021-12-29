@@ -47,7 +47,9 @@ class PusherController extends Controller
 
     $notificationBuilder = new PayloadNotificationBuilder($title);
     $notificationBuilder->setBody($body)
-    				    ->setSound('default');
+      ->setIcon('http://modoo24.net/modoo24.ico')
+      ->setClickAction('https://24auction.co.kr/community/rhksfl/jisik')
+	    ->setSound('default');
     $dataBuilder = new PayloadDataBuilder();
     $dataBuilder->addData(['a_data' => 'my_data']);
 
