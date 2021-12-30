@@ -897,12 +897,15 @@ function close_swipe(){
 }
 window.onpopstate = function(event) {
   let pop = modal_set_arr.pop();
-  if( pop.type =='sheet'){
+  if( typeof pop != 'undefined' && pop.type =='sheet'){
     $(pop.target).removeClass("modal-in")
     if(modalsheet_set_num <= 1) $(".sheet-backdrop").removeClass("backdrop-in")
     $("body").removeClass("overhide");
+  }else if( typeof pop != 'undefined'){
+    if( typeof onpopstatefn == 'function') onpopstatefn(pop);
   }
-  modalsheet_set_num --;
+  if(modalsheet_set_num > 0 ) modalsheet_set_num --;
+  console.log ( "sheetcheck")
 };
 
 let default_sheet_modal = `
