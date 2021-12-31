@@ -4,32 +4,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:site_name" content="모두이사" />
-    <meta name="twitter:card" content="summary" />
+
     @if( empty($meta) )
-    <meta name="twitter:image" content="https://modoo24.net/v1/image/share.jpg" />
-    <meta property="og:image" content="https://modoo24.net/v1/image/share.jpg" />
-    <meta property="og:url" content="https://modoo24.net/v2" />
-    <meta name="twitter:url" content="https://modoo24.net/v2" />
     <meta property="og:title" content="우리집 이사, 청소엔 모두이사" />
-    <meta name="twitter:title" content="우리집 이사, 청소엔 모두이사" />
+    <meta property="og:image" content="{{\URL::to('/images/default_og_image.jpg')}}">
     <meta property="og:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자" />
-    <meta name="twitter:description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자" />
+    <meta property="og:url" content="http://modoo24.net" />
+    <meta name="description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자">
     @else
-    <meta name="twitter:image" content="https://modoo24.net/v1/image/share.jpg" />
-    <meta property="og:image" content="https://modoo24.net/v1/image/share.jpg" />
-    <meta property="og:url" content="{{$meta->url}}" />
-    <meta name="twitter:url" content="{{$meta->url}}" />
     <meta property="og:title" content="{{$meta->title}}" />
-    <meta name="twitter:title" content="{{$meta->title}}" />
+    <meta property="og:image" content="{{$meta->image}}" />
     <meta property="og:description" content="{{$meta->description}}" />
-    <meta name="twitter:description" content="{{$meta->description}}" />
+    <meta property="og:url" content="{{$meta->url}}" />
+    <meta name="description" content="{{$meta->description}}">
     @endif
     <meta name="author" content="모두이사">
     <meta name="keywords" content="이사,포장이사,비대면이사,비대면">
     <meta name="format-detection" content="telephone=no, address=no, email=no">
-    <meta name="title" content="모두이사">
-    <meta name="description" content="정식허가업체정보, 후기, 평가등급을 한눈에 확인하고 무료 견적 비교하자">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>모두이사</title>
@@ -64,7 +56,7 @@
     <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="/v1/css/main_ct.css?v=20211223" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/main_ct.css?v=20211231" />
 
     @section('usesub')
     <link rel="stylesheet" type="text/css" href="/v1/css/sub.css" />
@@ -121,13 +113,6 @@
         });
     </script>
     @yield('css')
-    <!-- Google Tag Manager -->
-       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-       })(window,document,'script','dataLayer','GTM-MWJDGCQ');</script>
-       <!-- End Google Tag Manager -->
 
 </head>
 
@@ -291,6 +276,9 @@
                     <a class="clean_fast" href="http://www.modooclean.com/" target="_blank">
                         <p class="clean03">모두클린<span><img src="/v1/image/main_N/clean_icon1.png"></span></p>
                     </a>
+                    <li class="modalpop_link story" link="/new_common/popup/free_event.html">
+                        사연 모집
+                    </li>
 
                     <span class="menu-icon"></span>
                 </div>
@@ -506,7 +494,10 @@
                     <li><a href="http://modooclean.com/" target="_blank">청소</a></li>
                 </ul>
                 <ul class="right_menu_m">
-                    <li>지금 물어보자!</li>
+                    <li class="modalpop_link story" link="/new_common/popup/free_event.html">
+                        사연 모집
+                    </li>
+                    <!--<li>지금 물어보자!</li>-->
                     <li>
                         <a href="/community/posts/jisik">
                             <button type="button" class="btn_question_1" style="display: inline-block">이사지식인
@@ -518,7 +509,7 @@
             <ul class="m_floor3">
                 <li><a href="/v2/posts/tip">모두꿀TIP</a></li>
                 <li><a href="/v2/posts/fun">모두FUN</a></li>
-                <li><a href="/v2/review">이사후기</a></li>
+                <li><a href="/v1/move/review">이사후기</a></li>
                 <li><a href="/v2/event"><b>이벤트</b></a></li>
             </ul>
         </div>

@@ -6,7 +6,7 @@
 <script src="/community/newmain.js?v=20211223164100"></script>
 <style>
     .right_menu {
-        width: 55%
+        width:63%
     }
     .move_review_item_point {
         margin-top: 14px;
@@ -15,7 +15,6 @@
     .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
        bottom: -5px;
     }
-
 </style>
 @endsection
 
@@ -418,41 +417,36 @@
 <!--파트너문의 고객센터-->
 <section class="customer_wrap">
     <div class="center">
-        <div class="left_box">
-            <h2><span class="color_pt">파트너</span> 입점 문의</h2>
-            <p>이사업체 및 용달업체 <br />
-                파트너 상시모집</p>
-            <button type="button" class="btn_part" onclick="location.href='/v1/move/custom_business' ">자세히 보기</button>
+        <div class="customer_box cusbg2">
+            <h2><span class="color_pt">무료</span>로 <span class="color_pt">이사</span>해드립니다</h2>
+            <p class="modalpop_link" link="/new_common/popup/free_event.html">마음 따뜻한 사연을 <br/>
+                기다립니다
+            </p> 
         </div>
-        <div class="right_box">
-            <p><img src="/v1/image/main_N/partner2_img.png" alt="1600-7728"></p>
+        
+        <div class="customer_box cusbg1">
+            <h2><span class="color_pt">파트너</span> 입점 문의</h2>
+               <p onclick="location.href='/v1/move/custom_business'">이사업체 및 용달업체 <br />
+                파트너 상시모집
+               </p>
+        </div>
+            
+        <div class="customer_box cusbg3">
             <dl>
                 <dt class="pn_title">광고 및 제휴제안</dt>
                 <dd class="pn_tel">모든 <span class="color_pt">업종 업태</span> </dd>
-                <dd class="pn_txt">
-                    모두플랫폼은 다양한 분야의<br> 사업자와 함께 합니다.
+                <dd class="pn_txt" onclick="window.open('/v1/image/modoo24_partnership_211130.pdf')">
+                    모두플랫폼은 다양한 분야의<br> 사업자와 함께 합니다
                 </dd>
-                <button type="button" class="btn_part" onclick="window.open('/v1/image/modoo24_partnership_211130.pdf')">자세히 보기</button>
             </dl>
         </div>
 
-        <div class="right_box" style="display: none">
-            <p><img src="/v1/image/main_N/customer_img.png" alt="1600-7728"></p>
-            <dl>
-                <dt class="title">고객센터</dt>
-                <dd class="tel">1600-7728</dd>
-                <dd>
-                    <ul>
-                        <li>평일 : 오전 9시 ~ 18시 30분</li>
-                        <li>공휴일, 주말 : 오전 9시 ~ 17시</li>
-                    </ul>
-                </dd>
-            </dl>
-        </div>
+        
     </div>
 </section>
 <!--앱나열 회사 소개 아이콘-->
-<section class="company_wrap center">
+<section class="company_wrap">
+   <div class="center">
     <ul>
         <li>
             <a href="http://modooplatform.co.kr/" target="_blank">
@@ -503,6 +497,7 @@
             </a>
         </li>
     </ul>
+   </div>    
 </section>
 
 

@@ -15,6 +15,9 @@
             <li>
                 <a href="/v1/move/custom_business">파트너제휴</a>
             </li>
+            <li class="modalpop_link" link="/new_common/popup/free_event.html">
+                사연모집
+            </li>
 
             <li class="tabs">
                 <div class="tab">
