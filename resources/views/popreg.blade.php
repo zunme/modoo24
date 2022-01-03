@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/community/assets/css/flexgrid.css">
 <style>
   /* === Popup === */
 :root {
@@ -123,15 +124,17 @@
   .popup:not(.popup-tablet-fullscreen) {
     --f7-safe-area-top: 0px;
     --f7-safe-area-bottom: 0px;
-    width: var(--f7-popup-tablet-width);
+    /*width: var(--f7-popup-tablet-width);*/
     height: var(--f7-popup-tablet-height);
     left: 50%;
     top: 50%;
-    margin-left: calc(-1 * var(--f7-popup-tablet-width) / 2);
+    /*margin-left: calc(-1 * var(--f7-popup-tablet-width) / 2);*/
     margin-top: calc(-1 * var(--f7-popup-tablet-height) / 2);
     transform: translate3d(0, 100vh, 0);
     box-shadow: var(--f7-popup-box-shadow);
     border-radius: var(--f7-popup-tablet-border-radius, var(--f7-popup-border-radius));
+    width: 90vw;
+    margin-left: calc(-1 * 90vw/2 );
   }
   .popup:not(.popup-tablet-fullscreen).modal-in {
     transform: translate3d(0, 0, 0);
@@ -148,6 +151,12 @@
   }
   .popup:not(.popup-tablet-fullscreen).popup-behind.modal-out {
     transform: translate3d(0, 100vh, 0) scale(0.9);
+  }
+}
+@media (min-width: 840px) {
+  .popup:not(.popup-tablet-fullscreen) {
+    width: 840px;
+    margin-left: calc(-1 * 840px/2 );
   }
 }
 
@@ -455,7 +464,7 @@
   height: calc( 100% - 44px - var(--navbar-stepper-height) - var(--page-step-header-realheight) - ( var( --page-step-header-height ) * ( var(--pop-stepper-no) - 1 ) ) );
   overflow-y: auto;
 }
-.step-body-section{padding:10px;}
+.step-body-section{padding: 10px 14px;}
 
 .pop-footer-naver{
   z-index: 500;
@@ -491,6 +500,25 @@
   border-color: #7a7a7a;
 }
 
+@media (min-width: 840px) {
+  .step1 .step-body-section{
+    display:flex;
+  }
+  .step1 .pop-content-wrap{
+    flex-grow: 1;
+    padding:5px 10px 30px;
+  }
+  .step1 .pop-content-wrap:first-child{
+    padding-right:15px;
+    border-right: 1px solid rgb(33 150 243 / 16%);
+  }
+  .step1 .pop-content-wrap:last-child{
+    padding-left:15px;
+  }
+  .step1 .pop-content-wrap:not(:last-child) {
+    border-bottom: none;
+  }
+}
 /* daum */
 #daumlayer{
   display:none;position:fixed;overflow:hidden;z-index:11100;-webkit-overflow-scrolling:touch;
@@ -531,11 +559,200 @@
 
         </div>
       </div>
+<style>
+:root {
+  --input-line-color:#b3b3b3;
+  /*--inout-bg-color:transparent;*/
+  --inout-bg-color: rgb(255 255 255 / 40%);
+  --input-font-size:16px;
+  --input-title-color:#6a6a6a;
+}
+.text-align-right{
+  text-align:right
+}
+.pop-content-wrap{
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.pop-content-wrap:not(:last-child){
+  border-bottom: 1px solid rgb(33 150 243 / 16%);
+}
+.pop-input-title{
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.pop-input-title > i{
+  margin-right: 8px;
+}
 
+.form-group-pop, .input-group.new-input-group {
+  margin-bottom: 8px;
+  position: relative;
+}
+.new-input-group .input-group-prepend {
+    display: -ms-flexbox;
+    display: flex;
+    margin-right: 0;
+}
+.new-input-group .form-control {background-image:none}
+
+.input-group.new-input-group .input-group-prepend .input-group-text {
+  background-color: var(--inout-bg-color);
+  border: 1px solid var(--input-line-color);
+  border-radius: 30px;
+  color: #555;
+  /*padding: 10px 0 10px 18px;*/
+  border-right: 0 none;
+  transition: color .3s ease-in-out,border-color .3s ease-in-out,background-color .3s ease-in-out;
+  border-left: 1px solid var(--input-line-color);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  font-size: var(--input-font-size);
+  padding-right: 10px;
+}
+.input-group.new-input-group .input-group-append .input-group-text {
+    background-color: var(--inout-bg-color);
+    border: 1px solid var(--input-line-color);
+    border-radius: 30px;
+    color: #555;
+    border-left: 0 none;
+    transition: color .3s ease-in-out,border-color .3s ease-in-out,background-color .3s ease-in-out;
+    border-right: 1px solid var(--input-line-color);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    font-size: var(--input-font-size);
+    padding-left: 10px;
+}
+
+.input-group.new-input-group .input-group-prepend .input-group-text span,
+.input-group.new-input-group .input-group-append .input-group-text span
+{
+  margin-top: 4px;
+  color:var(--input-title-color);
+}
+
+.form-control-pop {
+  -webkit-appearance:auto; -moz-appearance:auto; appearance:auto;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  background-color: var(--inout-bg-color);
+  border: 1px solid var(--input-line-color);
+  border-radius: 30px;
+  color: #2c2c2c;
+  background-clip: padding-box;
+  font-size: var(--input-font-size);
+  transition: color .3s ease-in-out,border-color .3s ease-in-out,background-color .3s ease-in-out;
+  box-shadow: none;
+  line-height:normal;
+  height: auto;
+  font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+}
+.form-group-pop .form-control-pop, .input-group .form-control-pop {
+    padding: 8px 18px;
+}
+.form-group-pop.has-icon .form-control-pop{
+  padding-right: 36px;
+}
+
+.input-group.new-input-group .form-control-pop{
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  margin-bottom: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: 10px;
+}
+.input-group.new-input-group .form-control-pop:not(:last-child){
+  border-right: 0 none;
+  border-radius: 0;
+  padding-right: 10px;
+}
+.input-group.new-input-group .form-control-pop.none-left{
+    border-left: 0 none;
+}
+.pop-input-wrap{
+  padding-left: 10px;
+}
+.flex-row {
+  --f7-grid-gap: 0px;
+  --f7-grid-row-gap: 0px;
+}
+.input-col-title{
+  display: inline-flex;
+  margin-top: 9px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+}
+
+/* 토글 */
+.input-toggle-wrap{
+display:flex;
+}
+.input-toggle-line{
+  margin-top: 2px;
+  color: var(--input-title-color);
+}
+.togglebutton.texttoggle label .toggle, .togglebutton.texttoggle label input[type=checkbox][disabled]+.toggle {
+  content: "";
+  display: inline-flex;
+  width: 80px;
+  height: 25px;
+  background-color: rgba(80, 80, 80, 0.7);
+  border-radius: 15px;
+  margin-right: 15px;
+  transition: background 0.3s ease;
+  vertical-align: middle;
+  position: relative;
+  padding-top: 7px;
+  padding-left: 10px;
+  color: white;
+  padding-right: 10px;
+}
+.togglebutton.texttoggle label .toggle:after {
+    content: "";
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    background-color: #fff;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 1px 3px 1px rgb(0 0 0 / 40%);
+    left: -5px;
+    top: -1.5px;
+    border: 1px solid rgba(0, 0, 0, .54);
+    transition: left 0.3s ease, background 0.3s ease, box-shadow 0.1s ease;
+    position: absolute;
+}
+.togglebutton.texttoggle label input[type=checkbox]:checked+.toggle:after {
+    left: 54px;
+}
+.togglebutton.texttoggle label input[type=checkbox]:checked+.toggle {
+  background-color: rgb(85 172 238 / 80%);
+}
+.togglebutton.texttoggle label input[type=checkbox]:checked+.toggle:after {
+  border-color: #3b5998;
+}
+.togglebutton.texttoggle label input[type=checkbox]+.toggle{
+  justify-content: flex-end;
+}
+.togglebutton.texttoggle label input[type=checkbox]:checked+.toggle{
+  justify-content: flex-start;
+}
+.togglebutton.texttoggle label input[type=checkbox]+.toggle span.toggle-avail-label:before{
+    content:'불가능'
+}
+.togglebutton.texttoggle label input[type=checkbox]:checked+.toggle span.toggle-avail-label:before{
+    content:'가능'
+}
+
+</style>
 
       <div class="pop-page-content overflowhidden">
-        <form>
-          <div class="pop-page-step step1 step-avail-open" data-step='1' id="popn_step_1">
+        <form id="pop-page-form">
+          <div class="pop-page-step step1 step-avail-open step-last-call" data-step='1' id="popn_step_1" data-url="step1">
             <div class="pop-page-step-header">
               <div class="pop-page-step-header-inner">
                 도착지/출발지
@@ -543,13 +760,195 @@
             </div>
             <div class="pop-page-step-body">
               <div class="step-body-section">
+<!-- step 1 -->
                 <div class="pop-content-wrap start-address">
-                  <input type="text" name="s_addr1" id="s_addr1" required="required" placeholder="지번, 도로명, 건물명 검색" readonly="" onclick="getAddress();">
+                    <div class="pop-input-title">
+                      <i class="fas fa-map-marked-alt"></i> 출발지
+                    </div>
+                    <div class="pop-input-wrap">
+                      <div class="form-group-pop has-icon has-success">
+                        <input type="hidden" name="s_bcode" id="s_bcode">
+                        <input type="hidden" name="s_sigunguCode" id="s_sigunguCode">
+                        <input type="hidden" name="s_jibun_addr1" id="s_jibun_addr1">
+                        <input type="hidden" name="s_zip1" id="s_zip1">
+
+        								<input type="text" value="" class="form-control-pop form-control-success"
+                            name="s_addr1" id="s_addr1" required="required" placeholder="출발지 주소 검색" readonly="" onclick="getAddress( startaddress );"
+                        >
+        							</div>
+                      <div class="form-group-pop has-icon has-success">
+        								<input type="text" value="" class="form-control-pop"
+                            name="s_addr2" id="s_addr2" required="required" placeholder="상세 주소 입력 (동/호수)" >
+        							</div>
+
+                      <div class="row mt-3">
+                        <div class="col">
+
+                          <div class="input-group new-input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <span>평수</span>
+                              </span>
+                            </div>
+                            <input type="number" name="s_pyeong" min="0" class="form-control-pop text-align-right" placeholder="평수">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <span>평<span>
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="col">
+
+                          <div class="input-group new-input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <span>층수</span>
+                              </span>
+                            </div>
+                            <input type="number"  name="s_floor" min="0" class="form-control-pop text-align-right" placeholder="층수">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <span>층<span>
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="row mt-3">
+                        <div class="col flex-row justify-content-end ">
+                          <div class="input-toggle-wrap">
+                            <div class="input-toggle-line">엘리베이터 사용</div>
+                            <div class="togglebutton texttoggle">
+                              <label>
+                                <input type="checkbox" name="s_ev_no" checked="" data-to="elv1" data-off="불가능" data-on="가능">
+                                <span class="toggle">
+                                  <span class="toggle-avail-label"></span>
+                                </span>
+                              </label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col flex-row justify-content-end ">
+                          <div class="input-toggle-wrap">
+                            <div class="input-toggle-line">주차 가능여부</div>
+                            <div class="togglebutton texttoggle">
+                              <label>
+                                <input type="checkbox" name="s_park_no" checked="" data-to="park1" data-off="불가능" data-on="가능">
+                                <span class="toggle">
+                                  <span class="toggle-avail-label"></span>
+                                </span>
+                              </label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
                 </div>
+
+                <div class="pop-content-wrap end-address">
+                    <div class="pop-input-title">
+                      <i class="fas fa-map-marked"></i> 도착지
+                    </div>
+                    <div class="pop-input-wrap">
+                      <div class="form-group-pop has-icon has-success">
+                        <input type="hidden" name="e_bcode" id="e_bcode">
+                        <input type="hidden" name="e_sigunguCode" id="e_sigunguCode">
+                        <input type="hidden" name="e_jibun_addr1" id="e_jibun_addr1">
+                        <input type="hidden" name="e_zip1" id="e_zip1">
+
+                        <input type="text" value="" class="form-control-pop form-control-success"
+                            name="e_addr1" id="e_addr1" required="required" placeholder="도착지 주소 검색" readonly="" onclick="getAddress(endaddress);"
+                        >
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col">
+
+                          <div class="input-group new-input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <span>평수</span>
+                              </span>
+                            </div>
+                            <input type="number" name="e_pyeong" min="0" class="form-control-pop text-align-right" placeholder="평수">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <span>평<span>
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="col">
+
+                          <div class="input-group new-input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <span>층수</span>
+                              </span>
+                            </div>
+                            <input type="number"  name="e_floor" min="0" class="form-control-pop text-align-right" placeholder="층수">
+                            <div class="input-group-append">
+                              <span class="input-group-text">
+                                <span>층<span>
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col flex-row justify-content-end ">
+                          <div class="input-toggle-wrap">
+                            <div class="input-toggle-line">엘리베이터 사용</div>
+                            <div class="togglebutton texttoggle">
+                              <label>
+                                <input type="checkbox" name="e_ev_no" value="Y" checked="" data-to="elv1" data-off="불가능" data-on="가능">
+                                <span class="toggle">
+                                  <span class="toggle-avail-label"></span>
+                                </span>
+                              </label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col flex-row justify-content-end ">
+                          <div class="input-toggle-wrap">
+                            <div class="input-toggle-line">주차 가능여부</div>
+                            <div class="togglebutton texttoggle">
+                              <label>
+                                <input type="checkbox" name="e_park_no" value="Y" checked="" data-to="park1" data-off="불가능" data-on="가능">
+                                <span class="toggle">
+                                  <span class="toggle-avail-label"></span>
+                                </span>
+                              </label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                </div>
+<!-- /step 1 -->
               </div>
             </div>
           </div>
-          <div class="pop-page-step step2 step-avail-open" data-step='2' id="popn_step_2">
+
+
+
+          <div class="pop-page-step step2" data-step='2' id="popn_step_2" data-url="step2">
             <div class="pop-page-step-header">
               <div class="pop-page-step-header-inner">
                 이사종류
@@ -736,14 +1135,21 @@ function drawstep(target){
 }
 
 function gotoNextStep() {
-  $(".step-last-call").next().children(".pop-page-step-header").trigger("click")
+  var step = $(".step-last-call").data('step');
+  if( typeof step =="undefined" || step < 1 ) step = 1;
+  getOrderNfaceFromCheck(step, $(".step-last-call").data('url') )
+  //$(".step-last-call").next().children(".pop-page-step-header").trigger("click")
 }
 function gotoStep(no){
   $("#popn_step_" + no ).children(".pop-page-step-header").trigger("click")
 }
 $("document").ready( function() {
-  $(".step-avail-open").on("click", function (e){
+  $(".pop-page-step").on("click", function (e){
     var target = $(e.target).closest('.pop-page-step');
+    if( !$(target).hasClass('step-avail-open') ) {
+      console.log ( "not...")
+      return;
+    }
     var step_no = $(target).data('step')
     if( step_no > pop_step_availMax ){
       toast('전 단계를 먼저 입력해주세요', 'topCenter')
@@ -778,6 +1184,48 @@ function onpopstatefn ( pop ) {
     }
 }
 </script>
+
+// /pop script
+
+
+<script>
+  function startaddress( addr, extraAddr, data ){
+
+    // 주소관련
+    var jbAddr = data.jibunAddress;
+		if(jbAddr === '')  jbAddr = data.autoJibunAddress;
+
+    $("#s_addr1").val( (addr + extraAddr).trim() )
+    $("#s_bcode").val( data.bcode )
+    $("#s_sigunguCode").val( data.sigunguCode )
+
+    $("#s_zip1").val( data.zonecode )
+    $("#s_jibun_addr1").val( data.jbAddr )
+
+  }
+  // 주소관련
+  function endaddress( addr, extraAddr, data ){
+    var jbAddr = data.jibunAddress;
+		if(jbAddr === '')  jbAddr = data.autoJibunAddress;
+
+    $("#e_addr1").val( (addr + extraAddr).trim() )
+    $("#e_bcode").val( data.bcode )
+    $("#e_sigunguCode").val( data.sigunguCode )
+
+    $("#e_zip1").val( data.zonecode )
+    $("#e_jibun_addr1").val( data.jbAddr )
+  }
+  function getOrderNfaceFromCheck(step, url){
+      getpost('/v2/order/nface/'+url, $("#pop-page-form").serialize(), nextlevel )
+  }
+  function nextlevel(res){
+    var step = $(".step-last-call").data('step')
+    $("#popn_step_" + (parseInt(step)+1) ).addClass("step-avail-open");
+    $("#popn_step_" + (parseInt(step)+1) ).children(".pop-page-step-header").trigger("click")
+  }
+</script>
+
+
 
 <script type="module">
 			import devtools from 'https://unpkg.com/devtools-detect';
