@@ -69,7 +69,7 @@ class OrdertempController extends Controller
 			, "stype" => '1'
 			, "classify" => $classify
 			, "cstype" => '0'
-			, "cafe_name" => '모두이사_official_auth'
+			, "cafe_name" => '모두이사_official_simple'
 			, "reg_company_type" => '모두이사'
 			,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0
 			,'goods'=>'','note'=>'','memo'=>''
