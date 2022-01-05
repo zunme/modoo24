@@ -85,14 +85,20 @@ function simplyRegcallback(res){
 	$("#simply_move").append('<div class="simplyregSuccessWrap"><div class="simplyregSuccessinner"><span>이사견적을 신청하였습니다.</span></div></div>')
 	$(".mobile > .message").append('<div class="simplyregSuccessWrap"><div class="simplyregSuccessinner"><span>이사견적을 신청하였습니다.</span></div></div>')
 	//전환스크립트 적용
-	wcs.cnv("4","6000")
-	wcs.inflow();
-	wcs_do(_nasa);
+
+	wcstrance("4","6000")
 
 	kakaoPixel('4566851021171111416').pageView();
 	kakaoPixel('4566851021171111416').completeRegistration('Order_into');
 
-
+}
+function wcstrance(f,won){
+	_nasa={};
+	if (window.wcs) _nasa["cnv"] = wcs.cnv(f,won);
+	wcs_add = {};
+	wcs_add["wa"] = "s_3a589317ff16";
+	wcs.inflow();
+	wcs_do();
 }
 function simplyRegcallbackCompltet() {
 	loaderAttach("#simply_move", false)
