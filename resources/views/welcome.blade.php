@@ -163,20 +163,20 @@
 
 
 <!--이벤트 롤링될때 디스플레이 :none  해제 하고 사용-->
-<section class="center event_wrap" style="display:none">
+<section class="center event_wrap">
     <div id="demo" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <!-- 슬라이드 쇼 -->
             <div class="carousel-item active">
-                <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
-                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
+                <a href="/v2/event/mvafter" target="_blank">
+                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_220106.jpg" class="pc" alt="칭찬이벤트">
+                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_220106_m.jpg" class="pc" alt="칭찬이벤트">
                 </a>
             </div>
             <div class="carousel-item">
-                <a href="https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22" target="_blank">
-                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_it.jpg" class="pc" alt="인터넷신청">
-                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_it_m.jpg" class="pc" alt="인터넷신청">
+                <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
+                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
                 </a>
             </div>
             <!-- / 슬라이드 쇼 끝 -->
@@ -249,7 +249,7 @@
 </section>
 
 <!--이벤트 하나 일때 사용해야함-->
-<section class="center">
+<section class="center" style="display:none">
     <div>
         <a href="https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002" target="_blank">
             <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
@@ -257,7 +257,7 @@
         </a>
     </div>
 </section>
-
+<!--//이벤트 하나 일때 사용해야함-->
 
 <!--커뮤니티-->
 <section class="community_wrap center">
@@ -631,13 +631,13 @@
 <!--간편접수 퀵메뉴-->
 <script>
       let eventData = {'data' : [
-      	/*{
-      		'title': "황금열쇠이벤트",
-      		'href':'https://blog.naver.com/modoo24try/222488994124',
-      		'pc_image':'/v1/image/main_N/event_210923.jpg',
-      		'mobile_image':'/v1/image/main_N/event_210923_m.jpg',
+      	{
+      		'title': "칭찬후기이벤트",
+      		'href':'/v2/event/mvafter',
+      		'pc_image':'/v1/image/main_N/event_220106.jpg',
+      		'mobile_image':'/v1/image/main_N/event_220106_m.jpg',
       		'target' : true,
-      	},*/
+      	},
       	{
       		'title': "삼성이벤트",
       		'href':'https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002',

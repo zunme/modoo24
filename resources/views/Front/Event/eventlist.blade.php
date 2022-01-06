@@ -4,6 +4,7 @@
 
 <style>
 #event {min-height: 600px;}
+.pic4 {background-image: url(http://116.122.157.150:8084/v1/image/sub/220106_event.jpg)!important;background-size: cover!important;}
 </style>
 @endsection
 
@@ -32,6 +33,15 @@
         <section id="popular">
 			<article class="inner">
 				<ul class="popular-list cf">
+                     <li>
+						<a href="/v2/event/mvafter">
+							<div class="pic pic4"></div>
+							<div class="textGroup">
+								<strong ><span class="ongoing">진행중</span></strong>
+								<p>기간 : 이벤트 종료시까지</p>
+							</div>
+						</a>
+					</li>
 					<li>
 						<a href="/v2/event/samsung">
 							<div class="pic pic2"></div>
