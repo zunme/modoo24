@@ -12,6 +12,7 @@
 */
 
 Route::get('/','HomeController@home');
+Route::get('/testhome','HomeController@testhome');
 
 Route::get('/test', 'HomeController@test');
 Route::get('/altest', 'HomeController@altest');
@@ -93,6 +94,14 @@ Route::prefix('/review')->name('review.')->group(function () {
     Route::post('/write/{type}', 'Front\ReviewController@reviewWritePrc');
 
 });
+
+//비대면견적신청
+  Route::prefix('/order/nface')->name('nface.')->group(function () {
+    Route::post('/step1', 'Front\NfaceorderController@step1');
+    Route::post('/step2', 'Front\NfaceorderController@step2');
+    Route::post('/step3', 'Front\NfaceorderController@step3');
+  });
+
 
 //이벤트
 Route::get('/event', 'Front\EventController@index');

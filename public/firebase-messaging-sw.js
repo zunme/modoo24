@@ -10,7 +10,21 @@ firebase.initializeApp({
   appId: "1:267389339203:web:ced6578e3716dfbd4236f6"
 })
 const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function( remotemessage) {
-  console.log('Message handled in the background!', remoteMessage);
+messaging.setBackgroundMessageHandler(function( payload) {
+  console.log('Message handled in the background!', payload);
     //return self.registration.showNotification(title,{body,icon});
+    const title = payload.notification.title;
+    const options = {
+            body: payload.notification.body,
+            icon: payload.notification.icon
+    };
+    return self.registration.showNotification(title,options);
+    /*
+    console.log('Message handled in the background!', remoteMessage);
+      var option ={
+        body : remoteMessage.notification.body,
+        icon : 'https://modoo24.net/NEW/image/sub/know_logo.png'
+      }
+      return self.registration.showNotification(remoteMessage.notification.title,option);
+      */
 });

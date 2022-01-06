@@ -136,6 +136,39 @@ $response = $client->request('GET', $url);
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
       return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops']));
     }
+
+    public function testhome(){
+      $jisik = Post::with(['firstcomment'])->where(['bulletin_id'=>1,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
+      $fun = Post::where(['bulletin_id'=>2,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(3)->get();
+      $tip = Post::where(['bulletin_id'=>4,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
+
+      $today = Carbon::today()->toDateString();
+      $chkMobile = false;
+
+      $notin = [];
+      foreach( $_COOKIE as $key =>$val){
+        if( $val=='popupviewdone'){
+          $tmp = explode( '_', $key);
+          if( isset($tmp[2]) ) $notin[] = $tmp[2];
+        }
+      }
+      $startday = Carbon::now()->format('Y-m-d 00:00:00');
+      $pops = AuctionPopup::
+          where(['bp_use_flag'=>'Y'])
+          ->whereNotIn('bp_idx', $notin )
+          ->where('bp_start_date','<=',$today )
+          ->where('bp_end_date','>=',$today )
+          ->get();
+      foreach( $pops as &$row){
+        $row->pop_w = ($chkMobile) ? ($row->bp_width - 300 ) :($row->bp_width);
+        $row->pop_h = ($chkMobile) ? ($row->bp_height - 300 + 76 ) :($row->bp_height+76);
+      }
+
+      $startday = Carbon::now()->format('Y-m-d 00:00:00');
+      return view('welcometest', compact(['jisik', 'fun', 'tip','startday','pops']));
+    }
+
+
 	    /**
      * CSRF 갱신
      * @param Request $request
