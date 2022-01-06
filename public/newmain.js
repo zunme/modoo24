@@ -86,7 +86,8 @@ function simplyRegcallback(res){
 	$(".mobile > .message").append('<div class="simplyregSuccessWrap"><div class="simplyregSuccessinner"><span>이사견적을 신청하였습니다.</span></div></div>')
 	//전환스크립트 적용
 
-	wcstrance("4","6000")
+	//wcstrance("4","6000")
+	$(document.body).append("<iframe src='/v2/simpleregdone.html' style='display:none'/>")
 
 	kakaoPixel('4566851021171111416').pageView();
 	kakaoPixel('4566851021171111416').completeRegistration('Order_into');
