@@ -97,7 +97,7 @@ function wcstrance(f,won){
 	if (window.wcs) _nasa["cnv"] = wcs.cnv(f,won);
 	wcs_add = {};
 	wcs_add["wa"] = "s_3a589317ff16";
-	wcs.inflow();
+	wcs.inflow('modoo24.net');
 	wcs_do();
 }
 function simplyRegcallbackCompltet() {
