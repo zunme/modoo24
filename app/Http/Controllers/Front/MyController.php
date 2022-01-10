@@ -57,6 +57,28 @@ class MyController extends Controller
     else return $this->mylist($request, $userdata['phone']);
   }
 
+	public function requestCode(Request $request, $code){
+		$hp = $this->codeEncDec($code, false);
+		if( $hp === false ) {
+			echo "잘못된 URL입니다.";return;
+		}
+		$request->session()->put('userAuth', ['tel'=>$hp ]);
+		return redirect('/my/request');
+	}
+	private function codeEncDec($str, $enc = false){
+		 try{
+			 $cipher = "AES-256-CBC";
+			 $key = "modoo2420220110.";
+			 $ivlen = openssl_cipher_iv_length($cipher);
+			 $iv = substr("103938462834621537239482374561723823459435034589237426347234934598234752896539327459234592384562345982", 0, $ivlen);
+			 if( $enc ) return bin2hex(openssl_encrypt($str, $cipher, $key, OPENSSL_RAW_DATA, $iv));
+			 else return openssl_decrypt( hex2bin($str), $cipher, $key, OPENSSL_RAW_DATA, $iv);
+		 }catch (\Exception $e){
+			 return false;
+		 }
+	 }
+
+
 	private function  getUserdata(Request $request){
 		$user = Auth::user();
 

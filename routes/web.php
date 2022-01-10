@@ -79,6 +79,7 @@ Route::prefix('/posts')->name('posts.')->group(function () {
 
 //신청내역
 Route::get('/my/request', 'Front\MyController@requestList');
+Route::get('/my/request/{code}', 'Front\MyController@requestCode');
 Route::post('/my/sendsms', 'Front\MyController@sendsms');
 Route::post('/my/checkAuth', 'Front\MyController@checkAuth');
 Route::post('/my/checkAuthWithName', 'Front\MyController@checkAuthWithName');
