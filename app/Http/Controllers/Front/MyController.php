@@ -62,7 +62,8 @@ class MyController extends Controller
 		if( $hp === false ) {
 			echo "잘못된 URL입니다.";return;
 		}
-		$request->session()->put('userAuth', ['tel'=>$hp ]);
+		if ($request->session()->has('userAuth')) $request->session()->forget('userAuth');
+		$request->session()->put('userAuth', ['tel'=>$hp , 'name'=>'tempname']);
 		return redirect('/my/request');
 	}
 	private function codeEncDec($str, $enc = false){
