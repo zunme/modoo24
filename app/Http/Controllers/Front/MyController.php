@@ -58,13 +58,19 @@ class MyController extends Controller
   }
 
 	public function requestCode(Request $request, $code){
-		$hp = $this->codeEncDec($code, false);
-		if( $hp === false ) {
+		$res = $this->codeEncDec($code, false);
+		if( $res === false ) {
 			echo "잘못된 URL입니다.";return;
 		}
+		$tmp = explode('|', $res);
+		if( count( $tmp) != 2){
+			echo "잘못된 URL입니다.";return;
+		}
+		$hp = $tmp[0];
+		$uid = $tmp[1];
 		if ($request->session()->has('userAuth')) $request->session()->forget('userAuth');
 		$request->session()->put('userAuth', ['tel'=>$hp , 'name'=>'tempname']);
-		return redirect('/my/request');
+		return redirect('../v1/mypage/mem_apply_ok?cmd=untact_wait&uid='.$uid);
 	}
 	private function codeEncDec($str, $enc = false){
 		 try{
