@@ -429,7 +429,7 @@
                         <div class="item-inner">
                             <div class="item-title item-floating-label">이사업체명</div>
                             <div class="item-input-wrap">
-                                <input type="text" value="{{$row->s_company1}}" class="read-only" readonly>
+                                <input type="text" value="{{$staff->s_company}}" class="read-only" readonly>
                             </div>
                         </div>
                     </div>
