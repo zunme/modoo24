@@ -189,8 +189,9 @@ class ReviewController extends Controller
 		if( $type=="order_nface"){
 			$row = AuctionOrderNface::where(['uid'=>$uid])->first();
 			if( trim(str_replace('-','',$row->hp)) != $userdata['phone'] ) return $this->error("전화번호가 틀립니다.", 422);
-			$comp = AuctionOrderContract::where(['uid'=>$row->uid])->whereNotIn('s_uid',$this->exclsComp)->get();
-			if ($s_uid != $comp->s_uid)  return $this->error("업체정보가 틀립니다.", 422);
+			$comp = AuctionOrderContract::where(['uid'=>$row->uid, 's_uid'=> $s_uid])->whereNotIn('s_uid',$this->exclsComp)->first();
+
+			if (!$comp || $s_uid != $comp->s_uid)  return $this->error("업체정보가 틀립니다.", 422);
 			$b_type = '비대면이사';
 		}elseif($type=="order") {
 			$row = AuctionOrder::where(['uid'=>$uid])->first();
