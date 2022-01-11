@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/community/assets/css/flexgrid.css">
-<link rel="stylesheet" href="/community/assets/css/orderpop.css">
-<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css">
+<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=220110150101">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=220110150101">
 <style>
 .w-100{
   width: 100%;
@@ -8,6 +8,116 @@
 .pop-page-step-footer{
   display: flex;
   justify-content: center;
+}
+
+.pop-page-content-pop-bg{
+    z-index : 1005;
+    position: absolute;
+    background-color: rgb(0 0 0 / 0%);
+    top: 0;bottom: 0;left: 0;right: 0;
+    transition: background 500ms;
+    display:none;
+}
+.pop-page-content-pop-bg.opened{
+  background-color: rgb(0 0 0 / 80%);
+  transition: background-color 800ms;
+  display:block;
+}
+.pop-page-content-pop{
+  max-height: calc( 100% - 44px - var(--navbar-stepper-height) - ( var(--page-step-header-realheight) * 3 ) );
+  position: absolute;
+  z-index: 1005;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  transform: translate3d(0, 2000px, 0);
+  transition: background-color 800ms
+}
+.pop-page-content-pop.opened{
+  transform: translate3d(0, 0, 0);
+  transition: transform 500ms;
+}
+
+.pop-page-content-pop-head{
+  background-color: #55acee;
+  color: white;
+  margin: 0 10px;
+  padding: 10px 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #406b8b;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pop-page-content-pop-head-closebtn i{
+  font-size: 22px;
+  color: #f3f3f3;
+  cursor: pointer;
+}
+.pop-page-content-pop-body{
+  max-height: 60vh;
+  overflow-y: auto;
+  margin: 0 10px;
+  background: white;
+  border-left: 1px solid #406b8b;
+  border-right: 1px solid #406b8b;
+}
+.pop-page-content-pop-body-cont{
+}
+
+
+.pop-page-options-wrap{
+  padding: 20px 10px;
+}
+.pop-page-options-select{
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+  color: #666;
+}
+.pop-page-options-select-item{
+  margin-right: 8px;
+  color: #282828;
+}
+.pop-page-options-list{
+  -webkit-box-shadow: inset 0 1px 0 0 #c7c7c7, inset 0 -1px 0 0 #c7c7c7;
+  box-shadow: inset 0 1px 0 0 #c7c7c7, inset 0 -1px 0 0 #c7c7c7;
+  --pop-page-options-per-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: flex-end;
+}
+.pop-page-options-list-item{
+  --pop-content-list-select-space: 10px;
+  --pop-content-list-select-space-bottom: 10px;
+  --f7-touch-ripple-color: rgba(0, 122, 255 , 0.25);
+  --goods-stepper-height: 28px;
+  --goods-stepper-border-radius: 5px;
+  --goods-stepper-color: #666;
+  --goods-stepper-button-text-color: #666;
+  --goods-stepper-button-bg-color: #eee;
+  display: flex;
+  justify-content: space-between;
+  padding:15px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  width: calc( 100% / var(--pop-page-options-per-row) );
+  max-width: 400px;
+}
+.pop-page-options-list .pop-page-options-list-item:last-child{
+  border-bottom:none;
+}
+.pop-page-options-list-item-title{
+  line-height: 28px;
+  margin-right: 30px;
+}
+
+.pop-page-options-btnwrap{
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 15px;
 }
 </style>
 <div class="popup-backdrop" id="popnbackdrop"></div>
@@ -34,29 +144,28 @@
         </div>
 
         <div class="pop-navbar-inner pop-navbar-stepper">
-            <div class='top-steps-wrap'>
-              <div class='step-1 top-step-ing' id="topstepper_1" data-step='1' >1</div>
-              <div class='line-1'></div>
-              <div class='step-2 ' id="topstepper_2" data-step='2' >2</div>
-              <div class='line-2'></div>
-              <div class='step-3' id="topstepper_3" data-step='3' >3</div>
-              <div class='line-3'></div>
-              <div class='step-4' id="topstepper_4" data-step='4' >4</div>
-              <div class='line-5'></div>
-              <div class='step-6' id="topstepper_5" data-step='5' >5</div>
-            </div>
+          <div class='top-steps-wrap'>
+            <div class='step-1 top-step-ing' id="topstepper_1" data-step='1' >1</div>
+            <div class='line-1'></div>
+            <div class='step-2 ' id="topstepper_2" data-step='2' >2</div>
+            <div class='line-2'></div>
+            <div class='step-3' id="topstepper_3" data-step='3' >3</div>
+            <div class='line-3'></div>
+            <div class='step-4' id="topstepper_4" data-step='4' >4</div>
+            <div class='line-5'></div>
+            <div class='step-6' id="topstepper_5" data-step='5' >5</div>
           </div>
-
-
         </div>
+
       </div>
+
 
 
       <div class="pop-page-content overflowhidden">
         <form id="pop-page-form">
-          <input class="input js-persist" type="checkbox" name="save" checked style="display:none">
+          <input class="input jspersist" type="checkbox" checked style="display:none">
 
-          <div class="pop-page-step step1  step-avail-open step-opened step-last-call" data-step='1' id="popn_step_1" data-url="step1">
+          <div class="pop-page-step step1 step-avail-open step-opened step-last-call" data-step='1' id="popn_step_1" data-url="step1">
             @include('Front.Poporder.Inc.nfacestep1')
           </div>
 
@@ -66,8 +175,8 @@
           <div class="pop-page-step step3" data-step='3' id="popn_step_3" data-url="step3">
             @include('Front.Poporder.Inc.nfacestep3')
           </div>
-          <div class="pop-page-step step4 " data-step='4' id="popn_step_4" data-url="step4">
-            @include('Front.Poporder.Inc.nfacestep4')
+          <div class="pop-page-step step4" data-step='4' id="popn_step_4" data-url="step4">
+            @include('Front.Poporder.Inc.nfacestep4',['ordergoods'=>$ordergoods])
           </div>
 
           <div class="pop-page-step step5 " data-step='5' id="popn_step_5" data-url="steplast">
@@ -75,14 +184,19 @@
           </div>
 
         </form>
+
       </div>
 
       <div class="pop-footer-navbar">
         <div class="pop-footer-navbar-inner">
-          <span class="btn btn-sm btn-secondary" onClick="gotoNextStep()">다음</div>
+          <span class="btn btn-sm btn-secondary" onClick="gotoNextStep()">다음</span>
         </div>
       </div>
 
+      <div class="pop-page-content-pop-bg" onClick="pop_page_content_pop_close()"></div>
+      <div class="pop-page-content-pop" id="inpopup-content">
+
+      </div>
     </div>
   </div>
 
@@ -120,7 +234,6 @@ function openpopn(){
   $("#popnbackdrop").removeClass('backdrop-out').addClass('backdrop-in');
   $("#popnmodal").removeClass('modal-out');
 
-
   // DATA
   mfform.loadData()
 
@@ -133,6 +246,8 @@ function openpopn(){
     $('#nface-step-movedate').datepicker('update', $("#nface-step-mdate-inp").val() );
   }else console.log( 'date not load2 ')
   $("body").trigger( "stepPopOpended" );
+  /* 선택된 옵션 리스트 처리 */
+  $(".added_rows").each( function( i, v) { pop_options_select_redraw(v) })
 }
 
 function closepopnbtn(){
@@ -241,6 +356,16 @@ function onpopstatefn ( pop ) {
       }
       pop_step_history--;
     }
+}
+
+
+function pop_page_content_pop_open(){
+  $(".pop-page-content-pop-bg").addClass("opened")
+  $(".pop-page-content-pop").addClass("opened")
+}
+function pop_page_content_pop_close(){
+  $(".pop-page-content-pop").removeClass("opened")
+  $(".pop-page-content-pop-bg").removeClass("opened")
 }
 </script>
 

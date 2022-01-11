@@ -9,6 +9,6 @@ class MoveGoodsType extends Model
 	protected $primaryKey = 'id';
 	public $timestamps = false;
 	public function items() {
-				return $this->hasMany(MoveGoods::class,'type_id' )->where(['is_use'=>'Y'])->orderBy('goods_sort','asc')->orderBy('id','asc');
+				return $this->hasMany(MoveGoods::class,'type_id' )->orderBy('goods_sort','asc')->orderBy('id','asc');
 	}
 }

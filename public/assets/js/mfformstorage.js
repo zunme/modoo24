@@ -21,8 +21,9 @@ class mfFormStorage {
     return data;
   }
   loadData() {
-    if (localStorage.key(this.$storage)) {
+    if ( localStorage.getItem(this.$storage) ) {
       const savedData = JSON.parse(localStorage.getItem(this.$storage)); // get and parse the saved data from localStorage
+      console.log ( this.$storage )
       for (const element of this.$formElements) {
         if (element.name in savedData) {
           if( element.type === 'radio' || element.type === 'checkbox'){
@@ -43,4 +44,4 @@ class mfFormStorage {
     console.log ( data[this.$storage] )
   }
 }
-var fsss = new mfFormStorage('pop-page-form','pop-page-form-nface' )
+//var fsss = new mfFormStorage('pop-page-form','pop-page-form-nface' )

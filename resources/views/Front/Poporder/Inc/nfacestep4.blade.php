@@ -128,7 +128,7 @@
 
       <!-- 리스트 확인 페이지 -->
       <div id="nfaceOrderGoodsMethod-list" style="display:none">
-        여기에 리스트 선택 내용이
+          @include('Front.Poporder.Inc.nfacestep4list',['ordergoods'=>$ordergoods])
       </div>
       <!-- / 리스트 확인 페이지 -->
     </div>

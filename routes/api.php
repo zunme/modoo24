@@ -39,6 +39,12 @@ Route::get('/applicationHistory/nfacelist/{uid}','Api\OrderController@nfacelist'
 Route::get('/son','Api\DefaultlistController@sonList');
 Route::get('/gugun','Api\DefaultlistController@gugun');
 
+
+//견적리스트
+
+Route::get('/orderGoods','Api\MoveorderController@goodslist');
+Route::post('/ordergoods/add','Api\MoveorderController@addGoods');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

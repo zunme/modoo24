@@ -9,6 +9,21 @@
   min-width: var(--calendar-cell-width);
   min-height: var(--calendar-cell-height);
 }
+#nface-step-movedate td.son-active{
+  position: relative;
+}
+#nface-step-movedate td.son-active:before{
+  content: "dot";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background-color: #f44336;
+  border-radius: 5px;
+  overflow: hidden;
+  position: absolute;
+  top: 5px;
+  left: calc( 50% - 3px );
+}
 </style>
 
 <div class="pop-page-step-header">
