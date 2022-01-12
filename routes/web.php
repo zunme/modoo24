@@ -12,6 +12,10 @@
 */
 
 Route::get('/','HomeController@home');
+Route::get('/front/main',function(){
+  return redirect('/');
+});
+
 Route::get('/testhome','HomeController@testhome');
 
 Route::get('/test', 'HomeController@test');
@@ -101,6 +105,9 @@ Route::prefix('/review')->name('review.')->group(function () {
     Route::post('/step1', 'Front\NfaceorderController@step1');
     Route::post('/step2', 'Front\NfaceorderController@step2');
     Route::post('/step3', 'Front\NfaceorderController@step3');
+    Route::post('/step4', 'Front\NfaceorderController@step4');
+
+    Route::post('/complete', 'Front\NfaceorderController@complete');
   });
 
 
