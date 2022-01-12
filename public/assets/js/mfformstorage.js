@@ -12,7 +12,7 @@ class mfFormStorage {
     let data = { [this.$storage]: {} };
     data[this.$storage]
     for (const element of this.$formElements ) {
-      if (element.name.length > 0) {
+      if (element.name.length > 0 && !element.classList.contains('mfstorageignore') ) {
         if( ( element.type === 'radio' || element.type === 'checkbox' )  && !element.checked){
           if( element.type === 'checkbox') data[this.$storage][element.name] = undefined
         }else if( element.type !== 'file' ) data[this.$storage][element.name] = element.value;
@@ -25,7 +25,7 @@ class mfFormStorage {
       const savedData = JSON.parse(localStorage.getItem(this.$storage)); // get and parse the saved data from localStorage
       console.log ( this.$storage )
       for (const element of this.$formElements) {
-        if (element.name in savedData) {
+        if (element.name in savedData && !element.classList.contains('mfstorageignore') ) {
           if( element.type === 'radio' || element.type === 'checkbox'){
             if( element.value == savedData[element.name] ) {
               element.checked = true;

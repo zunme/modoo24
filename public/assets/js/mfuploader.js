@@ -113,7 +113,7 @@ class mfPreviewImg {
             reader.readAsDataURL(file);
 
             // resizing 이후 파일
-            var resizedfile = new File( [resizedImage[0]] , file.name +'.jpg' , {type:"image/jpeg", lastModified:new Date().getTime()});
+            var resizedfile = new File( [resizedImage[0]] , self.groupnum+'_'+file.name +'.jpg' , {type:"image/jpeg", lastModified:new Date().getTime()});
             resizedfile.token = file.token
             resizedfile.groupnum = file.groupnum;
             self.resizedFileArray.push(resizedfile);
@@ -159,11 +159,41 @@ class mfPreviewImg {
   async getGroupedData() {
     var res ={}
     this.resizedFileArray.forEach(async (item) => {
-      if( typeof res['group_'+item.groupnum] == 'undefined') res['group_'+item.groupnum] = []
-      res['group_'+item.groupnum].push(item)
-      console.log (item)
+      if( typeof res['group_'+item.groupnum] == 'undefined') res['group_'+item.groupnum] = new DataTransfer();
+      res['group_'+item.groupnum].items.add(item)
     })
-    console.log (res)
-    console.log('Done!');
+    return res
+  }
+  async setInputByResize( opt ){
+  	//var $container = $('<div>', {class: 'image-uploader-container'});
+    let iusettings = {
+        target: '#image-uploader-container',
+  	    prefixid: 'nfaceuploder',
+  	    inputName: 'upload',
+  	    extensions: ['.jpg', '.jpeg', '.png', '.gif', '.svg'],
+  	};
+    if(typeof opt == 'object'){
+      Object.assign(iusettings, opt);
+    }
+  	//var $container = $('<div>', {class: 'image-uploader-container'});
+  	var $container = $(iusettings.target)
+
+    var res ={}
+    this.resizedFileArray.forEach(async (item) => {
+      if( typeof res['group_'+item.groupnum] == 'undefined') res['group_'+item.groupnum] = new DataTransfer();
+      res['group_'+item.groupnum].items.add(item)
+    })
+
+    var keys = Object.keys( res )
+    keys.forEach(async (item) => {
+      var $input = $('<input>', {
+        type: 'file',
+        id: iusettings.prefixid + '-' +  Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8),
+        name: iusettings.inputName + '[]',
+        accept: iusettings.extensions.join(','),
+        multiple: ''
+      }).appendTo($container);
+      $input.prop('files', res[item].files)
+    } )
   }
 }

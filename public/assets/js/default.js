@@ -807,7 +807,7 @@ function getData(method, url, data, callback, callbackCompltet){
 }
 
 let agreeModaltemplate = `
-<div class="modal fade" id="modal_popview" style="z-index: 1050;" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_popview" style="z-index: 105000;" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-md" role="document">
 	  <div class="modal-content" id="modal_popview_body">
 			<div><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
