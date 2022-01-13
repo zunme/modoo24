@@ -214,6 +214,34 @@
     box-shadow: 0 0 0 transparent;
   }
 }
+.inpopup-inline-progressbar-wrap{
+  position: absolute;
+  bottom:0;left:0;right:0;
+  height: 3px;
+  overflow: hidden;
+}
+.inpopup-inline-progressbar{
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  transform-style: preserve-3d;
+  background: silver;
+  transform-origin: center top;
+  height: 4px;
+  border-radius: 4px;
+}
+.inpopup-inline-progressbar >span{
+  background-color: #e91e63;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate3d(-100%,0,0);
+  transition-duration: 150ms;
+  border-radius: 4px;
+}
 </style>
 <div class="popup-backdrop" id="popnbackdrop"></div>
 
@@ -251,7 +279,11 @@
             <div class='step-6' id="topstepper_5" data-step='5' >5</div>
           </div>
         </div>
-
+        <div class="inpopup-inline-progressbar-wrap">
+          <div class="inpopup-inline-progressbar">
+            <span id="inpopup-inline-progressbar"></span>
+          </div>
+        </div>
       </div>
 
 
@@ -300,8 +332,8 @@
 <script src='https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'></script>
 <script src='/community/assets/js/orderpop_daum.js'></script>
 
-<script src='/community/assets/js/mfformstorage.js?v=20220106152300'></script>
-<script src='/community/assets/js/mfuploader.js?v=20220106152300'></script>
+<script src='/community/assets/js/mfformstorage.js?v=20220113102100'></script>
+<script src='/community/assets/js/mfuploader.js?v=20220113102100'></script>
 
 <script>
 var pop_step_history = 0
@@ -456,6 +488,9 @@ $("document").ready( function() {
 })
 //history back event
 function onpopstatefn ( pop ) {
+    closeDaumPostcode()
+    $("#modal_popview").modal("hide")
+
     if( typeof pop != 'undefined' && pop.type == 'popn'){
       if( pop.command == 'open' ) closepopn()
       else if(  pop.command=='step') {
@@ -526,6 +561,11 @@ function pop_page_content_pop_close(){
     if( typeof res.data !='undefined' && typeof res.data.command !='undefined' ){
       if( typeof window[res.data.command] =='function') window[res.data.command]( res.data )
     }
+
+    var depth = 5;
+    var precentage = (100 - ( step * 100 / depth )) * -1;
+    $("#inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
+    closeDaumPostcode()
   }
 
   function orderNfaceFormCheckError(res){

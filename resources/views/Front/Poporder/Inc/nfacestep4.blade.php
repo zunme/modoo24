@@ -1,211 +1,154 @@
 <div class="pop-page-step-header">
-  <div class="pop-page-step-header-inner">
-      짐량확인
-  </div>
+    <div class="pop-page-step-header-inner">
+        짐량확인
+    </div>
 </div>
-
-<style>
-:root {
-  --pop-content-image-uploader-per-row : 3;
-  --pop-content-image-uploader-space : 10px;
-  --pop-content-image-uploader-space-bottom : 10px;
-}
-
-@media (min-width: 630px) and (min-height: 630px){
-  :root {
-    --pop-content-image-uploader-per-row : 4
-  }
-}
-@media (min-width: 840px){
-  :root {
-    --pop-content-image-uploader-per-row : 6;
-  }
-}
-.pop-content-image-uploader-wrap{
-  display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-
-.pop-content-image-uploader-wrap .upload-text-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 0;
-  height: 100px;
-  border: 1px solid #03a9f4;
-  border-radius: 5px;
-}
-
-.pop-content-image-uploader-wrap .upload-text-wrap i.fas {
-  font-size: 24px;
-  line-height: 24px;
-}
-.pop-content-image-uploader-wrap .upload-text-wrap .upload-text{
-  font-size: 14px;
-  line-height: 24px;
-}
-.upload-text-wrap input[type=file] {
-    width: 0;
-    height: 0;
-    position: absolute;
-    z-index: -1;
-    opacity: 0;
-}
-.pop-content-image-uploader{
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: var(--pop-content-image-uploader-space);
-}
-.select-moveing-picture-item{
-  height: 100px;
-  width: calc( ( 100% / var(--pop-content-image-uploader-per-row) ) - var(--pop-content-image-uploader-space) );
-  margin-right: var(--pop-content-image-uploader-space);
-  margin-bottom: var(--pop-content-image-uploader-space-bottom);
-}
-.select-moveing-picture-item.upload-image-item .select-moveing-preview{
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  border: 1px solid #999;
-  border-radius: 3px;
-}
-
-.pop-content-image-uploader > .select-moveing-picture-item:only-child{
-  width:100%;
-}
-
-.upload-image-item{
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-.select-moveing-preview{
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.mf-file-container__image-clear{
-  position: absolute;
-  z-index: 1;
-  color: white;
-  content:'X';
-  top: 2px;
-  right: 2px;
-
-}
-</style>
-
 <div class="pop-page-step-body">
-  <div class="step-body-section">
-    <div class="pop-content-wrap nfaceOrderGoods-wrap">
-      <!-- 사진 확인 페이지 -->
-      <div class="nfaceOrderGoodsMethodClass" id="nfaceOrderGoodsMethod-picture" style="display:none">
-        사진업로드
-        <div class="pop-content-wrap select-moveing-picture">
+    <div class="step-body-section">
+        <div class="pop-content-wrap nfaceOrderGoods-wrap">
+            <!-- 사진 확인 페이지 -->
+            <div class="nfaceOrderGoodsMethodClass" id="nfaceOrderGoodsMethod-picture" style="display:none">
+                사진업로드
+                <div class="pop-content-wrap select-moveing-picture">
+                    <div class="pop-content-image-uploader-wrap">
+                        <div class="mf-file-container pop-content-image-uploader" data-upload-id="imagepreview_selectmoveing">
+                            <div class="select-moveing-picture-item upload-image-item-btn">
 
-          <div class="pop-content-image-uploader-wrap">
+                                <label class="upload-text-wrap">
+                                    <div class="upload-text-txt"><b>사진 첨부</b>를 누르셔서 <b>여러장의 사진</b>을 첨부 해보세요 </div>
+                                    <input type="file" id="imagepreview_selectmoveing" accept=".jpg,.jpeg,.png,.gif" multiple="multiple">
 
-            <div class="mf-file-container pop-content-image-uploader" data-upload-id="imagepreview_selectmoveing">
+                                    <div class="upload-icon-wrap">
+                                        <span class="upload-icon-pic"><img src="../v1/image/main_N/camera-plus.svg"></span> <span class="upload-icon-txt">사진 첨부 하기</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="upload-warning-wrap">
+                            <div class="upload-warning-title-wrap">
+                                <span class="upload-warning-title-icon"><i class="fas fa-exclamation-triangle"></i></span> <span class="upload-warning-title-txt">주의사항</span>
+                                <div class="upload-warning-title-txt-content">
+                                    <div class="upload-all-title"><b>전체적인 공간</b>의 사진을 찍어주세요 </div>
+                                    <ul class="upload-all-tip">
+                                        <li>1. 각 구역별로 모든 짐들이 한눈에 보일 수 있게</li>
+                                        <li>2. 순서대로 찍어주세요 (빠진 구역이 있을 경우 추후에 추가 요금이 산정될 수 있습니다.)</li>
+                                    </ul>
 
-              <div class="select-moveing-picture-item upload-image-item-btn">
-                <label class="upload-text-wrap">
-                  <input type="file" id="imagepreview_selectmoveing" accept=".jpg,.jpeg,.png,.gif" multiple="multiple">
-                  <i class="fas fa-cloud-upload-alt"></i>
-                  <span class="upload-text">이미지추가</span>
-                </label>
-              </div>
-
+                                </div>
+                            </div>
+                            <div class="form-check mt20 ct">
+                                <label class="form-check-label">
+                                    <input class="form-check-input mfstorageignore" name="agree_ai" type="checkbox" value="Y">
+                                    업로드 된 사진은 AI 딥 러닝 및 빅데이터 구축에 활용됨을 동의합니다.
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="upload-showing-info">
+                            <div class="upload-warning-title-txt">상세 이용 방법(사진 업로드)</div>
+                            <div class="upload-all-title">구역별 이삿짐을 사진 한 장에 최대한 담을 수 있게 촬영</div>
+                            <ul class="upload-showing-image">
+                                <li><img src="/v1/image/sub/untact_img02_01.jpg" alt="비대면견적이미지02_01"></li>
+                                <li><img src="/v1/image/sub/untact_img02_02.jpg" alt="비대면견적이미지02_01"></li>
+                                <li><img src="/v1/image/sub/untact_img02_03.jpg" alt="비대면견적이미지02_01"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- / 사진 확인 페이지 -->
 
+            <!-- 리스트 확인 페이지 -->
+            <div class="nfaceOrderGoodsMethodClass" id="nfaceOrderGoodsMethod-list" style="display:none">
+                @include('Front.Poporder.Inc.nfacestep4list',['ordergoods'=>$ordergoods])
+            </div>
+            <!-- / 리스트 확인 페이지 -->
+            <div class="pop-content-memo-wrap">
+                <label class="title">메모</label>
+                <textarea name="memo"></textarea>
+            </div>
         </div>
-      </div>
-      <!-- / 사진 확인 페이지 -->
 
-      <!-- 리스트 확인 페이지 -->
-      <div class="nfaceOrderGoodsMethodClass" id="nfaceOrderGoodsMethod-list" style="display:none">
-          @include('Front.Poporder.Inc.nfacestep4list',['ordergoods'=>$ordergoods])
-      </div>
-      <!-- / 리스트 확인 페이지 -->
-
-      <div class="pop-content-memo-wrap">
-        <label>메모</label>
-        <textarea name="memo"></textarea>
-      </div>
     </div>
 
-  </div>
-
-  <div class="pop-page-step-footer">
-
-    <span class="btn btn-secondary" onclick="gotoNextStepWithImg()">다음</span>
-  </div>
+    <div class="pop-page-step-footer">
+        <span class="btn btn-secondary" onclick="gotoNextStepWithImg()">다음</span>
+    </div>
 
 </div>
 
 @verbatim
 <!-- 프리뷰 이미지 템플릿-->
 <div id="select-moveing-picture-item-template" style="display:none;">
-  <div class="select-moveing-picture-item upload-image-item" data-group="{{groupnum}}">
-    <div class="select-moveing-preview" style="background-image:url({{src}})">
-      <span class="mf-file-container__image-clear" data-token="{{token}}"><i class="fas fa-times"></i></span>
+    <div class="select-moveing-picture-item upload-image-item" data-group="{{groupnum}}">
+        <div class="select-moveing-preview" style="background-image:url({{src}})">
+            <span class="mf-file-container__image-clear" data-token="{{token}}"><i class="fas fa-times"></i></span>
+        </div>
     </div>
-  </div>
 </div>
 <!-- / 프리뷰 이미지 -->
 @endverbatim
 
 <script>
-  var selectmoveingpreviewTemplate, movingimage;
-  function changeNfaceGoodsMethod(data){
-    console.log ("짐확인 변경")
-    $(".nfaceOrderGoods-wrap > div.nfaceOrderGoodsMethodClass").hide();
-    var chk = $("input[name=moving-goods-method]:checked").val();
-    $("#nfaceOrderGoodsMethod-" + chk).show();
-  }
+    var selectmoveingpreviewTemplate, movingimage;
 
-  var cachedFileArray_selectmoveing = []
-  var maxFileCount_selectmoveing =5;
-  var imagepreview_target ="imagepreview_selectmoveing"
+    function changeNfaceGoodsMethod(data) {
+        console.log("짐확인 변경")
+        $(".nfaceOrderGoods-wrap > div.nfaceOrderGoodsMethodClass").hide();
+        var chk = $("input[name=moving-goods-method]:checked").val();
+        $("#nfaceOrderGoodsMethod-" + chk).show();
+    }
 
-  function orderPopUploaderChange(input){
-    var files = input.files;
-    if (files.length === 0) { return }
+    var cachedFileArray_selectmoveing = []
+    var maxFileCount_selectmoveing = 5;
+    var imagepreview_target = "imagepreview_selectmoveing"
 
-    let adjustedFilesLength = files.length
-    if (maxFileCount_selectmoveing > 0) {
-        if ((files.length + cachedFileArray_selectmoveing.length) > maxFileCount_selectmoveing) {
-            adjustedFilesLength = maxFileCount_selectmoveing - cachedFileArray_selectmoveing.length
+    function orderPopUploaderChange(input) {
+        var files = input.files;
+        if (files.length === 0) {
+            return
+        }
+
+        let adjustedFilesLength = files.length
+        if (maxFileCount_selectmoveing > 0) {
+            if ((files.length + cachedFileArray_selectmoveing.length) > maxFileCount_selectmoveing) {
+                adjustedFilesLength = maxFileCount_selectmoveing - cachedFileArray_selectmoveing.length
+            }
+        }
+
+        for (let x = 0; x < adjustedFilesLength; x++) {
+            const file = files[x]
+            file.token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+            cachedFileArray_selectmoveing.push(file)
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+            reader.onload = (event) => {
+                var prev = selectmoveingpreviewTemplate({
+                    src: event.target.result,
+                    token: file.token
+                })
+                $(input).closest('.upload-image-item-btn').after(prev)
+            }
         }
     }
 
-    for (let x = 0; x < adjustedFilesLength; x++) {
-      const file = files[x]
-      file.token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      cachedFileArray_selectmoveing.push(file)
-      const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = (event) => {
-          var prev = selectmoveingpreviewTemplate( {src:event.target.result, token:file.token} )
-          $(input).closest('.upload-image-item-btn').after(prev)
-        }
+    function gotoNextStepWithImg() {
+        var containerType = $("input[name=moving-goods-method]:checked").val();
+        if (containerType == 'list') {
+            gotoNextStep()
+        } else if ((containerType == 'picture' && movingimage.getCount() > 3)) {
+            nextlevel({})
+        } else toast('최소 2장( 방, 거실, 주방, 화장실 등)이상의 사진을 올려주세요', 'topCenter')
     }
-  }
-  function gotoNextStepWithImg(){
-    var containerType = $("input[name=moving-goods-method]:checked").val();
-    if( containerType == 'list' ){
-      gotoNextStep()
-    }else if( (containerType == 'picture' && movingimage.getCount() > 3) ) {
-      nextlevel({})
-    }else toast('최소 2장( 방, 거실, 주방, 화장실 등)이상의 사진을 올려주세요', 'topCenter')
-  }
-  $(document).ready( function () {
-    selectmoveingpreviewTemplate = Handlebars.compile( $("#select-moveing-picture-item-template" ).html() )
-    movingimage = new mfPreviewImg( 'imagepreview_selectmoveing', {maxFileCount:30, maxSize:800, maxFileperOnce:6})
-  })
+    $(document).ready(function() {
+        selectmoveingpreviewTemplate = Handlebars.compile($("#select-moveing-picture-item-template").html())
+        movingimage = new mfPreviewImg('imagepreview_selectmoveing', {
+            maxFileCount: 30,
+            maxSize: 800,
+            maxFileperOnce: 6
+        })
+    })
 
 </script>

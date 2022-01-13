@@ -82,9 +82,7 @@ class NfaceorderController extends Controller
 		return $this->success(['command'=>'changeNfaceGoodsMethod'] );
 	}
 	function complete(Request $request){
-		/* TODO */
-		sleep(5);
-		return $this->error('시간오래걸리는 테스트', 422);
+
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>1]);
@@ -94,9 +92,7 @@ class NfaceorderController extends Controller
 		/*step3 check */
 		$res = $this->stepCarryingMethodCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>3]);
-		/*step3 check */
-		$goods = $this->stepGoodsLsitCheck($request);
-		if( !is_array($goods) ) return $this->error($res,422,['step'=>4]);
+
 		/*step5 check */
 		$res = $this->stepUserDataCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>5]);
@@ -107,12 +103,19 @@ class NfaceorderController extends Controller
 		$data = array_merge( $data , $this->tranceData($data));
 		$uploadefiles = [];
 
+		/*step4 check */
 		if( $data['moving-goods-method'] =='list' ){
+
+			$goods = $this->stepGoodsLsitCheck($request);
+			if( !is_array($goods) ) return $this->error($res,422,['step'=>4]);
+
 			if(count( $goods) < 1) return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>4]);
 			$data['goods'] = $goods;
 		}else {
 			$data['goods'] = null;
-
+			if( $request->agree_ai != 'Y'){
+				return $this->error('AI 이용에 동의해주세요.',422,['step'=>4]);
+			}
 			$files = $request->file('upload');
 
 			if($request->hasFile("upload")){
@@ -122,12 +125,17 @@ class NfaceorderController extends Controller
 						if( $uploadres != null ) $uploadefiles[] = $uploadres;
 					}
 			}
-
 		}
 		$data['images'] = $uploadefiles;
+
+		
 		$create = $this->create( $data);
 		if( $create ){
-			$this->createCompleted($data);
+
+			/* TODO */
+			sleep(1);
+			//$this->createCompleted($data);
+
 			return $this->success();
 		}else return $this->error($create);
 	}

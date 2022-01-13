@@ -2,103 +2,16 @@
 .nface-order-auth-wrap .form-check .form-check-label.chek-out-label span {
     top: -7px;
 }
-
-
-#nfacepoploader{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgb(0 0 0 / 80%);
-  z-index: 510;
-  display: none;
+.swal2-container {
+  z-index: 106000;
 }
-#nfacepoploader.loading{
-  display: block;
-}
-#nfacepoploader .nfacepoploader-wrapper {
-    position: absolute;
-    width: 200px;
-    height: 2px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    margin: auto;
-}
-.nfacepoploader-loader {
-  height: 100%;
-  display: flex;
-  transform: translateZ(0);
-}
-.nfacepoploader-loader div {
-  flex: 1;
-  background: salmon;
-  -webkit-animation: nfacepoploadergo 0.8s infinite alternate ease;
-          animation: nfacepoploadergo 0.8s infinite alternate ease;
-  box-shadow: 0 0 20px salmon;
-}
-.nfacepoploader-loader div:nth-child(1) {
-  -webkit-animation-delay: -0.72s;
-          animation-delay: -0.72s;
-}
-.nfacepoploader-loader div:nth-child(2) {
-  -webkit-animation-delay: -0.64s;
-          animation-delay: -0.64s;
-}
-.nfacepoploader-loader div:nth-child(3) {
-  -webkit-animation-delay: -0.56s;
-          animation-delay: -0.56s;
-}
-.nfacepoploader-loader div:nth-child(4) {
-  -webkit-animation-delay: -0.48s;
-          animation-delay: -0.48s;
-}
-.nfacepoploader-loader div:nth-child(5) {
-  -webkit-animation-delay: -0.4s;
-          animation-delay: -0.4s;
-}
-.nfacepoploader-loader div:nth-child(6) {
-  -webkit-animation-delay: -0.32s;
-          animation-delay: -0.32s;
-}
-.nfacepoploader-loader div:nth-child(7) {
-  -webkit-animation-delay: -0.24s;
-          animation-delay: -0.24s;
-}
-.nfacepoploader-loader div:nth-child(8) {
-  -webkit-animation-delay: -0.16s;
-          animation-delay: -0.16s;
-}
-.nfacepoploader-loader div:nth-child(9) {
-  -webkit-animation-delay: -0.08s;
-          animation-delay: -0.08s;
-}
-.nfacepoploader-loader div:nth-child(10) {
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s;
-}
-
-@-webkit-keyframes nfacepoploadergo {
-  100% {
-    background: transparent;
-    flex: 10;
-    box-shadow: 0 0 0 transparent;
-  }
-}
-
-@keyframes nfacepoploadergo {
-  100% {
-    background: transparent;
-    flex: 10;
-    box-shadow: 0 0 0 transparent;
-  }
-}
+.swal2-styled.swal2-confirm{background-color: #00beff;} 
+.swal2-icon.swal2-success .swal2-success-ring { border: 0.25em solid rgba(0,190,255,.3);}
+.swal2-icon.swal2-success [class^=swal2-success-line] {background-color: #00beff;}    
 </style>
 <div class="pop-page-step-header">
   <div class="pop-page-step-header-inner">
-      step4
+      정보입력
   </div>
 </div>
 <div class="pop-page-step-body">
@@ -107,14 +20,12 @@
     <div class="pop-content-wrap nface-order-auth-wrap">
       <div class="nface-order-auth-inner">
 
-          <div class="">
-            <div class="">
-              <label>이름</label>
-              <input name="register_name" value="">
+         <div class="nface-order-auth-ip-wrap">
+            <div class="nface-order-auth-ip-name">
+              <input name="register_name" class="form-control-pop form-control-success" value="" placeholder="고객명을 입력해 주세요">
             </div>
-            <div class="">
-              <label>전화번호</label>
-              <input name="register_phone" value="">
+            <div class="nface-order-auth-ip-phone">
+              <input name="register_phone" type="number" class="form-control-pop form-control-success" value="" max="11"  placeholder="전화번호를 입력해 주세요">
             </div>
           </div>
 
@@ -175,14 +86,6 @@
 
 
 <script>
-function createLoader(){
-  if( $("#nfacepoploader").length < 1){
-    var loaderwrap = $('<div>', {
-          id: 'nfacepoploader',
-        }).prependTo( "#popnmodal" );
-    $(loaderwrap).html("<div class='nfacepoploader-wrapper'><div class='nfacepoploader-loader'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>")
-  }
-}
 function checkAllFn(chk){
   var checked = $(chk).prop('checked')
   var inp = $(chk).closest('.checkAllFnwrap').find('input[type=checkbox]')
@@ -209,10 +112,21 @@ function nfaceOrderFormPrc(){
    processData: false,
    success:function(res)
    {
-
+     inpopupClearAll()
+       Swal.fire({
+        icon:'success',
+        title: "<div class='inpoporderSuccessTitle'>견적신청완료</div>",
+        html: "<div class='inpoporderSuccessBody'><p>실시간 이사 견적을</p><p><b>알림톡(문자)</b>으로 확인하세요</p></div>",
+        confirmButtonText: "확인",
+      }).then((result) => {
+        inpopupClearAll()
+      })
    },
-   error: function ( err ){
-       ajaxErrorST(err)
+   error: function ( res ){
+     ajaxErrorST(res )
+       if( typeof res.responseJSON.data != 'undefined' && typeof res.responseJSON.data.step != 'undefined'){
+         resetNowStep(res.responseJSON.data.step)
+       }
      }
      ,
      complete : function() {
@@ -220,5 +134,26 @@ function nfaceOrderFormPrc(){
      }
    }
  );
+}
+function inpopupClearAll(){
+   mfform.clearInpusts()
+   $(".ordergoods-item-options-str").empty()
+   $(".pop-page-step").removeClass("step-avail-open").removeClass("step-opened").removeClass("step-opened").removeClass("step-last-call")
+   $("#popn_step_1").addClass("step-last-call")
+   $(".top-steps-wrap > div").removeClass("top-step-ing").removeClass("top-step-done")
+   $(".top-steps-wrap > div:first-child").addClass("top-step-ing")
+   $("#inpopup-inline-progressbar").css('transform', 'translate3d(-100%,0,0)')
+   pop_step_availMax = 1
+   pop_step_open = 1
+   closepopnbtn()
+   localStorage.removeItem('pop-page-form-nface')
+}
+function testSuccess(){
+  Swal.fire({
+   icon:'success',
+   title: "<div class='inpoporderSuccessTitle'>견적신청완료</div>",
+   html: "<div class='inpoporderSuccessBody'><p>실시간 이사 견적을</p><p><b>알림톡(문자)</b>으로 확인하세요</p></div>",
+   confirmButtonText: "확인",
+ })
 }
 </script>

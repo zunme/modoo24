@@ -20,6 +20,14 @@ class mfFormStorage {
     }
     return data;
   }
+  clearInpusts(){
+    for (const element of this.$formElements ) {
+      if( element.type === 'radio') element.checked = false;
+      else if( element.type === 'checkbox' ) element.checked = false;
+      else if ( element.type === 'number' ) element.value='0'
+      else element.value='';
+    }
+  }
   loadData() {
     if ( localStorage.getItem(this.$storage) ) {
       const savedData = JSON.parse(localStorage.getItem(this.$storage)); // get and parse the saved data from localStorage

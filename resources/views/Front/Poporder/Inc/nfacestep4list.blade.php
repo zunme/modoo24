@@ -1,4 +1,16 @@
- 
+ <style>
+
+.ordergoods-item.option-select-done .fa-plus-square{
+  display: none;
+}
+.ordergoods-item .fa-check-square{
+  display:none;
+}
+.ordergoods-item.option-select-done .fa-check-square{
+  display:inline-block;
+}
+     
+</style>
 <script>
 var ordergoodstype = {!! json_encode($ordergoods) !!};
 var inpopuptemplate;
