@@ -4,7 +4,7 @@
 
 <style>
 #event {min-height: 600px;}
-.pic4 {background-image: url(http://116.122.157.150:8084/v1/image/sub/220106_event.jpg)!important;background-size: cover!important;}
+.pic4 {background-image: url(http://modoo24.net/v1/image/sub/220106_event.jpg)!important;background-size: cover!important;}
 </style>
 @endsection
 
