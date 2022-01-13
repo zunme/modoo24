@@ -103,8 +103,8 @@
   <div class="step-body-section">
     <div class="pop-content-wrap nfaceOrderGoods-wrap">
       <!-- 사진 확인 페이지 -->
-      <div id="nfaceOrderGoodsMethod-picture" style="display:none">
-        여기에 사진 올리는 내용이
+      <div class="nfaceOrderGoodsMethodClass" id="nfaceOrderGoodsMethod-picture" style="display:none">
+        사진업로드
         <div class="pop-content-wrap select-moveing-picture">
 
           <div class="pop-content-image-uploader-wrap">
@@ -127,15 +127,21 @@
       <!-- / 사진 확인 페이지 -->
 
       <!-- 리스트 확인 페이지 -->
-      <div id="nfaceOrderGoodsMethod-list" style="display:none">
+      <div class="nfaceOrderGoodsMethodClass" id="nfaceOrderGoodsMethod-list" style="display:none">
           @include('Front.Poporder.Inc.nfacestep4list',['ordergoods'=>$ordergoods])
       </div>
       <!-- / 리스트 확인 페이지 -->
+
+      <div class="pop-content-memo-wrap">
+        <label>메모</label>
+        <textarea name="memo"></textarea>
+      </div>
     </div>
 
   </div>
 
   <div class="pop-page-step-footer">
+
     <span class="btn btn-secondary" onclick="gotoNextStepWithImg()">다음</span>
   </div>
 
@@ -157,7 +163,7 @@
   var selectmoveingpreviewTemplate, movingimage;
   function changeNfaceGoodsMethod(data){
     console.log ("짐확인 변경")
-    $(".nfaceOrderGoods-wrap > div").hide();
+    $(".nfaceOrderGoods-wrap > div.nfaceOrderGoodsMethodClass").hide();
     var chk = $("input[name=moving-goods-method]:checked").val();
     $("#nfaceOrderGoodsMethod-" + chk).show();
   }
@@ -190,7 +196,10 @@
     }
   }
   function gotoNextStepWithImg(){
-    if( movingimage.getCount() > 3 ) {
+    var containerType = $("input[name=moving-goods-method]:checked").val();
+    if( containerType == 'list' ){
+      gotoNextStep()
+    }else if( (containerType == 'picture' && movingimage.getCount() > 3) ) {
       nextlevel({})
     }else toast('최소 2장( 방, 거실, 주방, 화장실 등)이상의 사진을 올려주세요', 'topCenter')
   }

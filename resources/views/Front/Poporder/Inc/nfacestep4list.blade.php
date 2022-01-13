@@ -1,166 +1,4 @@
-
-<style>
-
-.ordergoods-items-list{
-  --pop-content-list-select-per-row:1;
-  --pop-content-list-select-space:10px;
-  --pop-content-list-select-space-bottom:10px;
-
-  --f7-touch-ripple-color: rgba(0, 122, 255 , 0.25);
-  --goods-stepper-height : 28px;
-  --goods-stepper-border-radius : 5px;
-  --goods-stepper-color:#666;
-  --goods-stepper-button-text-color:#666;
-  --goods-stepper-button-bg-color : #eee;
-
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  padding-left: var( --pop-content-list-select-space );
-}
-@media (min-width: 430px){
-  .ordergoods-items-list {
-    --pop-content-list-select-per-row:2;
-    --pop-content-list-select-space:5px;
-  }
-}
-@media (min-width: 630px){
-  .ordergoods-items-list {
-    --pop-content-list-select-space:10px;
-    --pop-content-list-select-per-row : 3
-  }
-}
-@media (min-width: 840px){
-  .ordergoods-items-list {
-    --pop-content-list-select-per-row : 4;
-  }
-}
-.ordergoods-item{
-  width: calc( ( ( 100% - ( var(--pop-content-image-uploader-space) * ( var(--pop-content-list-select-per-row) ) ) ) / var(--pop-content-list-select-per-row) )  );
-  margin-right: var(--pop-content-list-select-space);
-  margin-bottom: var(--pop-content-list-select-space-bottom, 5px);
-  padding: 7px 5px;
-  background-color: #55acee;
-  border-radius: 5px;
-}
-.ordergoods-item-inner{
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  min-width: 157px;
-}
-.ordergoods-item-title{
-  min-width:60px;
-  margin-top: 4px;
-  overflow: hidden;
-  width: 100%;
-  white-space: nowrap;
-}
-.ordergoods-item-options-str{display:inline-block;}
-.ordergoods-item-options-str-item{
-  display: inline-block;
-  font-size: 14px;
-}
-.ordergoods-item-options-str-item:before{
-  display: inline-block;
-  content: ', '
-}
-.ordergoods-item-options-str-item:first-child:before{
-  display: inline-block;
-  content: ' : '
-}
-.stepper {
-
-    display: inline-flex;
-    align-items: stretch;
-    height: var(--goods-stepper-height);
-    border-radius: var(--goods-stepper-border-radius);
-}
-.stepper-button-minus, .stepper-button-plus {
-    background-color: var(--goods-stepper-button-bg-color);
-    width: 30px;
-    border-radius: var(--goods-stepper-border-radius);
-    border: var(--goods-stepper-border-width, 1px) solid var(--goods-stepper-color);
-    color: var(--goods-stepper-button-text-color, var(--goods-stepper-color));
-    line-height: calc(var(--f7-stepper-height) - var(--goods-stepper-border-width, 1px));
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    box-sizing: border-box;
-    position: relative;
-    cursor: pointer;
-}
-.stepper-button-plus, .stepper-button-minus {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-.stepper-button-minus:first-child, .stepper-button-plus:first-child {
-    border-radius: var(--goods-stepper-border-radius) 0 0 var(--goods-stepper-border-radius);
-}
-.stepper-button:last-child, .stepper-button-minus:last-child, .stepper-button-plus:last-child {
-    border-radius: 0 var(--goods-stepper-border-radius) var(--goods-stepper-border-radius) 0;
-}
-.stepper-button-plus:after, .stepper-button-minus:after, .stepper-button-plus:before,.stepper-button-minus:before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: var(--goods-stepper-button-text-color, var(--goods-stepper-color));
-    border-radius: 2px;
-}
-.stepper-button-plus:after, .stepper-button-minus:after {
-    width: 15px;
-    height: 2px;
-}
-.stepper-button-plus:before {
-    height: 15px;
-    width: 2px;
-}
-.stepper-input-wrap, .stepper-value {
-    flex-shrink: 1;
-    text-align: center;
-    border-top: var(--goods-stepper-border-width, 1px) solid var(--goods-stepper-color);
-    border-bottom: var(--goods-stepper-border-width, 1px) solid var(--goods-stepper-color);
-}
-.stepper .stepper-input-wrap input {
-    width: 36px;
-    color: var(--goods-stepper-value-text-color,var(--goods-stepper-color));
-    font-size: 17px;
-    font-weight: 500;
-    text-align: center;
-    border:none;
-    height: calc( var(--goods-stepper-height) - ( var(--goods-stepper-border-width, 1px) * 2 ) );
-}
-
-.stepper-option-add-col{
-  line-height: 24px;
-  font-size: 0px;
-  height: 24px;
-  margin-top: 2px;
-  cursor:pointer;
-}
-.stepper-option-add-col i{
-  color: white;
-  font-size: 24px;
-  margin-bottom: 0;
-  line-height: 24px;
-}
-.ordergoods-item.option-select-done .fa-plus-square{
-  display: none;
-}
-.ordergoods-item .fa-check-square{
-  display:none;
-}
-.ordergoods-item.option-select-done .fa-check-square{
-  display:inline-block;
-}
-
-</style>
+ 
 <script>
 var ordergoodstype = {!! json_encode($ordergoods) !!};
 var inpopuptemplate;
@@ -321,6 +159,14 @@ function pop_options_select_redraw(div) {
   }
 }
 
+function clearAllGoods(){
+  $('input[name^="goods"]').each(function() {
+    $(this).val('0');
+  });
+  $(".added_rows").each( function( i, v) { pop_options_select_redraw(v) })
+  $("#pop-page-form input.jspersist").trigger('change')
+}
+
 function minus_stepper_manual(btn){
   var inp = $(btn).next(".stepper-input-wrap").children("input")
   var min = parseInt($(inp).attr('min'))
@@ -360,7 +206,7 @@ function donetest(target, res){
 }
 </script>
 <div class="pop-content-wrap select-moveing-list">
-    <div>짐량확인</div>
+    <!--<div>짐량확인</div>-->
 
     <div class="select-moveing-list-inner">
       @foreach( $ordergoods as $goostype)
@@ -400,11 +246,4 @@ function donetest(target, res){
         </div>
       @endforeach
     </div>
-</div>
-
-
-
-<!-- in popup 옵션 템플릿-->
-<div id="inpopupOptionTemplate" style="display:none">
-
 </div>

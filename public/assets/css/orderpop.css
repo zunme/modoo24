@@ -1,6 +1,6 @@
 /* === Popup === */
 :root {
-  --f7-popup-border-radius: 0px;
+  --f7-popup-border-radius: 20px;
   --f7-popup-tablet-width: 630px;
   --f7-popup-tablet-height: 90vh;
   --f7-popup-transition-duration: 400ms;
@@ -129,6 +129,8 @@
 .popup.swipe-close-to-top.modal-out {
   transform: translate3d(0, -100vh, 0);
 }
+.pop-page-step-footer > .btn{border: 2px solid #00beff; color: #00beff; background: #fff; border-radius: 20px; padding: 10px 50px 7px; font-size: .85em}
+.pop-page-step-footer > .btn:hover{background: #00beff; color: #fff;border:2px solid #00beff;}
 @media (min-width: 630px) and (min-height: 630px) {
   .popup:not(.popup-tablet-fullscreen) {
     --f7-safe-area-top: 0px;
@@ -245,7 +247,7 @@
     height:44px;
     pointer-events: none;
     z-index: 0;
-    background-color: #3b5998;
+    background-color: #fff;
     transition-property: transform;
 }
 .pop-navbar-bg:after, .pop-navbar-bg:before {
@@ -298,14 +300,13 @@
 }
 
 .pop-navbar-inner .fas{
-  color: rgb(255 255 255 / 72%) !important;
+  color: #000 !important;
 }
 
 .pop-navbar-stepper{
   top: auto;
   bottom:0;
   height:var(--navbar-stepper-height);
-  background-color: whitesmoke;
   border-top: 1px solid var(--f7-navbar-bg-color);
 }
 .pop-navbar .pop-title {
@@ -320,7 +321,7 @@
     line-height: 44px;
     text-align: center;
     font-size: 16px;
-    color: white;
+    color: #000;
     padding-top: 4px;
 }
 .pop-navbar .pop-left, .pop-navbar .pop-right {

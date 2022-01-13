@@ -120,6 +120,101 @@
   padding-right: 15px;
 }
 </style>
+
+<style>
+/* loader */
+#nfacepoploader{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(0 0 0 / 80%);
+  z-index: 510;
+  display: none;
+}
+#nfacepoploader.loading{
+  display: block;
+}
+#nfacepoploader .nfacepoploader-wrapper {
+    position: absolute;
+    width: 200px;
+    height: 2px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+}
+.nfacepoploader-loader {
+  height: 100%;
+  display: flex;
+  transform: translateZ(0);
+}
+.nfacepoploader-loader div {
+  flex: 1;
+  background: salmon;
+  -webkit-animation: nfacepoploadergo 0.8s infinite alternate ease;
+          animation: nfacepoploadergo 0.8s infinite alternate ease;
+  box-shadow: 0 0 20px salmon;
+}
+.nfacepoploader-loader div:nth-child(1) {
+  -webkit-animation-delay: -0.72s;
+          animation-delay: -0.72s;
+}
+.nfacepoploader-loader div:nth-child(2) {
+  -webkit-animation-delay: -0.64s;
+          animation-delay: -0.64s;
+}
+.nfacepoploader-loader div:nth-child(3) {
+  -webkit-animation-delay: -0.56s;
+          animation-delay: -0.56s;
+}
+.nfacepoploader-loader div:nth-child(4) {
+  -webkit-animation-delay: -0.48s;
+          animation-delay: -0.48s;
+}
+.nfacepoploader-loader div:nth-child(5) {
+  -webkit-animation-delay: -0.4s;
+          animation-delay: -0.4s;
+}
+.nfacepoploader-loader div:nth-child(6) {
+  -webkit-animation-delay: -0.32s;
+          animation-delay: -0.32s;
+}
+.nfacepoploader-loader div:nth-child(7) {
+  -webkit-animation-delay: -0.24s;
+          animation-delay: -0.24s;
+}
+.nfacepoploader-loader div:nth-child(8) {
+  -webkit-animation-delay: -0.16s;
+          animation-delay: -0.16s;
+}
+.nfacepoploader-loader div:nth-child(9) {
+  -webkit-animation-delay: -0.08s;
+          animation-delay: -0.08s;
+}
+.nfacepoploader-loader div:nth-child(10) {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+}
+
+@-webkit-keyframes nfacepoploadergo {
+  100% {
+    background: transparent;
+    flex: 10;
+    box-shadow: 0 0 0 transparent;
+  }
+}
+
+@keyframes nfacepoploadergo {
+  100% {
+    background: transparent;
+    flex: 10;
+    box-shadow: 0 0 0 transparent;
+  }
+}
+</style>
 <div class="popup-backdrop" id="popnbackdrop"></div>
 
   <div id="daumlayer" style="">
@@ -214,6 +309,20 @@ var pop_step_open = 1;
 var pop_step_availMax = 1;
 var mfform = new mfFormStorage('pop-page-form','pop-page-form-nface' )
 
+function inPopLoaderCreate(){
+  if( $("#nfacepoploader").length < 1){
+    var loaderwrap = $('<div>', {
+          id: 'nfacepoploader',
+        }).prependTo( "#popnmodal" );
+    $(loaderwrap).html("<div class='nfacepoploader-wrapper'><div class='nfacepoploader-loader'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>")
+  }
+}
+function inPopLoaderOpen(){
+  $("#nfacepoploader").addClass('loading');
+}
+function inPopLoaderClose(){
+  $("#nfacepoploader").removeClass('loading');
+}
 function addModalSet(data,pop_step_opened){
     var old_no = pop_step_history;
     history.pushState({}, '', '#estimate'+pop_step_opened )
@@ -300,6 +409,7 @@ function getCurrentStep(){
   return ( step < 1 ) ? '1' : step
 }
 $("document").ready( function() {
+  inPopLoaderCreate();
   $(".pop-page-step .pop-page-step-header").on("click", function (e){
     console.log ( "header clicked")
     var target = $(e.target).closest('.pop-page-step');
@@ -316,8 +426,6 @@ $("document").ready( function() {
     else if( $(target).hasClass('step-last-call')) {
       return;
     }
-
-    console.log( $(target))
     old_step = pop_step_open
     pop_step_open = $(target).data('step')
 
@@ -400,7 +508,8 @@ function pop_page_content_pop_close(){
     $("#e_jibun_addr1").val( data.jbAddr )
   }
   function getOrderNfaceFromCheck(step, url){
-      getpost('/v2/order/nface/'+url, $("#pop-page-form").serialize(), nextlevel, console.log, orderNfaceFormCheckError )
+      inPopLoaderOpen()
+      getpost('/v2/order/nface/'+url, $("#pop-page-form").serialize(), nextlevel, inPopLoaderClose, orderNfaceFormCheckError )
   }
 
 

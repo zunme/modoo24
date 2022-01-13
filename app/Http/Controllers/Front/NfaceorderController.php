@@ -18,7 +18,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\User;
 
 use App\Models\BulletinSidoCopy;
+
+/* TODO */
 use App\Models\AuctionOrderNfaceTest;
+
 class NfaceorderController extends Controller
 {
 	use ApiResponser
@@ -79,6 +82,9 @@ class NfaceorderController extends Controller
 		return $this->success(['command'=>'changeNfaceGoodsMethod'] );
 	}
 	function complete(Request $request){
+		/* TODO */
+		sleep(5);
+		return $this->error('시간오래걸리는 테스트', 422);
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>1]);
@@ -119,56 +125,84 @@ class NfaceorderController extends Controller
 
 		}
 		$data['images'] = $uploadefiles;
-		$this->create( $data);
-
+		$create = $this->create( $data);
+		if( $create ){
+			$this->createCompleted($data);
+			return $this->success();
+		}else return $this->error($create);
 	}
+
 	private function create( $data ){
-		$startAddr = $this->getAddressInfo( $data['s_bcode'] );
-		$movingtype = $this->getClassifyType( $data['movingmethod']);
+		try{
+			$startAddr = $this->getAddressInfo( $data['s_bcode'] );
+			$movingtype = $this->getClassifyType( $data['movingmethod']);
 
-		$trance = [
-			'order_path'=>1,
-			's_uid' => (isset($data['internet_call']) && $data['internet_call']=='Y') ? '1':'0', //인터넷
-			's_with2' => (isset($data['s_help_no']) && $data['s_help_no']=='Y') ? '1':'0',//도와줄수있나요
-			'sido'=>$startAddr['sido'],
-			'gugun'=>$startAddr['gu'],
-			'mdate'=>$data['mdate'],
-			'name'=>$data['register_name'],
-			'passwd'=>(isset($data['agree_marketing']) && $data['agree_marketing']=='Y') ? 'Y':'N', //인터넷
-			'hp'=>$data['register_phone'],
-			'classify'=>$this->getClassify( $data['movingtype']), // 이사종류(소형,가정..)
-			'stype'=>$movingtype['stype'], //이사 타입 (포장..)
-			's_zip1'=>$data['s_zip1'],
-			's_addr1'=>$data['s_addr1'],
-			's_addr2'=>$data['s_addr2'],
-			's_area'=>$data['s_pyeong'],
-			's_floor'=>$data['s_floor'],
-			's_el'=>$data['s_ev_no'],
-			's_park'=>$data['s_park_no'],
-			'e_zip1'=>$data['e_zip1'],
-			'e_addr1'=>$data['e_addr1'],
-			'e_area'=>$data['e_pyeong'],
-			'e_floor'=>$data['e_floor'],
-			'e_el'=>$data['e_ev_no'],
-			'e_park'=>$data['e_park_no'],
-			'goods'=>$data['goods'],
-			'note'=>( isset($data['memo']) ) ? $data['memo'] : '',
-			'img_files'=>$data['images'],
-			'keep'=>(isset($data['use_container']) && $data['use_container']=='Y') ? 'Y':'N', //$data['use_container'], //보관
-			'type'=>$movingtype['type'],
-			'clean_yn'=>(isset($data['use_clean']) && $data['use_clean']=='Y') ? 'Y':'N',
-			's_check_type'=>($data['moving-goods-method'] =='list') ? 'box':'pic',
-			'user_memo'=>'',
-			'selck'=>'',
-			'share_status'=>'ing',
-			'reg_company_type'=>'모두이사',
-			'cafe_name'=>'모두이사_official_untact2'
-		];
-		$ins = AuctionOrderNfaceTest::create($trance);
+			$trance = [
+				'order_path'=>1,
+				's_uid' => (isset($data['internet_call']) && $data['internet_call']=='Y') ? '1':'0', //인터넷
+				's_with2' => (isset($data['s_help_no']) && $data['s_help_no']=='Y') ? '1':'0',//도와줄수있나요
+				'sido'=>$startAddr['sido'],
+				'gugun'=>$startAddr['gu'],
+				'mdate'=>$data['mdate'],
+				'name'=>$data['register_name'],
+				'passwd'=>(isset($data['agree_marketing']) && $data['agree_marketing']=='Y') ? 'Y':'N', //인터넷
+				'hp'=>$data['register_phone'],
+				'classify'=>$this->getClassify( $data['movingtype']), // 이사종류(소형,가정..)
+				'stype'=>$movingtype['stype'], //이사 타입 (포장..)
+				's_zip1'=>$data['s_zip1'],
+				's_addr1'=>$data['s_addr1'],
+				's_addr2'=>$data['s_addr2'],
+				's_area'=>$data['s_pyeong'],
+				's_floor'=>$data['s_floor'],
+				's_el'=>$data['s_ev_no'],
+				's_park'=>$data['s_park_no'],
+				'e_zip1'=>$data['e_zip1'],
+				'e_addr1'=>$data['e_addr1'],
+				'e_area'=>$data['e_pyeong'],
+				'e_floor'=>$data['e_floor'],
+				'e_el'=>$data['e_ev_no'],
+				'e_park'=>$data['e_park_no'],
+				'goods'=>$data['goods'],
+				'note'=>( isset($data['memo']) ) ? $data['memo'] : '',
+				'img_files'=>$data['images'],
+				'keep'=>(isset($data['use_container']) && $data['use_container']=='Y') ? 'Y':'N', //$data['use_container'], //보관
+				'type'=>$movingtype['type'],
+				'clean_yn'=>(isset($data['use_clean']) && $data['use_clean']=='Y') ? 'Y':'N',
+				's_check_type'=>($data['moving-goods-method'] =='list') ? 'box':'pic',
+				'user_memo'=>'',
+				'selck'=>'',
+				'share_status'=>'ing',
+				'reg_company_type'=>'모두이사',
+				'cafe_name'=>'모두이사_official_untact2'
+			];
+			$ins = AuctionOrderNfaceTest::create($trance);
+		} catch( \Exception $e){
+			return $e->getMessage();
+		}
+		return true;
+	}
+	private function createCompleted($data){
+		$message = "[모두이사 비대면 견적 신청완료]
+안녕하세요. ".$data['register_name']." 고객님, 모두이사입니다.
+비대면 이사 견적 신청이 완료되었습니다.
 
-		dump( $trance);
-		dd($data);
-		dump( $ins);
+▶이사일 : 2022년 1월 19일
+▶ 출발지 주소 : ".$data['s_addr1']." ".$data['s_addr2']."
+▶ 도착지 주소 : ".$data['e_addr1']."
+
+최대 10개 이사업체의 이사 견적을 보내드립니다.
+감사합니다.
+☎ 고객센터 1600-7728
+평일 : 오전 9시 ~ 오후 6시 30분
+공휴일, 주말 : 오전 9시 ~ 오후 5시
+
+---------------
+
+★모두이사 칭찬후기 이벤트★
+모두이사 매칭업체 이사서비스를 받으시고 칭찬후기를 작성해주세요
+작성해주신 모든 고객님께 커피쿠폰을 드립니다.
+업체평가하기 -> http://modoo24.net/v2/review/my";
+		$this-> sms($data['register_phone'], '비대면견적신청완료', $message);
 	}
 	/* 변환 */
 	//시도 , 구군

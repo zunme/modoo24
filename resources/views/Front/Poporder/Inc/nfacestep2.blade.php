@@ -3,27 +3,7 @@
   --calendar-cell-width : 50px;
   --calendar-cell-height : 50px;
 }
-#nface-step-movedate th, #nface-step-movedate td{
-  width: var(--calendar-cell-width) !important;
-  height: var(--calendar-cell-height) !important;
-  min-width: var(--calendar-cell-width);
-  min-height: var(--calendar-cell-height);
-}
-#nface-step-movedate td.son-active{
-  position: relative;
-}
-#nface-step-movedate td.son-active:before{
-  content: "dot";
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  background-color: #f44336;
-  border-radius: 5px;
-  overflow: hidden;
-  position: absolute;
-  top: 5px;
-  left: calc( 50% - 3px );
-}
+
 </style>
 
 <div class="pop-page-step-header">
@@ -31,7 +11,7 @@
     이사일 선택
   </div>
 </div>
-<div class="step-body-section">
+<div class="step-body-section pop-page-step-body">
   <div class="pop-content-wrap select-moveing-type">
      <div class="nface-step-movedate-wrap">
 
@@ -39,7 +19,12 @@
            <input type="hidden" name="mdate" id="nface-step-mdate-inp" value="">
 
      </div>
+    <div class="movedate-txt-son-wrap">
+        <div class="txt-son-info"><span></span>표시는 손없는 날입니다</div>    
+        <div class="txt-expensive-move-day"><span class="pt_red">금요일, 월말, 손없는날</span>을 피하시면 저렴하게 이사하실수 있습니다.</div>
+    </div>
    </div>
+
 
    <div class="pop-page-step-footer">
      <span class="btn btn-secondary" onclick="gotoNextStep()">다음</span>

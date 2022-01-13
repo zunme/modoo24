@@ -69,7 +69,15 @@
     <script src="/v1/js/core/popper.min.js" type="text/javascript"></script>
     <script src="/v1/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
     <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
+
+    @if( in_array(Request::path(), ['/','testhome']) )
+    <!-- 홈에 clse tag 안맞는 현상으로 스크립트 죽임 -->
+    <script src="/v2/assets/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+    @else
     <script src="/v1/js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+    @endif
+
+
 
     <!-- handlebar -->
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -82,7 +90,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
     <!--  custom  -->
-    <script src="/community/assets/js/default.js?v=20211105151300"></script>
+    <script src="/community/assets/js/default.js?v=20220111150300"></script>
 
     <script>
      /*************************************

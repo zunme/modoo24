@@ -1,6 +1,6 @@
 <div class="pop-page-step-header">
   <div class="pop-page-step-header-inner">
-    도착지/출발지
+    출발지/도착지
   </div>
 </div>
 <div class="pop-page-step-body">
@@ -17,8 +17,7 @@
             <input type="hidden" name="s_zip1" id="s_zip1">
 
             <input type="text" value="" class="form-control-pop form-control-success"
-                name="s_addr1" id="s_addr1" required="required" placeholder="출발지 주소 검색" readonly="" onclick="getAddress( startaddress );"
-            >
+                name="s_addr1" id="s_addr1" required="required" placeholder="출발지 주소 검색" readonly="" onclick="getAddress( startaddress );">
           </div>
           <div class="form-group-pop has-icon has-success">
             <input type="text" value="" class="form-control-pop"
