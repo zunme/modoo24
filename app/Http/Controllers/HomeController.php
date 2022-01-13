@@ -19,6 +19,9 @@ use App\Models\PostComment;
 use App\Models\PostCommentDepth;
 use App\Models\AuctionPopup;
 
+use App\Models\MoveGoodsType;
+use App\Models\MoveGoods;
+
 use App\Models\AuctionBbsPostscript;
 
 use App\Libraries\Aligo;
@@ -164,8 +167,11 @@ $response = $client->request('GET', $url);
         $row->pop_h = ($chkMobile) ? ($row->bp_height - 300 + 76 ) :($row->bp_height+76);
       }
 
+
+      $ordergoods = MoveGoodsType::with(['items'])->where(['type_use'=>'Y'])->orderBy('type_order_no','asc')->orderBy('id','asc')->get();
+
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
-      return view('welcometest', compact(['jisik', 'fun', 'tip','startday','pops']));
+      return view('welcometest', compact(['jisik', 'fun', 'tip','startday','pops','ordergoods']));
     }
 
 

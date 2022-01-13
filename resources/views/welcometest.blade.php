@@ -605,7 +605,7 @@
 <!-- pop -->
 
 <!-- test pop -->
-@include('popreg')
+@include('popreg',['ordergoods'=>$ordergoods])
 <!-- /test pop -->
 
 @if( $pops )

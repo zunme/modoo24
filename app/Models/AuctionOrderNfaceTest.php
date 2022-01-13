@@ -3,10 +3,10 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class AuctionOrderNface extends Model
+class AuctionOrderNfaceTest extends Model
 {
 	public $timestamps = false;
-	protected $table = 'auction_order_nface';
+	protected $table = 'auction_order_nface_test';
 	protected $primaryKey = 'uid';
 
 	protected $fillable = ['order_path', 's_uid', 's_with2', 'sido', 'gugun', 'mdate', 'name', 'passwd', 'hp', 'classify', 'stype',
