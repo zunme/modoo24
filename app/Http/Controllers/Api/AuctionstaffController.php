@@ -102,8 +102,8 @@ class AuctionstaffController extends Controller
 			\DB::raw( " cast( (b_star_expost+b_star_finish+b_star_kind+b_star_pave+b_star_price+b_star_pro)/6 as decimal(5,2)) as totalrate" )
 			)
 			->where(['b_worker_idx'=>$s_uid])
-			//->where(['b_admin_flag'=>'Y'])
-			//->where("b_atype","<>","불편")
+			->where(['b_admin_flag'=>'Y'])
+			->where("b_atype","<>","불편")
 			->orderBy('b_reg_date','desc')->paginate( 10 );
 
 		foreach ( $data as &$row){
