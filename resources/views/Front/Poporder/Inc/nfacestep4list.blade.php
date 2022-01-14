@@ -1,16 +1,4 @@
- <style>
 
-.ordergoods-item.option-select-done .fa-plus-square{
-  display: none;
-}
-.ordergoods-item .fa-check-square{
-  display:none;
-}
-.ordergoods-item.option-select-done .fa-check-square{
-  display:inline-block;
-}
-     
-</style>
 <script>
 var ordergoodstype = {!! json_encode($ordergoods) !!};
 var inpopuptemplate;
@@ -123,7 +111,7 @@ $("document").ready( function() {
         }
         $("#inpopup-content").html( inpopuptemplate(data) )
         pop_page_content_pop_open()
-        //donetest( item, res )
+        donetest( item, res )
       })
   });
 })
@@ -169,6 +157,8 @@ function pop_options_select_redraw(div) {
 		var itemdata = data[i]
 		$(target).append(`<div class="ordergoods-item-options-str-item">${itemdata.title}(${itemdata.val})</div>`)
   }
+  if( data.length > 0 ) $(div).closest('.ordergoods-item').addClass('option-select-done')
+  else $(div).closest('.ordergoods-item').removeClass('option-select-done')
 }
 
 function clearAllGoods(){
