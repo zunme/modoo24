@@ -1,6 +1,14 @@
 <link rel="stylesheet" href="/community/assets/css/flexgrid.css">
 <link rel="stylesheet" href="/community/assets/css/orderpop.css?v=220110150101">
-<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=220110150101">
+
+@if ( request()->get('css') =='test')
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=220110150102">
+@else
+<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=220110150102">
+@endif
+@if ( request()->get('cssv2') =='test')
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=220110150102">
+@endif
 <style>
 .w-100{
   width: 100%;
@@ -226,13 +234,13 @@
   position: relative;
   display: block;
   transform-style: preserve-3d;
-  background: silver;
+  background: rgb(81 147 182 / 35%);
   transform-origin: center top;
   height: 4px;
   border-radius: 4px;
 }
 .inpopup-inline-progressbar >span{
-  background-color: #e91e63;
+  background-color: #5193b6;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -243,6 +251,7 @@
   border-radius: 4px;
 }
 </style>
+
 <div class="popup-backdrop" id="popnbackdrop"></div>
 
   <div id="daumlayer" style="">
@@ -389,6 +398,7 @@ function openpopn(){
   $("body").trigger( "stepPopOpended" );
   /* 선택된 옵션 리스트 처리 */
   $(".added_rows").each( function( i, v) { pop_options_select_redraw(v) })
+  $(".stepper-input-wrap input").each( function( i, v) { pop_stepper_select_redraw(v) })
 }
 
 function closepopnbtn(){

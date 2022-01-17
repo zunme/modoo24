@@ -1,0 +1,56 @@
+
+#popnmodal{
+  background-color: transparent;
+  border: 2px solid #161616 !important;
+}
+.pop-page-step-body::-webkit-scrollbar {
+  width: 4px;
+}
+.pop-page-step-body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.pop-page-step-body::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: rgb(91 164 189 / 27%);
+}
+.pop-page-step-body{
+  scrollbar-width: thin;
+  scrollbar-color: rgb(91 164 189 / 27%) transparent; background: #fff;
+}
+
+.pop-page-step .pop-page-step-header {
+  border-top: none;
+}
+.pop-page-step{
+  background-color: #2e3538;
+}
+.pop-page-step-body {
+    background: #2e3538;
+    padding-top: 0;
+}
+.step-body-section {
+  margin-top: 8px;
+  margin-right: 10px;
+  border-radius: 6px !important;
+  border-top-color: white;
+  border-bottom-color: white;
+  padding-bottom: 10px;
+}
+.pop-content-wrap{
+  margin-bottom: 0;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.pop-page-step-footer {
+    border: none;
+    border-bottom-color: transparent;
+    padding-bottom: 17px;
+    /* margin-top: -20px; */
+    background-color: transparent;
+    box-shadow: none;
+    margin: 10px 0 !important;
+}
+.nface-order-auth-inner{
+  margin-top: 10px !important;
+  margin-bottom: : 10px !important;
+}

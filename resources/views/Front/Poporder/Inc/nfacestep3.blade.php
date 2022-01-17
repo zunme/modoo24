@@ -1,7 +1,7 @@
 <style>
-    .step-radio-labelclass input[type="radio"]:checked+.step-radio-label {
+    /*.step-radio-labelclass input[type="radio"]:checked+.step-radio-label {
         background-color: #00beff !important;
-    }
+    }*/
 
 </style>
 
@@ -174,9 +174,9 @@
                                         <div class="step-radio-label-text-item">사진으로</div>
                                         <div class="step-radio-label-text-item">짐량확인</div>
                                     </div>
-                                    
+
                                     <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
-                                    </div>    
+                                    </div>
                                     <!--<span class="circle">
                                         <span class="check"></span>
                                     </span>-->

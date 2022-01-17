@@ -1,34 +1,37 @@
 <style>
-:root {
+#popnmodal {
   --calendar-cell-width : 50px;
   --calendar-cell-height : 50px;
 }
-
 </style>
+
 
 <div class="pop-page-step-header">
   <div class="pop-page-step-header-inner">
     이사일 선택
   </div>
 </div>
-<div class="step-body-section pop-page-step-body">
-  <div class="pop-content-wrap select-moveing-type">
-     <div class="nface-step-movedate-wrap">
+<div class="pop-page-step-body">
+  <div class="step-body-section">
+    <div class="pop-content-wrap select-moveing-type">
 
-           <div id="nface-step-movedate"></div>
-           <input type="hidden" name="mdate" id="nface-step-mdate-inp" value="">
+      <div class="nface-step-movedate-wrap">
 
+            <div id="nface-step-movedate"></div>
+            <input type="hidden" name="mdate" id="nface-step-mdate-inp" value="">
+
+      </div>
+     <div class="movedate-txt-son-wrap">
+         <div class="txt-son-info"><span></span>표시는 손없는 날입니다</div>
+         <div class="txt-expensive-move-day"><span class="pt_red">금요일, 월말, 손없는날</span>을 피하시면 저렴하게 이사하실수 있습니다.</div>
      </div>
-    <div class="movedate-txt-son-wrap">
-        <div class="txt-son-info"><span></span>표시는 손없는 날입니다</div>    
-        <div class="txt-expensive-move-day"><span class="pt_red">금요일, 월말, 손없는날</span>을 피하시면 저렴하게 이사하실수 있습니다.</div>
+     
     </div>
-   </div>
+  </div>
 
-
-   <div class="pop-page-step-footer">
-     <span class="btn btn-secondary" onclick="gotoNextStep()">다음</span>
-   </div>
+  <div class="pop-page-step-footer">
+    <span class="btn btn-secondary" onclick="gotoNextStep()">다음</span>
+  </div>
 
 </div>
 

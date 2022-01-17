@@ -80,6 +80,10 @@ $("document").ready( function() {
     val = ( val <= min ) ? min : val - 1
     $(inp).val(val)
     $(inp).trigger("change")
+
+    if ( $(inp).val() > 0 ){
+      $(inp).closest('.ordergoods-item').addClass('option-select-done')
+    }else $(inp).closest('.ordergoods-item').removeClass('option-select-done')
   })
   $(".stepper-button-plus").on( 'click', function (e){
     var inp = $(e.target).closest('.stepper-init').find('input')
@@ -89,6 +93,9 @@ $("document").ready( function() {
     val = ( val >= max ) ? max : val + 1
     $(inp).val(val)
     $(inp).trigger("change")
+    if ( $(inp).val() > 0 ){
+      $(inp).closest('.ordergoods-item').addClass('option-select-done')
+    }else $(inp).closest('.ordergoods-item').removeClass('option-select-done')
   })
 
   $(".stepper-option-add-col").on( 'click', function (e){
@@ -160,6 +167,11 @@ function pop_options_select_redraw(div) {
   if( data.length > 0 ) $(div).closest('.ordergoods-item').addClass('option-select-done')
   else $(div).closest('.ordergoods-item').removeClass('option-select-done')
 }
+function pop_stepper_select_redraw(inp){
+  if ( $(inp).val() > 0 ){
+    $(inp).closest('.ordergoods-item').addClass('option-select-done')
+  }else $(inp).closest('.ordergoods-item').removeClass('option-select-done')
+}
 
 function clearAllGoods(){
   $('input[name^="goods"]').each(function() {
@@ -177,7 +189,9 @@ function minus_stepper_manual(btn){
   if( val <= min ) val = 0;
   else val = val - 1;
   $(inp).val( val )
+  if (val > 0 ) $(btn).closest('.ordergoods-item').addClass('option-select-done')
 }
+
 function plus_stepper_manual(btn){
 
   var inp = $(btn).closest('.stepper').children('.stepper-input-wrap').children('input')
@@ -187,6 +201,7 @@ function plus_stepper_manual(btn){
   if( val >= max ) val = max;
   else val = val + 1;
   $(inp).val( val )
+  if (val > 0 ) $(btn).closest('.ordergoods-item').addClass('option-select-done')
 }
 function donetest(target, res){
   async function processArray(array) {
