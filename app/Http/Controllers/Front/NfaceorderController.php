@@ -93,6 +93,7 @@ class NfaceorderController extends Controller
 		$res = $this->stepCarryingMethodCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>3]);
 
+
 		/*step5 check */
 		$res = $this->stepUserDataCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>5]);
@@ -101,6 +102,7 @@ class NfaceorderController extends Controller
 
 		$data = $request->except(['upload','goods']);
 		$data = array_merge( $data , $this->tranceData($data));
+
 		$uploadefiles = [];
 
 		/*step4 check */
@@ -128,7 +130,7 @@ class NfaceorderController extends Controller
 		}
 		$data['images'] = $uploadefiles;
 
-		
+
 		$create = $this->create( $data);
 		if( $create ){
 
@@ -148,7 +150,7 @@ class NfaceorderController extends Controller
 			$trance = [
 				'order_path'=>1,
 				's_uid' => (isset($data['internet_call']) && $data['internet_call']=='Y') ? '1':'0', //인터넷
-				's_with2' => (isset($data['s_help_no']) && $data['s_help_no']=='Y') ? '1':'0',//도와줄수있나요
+				's_with2' => ($data['movingmethod'] == 'small' && isset($data['s_help_no']) && $data['s_help_no']=='Y') ? '1':'0',//도와줄수있나요
 				'sido'=>$startAddr['sido'],
 				'gugun'=>$startAddr['gu'],
 				'mdate'=>$data['mdate'],

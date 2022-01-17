@@ -73,6 +73,10 @@ Route::group([
     Route::post('del', 'ReviewController@delReview');
   });
 
+  Route::group(['prefix' => 'neworder',], function() {
+    Route::get('/nface/info/{uid}', 'NewnfaceorderController@getInfo');
+  });
+
   Route::group([
       'prefix' => 'setting',
   ], function () {
