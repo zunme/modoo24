@@ -8,6 +8,7 @@ use Validator;
 
 use App\Models\AuctionOrder;
 use App\Models\AuctionOrderNface;
+use App\Models\AuctionCallList;
 
 use App\Models\AuctionOrderInfoEnc;
 
@@ -47,6 +48,9 @@ class OrderController extends Controller
       if(!$order){
         return $this->error("오더정보를 찾을 수 없습니다.", 404);
       }
+
+      
+
       $ins = [
         'admin_id'=> $admin['id'],
         'admin_name'=> $admin['name'],
@@ -62,6 +66,11 @@ class OrderController extends Controller
         $order->name = '고객정보삭제';
         $order->hp = '고객정보삭제';
         $order->save();
+	
+	if($request->type != 'order'){
+		$call = AuctionCallList::where(['uid'=>$id])->update([ 'send_number' => '고객정보삭제', 'get_number' => '고객정보삭제' ]);
+	}
+
         \DB::commit();
       }catch ( \Exception $e){
   			\DB::rollback();
