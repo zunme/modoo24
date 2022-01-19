@@ -1,4 +1,5 @@
 Handlebars.registerHelper('numberFormat', function (value, options) {
+    if( typeof value=='undefined') value='0'
     // Helper parameters
     var dl = options.hash['decimalLength'] || 0;
     var ts = options.hash['thousandsSep'] || ',';

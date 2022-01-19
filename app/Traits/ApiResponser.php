@@ -28,7 +28,9 @@ trait ApiResponser
 		$ret[$inputname][] = $message;
 		return response()->json($ret, 422,['Pragma'=> 'no-cache','Cache-Control'=> 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0']);
 	}
-
+	protected function getUniqueString($limit=9){
+		return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
+	}
 	/* ex 0.5단위 내림 roundDown($number, 0.5) */
 	protected function roundDown($number, $nearest){
 	    return $number - fmod($number, $nearest);
@@ -259,7 +261,7 @@ trait ApiResponser
 				if( $total >= $val) return $grade;
 		}
 	}
-	
+
 	private function communityGradeTitle($total){
 		if ( $total >= 7 ) return '명예';
 		else if ( $total >= 5 ) return '최우수';

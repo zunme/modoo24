@@ -399,6 +399,7 @@ function openpopn(){
   /* 선택된 옵션 리스트 처리 */
   $(".added_rows").each( function( i, v) { pop_options_select_redraw(v) })
   $(".stepper-input-wrap input").each( function( i, v) { pop_stepper_select_redraw(v) })
+  $.get('/v2/tracelog/nfacepop/1')
 }
 
 function closepopnbtn(){
@@ -580,7 +581,8 @@ function pop_page_content_pop_close(){
 
   function orderNfaceFormCheckError(res){
     ajaxErrorST(res )
-    if( typeof res.responseJSON.data != 'undefined' && typeof res.responseJSON.data.step != 'undefined'){
+
+    if( typeof res == 'object' && typeof res.responseJSON == 'object' && typeof res.responseJSON.data != 'undefined' && typeof res.responseJSON.data.step != 'undefined'){
       resetNowStep(res.responseJSON.data.step)
     }
   }

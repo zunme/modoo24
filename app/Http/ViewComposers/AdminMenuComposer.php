@@ -32,6 +32,11 @@ class AdminMenuComposer
                 ],
             ],
             [
+                'title' => '비대면전환률',
+                'icon'=>'fas fa-coins',
+                'url' => $this->defaultStartUrl.route('rhksfl.nfacepoplog', null, false).'', // 반드시 이렇게 작성함.
+            ],
+            [
                 'title' => 'config',
                 'icon'=>'fas fa-cog',
                 'url' => $this->defaultStartUrl.route('rhksfl.siteconfigs', null, false), // 반드시 이렇게 작성함.

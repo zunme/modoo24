@@ -10,6 +10,8 @@ Route::group([
     Route::post('siteconfigs', 'SiteconfigController@store');
     Route::post('siteconfigs/item', 'SiteconfigController@itemstore');
 
+    Route::get('/nfacelog', 'NewnfaceorderController@loginfo')->name('nfacepoplog');
+
     //고객정보삭제
     Route::post('order/userinfo/del', 'OrderController@deleteUserInfo');
     Route::get('order/userinfo/list', 'OrderController@deleteUserList');
@@ -75,6 +77,7 @@ Route::group([
 
   Route::group(['prefix' => 'neworder',], function() {
     Route::get('/nface/info/{uid}', 'NewnfaceorderController@getInfo');
+    Route::get('/nface/log', 'NewnfaceorderController@getlog');
   });
 
   Route::group([

@@ -14,25 +14,77 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Http\Libraries\MobileDetect;
 
 use App\User;
 
 use App\Models\BulletinSidoCopy;
+use App\Models\LaravelTraceLog;
 
 /* TODO */
 use App\Models\AuctionOrderNfaceTest;
 
 class NfaceorderController extends Controller
 {
-	use ApiResponser
-	;
+	use ApiResponser;
 	/* 도착지 출발지 체크 */
+
+	function makelog(Request $request, $code, $step, $substep=null, $tranceval = null ){
+		$exceptIp = ['221.154.134.3'];
+
+		/* TODO 내부 IP제외 */
+		//if( in_array($request->ip(), $exceptIp)) return $this->error('EXCEPT IP');
+		
+		$unique_limit = 10;
+
+		$logUnique = $request->session()->get('traceLogId', function () use ($request) {
+			$unique = $this->getUniqueString(10);
+			$request->session()->put('traceLogId', $unique);
+		  return $unique;
+		});
+		if( in_array($step ,['open','start','1','step1']) ){
+			$request->session()->forget('traceOpenId');
+		}
+		$logOpenId = $request->session()->get('traceOpenId', function () use ($request) {
+			$unique = $this->getUniqueString(10);
+			$request->session()->put('traceOpenId', $unique);
+		  return $unique;
+		});
+
+		$agent = new MobileDetect();
+ 		$mobileResult = $agent->isMobile();
+		try{
+			$lastlog = LaravelTraceLog::where(['openId'=>$logOpenId])->first();
+			if( !$lastlog){
+				LaravelTraceLog::create([
+					"uniqueId"=>$logUnique,
+					"openId"=>$logOpenId,
+					"isMobile"=> $mobileResult ? 'Y':'N',
+					"page"=>$code,
+					"step"=>$step,
+					"substep"=>$substep,
+					"ip"=>$request->ip()
+				]);
+			}else {
+				if($lastlog->step <= $step && $lastlog->tranceval <= $tranceval){
+					$lastlog->step= $step;
+					$lastlog->tranceval= $tranceval;
+					$lastlog->substep= $substep;
+					$lastlog->save();
+				}
+			}
+		} catch( \Exception $e ){
+			return $this->error($e->getMessage());
+		}
+		return $this->success();
+
+	}
   function step1(Request $request){
 		/*step1 check */
     $res = $this->stepAddressCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>1]);
 		/*end step1 check */
-
+		$this->makelog($request, 'nfacepop', '2' );
     return $this->success( );
   }
 	/* 이사일 체크 */
@@ -44,7 +96,7 @@ class NfaceorderController extends Controller
     $res = $this->stepMdateCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>2]);
 
-
+		$this->makelog($request, 'nfacepop', '3' );
     return $this->success( );
   }
 	/* 이사종류 & 이삿짐량 선택 */
@@ -58,7 +110,8 @@ class NfaceorderController extends Controller
 		/*step2 check */
 		$res = $this->stepCarryingMethodCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>3]);
-
+		$tempdata = $request->all();
+		$this->makelog($request, 'nfacepop', '4' , $tempdata['moving-goods-method'] );
     return $this->success(['command'=>'changeNfaceGoodsMethod'] );
   }
 	/* 짐량확인 */
@@ -78,7 +131,8 @@ class NfaceorderController extends Controller
 		if( count( $goods) < 1 ){
 			return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>4]);
 		}
-
+		$tempdata = $request->all();
+		$this->makelog($request, 'nfacepop', '5', $tempdata['moving-goods-method']  );
 		return $this->success(['command'=>'changeNfaceGoodsMethod'] );
 	}
 	function complete(Request $request){
@@ -137,7 +191,8 @@ class NfaceorderController extends Controller
 			/* TODO */
 			sleep(1);
 			//$this->createCompleted($data);
-
+			$tempdata = $request->all();
+			$this->makelog($request, 'nfacepop', '6', $tempdata['moving-goods-method'],'4000'  );
 			return $this->success();
 		}else return $this->error($create);
 	}
