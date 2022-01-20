@@ -1,3 +1,8 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.nanumgothic * {
+ font-family: 'Nanum Gothic', sans-serif;
+}
 #popnmodal {
   --input-line-color:#a1a1a1;
   --inout-bg-color:#f5f5f5;
@@ -12,7 +17,17 @@
   --f7-grid-row-gap: 0px;
   --f7-popup-border-radius: 0px;
   --f7-popup-tablet-border-radius:10px;
+
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
+
 .pop-page-step-footer > .btn:hover {
     background: #00beff;
     color: #fff;
@@ -110,16 +125,16 @@ resize: both;}
   padding-left: 36px;
 }
 #pop-page-form .pop-page-step:nth-child(3) .pop-page-step-header{
-  background-color: #7ba5c9;
+  background-color: #a2b3c3;
 }
 #pop-page-form .pop-page-step:nth-child(4) .pop-page-step-header{
-  background-color: #8aafcf;
+  background-color: #94a8bb;
 }
 #pop-page-form .pop-page-step:nth-child(5) .pop-page-step-header{
-  background-color: #98b9d5;
+  background-color: #7991a7;
 }
 #pop-page-form .pop-page-step:nth-child(6) .pop-page-step-header{
-  background-color: #a7c3db;
+  background-color: #5f7991;
 }
 .pop-page-step.step-opened .pop-page-step-header{
   background-color: #577c9c !important;
@@ -596,7 +611,7 @@ display:flex;
 #nface-step-movedate th, #nface-step-movedate td{
   width: var(--calendar-cell-width) !important;
   height: var(--calendar-cell-height) !important;
-  min-width: var(--calendar-cell-width);
+
   min-height: var(--calendar-cell-height);
 }
 #nface-step-movedate td.son-active{
@@ -629,20 +644,75 @@ display:flex;
     left: calc( 50% - 3px );}
 .movedate-txt-son-wrap .txt-expensive-move-day{}
 
-.son-active {background-color: #fff;border-radius: 0 !important;}
-.datepicker-inline {width: 100%}
-.datepicker table tr td.active.active, .datepicker table tr td.active.highlighted.active, .datepicker table tr td.active.highlighted:active, .datepicker table tr td.active:active {color: #fff;background-color: #00beff!important;border-color: 0!important;border-radius: 50px!important;text-shadow: 0 }
+#pop-page-form .son-active {background-color: #fff;border-radius: 0 !important;}
+#pop-page-form .datepicker-inline {width: 100%}
+/*
+#pop-page-form .datepicker table tr td.active.active,
+#pop-page-form .datepicker table tr td.active.highlighted.active,
+#pop-page-form  .datepicker table tr td.active.highlighted:active,
+#pop-page-form  .datepicker table tr td.active:active {
+  color: #fff;background-color: #00beff!important;border-color: 0!important;border-radius: 50px!important;text-shadow: 0
+}
+*/
 
 
-.datepicker table tr td.today {color: #000;background-color: #b3ecff;border-color: 0;border-radius: 50px!important}
-.datepicker table tr td.today:hover,.datepicker table tr td.today:active ,.datepicker table tr td.today:visited{background-color: #eeeeee;}
 
-.datepicker table tr td, .datepicker table tr th {border-radius: 50px;}
-.table-condensed{display: inline-block}
-.datepicker-days{text-align: center}
-.datepicker-months{text-align: center;margin: 0 auto;}
+#pop-page-form .datepicker table tr td,
+#pop-page-form .datepicker table tr th {border-radius: 4px !important;}
+
+#pop-page-form .datepicker-days{
+  display: flex;
+  justify-content: center;
+}
+#pop-page-form .datepicker-months{text-align: center;margin: 0 auto;}
 
 
+#pop-page-form .datepicker table tr td,
+#pop-page-form .datepicker table tr th {border-radius: 4px;}
+#pop-page-form .datepicker table tr td.today {
+    color: #f44336;
+    background-color: transparent;
+    border-color: transparent;
+    position: relative;
+}
+
+#pop-page-form td.today:after {
+  content: '';
+  display: inline-block;
+  border: solid transparent;
+  border-width: 0 0 7px 7px;
+  border-bottom-color: #ff5722;
+  border-top-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+}
+
+#pop-page-form td.active.today:after {
+    border-bottom-color: #fff;
+}
+
+
+#pop-page-form .datepicker td.active,
+#pop-page-form .datepicker td.active:hover,
+#pop-page-form .datepicker td.today.active,
+#pop-page-form .datepicker td.today.active:hover
+{
+    background-color: #55acee;/*#337ab7;*/
+    color: #fff;
+    text-shadow: 0 -1px 0 rgb(0 0 0 / 25%);
+}
+.pop-content-wrap.select-moveing-type{
+  display: flex;
+  flex-direction: column;
+}
+.movedate-txt-son-wrap{
+  display: inline-flex;
+  flex-direction: column;
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
 /***********************이사종류**************************/
 
 .select-moveing-type-body-inner.flex-row{
@@ -1175,4 +1245,34 @@ display:flex;
   }
   .stepper-option-add-col i {
       color: #7a9bb5;
-    }  
+    }
+
+#popn_step_4 .step-body-section{
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+#popn_step_4 .step-body-section .pop-content-wrap {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+#nfaceOrderGoodsMethod-picture.nfaceOrderGoodsMethodClass,.ordergoods-items, .pop-content-memo-wrap{
+  padding: 20px 14px 20px 20px;
+  border: 1px solid #6666665c;
+
+  margin-left: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding-bottom: 30px;
+  background-color: #e3e8e9;
+  box-shadow: 0px 0px 0px 0px rgb(159 189 191 / 35%), 0px -8px 16px -8px rgb(0 0 0 / 15%), 0px -8px 16px -8px rgb(0 0 0 / 18%);
+  box-shadow: none;
+}
+.pop-content-memo-wrap{
+  margin-top: 20px;
+}
+#popn_step_4 .step-body-section .pop-content-memo-wrap > .title {
+    margin-top: 0px;
+}

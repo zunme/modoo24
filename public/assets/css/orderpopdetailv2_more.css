@@ -54,3 +54,30 @@
   margin-top: 10px !important;
   margin-bottom: : 10px !important;
 }
+/* 짐리스트 박스 블럭*/
+#popn_step_4 .step-body-section{
+  margin: 0;
+  border: none;
+  border-radius: 0px !important;
+  background-color: transparent;
+}
+#popn_step_4 .step-body-section .pop-content-wrap {
+    margin-bottom: 0;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+#nfaceOrderGoodsMethod-picture.nfaceOrderGoodsMethodClass,.ordergoods-items, .pop-content-memo-wrap{
+  margin-top: 8px;
+  margin-right: 10px;
+  border-radius: 6px !important;
+  border-top-color: white;
+  border-bottom-color: white;
+  padding-bottom: 10px;
+  background-color: #e3e8e9;
+  padding: 20px 14px;
+  box-shadow: none;
+  border-bottom-color: transparent;
+}
+#popn_step_4 .step-body-section .pop-content-memo-wrap > .title {
+    margin-top: 0px;
+}
