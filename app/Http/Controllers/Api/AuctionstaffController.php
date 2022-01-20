@@ -32,6 +32,7 @@ class AuctionstaffController extends Controller
 			}
 			$s_uid = $session['idx'];
 		}
+
     $files = AuctionBbsPostscript::
       select('review_files.*')
       ->where(['b_worker_idx'=>$s_uid, "b_admin_flag"=>"Y"])
@@ -50,6 +51,22 @@ class AuctionstaffController extends Controller
 		else $companyGrade = $this->companyGrade( $rating->totalstar);
 		$staffinfo = AuctionStaff::find( $s_uid);
 
+		$extendfile = [];
+
+		if ( isset($staffinfo->s_mobile_img3_1) && is_array($staffinfo->s_mobile_img3_1) && count($staffinfo->s_mobile_img3_1)>0)  $extendfile[] = $staffinfo->s_mobile_img3_1[0];
+		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
+		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
+		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
+
+
+		if( count($extendfile)> 0 ){
+			$tempfile = [];
+			foreach( $extendfile as $row) $tempfile[] = ['url'=>$row->path .'/'.$row->file_name_real, 'repath'=>'Y'];
+			foreach( $files as $row) $tempfile[] = $row;
+			$files = $tempfile;
+		}
+
+
 		if( is_array($staffinfo->s_mobile_img1) || is_array($staffinfo->s_mobile_img2) ){
 			$regfiles = [
 				//"logo"=>(isset($staffinfo->s_mobile_img0[0]) )  ? $staffinfo->s_mobile_img0[0] : null,
@@ -58,7 +75,7 @@ class AuctionstaffController extends Controller
 			];
 		}else $regfiles = [];
 
-    return $this->success( compact(['files','rating','companyGrade','stararr','regfiles']));
+    return $this->success( compact(['files','rating','companyGrade','stararr','regfiles', 'extendfile']));
   }
 	public function getStaffRating( Request $request, $s_uid){
 		$sql = "
