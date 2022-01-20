@@ -84,12 +84,20 @@ let imgTemplate = `
   {{#each files}}
     <li class="mycp_pic imgD  {{#if ( isEqual @index 3) }} imgM {{/if}} {{#if ( gte  @index 4 ) }} hidden {{/if}}">
     <!--img src="/v2/storage{{url}}"-->
+      {{#if ( isEqual repath 'Y' ) }}
+      <a href="https://24auction.co.kr{{url}}" data-lightbox="photos" class="thumbnail2">
+      {{else}}
       <a href="/v2/storage{{url}}" data-lightbox="photos" class="thumbnail2">
+      {{/if}}
       {{#if ( isEqual @index 3) }}
       <i class="fas fa-plus"></i>
       <span>더보기</span>
       {{/if}}
-           <img data-src="holder.js/100%x180" alt="100%x180" src="/v2/storage{{url}}" data-holder-rendered="false" >
+      {{#if ( isEqual repath 'Y' ) }}
+        <img data-src="holder.js/100%x180" alt="100%x180" src="https://24auction.co.kr{{url}}" data-holder-rendered="false">
+      {{else}}
+           <img data-src="holder.js/100%x180" alt="100%x180" src="/v2/storage{{url}}" data-holder-rendered="false" {{repath}}>
+      {{/if}}
        </a>
     </li>
   {{/each}}
