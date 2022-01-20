@@ -49,11 +49,12 @@ class AuctionstaffController extends Controller
 		}
 		else $companyGrade = $this->companyGrade( $rating->totalstar);
 		$staffinfo = AuctionStaff::find( $s_uid);
+
 		if( is_array($staffinfo->s_mobile_img1) || is_array($staffinfo->s_mobile_img2) ){
 			$regfiles = [
 				//"logo"=>(isset($staffinfo->s_mobile_img0[0]) )  ? $staffinfo->s_mobile_img0[0] : null,
-				"사업자등록증"=>(isset($staffinfo->s_mobile_img1[0]) )  ? $staffinfo->s_mobile_img1[0] : null,
-				"주선허가증"=>(isset($staffinfo->s_mobile_img2[0]) )  ? $staffinfo->s_mobile_img2[0] : null,
+				"사업자등록증"=> is_object($staffinfo->s_mobile_img1) ? $staffinfo->s_mobile_img1 : ( isset($staffinfo->s_mobile_img1) && is_array($staffinfo->s_mobile_img1) && count($staffinfo->s_mobile_img1)>0  ? $staffinfo->s_mobile_img1[0] : null ),
+				"주선허가증"=>is_object($staffinfo->s_mobile_img2) ? $staffinfo->s_mobile_img2 : ( isset($staffinfo->s_mobile_img2) && is_array($staffinfo->s_mobile_img2) && count($staffinfo->s_mobile_img2)>0  ? $staffinfo->s_mobile_img2[0] : null ),
 			];
 		}else $regfiles = [];
 
