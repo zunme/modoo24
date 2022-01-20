@@ -33,6 +33,9 @@ Route::get('/review/staff/{s_uid}','Api\AuctionstaffController@staffReviews');
 Route::post('/review/staffMyReviews','Api\AuctionstaffController@staffMyReviewsWrite');
 Route::get('/review/staffMyReviews/{type}','Api\AuctionstaffController@staffMyReviews');
 
+
+Route::get('/staff/communitygradev2','Api\AuctionstaffController@getStaffCommunityGrade');
+
 //내 비대면 견적 리스트
 Route::get('/applicationHistory/nfacelist/{uid}','Api\OrderController@nfacelist');
 

@@ -214,4 +214,15 @@ class AuctionstaffController extends Controller
 		 }
 
 	}
+
+	function getStaffCommunityGrade(Request $request){
+		$grades = $this->getSiteConfig('staffpointgrade');
+		$data = $this->communityStaticsv2($request->id);
+		$res = [
+			'totaldata' => $data,
+			'gradeTitle'=> $this->communityGradeV2( ( isset($data->cnt) && $data->cnt > 0 ) ? $data->cnt : '0' ),
+			'grades'=>$grades,
+		];
+		return $this->success($res);
+	}
 }
