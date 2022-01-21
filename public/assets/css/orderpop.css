@@ -1,6 +1,6 @@
 /* === Popup === */
 :root {
-  --f7-popup-border-radius: 20px;
+  --f7-popup-border-radius: 0px;
   --f7-popup-tablet-width: 630px;
   --f7-popup-tablet-height: 90vh;
   --f7-popup-transition-duration: 400ms;
@@ -43,7 +43,9 @@
   --navbar-stepper-height: 44px; /*pop-navbar-stepper 높이*/
   /*--pop-footer-height:40px;*/ /* pop-footer-navbar 높이 */
   --pop-footer-height:0px;
+    
 }
+
 .ios {
   --f7-popup-tablet-border-radius: 5px;
   --f7-popup-box-shadow: none;
@@ -129,7 +131,6 @@
 .popup.swipe-close-to-top.modal-out {
   transform: translate3d(0, -100vh, 0);
 }
-.pop-page-step-footer > .btn{border: 2px solid #00beff; color: #00beff; background: #fff; border-radius: 20px; padding: 10px 50px 7px; font-size: .85em}
 .pop-page-step-footer > .btn:hover{background: #00beff; color: #fff;border:2px solid #00beff;}
 @media (min-width: 630px) and (min-height: 630px) {
   .popup:not(.popup-tablet-fullscreen) {
@@ -347,4 +348,10 @@
 }
 .hideimportant{
   display:none !important;
+}
+
+@media (min-width: 600px){
+  :root {
+  --f7-popup-border-radius: 20px;
+  }
 }

@@ -35,7 +35,7 @@ var inpopuptemplateobj=`
         </div>
 
         <div class="pop-page-options-btnwrap">
-          <div class="btn" onClick="optionReplaceDone()">확인</div>
+          <div class="btn btn-secondary" onClick="optionReplaceDone()">확인</div>
         </div>
       </div>
     </form>
