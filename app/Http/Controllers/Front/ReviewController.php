@@ -210,7 +210,7 @@ class ReviewController extends Controller
 			"b_mdate"=>$row->mdate,
 			"b_atype"=> ($review_type =='compliment') ? "후기":'불편'
 		];
-
+		\DB::beginTransaction();
 		try{
 			$review = AuctionBbsPostscript::create(array_merge($request->except(['upload']), $data));
 			ReviewLog::create([
@@ -220,7 +220,9 @@ class ReviewController extends Controller
 				'staff_id'=>$s_uid,
 				'review_id'=>$review->b_uid,
 			]);
+			\DB::commit();
 		} catch(\Exception $e){
+			\DB::rollback();
 			if($e->errorInfo[1] == 1062){
 	        return $this->error("이미 후기를 등록하셨습니다.");
 	    }
