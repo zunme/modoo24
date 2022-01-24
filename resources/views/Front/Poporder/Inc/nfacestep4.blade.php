@@ -36,7 +36,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-check mt20 ct">
+                            <div class="form-check mt20">
                                 <label class="form-check-label">
                                     <input class="form-check-input mfstorageignore" name="agree_ai" type="checkbox" value="Y">
                                     업로드 된 사진은 AI 딥 러닝 및 빅데이터 구축에 활용됨을 동의합니다.
@@ -48,11 +48,11 @@
                         </div>
                         <div class="upload-showing-info">
                             <div class="upload-warning-title-txt">상세 이용 방법(사진 업로드)</div>
-                            <div class="upload-all-title">구역별 이삿짐을 사진 한 장에 최대한 담을 수 있게 촬영</div>
+                            <div class="upload-all-title">구역별 이삿짐을 사진 촬영 &amp; 닫힌곳은 열어서 한 장에 최대한 담을 수 있게 촬영</div>
                             <ul class="upload-showing-image">
-                                <li><img src="/v1/image/sub/untact_img02_01.jpg" alt="비대면견적이미지02_01"></li>
-                                <li><img src="/v1/image/sub/untact_img02_02.jpg" alt="비대면견적이미지02_01"></li>
-                                <li><img src="/v1/image/sub/untact_img02_03.jpg" alt="비대면견적이미지02_01"></li>
+                                <li><img src="/v1/image/sub/untactN_img02_01.jpg" alt="비대면견적이미지02_01"></li>
+                                <li><img src="/v1/image/sub/untactN_img02_02.jpg" alt="비대면견적이미지02_01"></li>
+                                <li><img src="/v1/image/sub/untactN_img02_03.jpg" alt="비대면견적이미지02_01"></li>
                             </ul>
                         </div>
                     </div>

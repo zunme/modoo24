@@ -770,6 +770,7 @@ display:flex;
     --pop-content-list-select-space:10px;
     --pop-content-list-select-per-row : 2
   }
+  
 }
 @media (min-width: 840px){
   .ordergoods-items-list {
@@ -902,7 +903,7 @@ display:flex;
   display:none;
 }
 .ordergoods-item.option-select-done .fa-check-square{
-  display:inline-block;
+  display:inline-block;color: #00beff;
 }
 
 /***************사진첨부*****************/
@@ -941,6 +942,7 @@ display:flex;
   border: 1px solid #03a9f4;
   border-radius: 5px; position: relative;; overflow: hidden;cursor: pointer;
 }
+.upload-warning-wrap .form-check{text-align:center}
 
 .pop-content-image-uploader-wrap .upload-text-wrap i.fas {
   font-size: 24px;
@@ -1031,11 +1033,11 @@ display:flex;
 .upload-showing-info{margin-top: 30px;clear: both;margin-left: 10px}
 .upload-showing-info > .upload-warning-title-txt{font-size: .9em; font-weight: bold; margin-bottom: 5px}
 .upload-showing-info > .upload-all-title{font-size: .85em}
-.upload-showing-info > .upload-showing-image{display: flex}
-.upload-showing-info > .upload-showing-image > li > img{width: 100%}
+.upload-showing-info > .upload-showing-image{display: flex;justify-content: space-between;margin-top: 3px}
+.upload-showing-info > .upload-showing-image > li > img{width: 95%}
 
 
-.pop-content-memo-wrap > .title{font-size: .9em; font-weight: bold; margin-bottom: 0; margin-top: 0!important}
+.pop-content-memo-wrap > .title{font-size: .9em; font-weight: bold; margin-bottom: 0; margin-top: 0!important;padding-bottom: 0px;min-height: 25px;}
 .form-check .form-check-label {color: #666!important;font-size: .95em;line-height: 18px;font-weight: bold;}
 .label-text-item-detail{display: none}
 /******* 짐리스트 ************************/
@@ -1058,8 +1060,10 @@ display:flex;
 
 .step-radio-label-text-item {text-align: center;}
 .pop-content-image-uploader > .select-moveing-picture-item:only-child .upload-text-wrap .upload-text-txt{width: 80%; text-align: center;line-height: 25px}
+    
 
-/*******************짐리스트*************************/
+/*******************사진첨부*************************/
+.upload-warning-wrap .form-check{text-align:left}
 
 /****************************정보입력************************************/
 .nface-order-auth-inner{width: 100%}

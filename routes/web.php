@@ -123,6 +123,17 @@ Route::get('/home', function () {
     return redirect('/posts/jisik');
 })->name('home');
 
+Route::prefix('/mob')->name('member.')->group(function () {
+  Route::get('/', function () {
+    return view('Front/frameinit');
+  });
+  Route::get('/{path1}', function () {
+    return view('Front/frameinit');
+  });
+  Route::get('/{path1}/{path2}', function () {
+    return view('Front/frameinit');
+  });
+});
 Route::middleware('auth:web')->prefix('/member')->name('member.')->group(function () {
   Route::get('myinfo', 'Front\UserController@myinfo');
 
