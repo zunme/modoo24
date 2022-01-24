@@ -161,10 +161,10 @@
 }
 .nfacepoploader-loader div {
   flex: 1;
-  background: salmon;
+  background: #0092ff;
   -webkit-animation: nfacepoploadergo 0.8s infinite alternate ease;
           animation: nfacepoploadergo 0.8s infinite alternate ease;
-  box-shadow: 0 0 20px salmon;
+  box-shadow: 0 0 20px #1469a8;
 }
 .nfacepoploader-loader div:nth-child(1) {
   -webkit-animation-delay: -0.72s;

@@ -33,11 +33,11 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input class="form-check-input mfstorageignore" type="checkbox" onClick="checkAllFn(this)">
-                 
+                  전체동의
                 <span class="form-check-sign">
                   <span class="check"></span>
                 </span>
-                  전체동의
+                  
               </label>
             </div>
             <div class="form-check">
@@ -47,9 +47,9 @@
                   <span class="check"></span>
                 </span>
               </label>
-              <span class="modalpop_link" link="/new_common/popup/accessterms.html">이용약관</span>
+              <span class="modalpop_link" link="/new_common/popup/accessterms.html"><b>이용약관</b></span>
                및
-              <span class="modalpop_link" link="/new_common/popup/personal_data.html">개인정보처리방침</span>
+              <span class="modalpop_link" link="/new_common/popup/personal_data.html"><b>개인정보처리방침</b></span>
               동의 필수
             </div>
             <div class="form-check">
@@ -59,7 +59,7 @@
                   <span class="check"></span>
                 </span>
               </label>
-              <span class="modalpop_link" link="/new_common/popup/personal_3.html">제 3 자 제공동의</span>(필수)
+                <span class="modalpop_link" link="/new_common/popup/personal_3.html"><b>제 3 자 제공동의</b></span>(필수)
             </div>
             <div class="form-check">
               <label class="form-check-label chek-out-label">
@@ -68,7 +68,7 @@
                   <span class="check"></span>
                 </span>
               </label>
-              <span class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅동의</span>(선택)
+              <span class="modalpop_link" link="/new_common/popup/mkt_ok.html"><b>마케팅동의</b></span>(선택)
             </div>
 
           </div>

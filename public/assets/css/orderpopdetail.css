@@ -1,16 +1,12 @@
 /* popcss 에서 옮겨옴 by TAQ 22-01-18*/
 
 .step-opened .pop-page-step-header-inner{background: #e5e5e5}
-.pop-page-step-footer > .btn.btn-secondary{border: 2px solid #1495e7; color: #1495e7; background: #fff;border-radius: 30px;padding: 12px 50px 12px;font-size: .8em}
-.pop-page-step-footer > .btn.btn-secondary:hover ,.pop-page-step-footer > .btn:active ,.pop-page-step-footer > .btn:link {
-    background: #00beff;border: 2px solid #00beff;
-    color: #fff;
-  
-}
+.pop-page-step-footer > .btn.btn-secondary , .pop-page-content-pop-body-cont .btn.btn-secondary{border: 2px solid #1495e7; color: #1495e7; background: #fff;border-radius: 30px;padding: 10px 50px 10px;font-size: .8em}
+.pop-page-step-footer > .btn.btn-secondary:hover ,.pop-page-step-footer > .btn:active ,.pop-page-step-footer > .btn:link ,.pop-page-content-pop-body-cont .btn.btn-secondary:hover{
+    background: #00beff;border: 2px solid #00beff;color: #fff;}
 /*
 .pop-page-step-footer > .btn{border: 2px solid #00beff; color: #00beff; background: #fff; border-radius: 20px; padding: 10px 50px 7px; font-size: .85em}*/
 
-/* / popcss 에서 옮겨옴 by TAQ 22-01-18*/
 
 
 #popnmodal {
@@ -25,15 +21,18 @@
 
   --f7-grid-gap: 0px;
   --f7-grid-row-gap: 0px;
+  --f7-popup-border-radius: 0px;
+  --f7-popup-tablet-border-radius:10px;
+
 
 }
 .form-check {cursor: pointer}
-textarea {width: 100%;padding: 10px;box-sizing: border-box;border: solid 1px #999;border-radius: 5px;font-size: .9em;
+textarea {width: 100%;padding: 10px;box-sizing: border-box;border: solid 1px #d8dadb;border-radius: 5px;font-size: .9em;
 resize: both;}
 
 .pt_red{color: #cc6666}
 .overflowhidden{overflow: hidden;}
-
+.mt0{margin-top: 0!important}
 .mb7{margin-bottom: 7px}
 .mt7{margin-top: 7px}
 .mt20{margin-top: 20px}
@@ -131,7 +130,7 @@ resize: both;}
 }
 .pop-page-step-header-inner{background-color: #e5e5e5;}
 
-.step-opened .pop-page-step-header{background: #00beff ;border-top: 1px solid #36ccff;}
+.step-opened .pop-page-step-header{background: #00beff ;border-top: 1px solid #caccce;}
 .step-opened .pop-page-step-header-inner{background: #333;}
 .pop-page-step .pop-page-step-header:before{
   font-family: "Font Awesome 5 Free";
@@ -444,7 +443,7 @@ resize: both;}
   box-shadow: none;
   line-height:normal;
   height: auto;
-  font-size: .9em;
+  font-size: .95em;
   color: #666;
 }
 .form-group-pop .form-control-pop, .input-group .form-control-pop {
@@ -668,10 +667,12 @@ display:flex;
   align-self: center;
   flex-grow: 1;line-height: 12px;
 }
+.step-radio-label > .step-radio-label-text > .step-radio-label-text-item { margin-top: 0px;!important}
 
 .step-radio-label-text-item{
   margin-top: 5px;
 }
+
 .step-radio-label-text-item:last-child{
   margin-bottom: 5px;
 }
@@ -733,6 +734,7 @@ display:flex;
 }
 
 /******************짐 리스트*********************/
+.step-body-section .pop-content-wrap .pop-content-wrap{margin-top:5px}
 .ordergoods-items-list{
   --pop-content-list-select-per-row:1;
   --pop-content-list-select-space:10px;
@@ -750,6 +752,11 @@ display:flex;
   flex-wrap: wrap;
   padding-left: var( --pop-content-list-select-space );
 }
+
+
+.pop-page-content-pop-head .pop-page-content-pop-head-title{margin-top: 3px;}
+.pop-page-options-select { font-size: .9em;}
+
 @media (min-width: 430px){
   .ordergoods-items-list {
     --pop-content-list-select-per-row:1;
@@ -1027,11 +1034,13 @@ display:flex;
 .upload-showing-info > .upload-showing-image{display: flex}
 .upload-showing-info > .upload-showing-image > li > img{width: 100%}
 
-.pop-content-memo-wrap > .title{font-size: .9em; font-weight: bold; margin-bottom: 0}
+
+.pop-content-memo-wrap > .title{font-size: .9em; font-weight: bold; margin-bottom: 0; margin-top: 0!important}
 .form-check .form-check-label {color: #666!important;font-size: .95em;line-height: 18px;font-weight: bold;}
 .label-text-item-detail{display: none}
 /******* 짐리스트 ************************/
-.ordergoods-items{margin-top: 10px; margin-bottom: 3px}
+.ordergoods-items{margin-top: 30px; margin-bottom: 3px}
+.ordergoods-items .ordergoods-items-type-title{margin-bottom: 5px}
 
 
 /****************************정보입력************************************/

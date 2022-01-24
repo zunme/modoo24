@@ -350,8 +350,3 @@
   display:none !important;
 }
 
-@media (min-width: 600px){
-  :root {
-  --f7-popup-border-radius: 20px;
-  }
-}
