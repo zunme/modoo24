@@ -33,7 +33,7 @@
                     <dd class="blue announce">진행중</dd>
                     <dd class="period">기간 : 이벤트 종료시까지</dd>
                 </dl>
-                <!--<div class="btn_inner">   
+                <!--<div class="btn_inner">
                     <button type="button" class="btn btn_viewbtn1" onclick="window.open('https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002');">
                        이사 고객 혜택 받기
                     </button>
@@ -41,6 +41,9 @@
                 <ul class="view_inner" style="margin-bottom:20px">
                     <li>
                         <img width="100%" src="/v1/image/sub/220106_event_big.jpg" alt="칭찬후기 작성하고 커피쿠폰 받자">
+                    </li>
+                    <li>
+                      <a href="/v2/review/my" class="btn btn-lg" style="background-color: #333e52;border-color: #333e52; margin-top:20px;">칭찬후기 작성하기</a>
                     </li>
 
                 </ul>
