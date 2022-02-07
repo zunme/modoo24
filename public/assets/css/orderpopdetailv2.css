@@ -98,10 +98,14 @@ resize: both;}
   top : calc( 44px + var(--navbar-stepper-height) + ( var(--page-step-header-height)*2 ) );
   transition: all 500ms;
 }
-.pop-page-step.step4.step-avail-open.step-opened{
+/* 스텝 건너띄기  가능*/
+.pop-page-step.step4.step-avail-open.step-opened ,
+.pop-page-step.step4.step-opened
+{
   top : calc( 44px + var(--navbar-stepper-height) + ( var(--page-step-header-height)*3 ) );
   transition: all 500ms;
 }
+
 .pop-page-step.step5.step-avail-open.step-opened{
   top : calc( 44px + var(--navbar-stepper-height) + ( var(--page-step-header-height)*4 ) );
   transition: all 500ms;

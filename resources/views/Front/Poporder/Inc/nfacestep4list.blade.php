@@ -204,6 +204,7 @@ function plus_stepper_manual(btn){
   if (val > 0 ) $(btn).closest('.ordergoods-item').addClass('option-select-done')
 }
 function donetest(target, res){
+  return
   async function processArray(array) {
     var ret = '';
     array.forEach( ( item, i ) => {

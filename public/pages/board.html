@@ -1,0 +1,338 @@
+<template>
+  <div class="page">
+  	<div class="navbar">
+  		<div class="navbar-bg"></div>
+  		<div class="navbar-inner sliding">
+  			<div class="left">
+  				<a href="#" class="link back">
+  					<i class="icon icon-back"></i>
+  					<span class="if-not-md">Back</span>
+  				</a>
+  			</div>
+  			<div class="title">모두이사</div>
+  		</div>
+  	</div>
+  	<div class="toolbar toolbar-bottom tabbar">
+  		<div class="toolbar-inner">
+  			<a href="#tab-jisiklist" class="tab-link ${(inittab === "jisik") ? $h`tab-link-active`:``}">이사지식인</a>
+  			<a href="#tab-tiplist" class="tab-link ${(inittab === "tip") ? $h`tab-link-active`:``}">모두꿀TIP</a>
+  			<a href="#tab-funlist" class="tab-link ${(inittab === "fun") ? $h`tab-link-active`:``}">모두FUN</a>
+  		</div>
+  	</div>
+  	<div class="tabs-swipeable-wrap">
+  		<div class="tabs">
+  			<div id="tab-jisiklist" class="page-content tab ${(inittab === "jisik") ? $h`tab-active`:``}">
+  				<div class="page-content-wrap display-flex justify-content-center page-content-tab-jisik">
+            <div class="wrap max-width-limit sub-tab-jisik-list" style="width:100%">
+              <div class="block-title block-title-medium mt-20">
+                이사 <span class="color_pt">지식인</span>
+              </div>
+              <form id="jisik_search_form" onSubmit="javascript:return false;">
+                <div class="item-inner">
+                  <div class="item-input-wrap input-dropdown-wrap">
+                    <select name="search_option" placeholder="Please choose...">
+                      <option value="title">제목</option>
+                      <option value="cont">제목+내용</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="item-input-wrap">
+                  <input type="text" name="search" placeholder="검색" value="${jisik.search}"/>
+                  <span class="input-clear-button"></span>
+                </div>
+              </form>
+
+              <div class="list media-list">
+                <ul>
+                  ${ jisik.data.length < 1 ? $h`
+                      <li>내용이 없습니다.</li>
+                    `:``
+                  }
+                  ${jisik.data.map( (item)=>$h`
+                    <li>
+                    	<a href="${(item.is_confirmed === "Y") ? $h`/v2/mob/board/jisik/view/${item.id}`:`#`}" class="item-link item-content">
+                    		<div class="item-inner">
+                    			<div class="item-title-row">
+                    				<div class="item-title">${item.title}</div>
+                    				<div class="item-after">
+                              ${(item.comment_cnt > 0) ? $h`
+                                <span class="jisik-list-btn-done">업체답변 ${item.comment_cnt}</span>
+                              ` : $h`
+                                <span class="jisik-list-btn-ready">답변대기중</span>
+                              `}
+                            </div>
+                    			</div>
+                          <div class="item-jisik-sub-title">
+                            ${item.created_at} · ${item.nickname}
+                          </div>
+                    			<div class="item-text">
+                          ${(item.is_confirmed === "Y") ? $h`${ item.body }`:`승인대기중`}
+                          </div>
+                    		</div>
+                    	</a>
+                    </li>
+                  `)}
+
+                </ul>
+              </div>
+              
+<!-- pagination -->
+${ jisik.data.length >= 1 ? $h`
+  <div class="pagination">
+    <ul>
+      ${(jisik.currentpage > 1 ) ? $h`
+        <li class="first-page-link"><a href="#" class="link" data-page='1' @click=${gotojisikpage}><i class="fas fa-angle-double-left"></i></a></li>
+        <li class="prev-page-link"><a href="#" class="link" data-page='${ (jisik.currentpage-1 > 0 ) ? jisik.currentpage-1 : 1 }' @click=${gotojisikpage}><i class="fas fa-angle-left"></i></a></li>
+      `:$h`
+      `}
+      ${ ( jisik.currentpage -2 > 1) ? $h`
+        <li class="page-link-dot"><span>…</span></li>
+        `:$h``}
+      ${ (jisik.pages >= 5 ) ? $h`
+        ${jisik.pagesarr.map((x) => $h`
+          ${ (x + jisik.currentpage + jisik.page_add <= jisik.pages) ? $h`
+            <li><a href="#" class="link ${ (x + jisik.currentpage + jisik.page_add)== jisik.currentpage ? `currnet-page`:`` }" @click=${gotojisikpage} data-page="${ x + jisik.currentpage + jisik.page_add }">${ x + jisik.currentpage + jisik.page_add }</a></li>
+            `:$h``
+          }
+        `)}
+      `:$h`
+        ${jisik.pagesarr.map((x) => $h`
+           <li><a href="#" class="link ${ x== jisik.currentpage ? `currnet-page`:``}" @click=${gotojisikpage} data-page="${x}">${x}</a></li>
+        `)}
+      `}
+
+      ${ ( jisik.currentpage +2 < jisik.pages ) ? $h`
+        <li class="page-link-dot"><span>…</span></li>
+        `:$h``}
+
+      ${(jisik.currentpage < jisik.pages ) ? $h`
+        <li class="next-page-link"><a href="#" class="link" data-page='${ (jisik.currentpage+1 <= jisik.pages ) ? jisik.currentpage+1 : jisik.pages }' @click=${gotojisikpage}><i class="fas fa-angle-right"></i></a></li>
+        <li class="last-page-link"><a href="#" class="link" data-page='${ jisik.pages }' @click=${gotojisikpage}><i class="fas fa-angle-double-right"></i></a></li>
+      `:$h`
+      `}
+     </ul>
+  </div>
+`: $h``
+}
+<!-- /pagination -->
+            </div>
+  				</div>
+  			</div>
+  			<div id="tab-tiplist" class="page-content tab ${(inittab === "tip") ? $h`tab-active`:``}">
+  				<div class="block">
+  					<p>모두 꿀TIP</p>
+  				</div>
+  			</div>
+  			<div id="tab-funlist" class="page-content tab ${(inittab === "fun") ? $h`tab-active`:``}">
+  				<div class="block">
+  					<p>모두 FUN</p>
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  </div>
+</template>
+<style>
+  .jisik-list-btn-done{
+    padding: 2px 4px;
+    border: 1px solid var(--f7-theme-color);
+    border-radius: 3px;
+    color: var(--f7-theme-color);
+  }
+  .jisik-list-btn-ready{
+    padding: 2px 4px;
+    border: 1px solid var(--f7-list-item-after-text-color);
+    border-radius: 3px;
+  }
+  .item-jisik-sub-title{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--f7-list-item-text-text-color);
+    display: flex;
+
+    padding-left:10px;
+    padding-right: calc(var(--f7-list-chevron-icon-area));
+    margin: 6px 0;
+    justify-content: flex-end;
+    color: #7e7e7e;
+  }
+  .pagination > ul {
+    display:flex;
+    justify-content:center;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+  .pagination > ul >li{
+  }
+  .pagination > ul >li > a, .pagination > ul >li > span{
+    color: black;
+    border: 0;
+    border-radius: 30px !important;
+    transition: all .3s;
+    padding: 0px 11px;
+    margin: 0 3px;
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #999999;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: transparent;
+    text-align: center;
+
+    padding: 0 8px;
+    min-width: 20px;
+  }
+  .pagination > ul >li > a.currnet-page{
+    padding: 0px 11px !important;
+    min-width: 30px  !important;
+    background-color: #00beff;
+    border-color: #00beff;
+    color: #ffffff;
+    box-shadow: 0 4px 5px 0 rgb(156 39 176 / 14%), 0 1px 10px 0 rgb(156 39 176 / 12%), 0 2px 4px -1px rgb(156 39 176 / 20%);
+    font-size:16px;
+  }
+  .pagination > ul >li.page-link-dot > span{
+    padding: 0;
+    min-width: 10px;
+  }
+</style>
+<script>
+
+  export default async (props, { $f7, $, $update, $onMounted ,$on}) => {
+
+    let default_config ={
+      format: 'YY-MM-DD'
+    }
+    let jisik = {
+      'url':'https://modoo24.net/community/posts/jisik/listapi',
+      'form' : '#jisik_search_form',
+      'search':$("#jisikform input[name=search]").val(),
+      'tab' : '#tab-jisiklist',
+      'total':0,
+      'currentpage':1,
+      'pages':0,
+      'pagesarr':[],
+      'page_add':0,
+      'data' :[],
+      'paging' : 2,
+      'config' : {},
+
+    }
+
+    let inittab =props.code
+
+    const PaginationDraw = (props,{ $update, $h } ) => {
+      var config = eval( props.conf )
+      let pages =[];
+      if( config.pages < 1) pages = [] ;
+      else if ( config.pages  >= 5 ) pages = [-2,-1,0,1,2] ;
+      else {
+        for ( var i = 0 ; i < config.pages ; i ++) pages.push ( i+1 )
+      }
+
+      //pages = [-2,-1,0,1,2]
+
+      return () =>  $h`
+          <div class="pagination">
+            <ul>
+              ${(config.currentpage > 1 ) ? $h`
+                <li class="first-page-link"><a href="#" class="link" data-page='1' @click=${gotojisikpage}><i class="fas fa-angle-double-left"></i></a></li>
+                <li class="prev-page-link"><a href="#" class="link" data-page='${ (config.currentpage-1 > 0 ) ? config.currentpage-1 : 1 }' @click=${gotojisikpage}><i class="fas fa-angle-left"></i></a></li>
+              `:$h`
+              `}
+              ${ ( config.currentpage -2 > 1) ? $h`
+                <li class="page-link-dot"><span>…</span></li>
+                `:$h``}
+              ${ (config.pages > 5) ? $h`
+                ${pages.map((x) => $h`
+                  ${ (x + config.currentpage + config.page_add <= config.pages) ? $h`
+                    <li><a href="#" class="link ${ (x + config.currentpage + config.page_add)== config.currentpage ? `currnet-page`:`` }" @click=${gotojisikpage} data-page="${ x + config.currentpage + config.page_add }">${ x + config.currentpage + config.page_add }</a></li>
+                    `:$h``
+                  }
+                `)}
+              `:$h`
+                ${pages.map((x) => $h`
+                   <li><a href="#" class="link ${ x == config.currentpage ? `currnet-page`:`` }" @click=${gotojisikpage} data-page="${ x }">${ x }</a></li>
+                `)}
+              `}
+
+              ${ ( config.currentpage +2 < config.pages ) ? $h`
+                <li class="page-link-dot"><span>…</span></li>
+                `:$h``}
+
+              ${(config.currentpage < config.pages ) ? $h`
+                <li class="next-page-link"><a href="#" class="link" data-page='${ (config.currentpage+1 <= config.pages ) ? config.currentpage+1 : config.pages }' @click=${gotojisikpage}><i class="fas fa-angle-right"></i></a></li>
+                <li class="last-page-link"><a href="#" class="link" data-page='${ config.pages }' @click=${gotojisikpage}><i class="fas fa-angle-double-right"></i></a></li>
+              `:$h`
+              `}
+             </ul>
+          </div>
+        `;
+
+    }
+
+
+    const drawboard = async ( config ,currentpage)=>{
+      let default_form ={
+          'columns[0][data]':'id',
+          'columns[0][orderable]' : 'true',
+          'length' : '8',
+          'start' : '0',
+      }
+      Object.assign(default_form, config.config)
+      Object.assign(default_form, $f7.form.convertToData(config.form) );
+
+      $$(config.tab).scrollTop(0, 200);
+
+      default_form.start = ( currentpage - 1 ) * default_form.length
+      let tempdata = await fetch('https://modoo24.net/community/posts/jisik/listapi?'+$f7.utils.serializeObject(default_form) )
+                        .then(res => res.json() );
+
+      let data = tempdata.data;
+      for ( i in data ){
+        data[i].created_at = moment(data[i].created_at).format(config.format);
+      }
+      config.data = data
+
+      config.total = tempdata.recordsFiltered
+      config.pages = Math.ceil(tempdata.recordsFiltered / default_form.length)
+      config.currentpage = currentpage
+      config.pagesarr =[];
+
+      if( config.pages < 1) config.pagesarr = [] ;
+      else if ( config.pages  >= 5 ) config.pagesarr = [-2,-1,0,1,2] ;
+      else {
+        for ( var i = 0 ; i < config.pages ; i ++) {
+          config.pagesarr.push ( i+1 )
+        }
+      }
+
+      if( config.currentpage < ( config.paging + 1) ){
+        config.page_add = ( config.paging + 1) - config.currentpage;
+      }else if(config.currentpag + config.paging >= config.pages ) {
+        config.page_add = (config.paging - ( config.pages - config.currentpage )) * -1;
+      }else config.page_add =0;
+      $update()
+    }
+
+    const gotojisikpage = async (e)=>{
+        drawboard ( jisik ,parseInt( $(e.target).closest('a').data('page')) )
+    }
+    $on('pageInit', () => {
+      //searchform = app.form.convertToData('#jisikform')
+    })
+    $onMounted(() => {
+      drawboard ( jisik ,1)
+      $$('#jisik_search_form').on('submit', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        drawboard ( jisik ,1)
+      });
+    })
+    return $render;
+  }
+</script>

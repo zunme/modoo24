@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/community/assets/css/flexgrid.css">
-<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=220110150101">
+<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=20220207164444">
 
 @if ( request()->get('css') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=220110150102">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=20220207164444">
 @else
-<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=220110150102">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=20220207164444">
 @endif
 @if ( request()->get('cssv2') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=220110150102">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=20220207164444">
 @endif
 <style>
 .w-100{
@@ -131,7 +131,7 @@
 
 <style>
 /* loader */
-#nfacepoploader{
+#nfacepoploader,#aipoploader{
   position: absolute;
   top: 0;
   bottom: 0;
@@ -141,10 +141,11 @@
   z-index: 510;
   display: none;
 }
-#nfacepoploader.loading{
+#nfacepoploader.loading,#aipoploader.loading{
   display: block;
 }
-#nfacepoploader .nfacepoploader-wrapper {
+#nfacepoploader .nfacepoploader-wrapper,
+#aipoploader .nfacepoploader-wrapper {
     position: absolute;
     width: 200px;
     height: 2px;
