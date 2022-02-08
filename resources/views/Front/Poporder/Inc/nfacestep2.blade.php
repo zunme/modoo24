@@ -25,7 +25,7 @@
          <div class="txt-son-info"><span></span>표시는 손없는 날입니다</div>
          <div class="txt-expensive-move-day"><span class="pt_red">금요일, 월말, 손없는날</span>을 피하시면 저렴하게 이사하실수 있습니다.</div>
      </div>
-     
+
     </div>
   </div>
 
@@ -41,8 +41,8 @@ var nfacedatepicker
    $(function () {
      var startMovingDate = new Date();
       var endMovingDate = new Date();
-      var numberOfDaysStart = 0;
-      var numberOfDaysEnd = 60;
+      var numberOfDaysStart = 1;
+      var numberOfDaysEnd = 200;
       startMovingDate.setDate(startMovingDate.getDate() + numberOfDaysStart);
       endMovingDate.setDate(startMovingDate.getDate() + numberOfDaysEnd);
 

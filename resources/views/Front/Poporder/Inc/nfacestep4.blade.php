@@ -138,7 +138,7 @@
         var containerType = $("input[name=moving-goods-method]:checked").val();
         if (containerType == 'list') {
             gotoNextStep()
-        } else if ((containerType == 'picture' && movingimage.getCount() > 3)) {
+        } else if ((containerType == 'picture' && movingimage.getCount() > 1)) {
             nextlevel({})
         } else toast('최소 2장( 방, 거실, 주방, 화장실 등)이상의 사진을 올려주세요', 'topCenter')
     }
