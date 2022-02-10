@@ -72,6 +72,7 @@ $("document").ready( function() {
 function simplyReg(btn) {
 	loaderAttach("#simply_move")
 	loaderAttach(".mobile > .message")
+	loaderAttach("#simple_reg_ai_section")
 	let data = $(btn).closest("form").serialize();
 	getData('post', 'simpyreg', data, simplyRegcallback, simplyRegcallbackCompltet)
 }
@@ -91,7 +92,7 @@ function simplyRegcallback(res){
 
 	kakaoPixel('4566851021171111416').pageView();
 	kakaoPixel('4566851021171111416').completeRegistration('Order_into');
-
+	if( typeof closepopnbtnai =='function') closepopnbtnai()
 }
 function wcstrance(f,won){
 	_nasa={};
@@ -104,6 +105,7 @@ function wcstrance(f,won){
 function simplyRegcallbackCompltet() {
 	loaderAttach("#simply_move", false)
 	loaderAttach(".mobile > .message", false)
+	loaderAttach("#simple_reg_ai_section",false)
 }
 function loaderAttach(target,on) {
 	if( on == false ){

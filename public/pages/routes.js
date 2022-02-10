@@ -18,12 +18,21 @@ var routes = [
     componentUrl: '/v2/pages/staff-matching.html?code={{code}}',
     name: 'staffmatching',
   },
+
   {
-    path:'/v2/mob/board/list/:code',
+    path:'/v2/mob/board/:code',
     componentUrl: '/v2/pages/board.html?code={{code}}',
     name: 'boardlist',
     options: {
       transition: 'f7-flip',
+    },
+  },
+  {
+    path:'/v2/mob/board/:code/:id',
+    componentUrl: '/v2/pages/board/view/{{code}}/{{id}}',
+    name: 'boardview',
+    options: {
+      transition: 'f7-circle',
     },
   },
   //event test

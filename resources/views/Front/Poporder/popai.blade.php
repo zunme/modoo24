@@ -1,4 +1,7 @@
 <style>
+.simplyregSuccessWrap, .loaderWrap{
+    z-index: 999999999999;
+}
 #popnmodalAi{
   --navbar-stepper-height: 0px;
   --input-line-color: #a1a1a1;
@@ -41,6 +44,106 @@
 .select-pyeong-item .step-radio-label-check{
   margin-left: 10px;
 }
+/*
+#popnmodalAi .pop-page-step-body{
+  position: relative;
+}
+*/
+.content-result-ai-wrap{
+  position: relative;
+    border: 1px solid #777;
+    border-radius: 10px;
+    padding: 30px 10px;
+    margin-top: 20px;
+}
+.content-result-ai-head{
+  position: absolute;
+    top: -17px;
+    left: 50%;
+    background-color: #2196f3;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+.result-ai-wrap{
+  display: flex;
+    justify-content: center;
+}
+.result-ai-table{
+  width: 100%;
+max-width: 270px;
+}
+
+.result-ai-table tr{
+  background-color: #efefef;
+}
+.result-ai-table tr:nth-of-type(odd) {
+   background-color: rgba(0, 0, 0, 0.02);
+}
+.result-ai-table td:last-child{
+  text-align: right;
+}
+.result-ai-table th{
+    padding: 10px 15px;
+    text-align: center;
+}
+.result-ai-table td {
+    padding: 10px 15px;
+    border-top: 1px solid #dee2e6;
+}
+
+#result_ai_section, #simple_reg_ai_section{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #b9b9b9;
+  z-index: 1;
+  overflow-y: auto;
+  display: none;
+}
+#simple_reg_ai_section{
+  z-index: 2;
+}
+.ai_simple_reg_wrap{
+  display: flex;
+  flex-direction: column;
+  margin: 20px 10px;
+  background-color: #eee;
+  padding: 10px 10px 20px;
+  border-radius: 10px;
+}
+.ai_simple_reg_wrap ul{
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  padding: 10px;
+  max-width: 603px;
+  justify-content: space-around;
+}
+.ai_simple_reg_wrap ul li{
+  display:flex;
+  padding-left:10px;
+  margin-bottom:10px;
+  min-width: 49.9%;
+}
+.ai_simple_reg_wrap ul li span{
+  display: flex;
+  align-self: center;
+  width:70px;
+}
+.ai_simple_reg_wrap ul li .move_Box{
+  min-width: 150px;
+}
+.ai_simple_reg_wrap ul.box03{
+  max-width:420px;
+}
+.ai_simple_reg_wrap ul.box03 li{
+  min-width: 199px;
+}
 </style>
 
   <div class="popup modal-in modal-out" id="popnmodalAi">
@@ -63,15 +166,17 @@
 
 
 
-      <div class="pop-page-content overflowhidden">
+
+      <div class="pop-page-content overflowhidden" id="popnmodalAiContent">
         <form id="pop-page-form-Ai">
-          <input class="input jspersist" type="checkbox" checked style="display:none">
+          <input class="input jspersist" type="checkbox" checked style="display:none" />
 
           <div class="pop-page-step">
             <div class="pop-page-step-body">
               @include('Front.Poporder.Inc.ai')
             </div>
           </div>
+          <div id="ai-image-uploader-area" style="display:none"></div>
         </form>
 
       </div>
@@ -80,6 +185,7 @@
 
 
 <script>
+var movingAIimage;
 $("document").ready( function() {
   if( $("#aipoploader").length < 1){
     var loaderwrap = $('<div>', {
@@ -88,12 +194,45 @@ $("document").ready( function() {
     $(loaderwrap).html("<div class='nfacepoploader-wrapper'><div class='nfacepoploader-loader'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>")
   }
 
-  var movingAIimage = new mfPreviewImg('imagepreview_selectmoveing_ai', {
-            maxFileCount: 30,
-            maxSize: 800,
-            maxFileperOnce: 6
-        })
+  movingAIimage = new mfPreviewImg('imagepreview_selectmoveing_ai', {
+      maxFileCount: 30,
+      maxSize: 800,
+      maxFileperOnce: 6
+  })
+
 })
+let airesultTemplate = `
+<div class="step-body-section">
+  <div class="pop-content-wrap content-result-ai">
+
+    <div class="content-result-ai-wrap elevation-2">
+        <div class="content-result-ai-head elevation-1">
+            <span>표준 이사 비용</span>
+        </div>
+        <div class="result-ai-wrap">
+
+          <table class="result-ai-table elevation-1">
+            <tr class="thead">
+              <th>거리</th>
+              <th>예상금액</th>
+            </tr>
+            @{{#each data}}
+            <tr class="tbody">
+              <td>@{{this.title}}</td>
+              <td>@{{this.val}}원</td>
+            </tr>
+            @{{/each}}
+          </table>
+        </div>
+    </div>
+
+    <div class="pop-page-step-footer">
+            <span class="btn btn-secondary" onclick="aiNextStep('@{{buttontype}}')">실제견적보기</span>
+    </div>
+
+  </div>
+</div>
+`
 function openpopAi() {
   $("body").addClass("overflowhidden")
   $("#popnbackdrop").removeClass('backdrop-out').addClass('backdrop-in');
@@ -103,6 +242,30 @@ function closepopnbtnai() {
   $("#popnmodalAi").addClass('modal-out');
   $("#popnbackdrop").addClass('backdrop-out').removeClass('backdrop-in');
   $("body").removeClass("overflowhidden")
+  $("#result_ai_section").hide();
+  $("#simple_reg_ai_section").hide();
+
+  $("#popnmodalAi input[type=radio]:checked").prop('checked', false)
+  $("#popnmodalAi input[type=checkbox]:checked").prop('checked', false)
+  $("#popnmodalAi select option:eq(0)").prop('selected', true)
+  $("#popnmodalAi input[type=text]").val('')
+  $("#popnmodalAi input[type=number]").val('')
+
+  $("#ai-image-uploader-area").empty()
+  var imgdels = document.querySelectorAll('.mf-file-container[data-upload-id="imagepreview_selectmoveing_ai"]  .mf-file-container__image-clear');
+  $(imgdels).each( function (i,v) {
+   movingAIimage.clearfile(v)
+  })
+
+}
+function aiNextStep( btn ){
+  if( btn =='small'){
+    closepopnbtnai();
+    setTimeout( openpopn, 200)
+  }else {
+    //closepopnbtnai();
+    $("#simple_reg_ai_section").show()
+  }
 }
 function ai_pyeong_view(){
   var mtype = $("input[name='movingtype_ai']:checked").val()
@@ -113,8 +276,48 @@ function ai_pyeong_view(){
   //select-pyeong-inner
 }
 function getAi() {
-  $("#aipoploader").addClass('loading');
-  setTimeout(inAIPopLoaderClose, 5000);
+  if ( movingAIimage.getCount()  > 1){
+    getAiNext()
+  }else {
+    toast('최소 2장( 방, 거실, 주방, 화장실 등)이상의 사진을 올려주세요', 'topCenter')
+    return;
+  }
+}
+function getAiNext() {
+  //$("#aipoploader").addClass('loading');
+  loaderAttach("#popnmodalAiContent")
+  $("#ai-image-uploader-area").empty()
+
+  movingAIimage.setInputByResize({
+      inputName: 'upload',
+      target: '#ai-image-uploader-area'
+  })
+  $.ajax({
+      url: '/v2/order/ai',
+      method: "POST",
+      data: new FormData(document.getElementById('pop-page-form-Ai')),
+      dataType: 'JSON',
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(res) {
+        var tempate = Handlebars.compile( airesultTemplate );
+        res['buttontype'] = $("#pop-page-form-Ai input[name=movingtype_ai]:checked").val()
+        $("#result_ai_section").html( tempate(res) )
+        $("#result_ai_section").show();
+        console.log (res)
+      },
+      error: function(res) {
+          inAIPopLoaderClose()
+          loaderAttach("#popnmodalAiContent",false)
+          ajaxErrorST(res)
+      },
+      complete: function() {
+          inAIPopLoaderClose()
+          loaderAttach("#popnmodalAiContent",false)
+      }
+  });
+
 }
 function inAIPopLoaderClose() {
   $("#aipoploader").removeClass('loading');
@@ -131,16 +334,15 @@ var pop_ai_info = {
       {'key':'about_20', 'val':'20평형'},
       {'key':'about_30', 'val':'30평형'},
       {'key':'about_40', 'val':'40평형'},
-      {'key':'about_50', 'val':'50평형'},
-      {'key':'over_60', 'val':'60평이상'},
+      {'key':'over_50', 'val':'50평형이상'},
+
     ],
     'office' : [
       {'key':'about_10', 'val':'10평형'},
       {'key':'about_20', 'val':'20평형'},
       {'key':'about_30', 'val':'30평형'},
       {'key':'about_40', 'val':'40평형'},
-      {'key':'about_50', 'val':'50평형'},
-      {'key':'over_60', 'val':'60평이상'},
+      {'key':'over_50', 'val':'50평형이상'},
     ]
   }
 }

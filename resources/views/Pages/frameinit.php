@@ -33,6 +33,227 @@
   <link rel="stylesheet" href="/v2/pages/my-app.css?ver=20220127013000">
   <link rel="apple-touch-icon" href="/modoo24.ico">
   <link rel="shortcut icon" href="/modoo24.ico">
+
+  <style>
+  /* 지식인 보기 - 이미지 라인 */
+  .inline-thumb-list ul{
+    justify-content: flex-end;
+  }
+  .inline-thumb-list ul li > a{
+    display:inline-block;
+    width: 90px;
+    height: 90px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 5px 10px 0 0;
+    border-radius: 5px;
+    border:1px solid #eee;
+  }
+  /*board 지식인*/
+  .mt-10{
+    margin-top: 10px !important;
+  }
+  .mt-20{
+    margin-top: 20px !important;
+  }
+  .custom-search-list ul{
+    display:flex;
+  }
+  .custom-search-list .custom-search-list-textbox{
+    flex-grow: 1;
+    padding-left: 0;
+  }
+  .custom-search-list .custom-search-list-textbox .item-input-wrap{
+    overflow:hidden;
+  }
+  .custom-search-list .custom-search-list-textbox input{
+    padding-right: 64px !important;
+  }
+  .custom-search-list .custom-search-list-textbox .input-clear-button{
+    right: 50px !important;
+  }
+  .in-input-btn{
+    display: inline-flex;
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    height: var(--f7-input-height);
+    background-color: #33b0dc;
+    border: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: var(--f7-input-outline-border-radius);
+    border-bottom-right-radius: var(--f7-input-outline-border-radius);
+    box-sizing: border-box;
+    color: white;
+  }
+
+  .jisik-list-btn-done{
+    padding: 2px 4px;
+    border: 1px solid var(--f7-theme-color);
+    border-radius: 3px;
+    color: var(--f7-theme-color);
+  }
+  .jisik-list-btn-ready{
+    padding: 2px 4px;
+    border: 1px solid var(--f7-list-item-after-text-color);
+    border-radius: 3px;
+  }
+  .item-jisik-sub-title{
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--f7-list-item-text-text-color);
+    display: flex;
+
+    padding-left:10px;
+    padding-right: calc(var(--f7-list-chevron-icon-area));
+    margin: 6px 0;
+    justify-content: flex-end;
+    color: #7e7e7e;
+  }
+  .pagination > ul {
+    display:flex;
+    justify-content:center;
+    margin-left: 0;
+    padding-left: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+  .pagination > ul >li{
+  }
+  .pagination > ul >li > a, .pagination > ul >li > span{
+    color: black;
+    border: 0;
+    border-radius: 30px !important;
+    transition: all .3s;
+    padding: 0px 11px;
+    margin: 0 3px;
+    min-width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: #999999;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: transparent;
+    text-align: center;
+
+    padding: 0 8px;
+    min-width: 20px;
+  }
+  .pagination > ul >li > a.currnet-page{
+    padding: 0px 11px !important;
+    min-width: 30px  !important;
+    background-color: #00beff;
+    border-color: #00beff;
+    color: #ffffff;
+    box-shadow: 0 4px 5px 0 rgb(156 39 176 / 14%), 0 1px 10px 0 rgb(156 39 176 / 12%), 0 2px 4px -1px rgb(156 39 176 / 20%);
+    font-size:16px;
+  }
+  .pagination > ul >li.page-link-dot > span{
+    padding: 0;
+    min-width: 10px;
+  }
+
+
+  /*지식인 view */
+  .item-media-default-img{
+    width: 70px;
+    height: 70px;
+    background: url(/v1/image/sub/know_logo.png) center no-repeat #fff;
+    text-indent: 0px;
+    font-size: 0;
+    line-height: 0;
+    background-size: cover;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+  .post-jisik-wrap li {
+      padding-right: calc(var(--f7-list-item-padding-horizontal) + var(--f7-safe-area-left) - var(--menu-list-offset));
+  }
+  .item-title-multiline{
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    margin-bottom: 10px;
+    line-height: var(--f7-list-item-text-line-height);
+    position: relative;
+    white-space: normal;
+    word-break: break-all;
+  }
+  .item-text-multiline {
+    font-size: var(--f7-list-item-text-font-size);
+    font-weight: var(--f7-list-item-text-font-weight);
+    color: black;
+    line-height: var(--f7-list-item-text-line-height);
+    position: relative;
+    white-space: normal;
+    word-break: break-all;
+    margin-top:10px;
+  }
+  .post-jisik-body{
+    font-weight: 400 !important;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 15px;
+  }
+  .comment-list ul .item-inner:after{
+    display:none !important;
+  }
+  .comment-list ul li:after {
+      content: '';
+      position: absolute;
+      background-color: var(--f7-list-item-border-color);
+      display: block;
+      z-index: 15;
+      top: auto;
+      right: auto;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      transform-origin: 50% 100%;
+      transform: scaleY(calc(1 / var(--f7-device-pixel-ratio)));
+  }
+  .comment-list ul li:nth-child(even){
+    background-color:#c9ebf3;
+  }
+  .comment-list ul li:nth-child(odd){
+    background-color:#addde9;
+  }
+  .item-fav-inner{
+    padding: 3px 8px;
+  /* width: 30px; */
+  border: 1px solid orangered;
+  color: orangered;
+  display: inline-flex;
+  /* min-width: 34px; */
+  justify-content: space-between;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 5px;
+  cursor: pointer;
+  }
+  .item-fav-inner > i {margin-right:10px;}
+  .item-media-center{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    align-self: center  !important;
+  }
+  .item-media-image {
+    width: 70px;
+    height: 70px;
+    background: url(/v1/image/sub/know_logo.png) center no-repeat #fff;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  </style>
 </head>
 
 <body>
@@ -147,6 +368,7 @@
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
   <script src="/community/assets/stisla/node_modules/moment/moment.js"></script>
   <script src="/community/assets/stisla/node_modules/moment/locale/ko.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <script src="/v2/assets/framek/node_modules/framework7/framework7-bundle.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -167,6 +389,38 @@ Handlebars.registerHelper("star", function(value, options) {
   }
   return ret
 })
+
+axios.interceptors.request.use((config) => {
+  app.preloader.show();
+  return config;
+}, (error) => {
+  app.preloader.hide();
+  return Promise.reject(error);
+});
+axios.interceptors.response.use(
+  response => {
+    app.preloader.hide();
+    return response
+  },
+  error => {
+    app.preloader.hide();
+  	console.log( error.response )
+  	const err = error.response
+  	var text='';
+  	if ( err.status == 422) {
+      text = err.data.message
+    }
+  	else text="잠시후에 사용해주세요"
+
+  	app.toast.create({
+      text: text,
+      position: 'center',
+      closeTimeout: 2000,
+    }).open();
+
+  	Promise.reject(error.response)
+  }
+);
 
 var colorscale = [
   ['#1D3461', '#1F487E', '#376996', '#6290C8', '#829CBC',],
@@ -241,6 +495,36 @@ var app = new Framework7({
     placementId: 'pltd4o7ibb9rc653x14',
   },
 });
+
+const inlinePhotoViewComponent = (props, {$, $f7, $ref, $h }) => {
+  let addClass = ( typeof props.class == 'string') ? props.class : ''
+  const photoview = (e) =>{
+    var index = parseInt($(e.target).data("index"))
+    $f7.photoBrowser.create({
+      photos: props.photos,
+      type: 'page',
+      backLinkText: 'Back',
+      theme: 'dark',
+      on : {
+        closed : function (browser){
+          browser.destroy()
+        }
+      }
+    }).open(index);
+  }
+  return () => $h`
+  <div class="inline-thumb-list ${addClass}">
+    <ul class="display-flex">
+      ${props.photos.map( (item,index)=>$h`
+      <li>
+        <a href="#" class="link" data-index="${index}" @click=${photoview} style="background-image:url(${item.url});"></a>
+      </li>
+      `)}
+
+    </ul>
+  </div>
+  `
+}
 
 
 

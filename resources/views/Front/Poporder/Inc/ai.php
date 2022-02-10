@@ -136,7 +136,7 @@
 <div class="step-body-section">
   <div class="pop-content-wrap select-moveing-picture">
       <div class="pop-content-image-uploader-wrap">
-          <div class="mf-file-container pop-content-image-uploader" data-upload-id="imagepreview_selectmoveing">
+          <div class="mf-file-container pop-content-image-uploader" data-upload-id="imagepreview_selectmoveing_ai">
               <div class="select-moveing-picture-item upload-image-item-btn">
 
                   <label class="upload-text-wrap">
@@ -184,10 +184,103 @@
   </div>
 </div>
 
+
+
+<div id="result_ai_section">
+</div>
+<div id="simple_reg_ai_section">
+	<div class="ai_simple_reg_wrap">
+		<ul>
+			<li>
+				<span>이사일</span>
+				<div class="move_Box">
+					<input
+						type="text"
+						placeholder="이사일"
+						class="sel-datepicker"
+						name="t_dday"
+						readonly=""
+					/>
+				</div>
+			</li>
+			<li>
+				<span>이사종류</span>
+				<div style="display: inline-block;">
+					<select class="select" name="t_kinds">
+						<option value="">이사종류</option>
+						<option value="가정">가정이사</option>
+						<option value="소형">소형이사</option>
+						<option value="사무실">사무실이사</option>
+					</select>
+				</div>
+			</li>
+			<li>
+				<span>고객명</span>
+				<div class="move_Box">
+					<input type="text" placeholder="고객명" name="t_name" />
+				</div>
+			</li>
+			<li>
+				<span>연락처</span>
+				<div class="move_Box">
+					<input type="number" placeholder="번호만 입력해주세요" maxlength="12" name="t_hp" />
+				</div>
+			</li>
+		</ul>
+		<ul class="box03">
+			<li>
+				<div class="checks">
+					<div class="checks etrans">
+						<input type="checkbox" id="ex_m_chk0ai" onclick="selectAll(this)" />
+						<label for="ex_m_chk0ai"></label>
+						<p>
+							<b style="color: #000;">전체 동의</b>
+						</p>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="checks">
+					<div class="checks etrans">
+						<input type="checkbox" id="ex_m_chk2ai" name="simplyRegPrivacy" value="Y" />
+						<label for="ex_m_chk2ai"></label>
+						<p class="modalpop_link" link="/new_common/popup/accessterms.html">
+							이용약관
+						</p>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="checks">
+					<div class="checks etrans">
+						<input type="checkbox" id="ex_m_chk3ai" name="simplyRegJoint" value="Y" />
+						<label for="ex_m_chk3ai"></label>
+						<p class="modalpop_link" link="/new_common/popup/personal_data.html">
+							개인정보처리방침
+						</p>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="checks">
+					<div class="checks etrans">
+						<input type="checkbox" id="ex_m_chk4ai" name="simplyMarketting" value="Y" />
+						<label for="ex_m_chk4ai"></label>
+						<p>
+							<a class="modalpop_link" link="/new_common/popup/personal_3.html">제3자 제공동의</a> /
+							<a class="modalpop_link" link="/new_common/popup/mkt_ok.html">마케팅 동의</a>
+						</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<button type="button" class="btn_simply simple-reg-btn">
+			<span class="color_yw">무료견적</span><br />간편신청
+		</button>
+	</div>
+</div>
+
+
 <div class="pop-page-step-footer">
         <span class="btn btn-secondary" onclick="getAi()">견적보기</span>
-    </div>
-
-<script>
-
-</script>
+</div>

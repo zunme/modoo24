@@ -5,13 +5,27 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Auth;
 use Validator;
 use Carbon\Carbon;
 use App\Traits\ApiResponser;
 
-use App\Models\Post;
+
 use App\Models\AuctionBbsPostscript;
+
+use App\Models\BulletinConfig;
+use App\Models\Post;
+use App\Models\PostComment;
+use App\Models\PostCommentDepth;
+use App\Models\PostFile;
+use App\Models\AuctionStaff;
+use App\Models\PostCommentFavLog;
+use App\Models\PostCommentBestLog;
+use App\Models\PostCommentLog;
+use App\Models\PostFavorite;
+use App\Models\BulletinSido;
+
+use Yajra\Datatables\Facades\Datatables;
 
 class FrameController extends Controller
 {
@@ -62,9 +76,61 @@ class FrameController extends Controller
   			$row->b_star_kind_arr = $this->explodeStar($row->b_star_kind);
 
   			$row->avgstararr = $this->explodeStar($row->avgstar);
-        $row->b_note = nl2br( strip_tags(str_replace( '</p>', "\n" ,html_entity_decode(str_replace('&nbsp;',' ',$row->b_note) ))) );
+        $row->b_note = nl2br( str_replace('&nbsp;',' ', strip_tags(str_replace( '</p>', "\n" ,html_entity_decode(str_replace('&nbsp;',' ',$row->b_note) ))) ) );
 
       return view('Pages/review', compact(['row']) );
+    }
+    function viewboard(Request $request, $code ,$viewid){
+      $user = Auth::user();
+
+      $config = BulletinConfig::active()->where(['code'=>$code])->first();
+      if( !$config) return;
+      $post = Post::with(['comments','address','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+      if( $post->is_confirmed =='N' ) return;
+  		else if( $post->is_confirmed == 'R' ){
+  			if( $user ){
+  				if( $user->id != $post->user_id) return;
+  			}else return;
+  		}
+      $post->view_cnt = $post->view_cnt + 1;
+  		$post->save();
+
+  		$is_writer = ( Auth::user() && Auth::user()->id == $post->user_id) ? true:false;
+  		$post_favorite = false;
+  		if ( $user ) {
+  			$post_fav = PostFavorite::where(['post_id'=>$post->id , 'user_id'=>$user->id])->count();
+  			if( $post_fav > 0 ) $post_favorite = true;
+  			else $post_favorite = false;
+  		}
+
+      if( $code !='jisik') return view('Front/Bulletin/community/view',compact(['config','post','code','is_writer','post_favorite']));
+      else return view('Pages/postsjisik',compact(['config','post','code','is_writer','post_favorite']));
+    }
+    function postsList(Request $request, $code){
+      Carbon::setLocale('ko');
+  		$config = BulletinConfig::active()->where(['code'=>$code])->first();
+  		if( !$config)	return ;
+  		$qry = Post::with(['files'])->where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N');
+      if( $request->search ){
+        if ( $request->search_option == 'cont' )
+        {
+          $qry =$qry->where(function($query) use ($request) {
+            return $query->where('title', 'like', '%'.$request->search.'%')->orWhere('body', 'like', '%'.$request->search.'%');
+          });
+        }
+        else if ( $request->search_option == 'writer' ) $qry =$qry->where('nickname', 'like', '%'.$request->search.'%');
+        else $qry = $qry->where('title', 'like', '%'.$request->search.'%');
+      }
+
+      return Datatables::of($qry)
+      ->addColumn('plainbody', function ($post) {
+          if( mb_detect_encoding($post->body) =='ASCII') return strip_tags(mb_convert_encoding($post->body , 'UTF-8', 'HTML-ENTITIES') );
+          else return strip_tags($post->body);
+      })
+      ->addColumn('enctype', function ($post){
+        return mb_detect_encoding($post->body);
+      })
+      ->make(true);
     }
 
     function reviewMain(Request $request, $retAsObject = false){
@@ -137,4 +203,5 @@ class FrameController extends Controller
       if($retAsObject) return $data;
   		else  return $this->success($data);
     }
+    
 }

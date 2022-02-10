@@ -127,11 +127,11 @@
           				<div class="item-inner">
           					<div class="item-title-row">
           						<div class="item-title"><b class="color_pt">이사지식인 <i class="far fa-question-circle popover-open" data-popover=".jisik_popover"></i> </b> 검색</div>
-          						<a class="link item-after color_pt button ">질문하기 <i class="fas fa-chevron-right"></i></a>
+          						<a href="/v2/mob/board/jisik" class="link item-after color_pt button ">질문하기 <i class="fas fa-chevron-right"></i></a>
           					</div>
           					<div class="item-subtitle"><b class="color_pt">현업에 계신 전문가</b>들의 진솔한 답변을 받으실 수 있습니다.</div>
                     <div class="search_Box">
-                      <form action="/v2/mob/board/list/jisik" id="jisikform">
+                      <form action="/v2/mob/board/jisik" id="jisikform">
                           <input type="search_option" value="title" style="display: none" />
                           <input type="text" name="search" placeholder="ex)포장이사 후회하지 않고 하는 법" id="searchtext"/>
 
@@ -156,7 +156,7 @@
 
             <div class="block-title block-title-medium">이사<span class="color_blue">지식인</span>
               <div class="float-right">
-                <a href="/v2/mob/board/list/jisik" class="link link-item">
+                <a href="/v2/mob/board/jisik" class="link link-item">
                   <i class="fas fa-plus"></i>
                 </a>
               </div>
@@ -166,7 +166,7 @@
               <ul>
                 @foreach ( $jisik as $item)
                 <li>
-                  <a href="#" class="item-link item-content">
+                  <a href="/v2/mob/board/jisik/{{$item->id}}" class="item-link item-content">
                     <div class="item-inner">
                       <div class="item-title-row">
                         <div class="item-title">Q. {{$item->title}}</div>
@@ -197,7 +197,7 @@
           <div class="wrap main-community main-community-tip">
             <div class="block-title block-title-medium">모두꿀<span class="color_blue">TIP</span>
               <div class="float-right">
-                <a href="/v2/mob/board/list/tip" class="link link-item">
+                <a href="/v2/mob/board/tip" class="link link-item">
                   <i class="fas fa-plus"></i>
                 </a>
               </div>
@@ -220,7 +220,7 @@
           <div class="wrap main-community main-community-fun">
             <div class="block-title block-title-medium">모두<span class="color_blue">FUN</span>
               <div class="float-right">
-                <a href="/v2/mob/board/list/fun" class="link link-item">
+                <a href="/v2/mob/board/fun" class="link link-item">
                   <i class="fas fa-plus"></i>
                 </a>
               </div>
@@ -370,7 +370,7 @@
           </div>
           <div>
             <p class="row margin no-margin-top">
-              <a href="/v2/mob/board/list/jisik" class="link popover-close col button button-raised button-fill">질문하러 가기</a>
+              <a href="/v2/mob/board/jisik" class="link popover-close col button button-raised button-fill">질문하러 가기</a>
             </p>
           </div>
     		</div>
@@ -450,7 +450,7 @@
       app.views.main.router.navigate($(e.target).data('url'))
     }
     const searchJisik=()=>{
-      app.views.main.router.navigate('/v2/mob/board/list/jisik')
+      app.views.main.router.navigate('/v2/mob/board/jisik')
     }
     const bgColorPallete=()=>{
       changeBackgroundColor();
@@ -533,7 +533,7 @@
 
       $("#jisikform input[name=search]").on("keyup, keypress", function(e){
         if( e.keyCode === 13 || e.key =='enter'){
-            app.views.main.router.navigate('/v2/mob/board/list/jisik')
+            app.views.main.router.navigate('/v2/mob/board/jisik')
         }
       })
 

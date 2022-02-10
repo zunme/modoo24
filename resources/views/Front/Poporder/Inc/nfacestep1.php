@@ -182,7 +182,7 @@
                 <div class="input-toggle-line">입주청소</div>
                 <div class="togglebutton texttoggle">
                   <label>
-                    <input type="checkbox" name="use_clean" value="Y" checked="" data-to="clean2">
+                    <input type="checkbox" name="use_clean" value="Y" data-to="clean2">
                     <span class="toggle">
                       <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
                     </span>

@@ -110,7 +110,9 @@ Route::prefix('/review')->name('review.')->group(function () {
 
     Route::post('/complete', 'Front\NfaceorderController@complete');
   });
-
+  Route::prefix('/order/ai')->name('ai.')->group(function () {
+    Route::post('/', 'Front\AiController@index');
+  });
 
 //이벤트
 Route::get('/event', 'Front\EventController@index');
@@ -123,17 +125,28 @@ Route::get('/home', function () {
     return redirect('/posts/jisik');
 })->name('home');
 
-Route::prefix('/mob')->name('member.')->group(function () {
-  Route::get('/', function () {
-    return view('Front/frameinit');
-  });
-  Route::get('/{path1}', function () {
-    return view('Front/frameinit');
-  });
-  Route::get('/{path1}/{path2}', function () {
-    return view('Front/frameinit');
-  });
+// 파트너 페이지
+Route::prefix('/partner')->name('partner.')->group(function () {
+ Route::get('/', 'Partner\PartnerController@index');
+ Route::post('/modify/{id}', 'Partner\PartnerController@modifyPrc');
 });
+
+Route::prefix('/mob')->name('frame.')->group(function () {
+  Route::get('/', 'Front\FrameController@index');
+  Route::get('/{path1}', 'Front\FrameController@index');
+  Route::get('/{path1}/{path2}', 'Front\FrameController@index');
+  Route::get('/{path1}/{path2}/{path3}', 'Front\FrameController@index');
+  Route::get('/{path1}/{path2}/{path3}/{path4}', 'Front\FrameController@index');
+  Route::get('/{path1}/{path2}/{path3}/{path4}/{path5}', 'Front\FrameController@index');
+});
+Route::prefix('/pages')->group(function () {
+  Route::get('/home', 'Front\FrameController@home');
+  Route::get('/review/{id}', 'Front\FrameController@review');
+  Route::get('/board/view/{code}/{id}', 'Front\FrameController@viewboard');
+  Route::get('/posts/{code}', 'Front\FrameController@postsList');
+});
+
+
 Route::middleware('auth:web')->prefix('/member')->name('member.')->group(function () {
   Route::get('myinfo', 'Front\UserController@myinfo');
 

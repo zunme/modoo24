@@ -9,7 +9,8 @@
   					<span class="if-not-md">Back</span>
   				</a>
   			</div>
-  			<div class="title">모두이사</div>
+  			<div class="title">모두이사 커뮤니티</div>
+        <div class="right"><a href="#" class="link icon-only panel-open" data-panel="left"><i class="fas fa-truck-moving"></i></a></div>
   		</div>
   	</div>
   	<div class="toolbar toolbar-bottom tabbar">
@@ -27,18 +28,33 @@
               <div class="block-title block-title-medium mt-20">
                 이사 <span class="color_pt">지식인</span>
               </div>
+
               <form id="jisik_search_form" onSubmit="javascript:return false;">
-                <div class="item-inner">
-                  <div class="item-input-wrap input-dropdown-wrap">
-                    <select name="search_option" placeholder="Please choose...">
-                      <option value="title">제목</option>
-                      <option value="cont">제목+내용</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="item-input-wrap">
-                  <input type="text" name="search" placeholder="검색" value="${jisik.search}"/>
-                  <span class="input-clear-button"></span>
+                <div class="list inset custom-search-list">
+                	<ul>
+                		<li class="item-content item-input item-input-outline">
+                			<div class="item-inner">
+                        <div class="item-title item-floating-label">선택</div>
+                        <div class="item-input-wrap input-dropdown-wrap">
+                          <select name="search_option" placeholder="Please choose...">
+                            <option value="title">제목</option>
+                            <option value="cont">제목+내용</option>
+                          </select>
+                        </div>
+                			</div>
+                		</li>
+                    <li class="item-content item-input item-input-outline custom-search-list-textbox">
+                      <div class="item-inner">
+                        <div class="item-title item-floating-label">검색</div>
+                        <div class="item-input-wrap">
+                          <input type="text" name="search" placeholder="검색" value="${jisik.search}"/>
+                          <span class="input-clear-button"></span>
+                          <span class="button in-input-btn" @click=${jisiksearch}>검색</span>
+                        </div>
+                      </div>
+                    </li>
+
+                	</ul>
                 </div>
               </form>
 
@@ -50,7 +66,7 @@
                   }
                   ${jisik.data.map( (item)=>$h`
                     <li>
-                    	<a href="${(item.is_confirmed === "Y") ? $h`/v2/mob/board/jisik/view/${item.id}`:`#`}" class="item-link item-content">
+                    	<a href="${(item.is_confirmed === "Y") ? `/v2/mob/board/jisik/${item.id}`:`#`}" class="item-link item-content">
                     		<div class="item-inner">
                     			<div class="item-title-row">
                     				<div class="item-title">${item.title}</div>
@@ -75,7 +91,7 @@
 
                 </ul>
               </div>
-              
+
 <!-- pagination -->
 ${ jisik.data.length >= 1 ? $h`
   <div class="pagination">
@@ -118,11 +134,117 @@ ${ jisik.data.length >= 1 ? $h`
             </div>
   				</div>
   			</div>
+
+
   			<div id="tab-tiplist" class="page-content tab ${(inittab === "tip") ? $h`tab-active`:``}">
-  				<div class="block">
-  					<p>모두 꿀TIP</p>
-  				</div>
+          <div class="page-content-wrap display-flex justify-content-center page-content-tab-jisik">
+            <div class="wrap max-width-limit sub-tab-jisik-list" style="width:100%">
+              <div class="block-title block-title-medium mt-20">
+                모두 꿀<span class="color_pt">TIP</span>
+              </div>
+
+              <form id="tip_search_form" onSubmit="javascript:return false;">
+                <div class="list inset custom-search-list">
+                	<ul>
+                		<li class="item-content item-input item-input-outline">
+                			<div class="item-inner">
+                        <div class="item-title item-floating-label">선택</div>
+                        <div class="item-input-wrap input-dropdown-wrap">
+                          <select name="search_option" placeholder="Please choose...">
+                            <option value="title">제목</option>
+                            <option value="cont">제목+내용</option>
+                          </select>
+                        </div>
+                			</div>
+                		</li>
+                    <li class="item-content item-input item-input-outline custom-search-list-textbox">
+                      <div class="item-inner">
+                        <div class="item-title item-floating-label">검색</div>
+                        <div class="item-input-wrap">
+                          <input type="text" name="search" placeholder="검색" value=""/>
+                          <span class="input-clear-button"></span>
+                          <span class="button in-input-btn" @click=${tipsearch}>검색</span>
+                        </div>
+                      </div>
+                    </li>
+
+                	</ul>
+                </div>
+              </form>
+              <div class="list media-list">
+                <ul>
+                  ${ tip.data.length < 1 ? $h`
+                      <li>내용이 없습니다.</li>
+                    `:``
+                  }
+                  ${tip.data.map( (item)=>$h`
+                    <li>
+                    	<a href="${(item.is_confirmed === "Y") ? `/v2/mob/board/tip/${item.id}`:`#`}" class="item-link item-content">
+                        <div class="item-media item-media-center">
+                          <span class="item-media-image" style="background-image:url(https://modoo24.net${item.repImg})"></span>
+                        </div>
+                    		<div class="item-inner">
+                    			<div class="item-title-row">
+                    				<div class="item-title">${item.title}</div>
+                    			</div>
+                          <div class="item-tip-sub-title item-jisik-sub-title">
+                            ${item.created_at} · ${item.nickname}
+                          </div>
+                    			<div class="item-text">
+                          ${(item.is_confirmed === "Y") ? $h`${ item.plainbody }`:`승인대기중`}
+                          </div>
+                    		</div>
+                    	</a>
+                    </li>
+                  `)}
+
+                </ul>
+              </div>
+              <!-- pagination -->
+              ${ tip.data.length >= 1 ? $h`
+                <div class="pagination">
+                  <ul>
+                    ${(tip.currentpage > 1 ) ? $h`
+                      <li class="first-page-link"><a href="#" class="link" data-page='1' @click=${gototippage}><i class="fas fa-angle-double-left"></i></a></li>
+                      <li class="prev-page-link"><a href="#" class="link" data-page='${ (tip.currentpage-1 > 0 ) ? tip.currentpage-1 : 1 }' @click=${gototippage}><i class="fas fa-angle-left"></i></a></li>
+                    `:$h`
+                    `}
+                    ${ ( tip.currentpage -2 > 1) ? $h`
+                      <li class="page-link-dot"><span>…</span></li>
+                      `:$h``}
+                    ${ (tip.pages >= 5 ) ? $h`
+                      ${tip.pagesarr.map((x) => $h`
+                        ${ (x + tip.currentpage + tip.page_add <= tip.pages) ? $h`
+                          <li><a href="#" class="link ${ (x + tip.currentpage + tip.page_add)== tip.currentpage ? `currnet-page`:`` }" @click=${gototippage} data-page="${ x + tip.currentpage + tip.page_add }">${ x + tip.currentpage + tip.page_add }</a></li>
+                          `:$h``
+                        }
+                      `)}
+                    `:$h`
+                      ${tip.pagesarr.map((x) => $h`
+                         <li><a href="#" class="link ${ x== tip.currentpage ? `currnet-page`:``}" @click=${gototippage} data-page="${x}">${x}</a></li>
+                      `)}
+                    `}
+
+                    ${ ( tip.currentpage +2 < tip.pages ) ? $h`
+                      <li class="page-link-dot"><span>…</span></li>
+                      `:$h``}
+
+                    ${(tip.currentpage < tip.pages ) ? $h`
+                      <li class="next-page-link"><a href="#" class="link" data-page='${ (tip.currentpage+1 <= tip.pages ) ? tip.currentpage+1 : tip.pages }' @click=${gototippage}><i class="fas fa-angle-right"></i></a></li>
+                      <li class="last-page-link"><a href="#" class="link" data-page='${ tip.pages }' @click=${gototippage}><i class="fas fa-angle-double-right"></i></a></li>
+                    `:$h`
+                    `}
+                   </ul>
+                </div>
+              `: $h``
+              }
+              <!-- /pagination -->
+            </div>
+          </div>
   			</div>
+
+
+
   			<div id="tab-funlist" class="page-content tab ${(inittab === "fun") ? $h`tab-active`:``}">
   				<div class="block">
   					<p>모두 FUN</p>
@@ -133,72 +255,8 @@ ${ jisik.data.length >= 1 ? $h`
   </div>
 </template>
 <style>
-  .jisik-list-btn-done{
-    padding: 2px 4px;
-    border: 1px solid var(--f7-theme-color);
-    border-radius: 3px;
-    color: var(--f7-theme-color);
-  }
-  .jisik-list-btn-ready{
-    padding: 2px 4px;
-    border: 1px solid var(--f7-list-item-after-text-color);
-    border-radius: 3px;
-  }
-  .item-jisik-sub-title{
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--f7-list-item-text-text-color);
-    display: flex;
 
-    padding-left:10px;
-    padding-right: calc(var(--f7-list-chevron-icon-area));
-    margin: 6px 0;
-    justify-content: flex-end;
-    color: #7e7e7e;
-  }
-  .pagination > ul {
-    display:flex;
-    justify-content:center;
-    margin-left: 0;
-    padding-left: 0;
-    margin-right: 0;
-    padding-right: 0;
-  }
-  .pagination > ul >li{
-  }
-  .pagination > ul >li > a, .pagination > ul >li > span{
-    color: black;
-    border: 0;
-    border-radius: 30px !important;
-    transition: all .3s;
-    padding: 0px 11px;
-    margin: 0 3px;
-    min-width: 30px;
-    height: 30px;
-    line-height: 30px;
-    color: #999999;
-    font-weight: 400;
-    font-size: 12px;
-    text-transform: uppercase;
-    background: transparent;
-    text-align: center;
 
-    padding: 0 8px;
-    min-width: 20px;
-  }
-  .pagination > ul >li > a.currnet-page{
-    padding: 0px 11px !important;
-    min-width: 30px  !important;
-    background-color: #00beff;
-    border-color: #00beff;
-    color: #ffffff;
-    box-shadow: 0 4px 5px 0 rgb(156 39 176 / 14%), 0 1px 10px 0 rgb(156 39 176 / 12%), 0 2px 4px -1px rgb(156 39 176 / 20%);
-    font-size:16px;
-  }
-  .pagination > ul >li.page-link-dot > span{
-    padding: 0;
-    min-width: 10px;
-  }
 </style>
 <script>
 
@@ -209,6 +267,7 @@ ${ jisik.data.length >= 1 ? $h`
     }
     let jisik = {
       'url':'https://modoo24.net/community/posts/jisik/listapi',
+      'format':'YY-MM-DD',
       'form' : '#jisik_search_form',
       'search':$("#jisikform input[name=search]").val(),
       'tab' : '#tab-jisiklist',
@@ -220,7 +279,21 @@ ${ jisik.data.length >= 1 ? $h`
       'data' :[],
       'paging' : 2,
       'config' : {},
-
+    }
+    let tip = {
+      'url':'/v2/pages/posts/tip',
+      'format':'YY-MM-DD',
+      'form' : '#tip_search_form',
+      'search':$("#tipform input[name=search]").val(),
+      'tab' : '#tab-tiplist',
+      'total':0,
+      'currentpage':1,
+      'pages':0,
+      'pagesarr':[],
+      'page_add':0,
+      'data' :[],
+      'paging' : 2,
+      'config' : {},
     }
 
     let inittab =props.code
@@ -280,6 +353,8 @@ ${ jisik.data.length >= 1 ? $h`
       let default_form ={
           'columns[0][data]':'id',
           'columns[0][orderable]' : 'true',
+          'order[0][column]': '0',
+          'order[0][dir]': 'desc',
           'length' : '8',
           'start' : '0',
       }
@@ -289,7 +364,7 @@ ${ jisik.data.length >= 1 ? $h`
       $$(config.tab).scrollTop(0, 200);
 
       default_form.start = ( currentpage - 1 ) * default_form.length
-      let tempdata = await fetch('https://modoo24.net/community/posts/jisik/listapi?'+$f7.utils.serializeObject(default_form) )
+      let tempdata = await fetch(config.url+'?'+$f7.utils.serializeObject(default_form) )
                         .then(res => res.json() );
 
       let data = tempdata.data;
@@ -313,7 +388,7 @@ ${ jisik.data.length >= 1 ? $h`
 
       if( config.currentpage < ( config.paging + 1) ){
         config.page_add = ( config.paging + 1) - config.currentpage;
-      }else if(config.currentpag + config.paging >= config.pages ) {
+      }else if(config.currentpage + config.paging >= config.pages ) {
         config.page_add = (config.paging - ( config.pages - config.currentpage )) * -1;
       }else config.page_add =0;
       $update()
@@ -322,6 +397,17 @@ ${ jisik.data.length >= 1 ? $h`
     const gotojisikpage = async (e)=>{
         drawboard ( jisik ,parseInt( $(e.target).closest('a').data('page')) )
     }
+    const jisiksearch = ()=>{
+      drawboard ( jisik ,1)
+    }
+
+    const gototippage = async (e)=>{
+        drawboard ( tip ,parseInt( $(e.target).closest('a').data('page')) )
+    }
+    const tipsearch = ()=>{
+      drawboard ( tip ,1)
+    }
+
     $on('pageInit', () => {
       //searchform = app.form.convertToData('#jisikform')
     })
@@ -332,6 +418,14 @@ ${ jisik.data.length >= 1 ? $h`
         e.stopImmediatePropagation();
         drawboard ( jisik ,1)
       });
+
+      drawboard ( tip ,1)
+      $$('#tip_search_form').on('submit', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        drawboard ( tip ,1)
+      });
+
     })
     return $render;
   }
