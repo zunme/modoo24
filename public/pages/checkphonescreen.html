@@ -1,0 +1,127 @@
+<template>
+<div data-name="staffmatching" class="page">
+  <!-- Top Navbar -->
+  <div class="navbar">
+    <div class="navbar-bg"></div>
+    <div class="navbar-inner">
+      <div class="left">
+        <a href="#" class="link back">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md" style="transform: translate3d(0px, 0px, 0px);">Back</span>
+        </a>
+      </div>
+      <div class="title">매칭된 이사업체</div>
+      <div class="right">
+        <a href="#" class="link icon-only panel-open" data-panel="left">
+          <!--i class="icon material-icons">menu</i-->
+          <i class="fas fa-truck-moving"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable page content -->
+  <div class="page-content darkmode1">
+    <div class="page-content-wrap default-full-content-wrap">
+      <div class="vit-cp-list-visual-wrap">
+        <div class="vit-cp-list-visual">
+          <div class="vit-cp-list-visual-inner">
+            <div class="vit-cp-list-visual-txt">
+              내 이사/청소 <b>신청내역 확인</b> 해 보세요.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap display-flex justify-content-center">
+        <!-- inner -->
+          <div class="max-width-limit" style="width:100%;max-width:500px;">
+              <div class="">
+                  <form id="chk_form" class="display-inline-block" style="width:100%;">
+                    <div class="list">
+                      <ul>
+                        <li class="item-content item-input item-input-outline">
+                          <div class="item-inner">
+                            <div class="item-title item-floating-label">이름</div>
+                            <div class="item-input-wrap">
+                              <input type="text" name="name" placeholder="이름을 입력해주세요" class="" />
+                              <span class="input-clear-button"></span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="item-content item-input item-input-outline" >
+                          <div class="item-inner">
+                            <div class="item-title item-floating-label">핸드폰번호</div>
+                            <div class="item-input-wrap" style="overflow:hidden;">
+                              <input type="number" name="tel" placeholder="팬드폰번호를 입력해주세요" class="input-with-value" />
+                              <span class="input-clear-button" style="right:110px;"></span>
+                              <a href="#" class="button in-input-btn link"  @click=${sms}>인증번호 받기</a>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="item-content item-input item-input-outline">
+                          <div class="item-inner">
+                            <div class="item-title item-floating-label">인증번호</div>
+                            <div class="item-input-wrap">
+                              <input type="text" name="chk_num" placeholder="받으신 인증번호를 입력해주세요" class=""/>
+                              <span class="input-clear-button"></span>
+                            </div>
+                          </div>
+                        </li>
+                        <li class="item-content" >
+                          <div class="item-inner">
+
+                            <div class="item-input-wrap" style="overflow:hidden;">
+                              <button class="col button button-fill button-round" type="button" @click=${checkauth}>확인</button>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </form>
+              </div>
+          </div>
+        <!-- / inner -->
+      </div>
+
+
+    </div>
+  </div>
+</div>
+</template>
+<script>
+  export default async (props, { $f7, $, $update, $onMounted ,$on}) => {
+    let duplicateSms = true;
+    const checkauth = async ()=>{
+      var data = await axios.post('/community/my/checkAuthWithName',{name: $("input[name=name]").val(),tel:$("input[name=tel]").val(),authno:$("input[name=chk_num]").val() } )
+      if( data.status == 200 ) app.views.main.router.navigate( app.views.main.router.currentRoute.url ,{reloadCurrent :true})
+    }
+    const sms = () =>{
+      console.log ( "sms")
+      if( $("input[name=tel]").val().trim() != '' && duplicateSms){
+        axios.post("/community/my/sendsms", {tel:$("input[name=tel]").val() } ).then( (res)=>{
+          duplicateSms = false;
+          app.toast.create({
+            text: "인증번호를 발송하였습니다.",
+            position: 'center',
+            closeTimeout: 2000,
+          }).open();
+        })
+      }if(!duplicateSms){
+        app.toast.create({
+          text: "이미 인증번호를 발송하였습니다.",
+          position: 'center',
+          closeTimeout: 2000,
+        }).open();
+      } else{
+        app.toast.create({
+          text: "핸드폰번호를 입력해주세요",
+          position: 'center',
+          closeTimeout: 2000,
+        }).open();
+      }
+
+    }
+      return $render;
+  }
+</script>

@@ -150,8 +150,22 @@
               </div>
           </div>
           <div class="upload-warning-wrap">
+            <div class="upload-warning-title-wrap upload-warning-title-wrap-mf">
+                <span class="upload-warning-title-icon"><i class="fas fa-hand-paper"></i></span>
+                <span class="upload-warning-title-txt">잠깐</span>
+                <div class="upload-warning-title-txt-content">
+                    <div class="upload-all-title"><b>누락된 사진</b>이 없는지 확인해주세요 </div>
+                    <ul class="upload-all-tip">
+                        <li>누락된 짐의 양에 따라 실제 견적과 차이가 날 수 있습니다.</li>
+                    </ul>
+
+                </div>
+              </div>
+
               <div class="upload-warning-title-wrap">
-                  <span class="upload-warning-title-icon"><i class="fas fa-exclamation-triangle"></i></span> <span class="upload-warning-title-txt">주의사항</span>
+                  <span class="upload-warning-title-icon"><i class="fas fa-exclamation-triangle"></i></span>
+                  <span class="upload-warning-title-txt">주의사항</span>
+
                   <div class="upload-warning-title-txt-content">
                       <div class="upload-all-title"><b>전체적인 공간</b>의 사진을 찍어주세요 </div>
                       <ul class="upload-all-tip">

@@ -35,6 +35,28 @@ var routes = [
       transition: 'f7-circle',
     },
   },
+
+  {
+    path:'/v2/mob/myrequest',
+    async: function ({ app, to, resolve }) {
+      // Get external data and return page content
+      app.request.json('/v2/pages/checkphone').then(function (res) {
+        console.log ( res )
+        resolve(
+          // How and what to load
+          {
+            content: `<div class="page">123</div>`
+          },
+        );
+      }).catch(function(err){
+        resolve({
+          componentUrl: '/v2/pages/checkphonescreen.html'
+        });
+      });
+    }
+
+  },
+
   //event test
   {
     path:'/v2/mob/event/:code',

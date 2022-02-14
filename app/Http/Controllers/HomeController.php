@@ -136,8 +136,9 @@ $response = $client->request('GET', $url);
         $row->pop_h = ($chkMobile) ? ($row->bp_height - 300 + 76 ) :($row->bp_height+76);
       }
 
+      $ordergoods = MoveGoodsType::with(['items'])->where(['type_use'=>'Y'])->orderBy('type_order_no','asc')->orderBy('id','asc')->get();
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
-      return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops']));
+      return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops','ordergoods']));
     }
 
     public function testhome(){

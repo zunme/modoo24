@@ -3,18 +3,15 @@
 @section('usesub','')
 
 @section('css')
-<script src="/community/newmain.js?v=20212223164100"></script>
+<script src="/community/newmain.js?v=20220210153400"></script>
 <style>
     .right_menu {
-        width: 55%
+        width:63%
     }
     .move_review_item_point {
         margin-top: 14px;
     }
 
-    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
-       bottom: -5px;
-    }
 
 </style>
 @endsection
@@ -145,6 +142,40 @@
         <button type="button" class="btn_simply simple-reg-btn"><span class="color_yw">무료견적</span><br />간편신청</button>
     </form>
 </section>
+
+<!--이벤트 롤링될때 디스플레이 :none  해제 하고 사용-->
+<section class="center event_wrap" style="margin-top:30px">
+    <div id="demo" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <!-- 슬라이드 쇼 -->
+            <div class="carousel-item active">
+                <a href="/v2/event/mvafter" target="_blank">
+                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_220106.jpg" class="pc" alt="칭찬이벤트">
+                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_220118_m.jpg" class="pc" alt="칭찬이벤트">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
+                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
+                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_220118ss_m.jpg" class="pc" alt="삼성이벤트">
+                </a>
+            </div>
+            <!-- / 슬라이드 쇼 끝 -->
+            <!-- 왼쪽 오른쪽 화살표 버튼 -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span> <!-- <span>Previous</span> --> </a> <a class="carousel-control-next" href="#demo" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <!-- <span>Next</span> -->
+            </a> <!-- / 화살표 버튼 끝 -->
+            <!-- 인디케이터 -->
+            <ul class="carousel-indicators">
+                <!--0번부터시작-->
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+            </ul> <!-- 인디케이터 끝 -->
+        </div>
+    </div>
+</section>
+
+
 <!--견적가이드-->
 <section class="center move_kind pc">
     <div class="left_Box">
@@ -163,37 +194,6 @@
 </section>
 
 
-<!--이벤트 롤링될때 디스플레이 :none  해제 하고 사용-->
-<section class="center event_wrap" style="display:none">
-    <div id="demo" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <!-- 슬라이드 쇼 -->
-            <div class="carousel-item active">
-                <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
-                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_ss_m.jpg" class="pc" alt="삼성이벤트">
-                </a>
-            </div>
-            <div class="carousel-item">
-                <a href="https://www.internetfriends.co.kr/index.php?s1=modoo24_event&action=reg&utm_source=modoo24&utm_medium=partner&utm_campaign=landing&utm_content=modoo24-2021-01-22" target="_blank">
-                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_it.jpg" class="pc" alt="인터넷신청">
-                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_it_m.jpg" class="pc" alt="인터넷신청">
-                </a>
-            </div>
-            <!-- / 슬라이드 쇼 끝 -->
-            <!-- 왼쪽 오른쪽 화살표 버튼 -->
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span> <!-- <span>Previous</span> --> </a> <a class="carousel-control-next" href="#demo" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <!-- <span>Next</span> -->
-            </a> <!-- / 화살표 버튼 끝 -->
-            <!-- 인디케이터 -->
-            <ul class="carousel-indicators">
-                <!--0번부터시작-->
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-            </ul> <!-- 인디케이터 끝 -->
-        </div>
-    </div>
-</section>
 
 
 <!--지식인검색-->
@@ -250,7 +250,7 @@
 </section>
 
 <!--이벤트 하나 일때 사용해야함-->
-<section class="center">
+<section class="center" style="display:none">
     <div>
         <a href="https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002" target="_blank">
             <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
@@ -258,7 +258,7 @@
         </a>
     </div>
 </section>
-
+<!--//이벤트 하나 일때 사용해야함-->
 
 <!--커뮤니티-->
 <section class="community_wrap center">
@@ -418,41 +418,36 @@
 <!--파트너문의 고객센터-->
 <section class="customer_wrap">
     <div class="center">
-        <div class="left_box">
-            <h2><span class="color_pt">파트너</span> 입점 문의</h2>
-            <p>이사업체 및 용달업체 <br />
-                파트너 상시모집</p>
-            <button type="button" class="btn_part" onclick="location.href='/v1/move/custom_business' ">자세히 보기</button>
+        <div class="customer_box cusbg2">
+            <h2><span class="color_pt">무료</span>로 <span class="color_pt">이사</span>해드립니다</h2>
+            <p class="modalpop_link" link="/new_common/popup/free_event.html">마음 따뜻한 사연을 <br/>
+                기다립니다
+            </p>
         </div>
-        <div class="right_box">
-            <p><img src="/v1/image/main_N/partner2_img.png" alt="1600-7728"></p>
+
+        <div class="customer_box cusbg1">
+            <h2><span class="color_pt">파트너</span> 입점 문의</h2>
+               <p onclick="location.href='/v1/move/custom_business'">이사업체 및 용달업체 <br />
+                파트너 상시모집
+               </p>
+        </div>
+
+        <div class="customer_box cusbg3">
             <dl>
                 <dt class="pn_title">광고 및 제휴제안</dt>
                 <dd class="pn_tel">모든 <span class="color_pt">업종 업태</span> </dd>
-                <dd class="pn_txt">
-                    모두플랫폼은 다양한 분야의<br> 사업자와 함께 합니다.
+                <dd class="pn_txt" onclick="window.open('/v1/image/modoo24_partnership_211130.pdf')">
+                    모두플랫폼은 다양한 분야의<br> 사업자와 함께 합니다
                 </dd>
-                <button type="button" class="btn_part" onclick="window.open('/v1/image/modoo24_partnership_211130.pdf')">자세히 보기</button>
             </dl>
         </div>
 
-        <div class="right_box" style="display: none">
-            <p><img src="/v1/image/main_N/customer_img.png" alt="1600-7728"></p>
-            <dl>
-                <dt class="title">고객센터</dt>
-                <dd class="tel">1600-7728</dd>
-                <dd>
-                    <ul>
-                        <li>평일 : 오전 9시 ~ 18시 30분</li>
-                        <li>공휴일, 주말 : 오전 9시 ~ 17시</li>
-                    </ul>
-                </dd>
-            </dl>
-        </div>
+
     </div>
 </section>
 <!--앱나열 회사 소개 아이콘-->
-<section class="company_wrap center">
+<section class="company_wrap">
+   <div class="center">
     <ul>
         <li>
             <a href="http://modooplatform.co.kr/" target="_blank">
@@ -503,6 +498,7 @@
             </a>
         </li>
     </ul>
+   </div>
 </section>
 
 
@@ -602,12 +598,14 @@
     </div>
 </div>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>
-<!-- pop -->
 
-<!-- test pop -->
+
+<!-- nface ai pop -->
 @include('popreg',['ordergoods'=>$ordergoods])
 @include('Front.Poporder.popai')
-<!-- /test pop -->
+<!-- /nface ai pop -->
+
+<!-- pop -->
 
 @if( $pops )
   @foreach ($pops as $zind=>$pop)
@@ -641,18 +639,18 @@
 <!--간편접수 퀵메뉴-->
 <script>
       let eventData = {'data' : [
-      	/*{
-      		'title': "황금열쇠이벤트",
-      		'href':'https://blog.naver.com/modoo24try/222488994124',
-      		'pc_image':'/v1/image/main_N/event_210923.jpg',
-      		'mobile_image':'/v1/image/main_N/event_210923_m.jpg',
+      	{
+      		'title': "칭찬후기이벤트",
+      		'href':'/v2/event/mvafter',
+      		'pc_image':'/v1/image/main_N/event_220106.jpg',
+      		'mobile_image':'/v1/image/main_N/event_220118_m.jpg',
       		'target' : true,
-      	},*/
+      	},
       	{
       		'title': "삼성이벤트",
       		'href':'https://www.samsungsales.co.kr/event/moveEventB.sesc?id=APTPR000533&dprt=CST002',
       		'pc_image':'/v1/image/main_N/event_ss.jpg',
-      		'mobile_image':'/v1/image/main_N/event_ss_m.jpg',
+      		'mobile_image':'/v1/image/main_N/event_220118ss_m.jpg',
       		'target' : true,
       	},
         /*
@@ -699,7 +697,6 @@
   		setCookie("popup_div_"+no, 'popupviewdone', 1,'/');
   		event_benner_close(no);
   	}
-
 </script>
 <!--//간편접수 퀵메뉴-->
 

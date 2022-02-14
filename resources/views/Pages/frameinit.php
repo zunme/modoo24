@@ -34,7 +34,20 @@
   <link rel="apple-touch-icon" href="/modoo24.ico">
   <link rel="shortcut icon" href="/modoo24.ico">
 
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.snow.css" />
+  <link href="//cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet" />
+  <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet" />
+
   <style>
+  .page-content.darkmode1 .vit-cp-list-visual-wrap{
+    background-color: #2e2e2e;
+    padding-bottom: 2px;
+  }
+  .default-full-content-wrap{
+    min-height: calc( 100% - 2px);
+  }
   /* 지식인 보기 - 이미지 라인 */
   .inline-thumb-list ul{
     justify-content: flex-end;
@@ -271,14 +284,14 @@
         <ul>
           <li class="accordion-item"><a class="item-content item-link" href="#">
               <div class="item-inner">
-                <div class="item-title">메뉴 1</div>
+                <div class="item-title">MY</div>
               </div>
             </a>
             <div class="accordion-item-content">
               <div class="list links-list">
                 <ul>
                   <li>
-                    <a href="/accordion/" class="panel-close">메뉴1-1</a>
+                    <a href="/v2/mob/myrequest" class="panel-close">신청내역</a>
                   </li>
                   <li>
                     <a href="/action-sheet/" class="panel-close">메뉴1-2</a>
@@ -375,6 +388,9 @@
 
   <script src="/v2/pages/routes.js?ver=20220127013000"></script>
   <script src="/v2/pages/store.js"></script>
+
+  <script src="/community/assets/js/kakao.min.js"></script>
+  <script src="/community/assets/js/sns.js"></script>
 </body>
 
 <script>
@@ -408,7 +424,15 @@ axios.interceptors.response.use(
   	const err = error.response
   	var text='';
   	if ( err.status == 422) {
-      text = err.data.message
+      if(  err.data.message ){
+        text = err.data.message
+      }else{
+        for(key in err.data) {
+          console.log ( key )
+          text = err.data[key]
+          break;
+        }
+      }
     }
   	else text="잠시후에 사용해주세요"
 
@@ -590,6 +614,9 @@ function changeBackgroundColor(){
 function openson(){
   sopnpop.open()
 }
+function reloadpage(){
+   app.views.main.router.navigate( app.views.main.router.currentRoute.url ,{reloadCurrent :true})
+}
 
 function loadsheet(url,title,txt){
   if(typeof url =='undefined') url = '/new_common/popup/accessterms.html'
@@ -642,6 +669,8 @@ function loadsheet(url,title,txt){
     dynamicSheet.open();
   })
 }
+Kakao.init('139b5101d3bf7ebdf5daa822e2b298fc');
+Kakao.isInitialized();
 </script>
 <style>
 /* review */

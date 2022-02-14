@@ -76,6 +76,7 @@ class mfPreviewImg {
       self.clearfile(e.target)
     });
   }
+
   addFiles(files){
     const self = this
     if (files.length === 0) { return }
@@ -126,7 +127,14 @@ class mfPreviewImg {
         });
     }
   }
-
+  clearAll(){
+    const self = this
+    $(this.el).children('.upload-image-item').remove();
+    this.cachedFileArray =[];
+    this.currentFileCount =0;
+    this.groupnum =1;
+    this.resizedFileArray=[];
+  }
   clearfile(btn){
     const self = this
     if( !$(btn).hasClass('mf-file-container__image-clear') ) btn = $(btn).closest('.mf-file-container__image-clear')
@@ -195,5 +203,44 @@ class mfPreviewImg {
       }).appendTo($container);
       $input.prop('files', res[item].files)
     } )
+  }
+  async makeAiForm( opt ){
+    var formids = []
+    let iusettings = {
+        target: '#image-uploader-container',
+        prefixid: 'nfaceuploder',
+        inputName: 'upload',
+        extensions: ['.jpg', '.jpeg', '.png', '.gif', '.svg'],
+    };
+    if(typeof opt == 'object'){
+      Object.assign(iusettings, opt);
+    }
+    //var $container = $('<div>', {class: 'image-uploader-container'});
+    var $container = $(iusettings.target)
+
+    var res ={}
+    this.resizedFileArray.forEach(async (item) => {
+      if( typeof res['group_'+item.groupnum] == 'undefined') res['group_'+item.groupnum] = new DataTransfer();
+      res['group_'+item.groupnum].items.add(item)
+    })
+
+    var keys = Object.keys( res )
+    keys.forEach(async (item) => {
+      var formid = 'ai_form_'+  Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8)
+      formids.push( formid )
+      var $form = $('<form>',{
+        id : formid
+      }).appendTo($container);
+      var $input = $('<input>', {
+        type: 'file',
+        id: iusettings.prefixid + '-' +  Math.random().toString(36).substring(2, 8) + Math.random().toString(36).substring(2, 8),
+        name: iusettings.inputName + '[]',
+        accept: iusettings.extensions.join(','),
+        multiple: ''
+      }).appendTo($form);
+      $input.prop('files', res[item].files)
+    } )
+    //TODO form 별로 ai 호출
+    console.log ( formids )
   }
 }

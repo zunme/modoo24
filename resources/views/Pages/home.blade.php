@@ -206,7 +206,7 @@
               <div class="by4-list-wrap">
                 <div class="by4-list">
                   @foreach ( $tip as $item)
-                  <a href="#" class="link">
+                  <a href="/v2/mob/board/tip/{{$item->id}}" class="link">
                     <div style="background-image: url('https://modoo24.net{{$item->repImg}}');"></div>
                   </a>
                   @endforeach
@@ -230,7 +230,7 @@
               <ul>
                 @foreach ( $fun as $item)
               	<li>
-              		<a href="#" class="item-link item-content">
+              		<a href="/v2/mob/board/fun/{{$item->id}}" class="item-link item-content">
               			<div class="item-media">
               				<img src="https://modoo24.net{{$item->repImg}}" width="80" />
               			</div>

@@ -49,23 +49,35 @@
   position: relative;
 }
 */
+#result_ai_section .step-body-section{
+  background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+#result_ai_section{
+  background-color: cadetblue;
+}
+.content-result-ai{
+    margin-bottom: 20px;
+}
 .content-result-ai-wrap{
   position: relative;
-    border: 1px solid #777;
-    border-radius: 10px;
-    padding: 30px 10px;
-    margin-top: 20px;
+      border: 1px solid #777;
+      border-radius: 10px;
+      padding: 30px 10px;
+      margin-top: 20px;
+      background-color: #ddd;
 }
 .content-result-ai-head{
   position: absolute;
-    top: -17px;
-    left: 50%;
-    background-color: #2196f3;
-    padding: 5px 10px;
-    color: white;
-    border-radius: 5px;
-    -webkit-transform: translate(-50%, 0);
-    transform: translate(-50%, 0);
+      top: 0;
+      left: 50%;
+      background-color: #2196f3;
+      padding: 7px 16px;
+      color: white;
+      border-radius: 5px;
+      -webkit-transform: translate(-50%, 0);
+      transform: translate(-50%, -50%);
 }
 .result-ai-wrap{
   display: flex;
@@ -74,6 +86,8 @@
 .result-ai-table{
   width: 100%;
 max-width: 270px;
+border: 1px solid darkgrey;
+    margin-top: 10px;
 }
 
 .result-ai-table tr{
@@ -144,6 +158,33 @@ max-width: 270px;
 .ai_simple_reg_wrap ul.box03 li{
   min-width: 199px;
 }
+.ai-warning-box{
+  border: 1px solid #f96332;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  width: 600px;
+  margin: 26px auto 10px;
+  max-width: 90%;
+}
+.ai-warning-box > p{
+  margin-top:8px;
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+.upload-warning-title-wrap-mf{
+  margin-bottom:20px;
+}
+.upload-warning-title-wrap-mf .upload-warning-title-icon i.fas{
+  color: #ff3636;
+}
+.upload-warning-title-wrap-mf .upload-warning-title-txt-content{
+  padding-left: 16px;
+}
+.upload-warning-title-wrap-mf li{
+  font-size: 14px;
+}
+
 </style>
 
   <div class="popup modal-in modal-out" id="popnmodalAi">
@@ -224,6 +265,13 @@ let airesultTemplate = `
             @{{/each}}
           </table>
         </div>
+
+        <div class="ai-warning-box">
+          <p>AI 이사 견적 시스템은 이사 요금을 결정짓는 모든 요소가 아닌 대략적인 사항을 기준하여 산출되는 비용입니다.</p>
+
+          <p>정확한 견적 산출을 원하시는 경우 아래 버튼을 눌러주세요.</p>
+
+        </div>
     </div>
 
     <div class="pop-page-step-footer">
@@ -252,11 +300,14 @@ function closepopnbtnai() {
   $("#popnmodalAi input[type=number]").val('')
 
   $("#ai-image-uploader-area").empty()
+  /*
+
   var imgdels = document.querySelectorAll('.mf-file-container[data-upload-id="imagepreview_selectmoveing_ai"]  .mf-file-container__image-clear');
   $(imgdels).each( function (i,v) {
    movingAIimage.clearfile(v)
   })
-
+*/
+  movingAIimage.clearAll()
 }
 function aiNextStep( btn ){
   if( btn =='small'){

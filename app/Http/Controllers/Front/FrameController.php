@@ -25,11 +25,17 @@ use App\Models\PostCommentLog;
 use App\Models\PostFavorite;
 use App\Models\BulletinSido;
 
+
+use App\Models\AuctionOrderContract;
+use App\Models\AuctionOrderEstimate;
+use App\Models\AuctionSmsConfirm;
+
 use Yajra\Datatables\Facades\Datatables;
 
 class FrameController extends Controller
 {
   	use ApiResponser;
+
 
     function index(Request $request){
       return view('Pages/frameinit');
@@ -45,6 +51,7 @@ class FrameController extends Controller
 
       return view('Pages/home', compact(['reviews','jisik','fun','tip']));
     }
+
     function review( Request $request, $id){
       $this->avgStar();
 
@@ -80,12 +87,14 @@ class FrameController extends Controller
 
       return view('Pages/review', compact(['row']) );
     }
+
     function viewboard(Request $request, $code ,$viewid){
       $user = Auth::user();
 
       $config = BulletinConfig::active()->where(['code'=>$code])->first();
       if( !$config) return;
       $post = Post::with(['comments','address','files'])->where(['bulletin_id'=> $config->id, 'id'=>$viewid])->first();
+
       if( $post->is_confirmed =='N' ) return;
   		else if( $post->is_confirmed == 'R' ){
   			if( $user ){
@@ -102,10 +111,12 @@ class FrameController extends Controller
   			if( $post_fav > 0 ) $post_favorite = true;
   			else $post_favorite = false;
   		}
+      if( mb_detect_encoding($post->body) =='ASCII') $post->body= mb_convert_encoding($post->body , 'UTF-8', 'HTML-ENTITIES');
 
-      if( $code !='jisik') return view('Front/Bulletin/community/view',compact(['config','post','code','is_writer','post_favorite']));
+      if( $code !='jisik') return view('Pages/postview',compact(['config','post','code','is_writer','post_favorite']));
       else return view('Pages/postsjisik',compact(['config','post','code','is_writer','post_favorite']));
     }
+
     function postsList(Request $request, $code){
       Carbon::setLocale('ko');
   		$config = BulletinConfig::active()->where(['code'=>$code])->first();
@@ -131,6 +142,62 @@ class FrameController extends Controller
         return mb_detect_encoding($post->body);
       })
       ->make(true);
+    }
+
+    function checkSession( Request $request ){
+      $userdata = $this->getUserdata($request);
+      if( !$userdata) return $this->error('unauthorized');
+      else return $this->success();
+    }
+    /* 견적 */
+    function myRequestList(Request $request){
+      $phone = null;
+  		$userdata = $this->getUserdata( $request );
+
+  		if ( !$userdata ) return;
+      else return $this->mylist($request, $userdata['phone']);
+    }
+    private function mylist($request, $phone){
+        $sql = "
+        SELECT * FROM (
+            SELECT
+            	'방문' as kind, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton, reg_date, classify, mdate
+            	FROM auction_order
+            	WHERE REPLACE(hp, '-', '') = '".$phone."'
+
+            UNION ALL
+            	SELECT '비대면' as kind, uid, s_uid1,s_uid2,s_uid3, s_uid1_memo,s_uid2_memo,s_uid3_memo, ton, reg_date, classify, mdate
+            	FROM auction_order_nface WHERE REPLACE(hp, '-', '') = '".$phone."'
+
+            UNION ALL
+            	SELECT '청소' as kind, uid, s_uid1,s_uid2,s_uid3, '' as s_uid1_memo, '' as s_uid2_memo, '' as s_uid3_memo, '' AS ton, reg_date, classify, mdate
+            	FROM auction_clean_order WHERE REPLACE(hp, '-', '') = '".$phone."'
+        ) A ORDER BY reg_date DESC
+        ";
+        $data = \DB::select($sql);
+        foreach ( $data as &$row){
+          if ( $row->kind =="방문") {
+            $staff_cnt = 0;
+            if( $row->s_uid1 > 0 ) $staff_cnt++;
+            if( $row->s_uid2 > 0 ) $staff_cnt++;
+            if( $row->s_uid3 > 0 ) $staff_cnt++;
+            $row->staff_cnt = $staff_cnt;
+            $row->kind_title = "방문 " . $this->getType('type',$row->classify);
+          } else if($row->kind == "비대면") {
+              $row->d_cnt = AuctionOrderContract::where(['uid'=>$row->uid])->count();
+              if( $row->d_cnt < 1) $row->c_cnt = AuctionOrderEstimate::where(['uid'=>$row->uid])->count();
+              $row->kind_title = "비대면";
+          } else {
+            $staff_cnt = 0;
+            if( $row->s_uid1 > 0 ) $staff_cnt++;
+            if( $row->s_uid2 > 0 ) $staff_cnt++;
+            if( $row->s_uid3 > 0 ) $staff_cnt++;
+            $row->staff_cnt = $staff_cnt;
+            $row->kind_title = "입주청소";
+          }
+        }
+        return $this->success(compact('data','phone') );
+        return view('Front.My.requestlist', compact('data','phone', 'tab'));
     }
 
     function reviewMain(Request $request, $retAsObject = false){
@@ -203,5 +270,18 @@ class FrameController extends Controller
       if($retAsObject) return $data;
   		else  return $this->success($data);
     }
-    
+
+    private function  getUserdata(Request $request){
+  		$user = Auth::user();
+
+  		if( $user && $user->phone && $user->name){
+  				return ['name'=>$user->name, "phone"=>$user->phone];
+  		}else if( $request->session()->has('userAuth') ){
+  			$authArr =  $request->session()->get('userAuth');
+  			if( isset($authArr['tel']) && isset($authArr['name']) ){
+  				return ['name'=>$authArr['name'], "phone"=>$authArr['tel'] ];
+  			}
+  		}
+  		return false;
+  	}
 }
