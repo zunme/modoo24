@@ -45,8 +45,11 @@ class BulletinController extends Controller
 			return back()->with('noti_alert_message', '찾는 페이지가 없습니다.');
 		}
 
-		if( $request->ready == 'Y' ) $qry = Post::where(['bulletin_id'=> $config->id])->where('is_confirmed', '==','Y');
+		// 대기중 안나오게 변경 2022-02-15
+		$onlyConfirmed = true;
+		if( $request->ready == 'Y' || $onlyConfirmed ) $qry = Post::where(['bulletin_id'=> $config->id])->where(['is_confirmed'=>'Y']);
 		else $qry = Post::with(['files'])->where(['bulletin_id'=> $config->id])->where('is_confirmed', '!=','N');
+
 
 		if( $request->search ){
 			if ( $request->search_option == 'cont' )
@@ -73,16 +76,19 @@ class BulletinController extends Controller
 	}
 
 
-	// 대기중안나오는
 	public function contentListApi(Request $request, $code){
 		$config = BulletinConfig::active()->where(['code'=>$code])->first();
 		if( !$config){
 			return view('Front/Bulletin/empty');
 		}
-		$data = Post::where('is_confirmed', '<>','N')->where(['bulletin_id'=> $config->id]);
+		// 대기중 안나오게 변경 2022-02-15
+		//$data = Post::where('is_confirmed', '<>','N')->where(['bulletin_id'=> $config->id]);
+		$data = Post::where(['is_confirmed'=>'Y','bulletin_id'=> $config->id]);
+		/*
 		if( $request->ready == 'Y' ) $data = Post::where(['bulletin_id'=> $config->id, 'is_confirmed'=>'Y']);
 		else $data = Post::where('is_confirmed', '<>','N')->where(['bulletin_id'=> $config->id]);
-
+		*/
+		
 		if( $request->search ){
 			if ( $request->search_option == 'title' ) $data = $data->where('title', 'like', '%'.$request->search.'%');
 			else if ( $request->search_option == 'cont' ) {
