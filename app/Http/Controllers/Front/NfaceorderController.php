@@ -22,7 +22,7 @@ use App\Models\BulletinSidoCopy;
 use App\Models\LaravelTraceLog;
 
 /* TODO */
-use App\Models\AuctionOrderNfaceTest;
+use App\Models\AuctionOrderNface;
 
 class NfaceorderController extends Controller
 {
@@ -34,7 +34,7 @@ class NfaceorderController extends Controller
 
 		/* TODO 내부 IP제외 */
 		//if( in_array($request->ip(), $exceptIp)) return $this->error('EXCEPT IP');
-		
+
 		$unique_limit = 10;
 
 		$logUnique = $request->session()->get('traceLogId', function () use ($request) {
@@ -240,7 +240,7 @@ class NfaceorderController extends Controller
 				'reg_company_type'=>'모두이사',
 				'cafe_name'=>'모두이사_official_untact2'
 			];
-			$ins = AuctionOrderNfaceTest::create($trance);
+			$ins = AuctionOrderNface::create($trance);
 		} catch( \Exception $e){
 			return $e->getMessage();
 		}
@@ -275,9 +275,12 @@ class NfaceorderController extends Controller
 		$dongcode = substr($bcode, 0,8);
 		$data = BulletinSidoCopy::where(['dong_code'=>$dongcode])->first();
 		if( $data->si_code =='36'){
-			return ['sido'=> $data->gu, 'gu'=>$data->dong];
+			return ['sido'=> '세종', 'gu'=>$data->dong];
 		}else {
-			return ['sido'=> $data->sido, 'gu'=>$data->gu];
+			$origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도'];
+			$replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','광주','강원','충북','충남','경북','경남','전북','전남','제주'];
+
+			return ['sido'=> $res = str_replace( $origin_sido, $replace_sido , $data->sido ), 'gu'=>$data->gu];
 		}
 	}
 	//이사종류

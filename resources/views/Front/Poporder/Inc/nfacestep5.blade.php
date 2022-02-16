@@ -55,9 +55,11 @@
                             <input class="form-check-input mfstorageignore" type="checkbox" name="agree1" value="Y">
                             <span class="form-check-sign">
                                 <span class="check"></span>
-                            </span></label><span class="modalpop_link" link="/new_common/popup/accessterms.html"><b>이용약관</b></span>
+                            </span>
+                          </label>
+                          <span class="modalpop_link2" link="/new_common/popup/accessterms.html" onClick="newmodalpop('/new_common/popup/accessterms.html')"><b>이용약관</b></span>
                         및
-                        <span class="modalpop_link" link="/new_common/popup/personal_data.html"><b>개인정보처리방침</b></span>
+                        <span class="modalpop_link2" link="/new_common/popup/personal_data.html"  onClick="newmodalpop('/new_common/popup/personal_data.html')"><b>개인정보처리방침</b></span>
                         동의 필수
                     </div>
                     <div class="form-check">
@@ -65,12 +67,12 @@
                             <input class="form-check-input mfstorageignore" type="checkbox" name="agree2" value="Y">
                             <span class="form-check-sign">
                                 <span class="check"></span>
-                            </span></label><span class="modalpop_link" link="/new_common/popup/personal_3.html"><b>제 3 자 제공동의</b></span>(필수)
+                            </span></label><span class="modalpop_link1" link="/new_common/popup/personal_3.html"  onClick="newmodalpop('/new_common/popup/personal_3.html')" ><b>제 3 자 제공동의</b></span>(필수)
                     </div>
                     <div class="form-check">
                         <label class="form-check-label chek-out-label">
                             <input class="form-check-input mfstorageignore" type="checkbox" name="agree_marketing" value="Y">
-                            <span class="form-check-sign"><span class="check"></span></span></label><span class="modalpop_link" link="/new_common/popup/mkt_ok.html"><b>마케팅동의</b></span>(선택)
+                            <span class="form-check-sign"><span class="check"></span></span></label><span class="modalpop_link2" link="/new_common/popup/mkt_ok.html" onClick="newmodalpop('/new_common/popup/mkt_ok.html')"><b>마케팅동의</b></span>(선택)
                     </div>
 
                 </div>
@@ -91,6 +93,19 @@
 
 
 <script>
+function newmodalpop(url){
+    $.get(url, function(data) {
+      let org = data
+      data = data.replace(/(<\/?)html( .+?)?>/gi,'$1NOTHTML$2>',data)
+      data = data.replace(/(<\/?)body( .+?)?>/gi,'$1NOTBODY$2>',data)
+      data = $(data).find('notbody').html()
+      if( typeof data == 'undefined') data = org
+      data = '<div class="modalpop_link_close_wrap"><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button></div>'+data
+
+      $("#modal_popview_body").html(data);
+      $("#modal_popview").modal('show');
+    })
+}
     function checkAllFn(chk) {
         var checked = $(chk).prop('checked')
         var inp = $(chk).closest('.checkAllFnwrap').find('input[type=checkbox]')
