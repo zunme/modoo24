@@ -19,19 +19,26 @@ use App\Models\EventList;
 class EventController extends Controller
 {
 	use ApiResponser;
-  public function index(){
-			$data = EventList::where(['is_use'=>'Y'])->orderby('prc_ing','asc')->orderby('id','desc')->get();
+  public function index(Request $request){
+			if ($request->testview) $data = EventList::orderby('prc_ing','asc')->orderby('id','desc')->get();
+			else $data = EventList::where(['is_use'=>'Y'])->orderby('prc_ing','asc')->orderby('id','desc')->get();
+
       return view('Front/Event/eventlistv2',compact(['data']));
   }
   public function viewdetail ( Request $request, $code ){
     return view('Front/Event/detail'.$code);
   }
-	public function viewevent($id){
-		$data = EventList::where(['id'=>$id, 'is_use'=>'Y'])->first();
+	public function viewevent(Request $request, $id){
+		if ($request->testview) $data = EventList::where(['id'=>$id])->first();
+		else $data = EventList::where(['id'=>$id, 'is_use'=>'Y'])->first();
+
 		if( !$data ){
 			return redirect('/event');
 		}else{
-			if ( $data->external_link ){
+
+			if( $data->loadexternal){
+				;
+			}else if ( $data->external_link ){
 				return redirect('/event');
 			}
 			$before_data =  EventList::where(['is_use'=>'Y'])->where("id","<",$id)->orderby('id','desc')->first();

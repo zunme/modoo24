@@ -43,7 +43,7 @@
             @else
             <a href="/v2/event/view/{{$item->id}}">
             @endif
-              <div class="pic pic-cover" style="background-image:url({{$item->list_img}})"></div>
+              <div class="pic pic-cover" style="background-image:url(https://modoo24.net{{$item->list_img}})"></div>
               <div class="textGroup">
                 <strong >
                   @if ($item->prc_ing =='진행중')

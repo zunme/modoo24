@@ -2,6 +2,10 @@
 
 @section('css')
 <style>
+.event_body{
+  margin-bottom:20px;
+  margin-top:20px;
+}
 .btn-customblue{
   background-color: #4472c4 !important;
   border-color: #4472c4  !important;
@@ -52,7 +56,14 @@
           <dd class="period">기간 : {{$data->duration}}</dd>
         </dl>
         <div class="event_body">
+
+          @if( $data->loadexternal )
+          <!-- load -->
+            @include('Front/Event/'.$data->loadexternal)
+            <!-- /load -->
+          @else
           {!! $data->desc !!}
+          @endif
         </div>
         <ul class="choice">
           @if ( $before_data )

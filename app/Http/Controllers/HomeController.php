@@ -49,6 +49,12 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function altest(){
+       $origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도'];
+       $replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','광주','강원','충북','충남','경북','경남','전북','전남','제주'];
+       $n = "울산시";
+       $res = str_replace( $origin_sido, $replace_sido , $n);
+
+       return;
        $comment = PostComment::find('211');
        event(new CommentEvent( $comment));
        return;
@@ -111,7 +117,7 @@ $response = $client->request('GET', $url);
       return view('welcome');
       return view('home');
     }
-    public function home(){
+    public function home(Request $request){
       $jisik = Post::with(['firstcomment'])->where(['bulletin_id'=>1,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
       $fun = Post::where(['bulletin_id'=>2,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(3)->get();
       $tip = Post::where(['bulletin_id'=>4,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
@@ -141,13 +147,15 @@ $response = $client->request('GET', $url);
       $ordergoods = MoveGoodsType::with(['items'])->where(['type_use'=>'Y'])->orderBy('type_order_no','asc')->orderBy('id','asc')->get();
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
 
-      $eventlist = EventList::where(['is_use'=>'Y', 'use_main'=>'Y'])->orderby('id')->get();
+      if ( $request->testview ) $eventlist = EventList::where([ 'use_main'=>'Y'])->orderby('id', 'desc')->get();
+      else $eventlist = EventList::where(['is_use'=>'Y', 'use_main'=>'Y'])->orderby('id', 'desc')->get();
+
       $event = [];
       foreach( $eventlist as $row){
         $tmp = [];
         $tmp['title'] = $row->title;
-        $tmp['pc_image'] = $row->pc_img;
-        $tmp['mobile_image'] = $row->mobile_img;
+        $tmp['pc_image'] = 'https://modoo24.net/'.$row->pc_img;
+        $tmp['mobile_image'] = 'https://modoo24.net/'.$row->mobile_img;
         if( $row->external_link){
           $tmp['href'] = $row->external_link;
           $tmp['target'] = true;
