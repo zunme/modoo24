@@ -49,8 +49,11 @@ Route::group([
       //메인노출
       Route::post('mainpost', 'BulletinController@mainpostchange' );
 		});
-
-
+    Route::group(['prefix' => 'event',], function() {
+      Route::get('/', 'EventController@eventlist' );
+      Route::get('/{id}', 'EventController@eventview' );
+      Route::post('/save', 'EventController@eventsave' );
+    });
 		//유저
 		Route::group(['prefix' => 'user',], function() {
 
@@ -79,6 +82,7 @@ Route::group([
     Route::get('/nface/info/{uid}', 'NewnfaceorderController@getInfo');
     Route::get('/nface/log', 'NewnfaceorderController@getlog');
   });
+
 
   Route::group([
       'prefix' => 'setting',
