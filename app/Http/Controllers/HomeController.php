@@ -24,6 +24,8 @@ use App\Models\MoveGoods;
 
 use App\Models\AuctionBbsPostscript;
 
+use App\Models\EventList;
+
 use App\Libraries\Aligo;
 
 use GuzzleHttp\Exception\GuzzleException;
@@ -138,7 +140,24 @@ $response = $client->request('GET', $url);
 
       $ordergoods = MoveGoodsType::with(['items'])->where(['type_use'=>'Y'])->orderBy('type_order_no','asc')->orderBy('id','asc')->get();
       $startday = Carbon::now()->format('Y-m-d 00:00:00');
-      return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops','ordergoods']));
+
+      $eventlist = EventList::where(['is_use'=>'Y', 'use_main'=>'Y'])->orderby('id')->get();
+      $event = [];
+      foreach( $eventlist as $row){
+        $tmp = [];
+        $tmp['title'] = $row->title;
+        $tmp['pc_image'] = $row->pc_img;
+        $tmp['mobile_image'] = $row->mobile_img;
+        if( $row->external_link){
+          $tmp['href'] = $row->external_link;
+          $tmp['target'] = true;
+        }else{
+          $tmp['href'] = "/v2/event/view/".$row->id;
+          $tmp['target'] = false;
+        }
+        $event[] = $tmp;
+      }
+      return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops','ordergoods','event']));
     }
 
     public function testhome(){

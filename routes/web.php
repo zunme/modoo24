@@ -117,6 +117,7 @@ Route::prefix('/review')->name('review.')->group(function () {
 //이벤트
 Route::get('/event', 'Front\EventController@index');
 Route::get('/event/{code}', 'Front\EventController@viewdetail');
+Route::get('/event/view/{id}', 'Front\EventController@viewevent');
 
 Route::post('/wngur/fakelog', 'Front\MyController@fakelog');
 
@@ -129,6 +130,7 @@ Route::get('/home', function () {
 Route::prefix('/partner')->name('partner.')->group(function () {
  Route::get('/', 'Partner\PartnerController@index');
  Route::post('/modify/{id}', 'Partner\PartnerController@modifyPrc');
+  Route::get('/info/{id}', 'Partner\NewnfaceorderController@getInfo');
 });
 
 Route::prefix('/mob')->name('frame.')->group(function () {
@@ -144,6 +146,8 @@ Route::prefix('/pages')->group(function () {
   Route::get('/review/{id}', 'Front\FrameController@review');
   Route::get('/board/view/{code}/{id}', 'Front\FrameController@viewboard');
   Route::get('/posts/{code}', 'Front\FrameController@postsList');
+  Route::get('/checkphone', 'Front\FrameController@checkSession');
+  Route::get('/myrequest', 'Front\FrameController@myRequestList');
 });
 
 

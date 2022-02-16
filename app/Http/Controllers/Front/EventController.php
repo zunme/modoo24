@@ -14,15 +14,29 @@ use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use App\Traits\ApiResponser;
-
+use App\Models\EventList;
 
 class EventController extends Controller
 {
 	use ApiResponser;
   public function index(){
-      return view('Front/Event/eventlist');
+			$data = EventList::where(['is_use'=>'Y'])->orderby('prc_ing','asc')->orderby('id','desc')->get();
+      return view('Front/Event/eventlistv2',compact(['data']));
   }
   public function viewdetail ( Request $request, $code ){
     return view('Front/Event/detail'.$code);
   }
+	public function viewevent($id){
+		$data = EventList::where(['id'=>$id, 'is_use'=>'Y'])->first();
+		if( !$data ){
+			return redirect('/event');
+		}else{
+			if ( $data->external_link ){
+				return redirect('/event');
+			}
+			$before_data =  EventList::where(['is_use'=>'Y'])->where("id","<",$id)->orderby('id','desc')->first();
+			$after_data =  EventList::where(['is_use'=>'Y'])->where("id",">",$id)->orderby('id','asc')->first();
+			return view('Front/Event/eventview', compact(['data','before_data','after_data']));
+		}
+	}
 }

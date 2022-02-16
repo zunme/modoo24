@@ -3,7 +3,7 @@
 @section('usesub','')
 
 @section('css')
-<script src="/community/newmain.js?v=20220106170000"></script>
+<script src="/community/newmain.js?v=20220210153400"></script>
 <style>
     .right_menu {
         width:63%
@@ -145,34 +145,7 @@
 
 <!--이벤트 롤링될때 디스플레이 :none  해제 하고 사용-->
 <section class="center event_wrap" style="margin-top:30px">
-    <div id="demo" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <!-- 슬라이드 쇼 -->
-            <div class="carousel-item active">
-                <a href="/v2/event/mvafter" target="_blank">
-                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_220106.jpg" class="pc" alt="칭찬이벤트">
-                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_220118_m.jpg" class="pc" alt="칭찬이벤트">
-                </a>
-            </div>
-            <div class="carousel-item">
-                <a href="https://blog.naver.com/modoo24try/222488994124" target="_blank">
-                    <img class="d-block w-100 pc" src="/v1/image/main_N/event_ss.jpg" class="pc" alt="삼성이벤트">
-                    <img class="d-block w-100 mobile" src="/v1/image/main_N/event_220118ss_m.jpg" class="pc" alt="삼성이벤트">
-                </a>
-            </div>
-            <!-- / 슬라이드 쇼 끝 -->
-            <!-- 왼쪽 오른쪽 화살표 버튼 -->
-            <a class="carousel-control-prev" href="#demo" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span> <!-- <span>Previous</span> --> </a> <a class="carousel-control-next" href="#demo" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <!-- <span>Next</span> -->
-            </a> <!-- / 화살표 버튼 끝 -->
-            <!-- 인디케이터 -->
-            <ul class="carousel-indicators">
-                <!--0번부터시작-->
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-            </ul> <!-- 인디케이터 끝 -->
-        </div>
-    </div>
+
 </section>
 
 
@@ -598,6 +571,13 @@
     </div>
 </div>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/></svg>
+
+
+<!-- nface ai pop -->
+@include('popreg',['ordergoods'=>$ordergoods])
+@include('Front.Poporder.popai')
+<!-- /nface ai pop -->
+
 <!-- pop -->
 
 @if( $pops )
@@ -631,6 +611,7 @@
 @section('script')
 <!--간편접수 퀵메뉴-->
 <script>
+/*
       let eventData = {'data' : [
       	{
       		'title': "칭찬후기이벤트",
@@ -646,15 +627,9 @@
       		'mobile_image':'/v1/image/main_N/event_220118ss_m.jpg',
       		'target' : true,
       	},
-        /*
-      	{
-      		'title': "모두클린",
-      		'href':'http://modooclean.com/',
-      		'pc_image':'/v1/image/main_N/event_clean.jpg',
-      		'mobile_image':'/v1/image/main_N/event_clean_m.jpg',
-      		'target' : true,
-      	},*/
       ]}
+*/
+let eventData = {'data' : {!! json_encode( $event,true)!!} }
     $(document).ready(function() {
         // 기존 css에서 플로팅 배너 위치(top)값을 가져와 저장한다.
         var floatPosition = parseInt($("#simpleorder").css('top'));
