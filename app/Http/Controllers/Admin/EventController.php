@@ -52,7 +52,7 @@ class EventController extends Controller
       'prc_ing'=>$request->prc_ing,
 			'prc_ing_sub'=>$request->prc_ing_sub,
       'use_main'=>$request->use_main=='Y' ?'Y':'N',
-			'use_list'=>$request->use_lsit=='Y' ?'Y':'N',
+			'use_list'=>$request->use_list=='Y' ?'Y':'N',
       'duration'=>$request->duration,
       'external_link'=>$request->external_link,
       'desc'=>$request->desc,
