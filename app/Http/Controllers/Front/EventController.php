@@ -20,8 +20,8 @@ class EventController extends Controller
 {
 	use ApiResponser;
   public function index(Request $request){
-			if ($request->testview) $data = EventList::orderby('prc_ing','asc')->orderby('id','desc')->get();
-			else $data = EventList::where(['is_use'=>'Y'])->orderby('prc_ing','asc')->orderby('id','desc')->get();
+			if ($request->testview) $data = EventList::where(['use_list'=>'Y'])->orderby('prc_ing','asc')->orderby('id','desc')->get();
+			else $data = EventList::where(['is_use'=>'Y','use_list'=>'Y'])->orderby('prc_ing','asc')->orderby('id','desc')->get();
 
       return view('Front/Event/eventlistv2',compact(['data']));
   }
