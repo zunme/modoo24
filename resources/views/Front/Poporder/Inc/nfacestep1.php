@@ -36,7 +36,7 @@
                 <input type="number" name="s_pyeong" min="0" class="form-control-pop text-align-right" placeholder="평수">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                    <span>평<span>
+                    <span>평</span>
                   </span>
                 </div>
               </div>
@@ -53,7 +53,7 @@
                 <input type="number"  name="s_floor" min="0" class="form-control-pop text-align-right" placeholder="층수">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                    <span>층<span>
+                    <span>층</span>
                   </span>
                 </div>
               </div>
@@ -123,7 +123,7 @@
                 <input type="number" name="e_pyeong" min="0" class="form-control-pop text-align-right" placeholder="평수">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                    <span>평<span>
+                    <span>평</span>
                   </span>
                 </div>
               </div>
@@ -140,7 +140,7 @@
                 <input type="number"  name="e_floor" min="0" class="form-control-pop text-align-right" placeholder="층수">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                    <span>층<span>
+                    <span>층</span>
                   </span>
                 </div>
               </div>

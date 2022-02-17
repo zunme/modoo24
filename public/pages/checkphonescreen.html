@@ -94,7 +94,7 @@
     let duplicateSms = true;
     const checkauth = async ()=>{
       var data = await axios.post('/community/my/checkAuthWithName',{name: $("input[name=name]").val(),tel:$("input[name=tel]").val(),authno:$("input[name=chk_num]").val() } )
-      if( data.status == 200 ) app.views.main.router.navigate( app.views.main.router.currentRoute.url ,{reloadCurrent :true})
+      if( data.status == 200 ) reloadpage()
     }
     const sms = () =>{
       console.log ( "sms")

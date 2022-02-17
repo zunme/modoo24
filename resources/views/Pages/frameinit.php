@@ -41,9 +41,22 @@
   <link href="//cdn.quilljs.com/1.3.6/quill.core.css" rel="stylesheet" />
 
   <style>
+  :root{
+    --wrap-max-width:800px;
+    --width-line-color: #2e2e2e;
+  }
+  .max-width-limit-cont{
+    max-width : var( --wrap-max-width );
+    width:100%;
+  }
   .page-content.darkmode1 .vit-cp-list-visual-wrap{
     background-color: #2e2e2e;
     padding-bottom: 2px;
+  }
+  .vit-cp-list-visual-wrap.withline{
+    background-color: var(--width-line-color);
+    padding-bottom: 2px;
+    padding-top: 2px;
   }
   .default-full-content-wrap{
     min-height: calc( 100% - 2px);

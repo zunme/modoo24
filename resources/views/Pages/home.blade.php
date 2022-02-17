@@ -438,13 +438,8 @@
   export default (props, { $f7, $, $update, $onMounted ,$on}) => {
     let actionsGrid;
     let reviews = {!! json_encode($reviews) !!};
-    console.log(reviews)
-    //var title ='12'
     const openGrid = () => {
       actionsGrid.open();
-      //title = "newtitle"
-      //$update();
-      // 템플릿 에서는 ${title}
     }
     const clickbanner =(e)=>{
       app.views.main.router.navigate($(e.target).data('url'))
@@ -529,8 +524,6 @@
       actionsGrid = $f7.actions.create({ buttons: gridButtons, grid: true });
     })
     $onMounted(() => {
-      console.log('component mounted')
-
       $("#jisikform input[name=search]").on("keyup, keypress", function(e){
         if( e.keyCode === 13 || e.key =='enter'){
             app.views.main.router.navigate('/v2/mob/board/jisik')

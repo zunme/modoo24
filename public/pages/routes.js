@@ -38,20 +38,13 @@ var routes = [
 
   {
     path:'/v2/mob/myrequest',
+    name: 'myrequest',
     async: function ({ app, to, resolve }) {
       // Get external data and return page content
       app.request.json('/v2/pages/checkphone').then(function (res) {
-        console.log ( res )
-        resolve(
-          // How and what to load
-          {
-            content: `<div class="page">123</div>`
-          },
-        );
+        resolve({ componentUrl: '/v2/pages/myrequest' });
       }).catch(function(err){
-        resolve({
-          componentUrl: '/v2/pages/checkphonescreen.html'
-        });
+        resolve({ componentUrl: '/v2/pages/checkphonescreen.html' });
       });
     }
 

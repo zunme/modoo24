@@ -157,7 +157,7 @@ class FrameController extends Controller
   		if ( !$userdata ) return;
       else return $this->mylist($request, $userdata['phone']);
     }
-    private function mylist($request, $phone){
+    private function mylist($request, $phone, $tab=""){
         $sql = "
         SELECT * FROM (
             SELECT
@@ -183,10 +183,13 @@ class FrameController extends Controller
             if( $row->s_uid3 > 0 ) $staff_cnt++;
             $row->staff_cnt = $staff_cnt;
             $row->kind_title = "방문 " . $this->getType('type',$row->classify);
+            $row->d_cnt = 0;$row->c_cnt = 0;
           } else if($row->kind == "비대면") {
               $row->d_cnt = AuctionOrderContract::where(['uid'=>$row->uid])->count();
               if( $row->d_cnt < 1) $row->c_cnt = AuctionOrderEstimate::where(['uid'=>$row->uid])->count();
+              else $row->c_cnt = 0;
               $row->kind_title = "비대면";
+              $row->staff_cnt =0;
           } else {
             $staff_cnt = 0;
             if( $row->s_uid1 > 0 ) $staff_cnt++;
@@ -194,10 +197,11 @@ class FrameController extends Controller
             if( $row->s_uid3 > 0 ) $staff_cnt++;
             $row->staff_cnt = $staff_cnt;
             $row->kind_title = "입주청소";
+            $row->d_cnt = 0;$row->c_cnt = 0;
           }
         }
+        return view('Pages/myrequest', compact('data','phone', 'tab'));
         return $this->success(compact('data','phone') );
-        return view('Front.My.requestlist', compact('data','phone', 'tab'));
     }
 
     function reviewMain(Request $request, $retAsObject = false){
