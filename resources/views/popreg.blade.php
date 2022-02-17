@@ -524,9 +524,6 @@ function pop_page_content_pop_close(){
 }
 </script>
 
-// /pop script
-
-
 <script>
   function startaddress( addr, extraAddr, data ){
 
