@@ -123,8 +123,8 @@ class ReviewController extends Controller
 		$row = AuctionOrder::where(['uid'=>$request->uid])->first();
 		$company = [];
 		if( $row->s_uid1 > 0 && !in_array($row->s_uid1, $this->exclsComp ) ) $company[] = $row->s_uid1;
-		if( $row->s_uid2 > 0 && !in_array($row->s_uid1, $this->exclsComp ) ) $company[] = $row->s_uid2;
-		if( $row->s_uid3 > 0 && !in_array($row->s_uid1, $this->exclsComp ) ) $company[] = $row->s_uid3;
+		if( $row->s_uid2 > 0 && !in_array($row->s_uid2, $this->exclsComp ) ) $company[] = $row->s_uid2;
+		if( $row->s_uid3 > 0 && !in_array($row->s_uid3, $this->exclsComp ) ) $company[] = $row->s_uid3;
 
 		$companyData = AuctionStaff::select('s_uid','s_company','s_nickname','s_license1','s_addr1')->whereIn( 's_uid', $company)->get();
 		$row->companyData = $companyData;
