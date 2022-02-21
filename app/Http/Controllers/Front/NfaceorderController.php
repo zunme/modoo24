@@ -23,6 +23,7 @@ use App\Models\LaravelTraceLog;
 
 /* TODO */
 use App\Models\AuctionOrderNface;
+use App\Models\AuctionCleanOrder;
 
 class NfaceorderController extends Controller
 {
@@ -184,9 +185,8 @@ class NfaceorderController extends Controller
 		}
 		$data['images'] = $uploadefiles;
 
-
 		$create = $this->create( $data);
-		if( $create ){
+		if( $create===true ){
 
 			/* TODO */
 			sleep(1);
@@ -198,6 +198,7 @@ class NfaceorderController extends Controller
 	}
 
 	private function create( $data ){
+		\DB::beginTransaction();
 		try{
 			$startAddr = $this->getAddressInfo( $data['s_bcode'] );
 			$movingtype = $this->getClassifyType( $data['movingmethod']);
@@ -212,6 +213,7 @@ class NfaceorderController extends Controller
 				'name'=>$data['register_name'],
 				'passwd'=>(isset($data['agree_marketing']) && $data['agree_marketing']=='Y') ? 'Y':'N', //인터넷
 				'hp'=>$data['register_phone'],
+				'vn'=>$data['s_bcode'],
 				'classify'=>$this->getClassify( $data['movingtype']), // 이사종류(소형,가정..)
 				'stype'=>$movingtype['stype'], //이사 타입 (포장..)
 				's_zip1'=>$data['s_zip1'],
@@ -241,7 +243,41 @@ class NfaceorderController extends Controller
 				'cafe_name'=>'모두이사_official_untact2'
 			];
 			$ins = AuctionOrderNface::create($trance);
+			/*입주청소*/
+			if( isset($data['use_clean']) && $data['use_clean']=='Y'){
+				$clean=[
+					'contact_name'=>'',
+					'order_path'=>'1',//온라인
+					's_uid'=>'0',
+					's_with2'=>'2',//비대면
+					's_with3'=>'0',
+					's_with4'=>'0',
+					'mdate'=>$data['mdate'],
+					'company'=>'',
+					'name'=>$data['register_name'],
+					'passwd'=>'',
+					'hp'=>$this->format_tel($data['register_phone']),
+					'stype'=>'1',//입주청소
+					's_addr1'=>$data['e_addr1'],
+					's_addr2'=>'',
+					'note'=>'',
+					'user_memo'=>'',
+					'memo'=>'',
+					'com_num'=>'0',
+					'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
+					'aircon_yn'=>'Y',//우선은 있는것으로
+					'type'=>'',//주거종류 선택없음
+					'share_status'=>'ING',
+					'clean_staff_cnt'=>'0',
+					'clean_elevator'=>$data['e_ev_no'],
+					'clean_addr_pyoung'=>$data['e_pyeong'],
+					'order_uid'=>"1",
+				];
+				$cleanins = AuctionCleanOrder::create($clean);
+			}
+			\DB::commit();
 		} catch( \Exception $e){
+			\DB::rollback();
 			return $e->getMessage();
 		}
 		return true;
@@ -494,7 +530,10 @@ class NfaceorderController extends Controller
 				}
         //return $path . $image_name;
     }
-
+		private function format_tel($tel) {
+    $tel = preg_replace('/[^0-9]/', '', $tel);
+	    return preg_replace('/(^02.{0}|^01.{1}|^15.{2}|^16.{2}|^18.{2}|[0-9]{3})([0-9]+)([0-9]{4})/', '$1-$2-$3', $tel);
+		}
 }
 /*
 
