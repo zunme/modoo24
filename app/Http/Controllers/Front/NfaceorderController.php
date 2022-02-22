@@ -206,7 +206,7 @@ class NfaceorderController extends Controller
 			$trance = [
 				'order_path'=>1,
 				's_uid' => (isset($data['internet_call']) && $data['internet_call']=='Y') ? '1':'0', //인터넷
-				's_with2' => ($data['movingmethod'] == 'small' && isset($data['s_help_no']) && $data['s_help_no']=='Y') ? '1':'0',//도와줄수있나요
+				's_with2' => ($data['movingtype'] == 'small' && isset($data['s_help_no']) && $data['s_help_no']=='Y') ? '1':'0',//도와줄수있나요
 				'sido'=>$startAddr['sido'],
 				'gugun'=>$startAddr['gu'],
 				'mdate'=>$data['mdate'],
@@ -242,6 +242,7 @@ class NfaceorderController extends Controller
 				'reg_company_type'=>'모두이사',
 				'cafe_name'=>'모두이사_official_untact2'
 			];
+
 			$ins = AuctionOrderNface::create($trance);
 			/*입주청소*/
 			if( isset($data['use_clean']) && $data['use_clean']=='Y'){
