@@ -746,7 +746,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" type="text/css" href="/community/assets/modoo/mypage.css?ver=20211020000002">
-<script src="/community/assets/modoo/mypage_v2.js?ver=202202080000000"></script>
+<script src="/community/assets/modoo/mypage_v2.js?ver=202202240000000"></script>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript" src="http://t1.daumcdn.net/postcode/api/core/190611/1560237575423/190611.js"></script>

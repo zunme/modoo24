@@ -46,7 +46,6 @@ let companyimg = `
 
 <div class="imgprevcol {{#if (checkempty src) }} hide {{/if}} " id="upfile_col">
   <div class="imgprevbox-comp display-flex img-raised">
-    <i class="remove_file_btn now-ui-icons ui-1_simple-remove" data-num="1" onclick="removeCompFile(this)"></i>
     <div class="thumbnail-comp ">
       <img src="{{#if (checknotempty src) }}{{src}}{{/if}}" alt="MAIN_IMAGE" id="upfile_preview">
     </div>
