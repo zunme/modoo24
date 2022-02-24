@@ -33,17 +33,17 @@
 
                 <div class="nface-order-auth-ip-wrap">
                     <div class="nface-order-auth-ip-name">
-                        <input name="register_name" class="form-control-pop form-control-success" value="" placeholder="고객명을 입력해 주세요">
+                        <input name="register_name" class="form-control-pop form-control-success" value=""  tabindex="-1" placeholder="고객명을 입력해 주세요">
                     </div>
                     <div class="nface-order-auth-ip-phone">
-                        <input name="register_phone" type="number" class="form-control-pop form-control-success" value="" max="11" placeholder="전화번호를 입력해 주세요">
+                        <input name="register_phone" type="number" class="form-control-pop form-control-success" value="" max="11" tabindex="-1" placeholder="전화번호를 입력해 주세요">
                     </div>
                 </div>
 
                 <div class="nface-order-auth-agree-wrap checkAllFnwrap">
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input mfstorageignore" type="checkbox" onClick="checkAllFn(this)">
+                            <input class="form-check-input mfstorageignore" type="checkbox" tabindex="-1" onClick="checkAllFn(this)">
                             전체동의
                             <span class="form-check-sign">
                                 <span class="check"></span>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-check">
                         <label class="form-check-label chek-out-label">
-                            <input class="form-check-input mfstorageignore" type="checkbox" name="agree1" value="Y">
+                            <input class="form-check-input mfstorageignore" type="checkbox" tabindex="-1" name="agree1" value="Y">
                             <span class="form-check-sign">
                                 <span class="check"></span>
                             </span>
@@ -64,14 +64,14 @@
                     </div>
                     <div class="form-check">
                         <label class="form-check-label chek-out-label">
-                            <input class="form-check-input mfstorageignore" type="checkbox" name="agree2" value="Y">
+                            <input class="form-check-input mfstorageignore" type="checkbox" tabindex="-1" name="agree2" value="Y">
                             <span class="form-check-sign">
                                 <span class="check"></span>
                             </span></label><span class="modalpop_link1" link="/new_common/popup/personal_3.html"  onClick="newmodalpop('/new_common/popup/personal_3.html')" ><b>제 3 자 제공동의</b></span>(필수)
                     </div>
                     <div class="form-check">
                         <label class="form-check-label chek-out-label">
-                            <input class="form-check-input mfstorageignore" type="checkbox" name="agree_marketing" value="Y">
+                            <input class="form-check-input mfstorageignore" type="checkbox" tabindex="-1" name="agree_marketing" value="Y">
                             <span class="form-check-sign"><span class="check"></span></span></label><span class="modalpop_link2" link="/new_common/popup/mkt_ok.html" onClick="newmodalpop('/new_common/popup/mkt_ok.html')"><b>마케팅동의</b></span>(선택)
                     </div>
 

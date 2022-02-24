@@ -149,7 +149,7 @@
                     <span>층수</span>
                   </span>
                 </div>
-                <input type="number"  name="e_floor" min="0" class="form-control-pop text-align-right" placeholder="층수">
+                <input type="number"  name="e_floor" min="0" pattern="[0-9]+" tab-index="-1" class="form-control-pop text-align-right" placeholder="층수">
                 <div class="input-group-append">
                   <span class="input-group-text">
                     <span>층</span>
@@ -229,3 +229,17 @@
   </div>
 
 </div>
+<input type="text" name="null" style="height:0;width:0;border:none;" />
+<script>
+$("document").ready( function() {
+  $("input[name=e_floor]").on("keypress keyup keydown", function (event){
+    if(event.key == 'tab' || event.key == 'enter') {
+      event.preventDefault();
+      return false;
+      event.preventDefault();
+    }
+    console.log ( event.key)
+    return true;
+  })
+})
+</script>
