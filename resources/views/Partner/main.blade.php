@@ -29,7 +29,7 @@
 </head>
 
 <header>
-	<a class="arrow_L"><img src="/m/image/arrow_L.png" alt="<"></a> <p class="title">내정보</p>
+	<a class="arrow_L" href="javascirpt:history.back(-1);"><img src="/m/image/arrow_L.png" alt="<"></a> <p class="title">내정보</p>
 	<div class="mobile-nav-button main-nav-button">
 	<div class="mobile-nav-button__line"></div>
 	<div class="mobile-nav-button__line"></div>
