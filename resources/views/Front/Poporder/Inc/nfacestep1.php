@@ -91,7 +91,19 @@
 
               </div>
             </div>
-
+            <div class="step-onoff-wrap">
+              <div class="input-toggle-wrap">
+                <div class="input-toggle-line">보관이사</div>
+                <div class="togglebutton texttoggle">
+                  <label>
+                    <input type="checkbox" name="use_container" value="Y" data-to="container2">
+                    <span class="toggle">
+                      <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -190,25 +202,13 @@
                 </div>
               </div>
             </div>
-            <div class="step-onoff-wrap">
-              <div class="input-toggle-wrap">
-                <div class="input-toggle-line">보관이사</div>
-                <div class="togglebutton texttoggle">
-                  <label>
-                    <input type="checkbox" name="use_container" value="Y" data-to="container2">
-                    <span class="toggle">
-                      <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
+
             <div class="step-onoff-wrap">
               <div class="input-toggle-wrap">
                 <div class="input-toggle-line">인터넷이전 혜택상담</div>
                 <div class="togglebutton texttoggle">
                   <label>
-                    <input type="checkbox" name="internet_call" value="Y" checked="" data-to="internet2">
+                    <input type="checkbox" name="internet_call" value="Y" data-to="internet2">
                     <span class="toggle" >
                       <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
                     </span>

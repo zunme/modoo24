@@ -41,7 +41,7 @@
 
                             </div>
                             <div class=" flex-col select-moveing-type-item">
-
+<!--
                                 <label class="step-radio-labelclass">
                                     <input type="radio" class="step-radio select-moveing-radio" name="movingtype" value="home" onChange="nfacestep3showing()">
                                     <div class="step-radio-label">
@@ -54,8 +54,10 @@
                                         <span class="step-radio-label-check"><i class="fas fa-home"></i></span>
                                     </div>
                                 </label>
+-->
                             </div>
                             <div class=" flex-col select-moveing-type-item">
+<!--
                                 <label class="step-radio-labelclass">
                                     <input type="radio" class="step-radio select-moveing-radio" name="movingtype" value="office" onChange="nfacestep3showing()">
                                     <div class="step-radio-label">
@@ -68,6 +70,7 @@
                                         <span class="step-radio-label-check"><i class="fas fa-building"></i></span>
                                     </div>
                                 </label>
+-->                                
                             </div>
                         </div>
 

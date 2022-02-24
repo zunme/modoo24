@@ -27,7 +27,7 @@
 }
 #popnmodalAi .pop-page-step ,
 #popnmodalAi .pop-page-step-body{
-    background-color: #1C7293;
+    background-color: aliceblue;
 }
 #popnmodalAi .pop-page-step-body {
     height: calc( 100% - 44px );
