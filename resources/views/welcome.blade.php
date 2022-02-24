@@ -38,8 +38,8 @@
             <a class="btn_contact mobile" href="/v1/modoo/contact_info.php" style="width:100%;"><svg style="vertical-align: middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(153,153,153,1)"/></svg><b class="color_blue" style="padding-left:3px">방문 견적</b>가이드 <span></span></a>
         </li>
         <li>
-            <a class="pc" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_bn01.png"></a>
-            <a class="mobile" href="/front/orderpop?s=2"><img src="/v1/image/main_N/main_m_bn01.png"></a>
+            <a class="pc" href="javascript:openpopn();"><img src="/v1/image/main_N/main_bn01.png"></a>
+            <a class="mobile" href="javascript:openpopn();"><img src="/v1/image/main_N/main_m_bn01.png"></a>
             <a class="btn_untact mobile" href="/v1/modoo/untact_info.php" style="width:100%;"><svg style="vertical-align: middle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-5h2v2h-2v-2zm2-1.645V14h-2v-1.5a1 1 0 0 1 1-1 1.5 1.5 0 1 0-1.471-1.794l-1.962-.393A3.501 3.501 0 1 1 13 13.355z" fill="rgba(153,153,153,1)"/></svg><b class="color_pt" style="padding-left:3px">비대면 견적</b>가이드</a>
         </li>
         <li class="pc">
