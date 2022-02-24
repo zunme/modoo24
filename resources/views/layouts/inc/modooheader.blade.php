@@ -229,7 +229,7 @@
                 <a class="logoN gotohome" href="#"><img src="/v1/image/main_N/logo.png"><span>모두이사</span></a>
                 <div class="right_menu">
                     <ul class="menu01">
-                        <li><a href="/front/orderpop?s=2">비대면견적</a></li>
+                        <li><a href="javascript:openpopn();">비대면견적</a></li>
                         <li><a href="/front/orderpop?s=1">방문견적</a></li>
                         <li><a href="/v2/my/request">신청내역</a></li>
                     </ul>

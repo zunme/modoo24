@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/community/assets/css/flexgrid.css">
-<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=20220207164444">
+<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=20220224123000">
 
 @if ( request()->get('css') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=20220207164444">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=20220224123000">
 @else
-<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=20220207164444">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=20220224123000">
 @endif
 @if ( request()->get('cssv2') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=20220207164444">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=20220224123000">
 @endif
 <style>
 .w-100{
