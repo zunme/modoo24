@@ -407,6 +407,16 @@
 		min-height:110px !important;
 	}
 
+	.company_photo{
+		color: #2e2e2e;
+		margin-bottom: 15px;
+		font-size: 16px;
+	}
+	.company_photo li:last-of-type{
+		color: #226ab2;
+		font-weight: bold;
+	}
+
 </style>
 
 
@@ -442,10 +452,14 @@
         <div class="mypage">
 		<div id="tab1" class="tabcontent public" style="display:block">
 			<h3><i class="fas fa-info-circle"></i> 고객에게 공개되는 정보</h3>
+			<ul class="company_photo">
+				<li>업체명과 함께 로고, 작업 사진을 보내주시면 확인 즉시 업로드됩니다.</li>
+				<li>모두이사 010-3012-7728</li>
+			</ul>
 			<div class="sub-block-wrap">
 				<div class="sub-header-title" style="display:flex;justify-content: space-between;">
 				   <div>
-				       <span class="pic_icon"><i class="far fa-clone"></i></span> <span>대표사진 등록(로고)<br><b class="pic_cmt">연락처 정보 입력 시, 사전 안내 없이&nbsp;수정,&nbsp;삭제될 수&nbsp;있습니다.</b><span>
+				       <!-- <span class="pic_icon"><i class="far fa-clone"></i></span> <span>대표사진 등록(로고)<br><b class="pic_cmt">연락처 정보 입력 시, 사전 안내 없이&nbsp;수정,&nbsp;삭제될 수&nbsp;있습니다.</b><span> -->
 					   </span></span>
 				   </div>
 				<!--
@@ -477,7 +491,7 @@
 					 </div>
 					 -->
 				  </dt>
-				  <dd class="txt_darkred">최대 4장의 사진을 업로드하세요</dd>
+				  <!-- <dd class="txt_darkred">최대 4장의 사진을 업로드하세요</dd> -->
 				</dl>
 				<div class="row" id="pvev_area">
 				@if($subfiles)
