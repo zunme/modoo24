@@ -288,7 +288,7 @@ class NfaceorderController extends Controller
 안녕하세요. ".$data['register_name']." 고객님, 모두이사입니다.
 비대면 이사 견적 신청이 완료되었습니다.
 
-▶이사일 : 2022년 1월 19일
+▶이사일 : ".$data['mdate']."
 ▶ 출발지 주소 : ".$data['s_addr1']." ".$data['s_addr2']."
 ▶ 도착지 주소 : ".$data['e_addr1']."
 
