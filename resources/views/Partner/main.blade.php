@@ -473,9 +473,11 @@
 				<div class="display-flex justify-content-flex-end" style="  flex-direction: column; justify-content: flex-end;">
 
 				   <div class="display-flex imgbox-wrap" id="companyimgprevarea">
+				   	<!--
 				       <div class="need_upload_txt imgstyle" onclick="addCompImage()">
 					   이미지파일을 선택해주세요
 				       </div>
+				       -->
 				   </div>
 				</div>
 			</div>
