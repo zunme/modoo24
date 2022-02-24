@@ -189,8 +189,8 @@ class NfaceorderController extends Controller
 		if( $create===true ){
 
 			/* TODO */
-			sleep(1);
-			//$this->createCompleted($data);
+			//sleep(1);
+			$this->createCompleted($data);
 			$tempdata = $request->all();
 			$this->makelog($request, 'nfacepop', '6', $tempdata['moving-goods-method'],'4000'  );
 			return $this->success();
