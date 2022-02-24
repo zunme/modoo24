@@ -241,5 +241,13 @@ $("document").ready( function() {
     console.log ( event.key)
     return true;
   })
+  $("input[name=null]").on("focus", function(e){
+    this.blur()
+    $(event.target).blur()
+  })
+  $("input[name=null]").focus(function(){
+  console.log('포커스를 얻었습니다.');
+  $("input[name=null]").blur()
+});
 })
 </script>
