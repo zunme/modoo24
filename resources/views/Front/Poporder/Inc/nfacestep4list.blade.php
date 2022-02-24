@@ -17,7 +17,7 @@ var inpopuptemplateobj=`
     <form id="inpopupOptionForm">
       <div class="pop-page-options-wrap">
         <div class="pop-page-options-select">
-          <span class="pop-page-options-select-item">@{{title}}</span> 옵션을2 선택해주세요.
+          <span class="pop-page-options-select-item">@{{title}}</span> 옵션을 선택해주세요.
         </div>
         <div class="pop-page-options-list">
           @{{#each inp}}
