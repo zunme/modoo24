@@ -55,8 +55,9 @@ class AuctionstaffController extends Controller
 
 		if ( isset($staffinfo->s_mobile_img3_1) && is_array($staffinfo->s_mobile_img3_1) && count($staffinfo->s_mobile_img3_1)>0)  $extendfile[] = $staffinfo->s_mobile_img3_1[0];
 		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
-		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
-		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
+		if ( isset($staffinfo->s_mobile_img3_3) && is_array($staffinfo->s_mobile_img3_3) && count($staffinfo->s_mobile_img3_3)>0)  $extendfile[] = $staffinfo->s_mobile_img3_3[0];
+		if ( isset($staffinfo->s_mobile_img3_4) && is_array($staffinfo->s_mobile_img3_4) && count($staffinfo->s_mobile_img3_4)>0)  $extendfile[] = $staffinfo->s_mobile_img3_4[0];
+		
 
 
 		if( count($extendfile)> 0 ){
@@ -242,5 +243,12 @@ class AuctionstaffController extends Controller
 			'grades'=>$grades,
 		];
 		return $this->success($res);
+	}
+
+	function staff_data(Request $request, $s_uid){
+		$staffinfo = AuctionStaff::find( $s_uid);
+
+		return $this->success( $staffinfo );
+
 	}
 }
