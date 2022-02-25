@@ -83,7 +83,7 @@ class NfaceorderController extends Controller
   function step1(Request $request){
 		/*step1 check */
     $res = $this->stepAddressCheck($request);
-    if( $res !== true) return $this->error($res,422,['step'=>1]);
+    if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
 		/*end step1 check */
 		$this->makelog($request, 'nfacepop', '2' );
     return $this->success( );
@@ -92,7 +92,7 @@ class NfaceorderController extends Controller
 	function step2(Request $request){
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>1]);
+		if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
 		/*step2 check */
     $res = $this->stepMdateCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>2]);
@@ -104,7 +104,7 @@ class NfaceorderController extends Controller
 	function step3(Request $request){
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>1]);
+		if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
 		/*step2 check */
     $res = $this->stepMdateCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>2]);
@@ -119,7 +119,7 @@ class NfaceorderController extends Controller
 	function step4(Request $request){
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>1]);
+		if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
 		/*step2 check */
 		$res = $this->stepMdateCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>2]);
@@ -151,7 +151,7 @@ class NfaceorderController extends Controller
 
 		/*step5 check */
 		$res = $this->stepUserDataCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>5]);
+		if( $res !== true) return $this->error($res,422,['step'=>5, 'data'=> $this->errors]);
 
 
 
@@ -350,6 +350,7 @@ class NfaceorderController extends Controller
 
 	/* step 1 */
   private function stepAddressCheck(Request $request ){
+		$this->errors = null;
     $messages = [
         's_addr1.*' =>'출발지 주소를 검색해주세요',
         's_zip1.*' =>'출발지 주소를 검색해주세요',
@@ -387,7 +388,7 @@ class NfaceorderController extends Controller
 			'internet_call'=>'bail|nullable|in:Y,on',
 
      ],$messages);
-		 if ($validator->fails()) return $validator->messages()->first();
+		 if ($validator->fails()) { $this->errors = $validator->errors(); return $validator->messages()->first();}
 		 else return true;
   }
 	/* step 2 */

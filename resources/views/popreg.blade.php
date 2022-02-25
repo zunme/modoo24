@@ -1,13 +1,13 @@
 <link rel="stylesheet" href="/community/assets/css/flexgrid.css">
-<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=20220224123000">
+<link rel="stylesheet" href="/community/assets/css/orderpop.css?v=20222225160000">
 
 @if ( request()->get('css') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=20220224123000">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2.css?v=20222225160000">
 @else
-<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=20220224123000">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=20222225160000">
 @endif
 @if ( request()->get('cssv2') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=20220224123000">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=20222225160000">
 @endif
 <style>
 .w-100{
@@ -583,10 +583,36 @@ function pop_page_content_pop_close(){
     if( typeof res == 'object' && typeof res.responseJSON == 'object' && typeof res.responseJSON.data != 'undefined' && typeof res.responseJSON.data.step != 'undefined'){
       resetNowStep(res.responseJSON.data.step)
     }
+    if( typeof res == 'object' && typeof res.responseJSON == 'object'
+      && typeof res.responseJSON.data != 'undefined'
+      && typeof res.responseJSON.data.data != 'undefined'){
+        var msg = res.responseJSON.data.data
+
+      for(key in msg) {
+        if(msg.hasOwnProperty(key)) {
+
+          if(key.indexOf('.') < 0 ) {
+            setTimeout( function(){
+              $('input[name='+key+']').focus();
+            }, 50)
+            console.log( `input[name=${key}]` ,"================")
+            break;
+          }
+        }
+      }
+    }
   }
   function resetNowStep(step_no){
     $("#popn_step_" + step_no ).children(".pop-page-step-header").trigger("click")
   }
+  $("document").ready( function(){
+    $("#pop-page-form input").on( "focus", function(e){
+        $(e.target).closest(".input-group").addClass("input-group-focus")
+    })
+    $("#pop-page-form input").on( "blur", function(e){
+        $(e.target).closest(".input-group").removeClass("input-group-focus")
+    })
+  })
 </script>
 
 
