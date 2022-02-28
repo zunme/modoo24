@@ -59,8 +59,8 @@
                           </label>
                           <span class="modalpop_link2" link="/new_common/popup/accessterms.html" onClick="newmodalpop('/new_common/popup/accessterms.html')"><b>이용약관</b></span>
                         및
-                        <span class="modalpop_link2" link="/new_common/popup/personal_data.html"  onClick="newmodalpop('/new_common/popup/personal_data.html')"><b>개인정보처리방침</b></span>
-                        동의 필수
+                        <span class="modalpop_link2" link="/new_common/popup/personal_data.html"  onClick="newmodalpop('/new_common/popup/personal_data.html')"><b>개인정보처리방침동의</b></span>
+                        (필수)
                     </div>
                     <div class="form-check">
                         <label class="form-check-label chek-out-label">
