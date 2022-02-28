@@ -31,8 +31,13 @@ use App\Libraries\Aligo;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
+use App\Traits\ApiResponser;
+use App\Models\LaravelTraceLog;
+use App\Http\Libraries\MobileDetect;
+
 class HomeController extends Controller
 {
+  use ApiResponser;
     /**
      * Create a new controller instance.
      *
@@ -117,6 +122,31 @@ $response = $client->request('GET', $url);
       return view('welcome');
       return view('home');
     }
+
+    function makelog(Request $request, $code='home', $step='0', $substep=null, $tranceval = null ){
+      $logUnique = $request->session()->get('traceLogId', function () use ($request) {
+  			$unique = $this->getUniqueString(10);
+  			$request->session()->put('traceLogId', $unique);
+  		  return $unique;
+  		});
+      $agent = new MobileDetect();
+   		$mobileResult = $agent->isMobile();
+  		try{
+        LaravelTraceLog::create([
+					"uniqueId"=>$logUnique,
+					"openId"=>'',
+					"isMobile"=> $mobileResult ? 'Y':'N',
+					"page"=>$code,
+					"step"=>$step,
+					"substep"=>$substep,
+					"ip"=>$request->ip()
+				]);
+      }catch( \Exception $e ){
+  			return $this->error($e->getMessage());
+  		}
+  		return $this->success();
+    }
+
     public function home(Request $request){
       $jisik = Post::with(['firstcomment'])->where(['bulletin_id'=>1,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(4)->get();
       $fun = Post::where(['bulletin_id'=>2,'is_confirmed'=>'Y', 'main_post'=>'Y'])->orderby('id', 'desc')->limit(3)->get();
@@ -165,6 +195,7 @@ $response = $client->request('GET', $url);
         }
         $event[] = $tmp;
       }
+      $this->makelog($request);
       return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops','ordergoods','event']));
     }
 
