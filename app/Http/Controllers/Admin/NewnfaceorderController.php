@@ -48,7 +48,7 @@ class NewnfaceorderController extends Controller
       	(step6 / total * 100) step6_completed,
       	(step6 / uniquenum * 100) real_colpleted
       FROM (
-      	SELECT dd as logdate, total, uniquenum,
+      	SELECT dd as logdate, total, uniquenum,uniquenumhome, homecnt,
       	 ifnull( SUM( case when step = 1 then cnt END ),0) AS step1 ,
       	 ifnull( SUM( case when step = 2 then cnt END ),0) AS step2,
       	 ifnull( SUM( case when step = 3 then cnt END ),0) AS step3,
@@ -56,7 +56,7 @@ class NewnfaceorderController extends Controller
       	 ifnull( SUM( case when step = 5 then cnt END ),0) AS step5,
       	 ifnull( SUM( case when step = 6 then cnt END ),0) AS step6
       	FROM(
-      		SELECT a.dd, a.total, c.uniquenum,b.step, b.cnt ,tranceval
+      		SELECT a.dd, a.total, c.uniquenum,b.step, b.cnt,d.uniquenumhome, homecnt ,tranceval
       		from
       		(SELECT date_format(updated_at ,'%Y-%m-%d') AS dd,COUNT(1) AS total FROM laravel_trace_logs
       		WHERE updated_at BETWEEN :startdate AND :enddate and page = '$page'
@@ -74,11 +74,27 @@ class NewnfaceorderController extends Controller
             $officeIps
       			GROUP BY date_format(updated_at ,'%Y%m%d')
       		) c ON a.dd = c.dd
+
+          LEFT JOIN (
+      			SELECT date_format(updated_at ,'%Y-%m-%d') dd , COUNT(distinct(uniqueid)) AS uniquenumhome FROM laravel_trace_logs
+      			WHERE updated_at  BETWEEN :startdate4 AND :enddate4 and page = 'home'
+            $officeIps
+      			GROUP BY date_format(updated_at ,'%Y%m%d')
+      		) d ON a.dd = d.dd
+
+          LEFT JOIN (
+      			SELECT date_format(updated_at ,'%Y-%m-%d') dd , COUNT(1) AS homecnt FROM laravel_trace_logs
+      			WHERE updated_at  BETWEEN :startdate5 AND :enddate5 and page = 'home'
+            $officeIps
+      			GROUP BY date_format(updated_at ,'%Y%m%d')
+      		) e ON a.dd = e.dd
+
       	) dataset
       	GROUP BY dd
       ) totalset
     ";
-    $data =  \DB::select( $sql,["startdate" => $startdate, "enddate" => $enddate,"startdate2" => $startdate, "enddate2" => $enddate,"startdate3" => $startdate, "enddate3" => $enddate]) ;
+    $data =  \DB::select( $sql,["startdate" => $startdate, "enddate" => $enddate,"startdate2" => $startdate, "enddate2" => $enddate,"startdate3" => $startdate, "enddate3" => $enddate,
+    "startdate4" => $startdate, "enddate4" => $enddate, "startdate5" => $startdate, "enddate5" => $enddate]) ;
     if($request->ajax()) return $this->success( $data );
     else return $data;
   }

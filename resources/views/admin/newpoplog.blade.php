@@ -86,6 +86,8 @@ td.changed-td .text-primary, td.changed-td .text-warning{
             <thead>
               <tr>
                 <th>날짜</th>
+                <th>HOME 오픈수</th>
+                <th>HOME 실사용자</th>
                 <th>팝업오픈수</th>
                 <th>실사용자수</th>
                 <th>출발/도착지</th>
@@ -129,6 +131,8 @@ td.changed-td .text-primary, td.changed-td .text-warning{
     {{#each data}}
       <tr data-date='{{logdate}}'>
         <td data-step='date' class="">{{logdate}}</td>
+        <td data-step='total' class="total">{{homecnt}} 번</td>
+        <td data-step='unique' class="uniquenum">{{uniquenumhome}} 명</td>
         <td data-step='total' class="total">{{total}} 번</td>
         <td data-step='unique' class="uniquenum">{{uniquenum}} 명</td>
         <td data-step='1' class="step1_bounce"><div class="td-rate">{{numberFormat step1_bounce decimalLength="2" }}</div><div class="td-person-times">{{step1}}</div></td>
