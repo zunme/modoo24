@@ -34,7 +34,7 @@ class NfaceorderController extends Controller
 		$exceptIp = ['221.154.134.3'];
 
 		/* TODO 내부 IP제외 */
-		if( in_array($request->ip(), $exceptIp)) return $this->error('EXCEPT IP');
+		//if( in_array($request->ip(), $exceptIp)) return $this->error('EXCEPT IP');
 
 		$unique_limit = 10;
 
@@ -78,7 +78,6 @@ class NfaceorderController extends Controller
 			return $this->error($e->getMessage());
 		}
 		return $this->success();
-
 	}
 	function stepcheck(Request $request){
 		return $this->error("잘못된 데이터 입니다",500);
@@ -88,7 +87,7 @@ class NfaceorderController extends Controller
 		else if ($request->step == 4) return $this->step4( $request);
 		else if ($request->step == 5) return $this->complete( $request);
 		else return $this->error("잘못된 데이터 입니다");
-	}	
+	}
 	function step1(Request $request){
 		/*step1 check */
     $res = $this->stepAddressCheck($request);
