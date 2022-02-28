@@ -111,6 +111,11 @@ Handlebars.registerHelper("starpercent", function(lvalue, options) {
   return lvalue*100/5
 })
 
+Handlebars.registerHelper("starscore", function(svalue, options) {
+  svalue = parseFloat(svalue);
+  svalue = svalue.toFixed(2);
+  return svalue
+})
 
 let gradeTemplate = `
 <div class="grade">
@@ -134,35 +139,35 @@ let gradeTemplate = `
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_pro}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_pro}}</span>
+        <span class="gtxt">{{starscore rating.star_pro}}</span>
     </div>
     <div>
         <span class="gtitle">친절성</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_kind}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_kind}}</span>
+        <span class="gtxt">{{starscore rating.star_kind}}</span>
     </div>
     <div>
         <span class="gtitle">가격도</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_price}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_price}}</span>
+        <span class="gtxt">{{starscore rating.star_price}}</span>
     </div>
     <div>
         <span class="gtitle">마무리</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_finish}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_finish}}</span>
+        <span class="gtxt">{{starscore rating.star_finish}}</span>
     </div>
     <div>
         <span class="gtitle">사후관리</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_expost}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_expost}}</span>
+        <span class="gtxt">{{starscore rating.star_expost}}</span>
     </div>
     <div>
         <span class="gtitle">포장도</span>
