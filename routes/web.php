@@ -118,6 +118,7 @@ Route::prefix('/review')->name('review.')->group(function () {
 Route::get('/event', 'Front\EventController@index');
 Route::get('/event/{code}', 'Front\EventController@viewdetail');
 Route::get('/event/view/{id}', 'Front\EventController@viewevent');
+Route::get('/event/link/{id}', 'Front\EventController@linkcount');
 
 Route::post('/wngur/fakelog', 'Front\MyController@fakelog');
 
