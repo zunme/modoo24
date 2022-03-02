@@ -41,9 +41,33 @@ class EventController extends Controller
 			}else if ( $data->external_link ){
 				return redirect('/event');
 			}
+
+			$data->view_cnt = $data->view_cnt+1;
+			$data->save();
+
 			$before_data =  EventList::where(['is_use'=>'Y'])->where("id","<",$id)->orderby('id','desc')->first();
 			$after_data =  EventList::where(['is_use'=>'Y'])->where("id",">",$id)->orderby('id','asc')->first();
+
 			return view('Front/Event/eventview', compact(['data','before_data','after_data']));
+		}
+	}
+	public function linkcount(Request $request, $id){
+		if ($request->testview) $data = EventList::where(['id'=>$id])->first();
+		else $data = EventList::where(['id'=>$id, 'is_use'=>'Y'])->first();
+
+		if( !$data ){
+			return redirect('/event');
+		}else{
+
+			if( $data->loadexternal){
+				;
+			}else if ( $data->external_link ){
+				return redirect('/event');
+			}
+			$data->counts = $data->counts+1;
+			$data->save();
+
+			return view('Front/Event/linkcount', compact(['data']));
 		}
 	}
 }
