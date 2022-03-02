@@ -517,7 +517,7 @@
             <ul class="m_floor3">
                 <li><a href="/v2/posts/tip">모두꿀TIP</a></li>
                 <li><a href="/v2/posts/fun">모두FUN</a></li>
-                <li><a href="/v1/move/review">이사후기</a></li>
+                <li><a href="/v2/review">이사후기</a></li>
                 <li><a href="/v2/event"><b>이벤트</b></a></li>
             </ul>
         </div>
