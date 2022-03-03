@@ -1,4 +1,8 @@
-
+<style>
+.ordergoods-items-type-desc{
+  padding-left: 20px;
+}
+</style>
 <script>
 var ordergoodstype = {!! json_encode($ordergoods) !!};
 var inpopuptemplate;
@@ -261,6 +265,12 @@ function donetest(target, res){
               </div>
             @endforeach
           </div>
+
+          @if( !empty($goostype->type_desc) )
+          <div class="text-danger ordergoods-items-type-desc">
+            {!! $goostype->type_desc !!}
+          </div>
+          @endif
         </div>
       @endforeach
     </div>
