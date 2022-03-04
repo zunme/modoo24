@@ -20,6 +20,7 @@ class InternetController extends Controller
       $this->users = [
         'externalId1'=>'llsdo0304'
       ];
+      $this->nameview = false;
     }
 	  function index(Request $request){
       if( !$request->session()->has('ExternalAuth') ){
@@ -33,14 +34,16 @@ class InternetController extends Controller
       return $this->internetlist($request);
     }
     function internetlist(Request $request){
-        $data = AuctionOrderNface::where(['s_uid'=>'0'])
-        ->where('name', 'not like', "%테스트%")
-        ->where('name', 'not like', "%삭제%")
-        ->orderBy('reg_date','desc')->paginate(20);
-        foreach( $data as &$row){
-          $row->hp = $this->format_tel($row->hp);
-        }
-        return view('External.internetlist', compact(['data']));
+      $nameview = $this->nameview;
+      $data = AuctionOrderNface::where(['s_uid'=>'0'])
+      ->where('name', 'not like', "%테스트%")
+      ->where('name', 'not like', "%삭제%")
+      ->whereDate('mdate', '>=', Carbon::today()->toDateString())
+      ->orderBy('reg_date','desc')->paginate(20);
+      foreach( $data as &$row){
+        $row->hp = $this->format_tel($row->hp);
+      }
+      return view('External.internetlist', compact(['data','nameview']));
     }
 		private function format_tel($tel) {
     $tel = preg_replace('/[^0-9]/', '', $tel);

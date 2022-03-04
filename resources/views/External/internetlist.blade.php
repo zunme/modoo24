@@ -58,13 +58,16 @@
                     <table class="table table-striped table-md">
                       <tbody>
                         <tr>
-
+                          @if($nameview)
                           <th>Name</th>
+                          @endif
                           <th>Tel</th>
                         </tr>
                         @foreach( $data as $item)
                         <tr>
+                          @if( $nameview)
                           <td>{{ mb_substr($item->name, 0, 1).str_repeat("*", mb_strlen($item->name)-1) }}</td>
+                          @endif
                           <td>{{$item->hp}}</td>
                         </tr>
                         @endforeach
