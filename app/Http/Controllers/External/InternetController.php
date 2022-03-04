@@ -37,6 +37,9 @@ class InternetController extends Controller
         ->where('name', 'not like', "%테스트%")
         ->where('name', 'not like', "%삭제%")
         ->orderBy('reg_date','desc')->paginate(20);
+        foreach( $data as &$row){
+          $row->hp = $this->format_tel($row->hp);
+        }
         return view('External.internetlist', compact(['data']));
     }
 		private function format_tel($tel) {

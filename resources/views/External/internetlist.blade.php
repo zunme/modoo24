@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" href="/community/assets/stisla/node_modules/bootstrap-daterangepicker/daterangepicker.css">
     <style>
+    body, *{ -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;letter-spacing: 2px; }
+
     .pagination li{margin:0 5px ; font-size: 16px;}
     .section-body{
       display: flex;
@@ -31,9 +33,15 @@
       width:600px;
       max-width: 98vw;
     }
+    .dragnone:before{
+      content:'';
+      position: absolute;
+      top:0;bottom:0;right:0;left:0;
+      background-color: rgb(255 255 255 , 0.01);
+    }
     </style>
   </head>
-  <body class="layout-2">
+  <body>
   <div id="app">
     <div class="main">
 
@@ -46,7 +54,7 @@
                   <h4>정보제공동의리스트</h4>
                 </div>
                 <div class="card-body p-0">
-                  <div class="table-responsive">
+                  <div class="table-responsive dragnone">
                     <table class="table table-striped table-md">
                       <tbody>
                         <tr>
@@ -56,7 +64,7 @@
                         </tr>
                         @foreach( $data as $item)
                         <tr>
-                          <td>{{$item->name}}</td>
+                          <td>{{ mb_substr($item->name, 0, 1).str_repeat("*", mb_strlen($item->name)-1) }}</td>
                           <td>{{$item->hp}}</td>
                         </tr>
                         @endforeach
@@ -66,10 +74,10 @@
                 </div>
                 <div class="card-footer text-right">
                   <nav class="d-inline-block">
-{{ $data->links() }}
+                      {{ $data->links() }}
                   </nav>
                 </div>
-              </div>
+            </div>
 
 
           </div>
