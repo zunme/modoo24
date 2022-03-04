@@ -8,7 +8,7 @@
 
 <div class="pop-page-step-header">
     <div class="pop-page-step-header-inner">
-        이사종류 / 짐량확인
+        이사종류
     </div>
 </div>
 <div class="pop-page-step-body">
@@ -70,7 +70,7 @@
                                         <span class="step-radio-label-check"><i class="fas fa-building"></i></span>
                                     </div>
                                 </label>
--->                                
+-->
                             </div>
                         </div>
 
