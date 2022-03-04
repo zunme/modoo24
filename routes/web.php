@@ -26,7 +26,9 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+//인터넷정보제공동의리스트
 Route::get('/dlsxjlist','External\InternetController@index');
+Route::post('/dlsxjlist','External\InternetController@index');
 
 Route :: get('/tracelog/{code}/{step}', 'Front\NfaceorderController@makelog');
 Route::get('/login/{provider}', 'SocialController@redirect');
