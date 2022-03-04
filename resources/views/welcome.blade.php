@@ -573,7 +573,6 @@
 
 <!-- nface ai pop -->
 @include('popreg',['ordergoods'=>$ordergoods])
-@include('Front.Poporder.popai')
 <!-- /nface ai pop -->
 
 <!-- pop -->
