@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/community/assets/css/contact_order_pop.css" />
+
 <div class="popup modal-in modal-out" id="popcontactmodal">
   <div class="page">
     <div class="pop-navbar elevation-1">
@@ -86,34 +88,11 @@
 
   </div>
 </div>
+
 <style>
-#popcontactmodal {
---pop-stepper-no : 5; /*stepper 갯수*/
---pop-page-content-addition-height : 1px;
 
---navbar-stepper-height: 44px; /*44px;*/ /*pop-navbar-stepper 높이*/
-/*--pop-footer-height:40px;*/ /* pop-footer-navbar 높이 */
---pop-footer-height:0px;
-
---calendar-cell-width: 50px;
---calendar-cell-height: 50px;
---input-line-color: #d8dadb;
-/* --inout-bg-color: transparent; */
---input-bg-color: rgb(255 255 255 / 40%);
---input-font-size: 16px;
---input-title-color: #6a6a6a;
---page-step-header-height: 36px;
---page-step-header-realheight: 40px;
---f7-grid-gap: 0px;
---f7-grid-row-gap: 0px;
---f7-popup-border-radius: 0px;
---f7-popup-tablet-border-radius: 10px;
-}
-#popcontactmodal .pop-page-step.step-opened.step-last-call .pop-page-step-header,
-#popcontactmodal .pop-page-step.step-opened.step-last-call .pop-page-step-header-inner {
-/*background-color: #07c563;*/
-}
 </style>
+
 <script>
 var popcontact_step_history = 0
 var popcontact_step_open = 1;
@@ -144,13 +123,11 @@ $("#popcontact-page-form input").off('change').on('change', function (e) {
 })
 
 }
-function gotoContactNextStep() {
-/*
-var step = $("#popclean-page-form .step-last-call").data('step');
-if( typeof step =="undefined" || step < 1 ) step = 1;
-getOrderCleanFromCheck(step, $("#popclean-page-form .step-last-call").data('url') )
-*/
-  gotoContactStep(popcontact_step_open+1)
+function gotoContactNextStep(btn) {
+  var target = $(btn).closest('.pop-page-step')
+  var step = $(target).data('step');
+  if( typeof step =="undefined" || step < 1 ) step = 1;
+  getOrderContactFromCheck(step, $(target).data('url') )
 }
 function gotoContactStep(no){
   $("#popcontact_step_" + no ).children(".pop-page-step-header").trigger("click")
@@ -160,15 +137,19 @@ function getOrderContactFromCheck(step, url){
   getpost('/v2/order/contact/'+url, $("#popcontact-page-form").serialize(), nextcontactlevel, inContactPopLoaderClose, orderContactFormCheckError )
 }
 
-/*TODO 로딩 만들어야 함*/
+/*로딩*/
 function inContactPopLoaderOpen(){
-loaderAttach("#popnmodalAiContent")
-//$("#contactpoploader").addClass('loading');
+  loaderAttach("#popcontactmodal .page")
 }
 function inContactPopLoaderClose(){
-//$("#contactpoploader").addClass('loading');
+  loaderAttach("#popcontactmodal .page", false)
 }
-/*TODO 성공시 */
+/*TODO*/
+function resetNowContactStep(step){
+
+}
+
+/*TODO 성공시 daum 새로만들것*/
 function nextcontactlevel(res){
   var step = $("#popcontactmodal .step-last-call").data('step')
   if( step < 1) step = 1;
@@ -195,7 +176,7 @@ function orderContactFormCheckError(res){
 ajaxErrorST(res )
 
 if( typeof res == 'object' && typeof res.responseJSON == 'object' && typeof res.responseJSON.data != 'undefined' && typeof res.responseJSON.data.step != 'undefined'){
-  resetNowStep(res.responseJSON.data.step)
+  resetNowContactStep(res.responseJSON.data.step)
 }
 if( typeof res == 'object' && typeof res.responseJSON == 'object'
   && typeof res.responseJSON.data != 'undefined'

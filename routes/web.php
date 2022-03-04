@@ -115,9 +115,24 @@ Route::prefix('/review')->name('review.')->group(function () {
 
     Route::post('/complete', 'Front\NfaceorderController@complete');
   });
+
+// AI
   Route::prefix('/order/ai')->name('ai.')->group(function () {
     Route::post('/', 'Front\AiController@index');
   });
+
+//방문견적
+Route::prefix('/order/contact')->name('contact.')->group(function () {
+  Route::post('/step1', 'Front\ContactorderController@step1');
+  Route::post('/step2', 'Front\ContactorderController@step2');
+  Route::post('/step3', 'Front\ContactorderController@step3');
+  Route::post('/step4', 'Front\ContactorderController@step4');
+  Route::post('/step5', 'Front\ContactorderController@step5');
+
+  Route::post('/complete', 'Front\NfaceorderController@complete');
+});
+
+
 
 //이벤트
 Route::get('/event', 'Front\EventController@index');

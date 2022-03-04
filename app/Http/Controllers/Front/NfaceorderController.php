@@ -132,13 +132,14 @@ class NfaceorderController extends Controller
 
 		$goods = $this->stepGoodsLsitCheck($request);
 		if( !is_array($goods) ) return $this->error($res,422,['step'=>3]);
-		if( count( $goods) < 1 ){
+		$tempdata = $request->all();
+		if( $tempdata['moving-goods-method'] !='picture' && count( $goods) < 1 ){
 			return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>3]);
 		}
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>4, 'data'=> $this->errors]);
 
-		$tempdata = $request->all();
+
 		$this->makelog($request, 'nfacepop', '5', $tempdata['moving-goods-method']  );
 		return $this->success(['command'=>'changeNfaceGoodsMethod'] );
 	}
@@ -217,7 +218,7 @@ class NfaceorderController extends Controller
 
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>4, 'data'=> $this->errors]);
-		
+
 		/*step5 check */
 		$res = $this->stepUserDataCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>5, 'data'=> $this->errors]);
