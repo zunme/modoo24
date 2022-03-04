@@ -135,6 +135,7 @@ function newmodalpop(url){
             processData: false,
             success: function(res) {
                 inpopupClearAll()
+                dataLayer.push({'event' : 'nq_event_end' })
                 Swal.fire({
                     icon: 'success',
                     title: "<div class='inpoporderSuccessTitle'>견적신청완료</div>",
@@ -157,17 +158,18 @@ function newmodalpop(url){
     }
 
     function inpopupClearAll() {
-        mfform.clearInpusts()
-        $(".ordergoods-item-options-str").empty()
-        $(".pop-page-step").removeClass("step-avail-open").removeClass("step-opened").removeClass("step-opened").removeClass("step-last-call")
-        $("#popn_step_1").addClass("step-last-call")
-        $(".top-steps-wrap > div").removeClass("top-step-ing").removeClass("top-step-done")
-        $(".top-steps-wrap > div:first-child").addClass("top-step-ing")
-        $("#inpopup-inline-progressbar").css('transform', 'translate3d(-100%,0,0)')
-        pop_step_availMax = 1
-        pop_step_open = 1
-        closepopnbtn()
-        localStorage.removeItem('pop-page-form-nface')
+      mfform.clearInpusts()
+      $(".ordergoods-item-options-str").empty()
+      $("#popnmodal .pop-page-step:not(.step1)").removeClass("step-avail-open").removeClass("step-opened").removeClass("step-opened").removeClass("step-last-call")
+      $("#popn_step_1").addClass("step-last-call")
+      $("#popnmodal .top-steps-wrap > div").removeClass("top-step-ing").removeClass("top-step-done")
+      $("#popnmodal.top-steps-wrap > div:first-child").addClass("top-step-ing")
+      $("#popnmodal #inpopup-inline-progressbar").css('transform', 'translate3d(-100%,0,0)')
+      pop_step_availMax = 1
+      pop_step_open = 1
+      closepopnbtn()
+      $("#popnmodal .stepper-input-wrap input[type='number']").val('0')
+      localStorage.removeItem('pop-page-form-nface')
     }
 
     function testSuccess() {
