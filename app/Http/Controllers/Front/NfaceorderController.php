@@ -88,7 +88,61 @@ class NfaceorderController extends Controller
 		else if ($request->step == 5) return $this->complete( $request);
 		else return $this->error("잘못된 데이터 입니다");
 	}
+
 	function step1(Request $request){
+		/*step1 check */
+		$res = $this->stepMdateCheck($request);
+    if( $res !== true) return $this->error($res,422,['step'=>1]);
+		/*end step1 check */
+		$this->makelog($request, 'nfacepop', '2' );
+    return $this->success( );
+  }
+	function step2(Request $request){
+    $res = $this->stepMdateCheck($request);
+    if( $res !== true) return $this->error($res,422,['step'=>1]);
+		/*step2 check */
+		$res = $this->stepCarryingMethodCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>2]);
+		$tempdata = $request->all();
+		$this->makelog($request, 'nfacepop', '3' , $tempdata['moving-goods-method'] );
+    return $this->success(['command'=>'changeNfaceGoodsMethod'] );
+  }
+	function step3(Request $request){
+		$res = $this->stepMdateCheck($request);
+    if( $res !== true) return $this->error($res,422,['step'=>1]);
+		/*step2 check */
+		$res = $this->stepCarryingMethodCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>2]);
+
+		$goods = $this->stepGoodsLsitCheck($request);
+		if( !is_array($goods) ) return $this->error($res,422,['step'=>3]);
+		if( count( $goods) < 1 ){
+			return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>3]);
+		}
+		$tempdata = $request->all();
+		$this->makelog($request, 'nfacepop', '4', $tempdata['moving-goods-method']  );
+		return $this->success(['command'=>'changeNfaceGoodsMethod'] );
+	}
+	function step4(Request $request){
+		$res = $this->stepMdateCheck($request);
+    if( $res !== true) return $this->error($res,422,['step'=>1]);
+		/*step2 check */
+		$res = $this->stepCarryingMethodCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>2]);
+
+		$goods = $this->stepGoodsLsitCheck($request);
+		if( !is_array($goods) ) return $this->error($res,422,['step'=>3]);
+		if( count( $goods) < 1 ){
+			return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>3]);
+		}
+		$res = $this->stepAddressCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>4, 'data'=> $this->errors]);
+
+		$tempdata = $request->all();
+		$this->makelog($request, 'nfacepop', '5', $tempdata['moving-goods-method']  );
+		return $this->success(['command'=>'changeNfaceGoodsMethod'] );
+	}
+	function step1_(Request $request){
 		/*step1 check */
     $res = $this->stepAddressCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
@@ -97,7 +151,7 @@ class NfaceorderController extends Controller
     return $this->success( );
   }
 	/* 이사일 체크 */
-	function step2(Request $request){
+	function step2_(Request $request){
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
@@ -109,7 +163,7 @@ class NfaceorderController extends Controller
     return $this->success( );
   }
 	/* 이사종류 & 이삿짐량 선택 */
-	function step3(Request $request){
+	function step3_(Request $request){
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
@@ -124,7 +178,7 @@ class NfaceorderController extends Controller
     return $this->success(['command'=>'changeNfaceGoodsMethod'] );
   }
 	/* 짐량확인 */
-	function step4(Request $request){
+	function step4_(Request $request){
 		/*step1 check */
 		$res = $this->stepAddressCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>1, 'data'=> $this->errors]);
@@ -147,16 +201,23 @@ class NfaceorderController extends Controller
 	function complete(Request $request){
 
 		/*step1 check */
-		$res = $this->stepAddressCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>1]);
+		//$res = $this->stepAddressCheck($request);
+		//if( $res !== true) return $this->error($res,422,['step'=>1]);
 		/*step2 check */
-		$res = $this->stepMdateCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>2]);
+		//$res = $this->stepMdateCheck($request);
+		//if( $res !== true) return $this->error($res,422,['step'=>2]);
 		/*step3 check */
+		//$res = $this->stepCarryingMethodCheck($request);
+		//if( $res !== true) return $this->error($res,422,['step'=>3]);
+
+		$res = $this->stepMdateCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>1]);
 		$res = $this->stepCarryingMethodCheck($request);
-		if( $res !== true) return $this->error($res,422,['step'=>3]);
+		if( $res !== true) return $this->error($res,422,['step'=>2]);
 
-
+		$res = $this->stepAddressCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>4, 'data'=> $this->errors]);
+		
 		/*step5 check */
 		$res = $this->stepUserDataCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>5, 'data'=> $this->errors]);
@@ -172,14 +233,14 @@ class NfaceorderController extends Controller
 		if( $data['moving-goods-method'] =='list' ){
 
 			$goods = $this->stepGoodsLsitCheck($request);
-			if( !is_array($goods) ) return $this->error($res,422,['step'=>4]);
+			if( !is_array($goods) ) return $this->error($res,422,['step'=>3]);
 
-			if(count( $goods) < 1) return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>4]);
+			if(count( $goods) < 1) return $this->error('옮기실 짐들을 선택해주세요.',422,['step'=>3]);
 			$data['goods'] = $goods;
 		}else {
 			$data['goods'] = null;
 			if( $request->agree_ai != 'Y'){
-				return $this->error('AI 이용에 동의해주세요.',422,['step'=>4]);
+				return $this->error('AI 이용에 동의해주세요.',422,['step'=>3]);
 			}
 			$files = $request->file('upload');
 

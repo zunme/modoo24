@@ -303,21 +303,26 @@
           <input class="input jspersist" type="checkbox" checked style="display:none">
 
           <div class="pop-page-step step1 step-avail-open step-opened step-last-call" data-step='1' id="popn_step_1" data-url="step1">
-            @include('Front.Poporder.Inc.nfacestep1')
+            @include('Front.Poporder.Inc.nfacestep2')
+            <input type="text" name="null" style="height:0;width:0;border:none;">
           </div>
 
           <div class="pop-page-step step2" data-step='2' id="popn_step_2" data-url="step2">
-            @include('Front.Poporder.Inc.nfacestep2')
+            @include('Front.Poporder.Inc.nfacestep3')
+            <input type="text" name="null" style="height:0;width:0;border:none;">
           </div>
           <div class="pop-page-step step3" data-step='3' id="popn_step_3" data-url="step3">
-            @include('Front.Poporder.Inc.nfacestep3')
+            @include('Front.Poporder.Inc.nfacestep4',['ordergoods'=>$ordergoods])
+            <input type="text" name="null" style="height:0;width:0;border:none;">
           </div>
           <div class="pop-page-step step4" data-step='4' id="popn_step_4" data-url="step4">
-            @include('Front.Poporder.Inc.nfacestep4',['ordergoods'=>$ordergoods])
+            @include('Front.Poporder.Inc.nfacestep1')
+            <input type="text" name="null" style="height:0;width:0;border:none;">
           </div>
 
           <div class="pop-page-step step5 " data-step='5' id="popn_step_5" data-url="steplast">
             @include('Front.Poporder.Inc.nfacestep5')
+            <input type="text" name="null" style="height:0;width:0;border:none;">
           </div>
 
         </form>
@@ -342,15 +347,19 @@
 <script src='https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'></script>
 <script src='/community/assets/js/orderpop_daum.js'></script>
 
-<script src='/community/assets/js/mfformstorage.js?v=20220113102100'></script>
-<script src='/community/assets/js/mfuploader.js?v=20220113102100'></script>
+<script src='/community/assets/js/mfformstorage.js?v=20220304084000'></script>
+<script src='/community/assets/js/mfuploader.js?v=20220304084000'></script>
 
 <script>
 var pop_step_history = 0
 var pop_step_open = 1;
 var pop_step_availMax = 1;
 var mfform = new mfFormStorage('pop-page-form','pop-page-form-nface' )
-
+function clearnreload(){
+  mfform.clearInpusts();
+  //setTimeout( function(){$("#pop-page-form input[name='mdate']").trigger("change")},10 );
+  setTimeout( function(){location.reload()},500 );
+}
 function inPopLoaderCreate(){
   if( $("#nfacepoploader").length < 1){
     var loaderwrap = $('<div>', {
@@ -365,15 +374,17 @@ function inPopLoaderOpen(){
 function inPopLoaderClose(){
   $("#nfacepoploader").removeClass('loading');
 }
-function addModalSet(data,pop_step_opened){
+function addModalSet(data,pop_step_opened, prefix){
     var old_no = pop_step_history;
-    history.pushState({}, '', '#estimate'+pop_step_opened )
+    if( typeof prefix == 'undefined') prefix = "estimate"
+    history.pushState({}, '', '#'+prefix+pop_step_opened )
     modal_set_arr.push(data);
     if( pop_step_history < 0 ) pop_step_history = 1;
     else ++pop_step_history;
 }
 function openpopn(){
-  if($(".step-last-call").data("step") > 0) pop_step_open = $(".step-last-call").data("step");
+  var fomrid = "#pop-page-form"
+  if($(`${fomrid} .step-last-call`).data("step") > 0) pop_step_open = $(`${fomrid} .step-last-call`).data("step");
   else {
     pop_step_open = 1;
     $("#popn_step_1").addClass("step-opened").addClass("step-last-call")
@@ -414,6 +425,9 @@ function closepopnbtn(){
 }
 function closepopn(){
   $("#popnmodal").addClass('modal-out');
+  $("#popcleanmodal").addClass('modal-out');
+  $("#popcontactmodal").addClass('modal-out');
+
   $("#popnbackdrop").addClass('backdrop-out').removeClass('backdrop-in');
   $("body").removeClass("overflowhidden")
 }
@@ -431,7 +445,9 @@ function checkStepNextClosed(target){
 }
 function drawstep(target){
   checkStepBeforeOpend(target)
-  $(".step-last-call").removeClass('step-last-call')
+  var formid = $(target).closest('form').prop('id')
+
+  $(`#${formid} .step-last-call`).removeClass('step-last-call')
   $(target).addClass("step-opened").addClass("step-last-call")
   checkStepNextClosed(target)
 
@@ -441,20 +457,20 @@ function drawstep(target){
 }
 
 function gotoNextStep() {
-  var step = $(".step-last-call").data('step');
+  var step = $("#popnmodal .step-last-call").data('step');
   if( typeof step =="undefined" || step < 1 ) step = 1;
-  getOrderNfaceFromCheck(step, $(".step-last-call").data('url') )
+  getOrderNfaceFromCheck(step, $("#popnmodal .step-last-call").data('url') )
 }
 function gotoStep(no){
   $("#popn_step_" + no ).children(".pop-page-step-header").trigger("click")
 }
 function getCurrentStep(){
-  var step = $(".step-last-call").data('step')
+  var step = $("#popnmodal .step-last-call").data('step')
   return ( step < 1 ) ? '1' : step
 }
 $("document").ready( function() {
   inPopLoaderCreate();
-  $(".pop-page-step .pop-page-step-header").on("click", function (e){
+  $("#pop-page-form .pop-page-step .pop-page-step-header").on("click", function (e){
     console.log ( "header clicked")
     var target = $(e.target).closest('.pop-page-step');
     if( !$(target).hasClass('step-avail-open') ) {
@@ -477,7 +493,7 @@ $("document").ready( function() {
 
     drawstep(target)
   })
-  $(".top-steps-wrap div[class^='step-']").on("click", function (e){
+  $("#popnmodal .top-steps-wrap div[class^='step-']").on("click", function (e){
     var target = $(e.target).closest('.pop-page-step');
     if( !$(e.target).hasClass('top-step-done') && !$(e.target).hasClass('top-step-ing') ) {
       console.log ( "not...")
@@ -508,6 +524,20 @@ function onpopstatefn ( pop ) {
       else if(  pop.command=='step') {
         var gotopop = ( pop.step> pop_step_availMax) ? pop_step_availMax : pop.step;
         drawstep($("#popn_step_" + gotopop))
+      }
+      pop_step_history--;
+    }else if( typeof pop != 'undefined' && pop.type == 'popcontact'){
+      if( pop.command == 'open' ) closepopn()
+      else if(  pop.command=='step') {
+        var gotopop = ( pop.step> popcontact_step_availMax) ? popcontact_step_availMax : pop.step;
+        drawstep($("#popcontact_step_" + gotopop))
+      }
+      pop_step_history--;
+    }else if( typeof pop != 'undefined' && pop.type == 'popclean'){
+      if( pop.command == 'open' ) closepopn()
+      else if(  pop.command=='step') {
+        var gotopop = ( pop.step> popclean_step_availMax) ? popclean_step_availMax : pop.step;
+        drawstep($("#popclean_step_" + gotopop))
       }
       pop_step_history--;
     }
@@ -558,9 +588,11 @@ function pop_page_content_pop_close(){
 
 
   function nextlevel(res){
-    var step = $(".step-last-call").data('step')
+    var step = $("#popnmodal .step-last-call").data('step')
     if( step < 1) step = 1;
-    ++pop_step_availMax;
+    //++pop_step_availMax;
+    pop_step_availMax = step+1;
+
     $("#popn_step_" + (parseInt(step)+1) ).addClass("step-avail-open");
     $("#popn_step_" + (parseInt(step)+1) ).children(".pop-page-step-header").trigger("click")
 
@@ -593,7 +625,7 @@ function pop_page_content_pop_close(){
 
           if(key.indexOf('.') < 0 ) {
             setTimeout( function(){
-              $('input[name='+key+']').focus();
+              $('#pop-page-form input[name='+key+']').focus();
             }, 50)
             console.log( `input[name=${key}]` ,"================")
             break;

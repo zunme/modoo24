@@ -25,6 +25,9 @@ Route::get('/refresh', 'HomeController@refresh');
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::get('/dlsxjlist','External\InternetController@index');
+
 Route :: get('/tracelog/{code}/{step}', 'Front\NfaceorderController@makelog');
 Route::get('/login/{provider}', 'SocialController@redirect');
 Route::get('/login/{provider}/callback', 'SocialController@Callback');

@@ -1,191 +1,5 @@
-<style>
-.simplyregSuccessWrap, .loaderWrap{
-    z-index: 999999999999;
-}
-#popnmodalAi{
-  --navbar-stepper-height: 0px;
-  --input-line-color: #a1a1a1;
-  --inout-bg-color: #f5f5f5;
-  --input-bg-color: rgb(255 255 255 / 40%);
-  --input-font-size: 16px;
-  --input-title-color: #4e4e4e;
-  --page-step-header-height: 36px;
-  --page-step-header-realheight: 40px;
-  --f7-grid-gap: 0px;
-  --f7-grid-row-gap: 0px;
-  --f7-popup-border-radius: 0px;
-  --f7-popup-tablet-border-radius: 10px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 
-  background-color: transparent;
-  border: 2px solid #161616 !important;
-}
-#popnmodalAi .pop-page-step ,
-#popnmodalAi .pop-page-step-body{
-    background-color: aliceblue;
-}
-#popnmodalAi .pop-page-step-body {
-    height: calc( 100% - 44px );
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-.select-pyeong-inner{
-  display: flex;
-  flex-wrap: wrap;
-}
-.select-pyeong-item .step-radio-label-step{
-  min-width: 118px;
-}
-.select-pyeong-item .step-radio-label-check{
-  margin-left: 10px;
-}
-/*
-#popnmodalAi .pop-page-step-body{
-  position: relative;
-}
-*/
-#result_ai_section .step-body-section{
-  background-color: transparent;
-    box-shadow: none;
-    border: none;
-}
-#result_ai_section{
-  background-color: cadetblue;
-}
-.content-result-ai{
-    margin-bottom: 20px;
-}
-.content-result-ai-wrap{
-  position: relative;
-      border: 1px solid #777;
-      border-radius: 10px;
-      padding: 30px 10px;
-      margin-top: 20px;
-      background-color: #ddd;
-}
-.content-result-ai-head{
-  position: absolute;
-      top: 0;
-      left: 50%;
-      background-color: #2196f3;
-      padding: 7px 16px;
-      color: white;
-      border-radius: 5px;
-      -webkit-transform: translate(-50%, 0);
-      transform: translate(-50%, -50%);
-}
-.result-ai-wrap{
-  display: flex;
-    justify-content: center;
-}
-.result-ai-table{
-  width: 100%;
-max-width: 270px;
-border: 1px solid darkgrey;
-    margin-top: 10px;
-}
-
-.result-ai-table tr{
-  background-color: #efefef;
-}
-.result-ai-table tr:nth-of-type(odd) {
-   background-color: rgba(0, 0, 0, 0.02);
-}
-.result-ai-table td:last-child{
-  text-align: right;
-}
-.result-ai-table th{
-    padding: 10px 15px;
-    text-align: center;
-}
-.result-ai-table td {
-    padding: 10px 15px;
-    border-top: 1px solid #dee2e6;
-}
-
-#result_ai_section, #simple_reg_ai_section{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background: #b9b9b9;
-  z-index: 1;
-  overflow-y: auto;
-  display: none;
-}
-#simple_reg_ai_section{
-  z-index: 2;
-}
-.ai_simple_reg_wrap{
-  display: flex;
-  flex-direction: column;
-  margin: 20px 10px;
-  background-color: #eee;
-  padding: 10px 10px 20px;
-  border-radius: 10px;
-}
-.ai_simple_reg_wrap ul{
-  display: inline-flex;
-  flex-wrap: wrap;
-  margin: 20px auto;
-  padding: 10px;
-  max-width: 603px;
-  justify-content: space-around;
-}
-.ai_simple_reg_wrap ul li{
-  display:flex;
-  padding-left:10px;
-  margin-bottom:10px;
-  min-width: 49.9%;
-}
-.ai_simple_reg_wrap ul li span{
-  display: flex;
-  align-self: center;
-  width:70px;
-}
-.ai_simple_reg_wrap ul li .move_Box{
-  min-width: 150px;
-}
-.ai_simple_reg_wrap ul.box03{
-  max-width:420px;
-}
-.ai_simple_reg_wrap ul.box03 li{
-  min-width: 199px;
-}
-.ai-warning-box{
-  border: 1px solid #f96332;
-  border-radius: 5px;
-  margin: 10px;
-  padding: 10px;
-  width: 600px;
-  margin: 26px auto 10px;
-  max-width: 90%;
-}
-.ai-warning-box > p{
-  margin-top:8px;
-  margin-bottom: 8px;
-  word-break: break-all;
-}
-.upload-warning-title-wrap-mf{
-  margin-bottom:20px;
-}
-.upload-warning-title-wrap-mf .upload-warning-title-icon i.fas{
-  color: #ff3636;
-}
-.upload-warning-title-wrap-mf .upload-warning-title-txt-content{
-  padding-left: 16px;
-}
-.upload-warning-title-wrap-mf li{
-  font-size: 14px;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="/community/assets/css/aipopup.css?ver=20220228151800" />
 
   <div class="popup modal-in modal-out" id="popnmodalAi">
     <div class="page">
@@ -247,12 +61,12 @@ let airesultTemplate = `
   <div class="pop-content-wrap content-result-ai">
 
     <div class="content-result-ai-wrap elevation-2">
-        <div class="content-result-ai-head elevation-1">
+        <div class="content-result-ai-head">
             <span>표준 이사 비용</span>
         </div>
         <div class="result-ai-wrap">
 
-          <table class="result-ai-table elevation-1">
+          <table class="result-ai-table">
             <tr class="thead">
               <th>거리</th>
               <th>예상금액</th>
@@ -267,7 +81,7 @@ let airesultTemplate = `
         </div>
 
         <div class="ai-warning-box">
-          <p>AI 이사 견적 시스템은 이사 요금을 결정짓는 모든 요소가 아닌 대략적인 사항을 기준하여 산출되는 비용입니다.</p>
+          <p>AI 이사 견적 시스템은 이사 요금을 결정짓는 모든 요소가 아닌 <br>대략적인 사항을 기준하여 산출되는 비용입니다.</p>
 
           <p>정확한 견적 산출을 원하시는 경우 아래 버튼을 눌러주세요.</p>
 

@@ -19,7 +19,7 @@
 <div class="pop-page-step-body">
   <div class="step-body-section">
     <div class="pop-content-wrap select-moveing-type">
-
+  <div class="" style="position:absolute;top:10px;right:20px;color:white;cursor:pointer;"><i class="far fa-trash-alt" onClick="clearnreload()" style="color:white;"></i></div>
       <div class="nface-step-movedate-wrap">
 
             <div id="nface-step-movedate"></div>

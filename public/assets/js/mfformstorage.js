@@ -21,12 +21,14 @@ class mfFormStorage {
     return data;
   }
   clearInpusts(){
+    document.querySelector(`#${this.$targetForm} td.active`).classList.remove("active")
     for (const element of this.$formElements ) {
       if( element.type === 'radio') element.checked = false;
       else if( element.type === 'checkbox' ) element.checked = false;
-      else if ( element.type === 'number' ) element.value='0'
-      else element.value='';
+      else if ( element.type === 'number' ) element.value=null
+      else element.value=null;
     }
+    localStorage.removeItem(this.$storage);
   }
   loadData() {
     if ( localStorage.getItem(this.$storage) ) {
