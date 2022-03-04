@@ -412,6 +412,9 @@ function openpopn(){
   $(".added_rows").each( function( i, v) { pop_options_select_redraw(v) })
   $(".stepper-input-wrap input").each( function( i, v) { pop_stepper_select_redraw(v) })
   $.get('/v2/tracelog/nfacepop/1')
+
+  dataLayer.push({'event' : 'nq_event_1' })
+  console.log ( 'nq_event_1' )
 }
 
 function closepopnbtn(){
@@ -607,6 +610,8 @@ function pop_page_content_pop_close(){
     var precentage = (100 - ( step * 100 / depth )) * -1;
     $("#inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
     closeDaumPostcode()
+    dataLayer.push({'event' : 'nq_event_' + (parseInt(step)+1) })
+    console.log ( "gtag : nq_event_"+ (parseInt(step)+1) )
   }
 
   function orderNfaceFormCheckError(res){
