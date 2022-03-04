@@ -608,7 +608,7 @@ function pop_page_content_pop_close(){
 
     var depth = 5;
     var precentage = (100 - ( step * 100 / depth )) * -1;
-    $("#inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
+    $("#popnmodal #inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
     closeDaumPostcode()
     dataLayer.push({'event' : 'nq_event_' + (parseInt(step)+1) })
     console.log ( "gtag : nq_event_"+ (parseInt(step)+1) )
