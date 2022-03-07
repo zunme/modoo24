@@ -136,6 +136,9 @@ function newmodalpop(url){
             success: function(res) {
                 inpopupClearAll()
                 dataLayer.push({'event' : 'nq_event_end' })
+                /*naver*/
+                var wcs_add={}; wcs_add["wa"] = "s_3a589317ff16"; var _nasa={}; if (window.wcs) { _nasa["cnv"] = wcs.cnv("4","1"); wcs_do(_nasa);}
+                /* / naver */
                 Swal.fire({
                     icon: 'success',
                     title: "<div class='inpoporderSuccessTitle'>견적신청완료</div>",
