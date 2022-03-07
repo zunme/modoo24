@@ -76,6 +76,6 @@ var nfacedatepicker
        }).on('changeDate', function(e) {
           $("#nface-step-mdate-inp").val( moment(e.date).format('YYYY-MM-DD'))
       });
-       $('#nface-step-modedate').on('dp.change', function(event) { alert(event.date); });
+       $('#nface-step-modedate').on('dp.change', function(event) { console.log(event.date); });
    });
 </script>

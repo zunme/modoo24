@@ -1,5 +1,8 @@
 <link rel="stylesheet" href="/community/assets/css/contact_order_pop.css" />
-
+@php
+  $service_center_tel="16007728";
+  $service_center_tel_display="1600-7728";
+@endphp
 <div class="popup modal-in modal-out" id="popcontactmodal">
   <div class="page">
     <div class="pop-navbar elevation-1">
@@ -101,27 +104,29 @@ var popcontact_step_availMax = 1;
 var mfcontactform = new mfFormStorage('popcontact-page-form','pop-page-form-contact' )
 
 function openpopcontact(){
-var fomrid = "#popcontact-page-form"
-if($(`${fomrid} .step-last-call`).data("step") > 0) popcontact_step_open = $(`${fomrid} .step-last-call`).data("step");
-else {
-  popcontact_step_open = 1;
-  $("#popcontact_step_1").addClass("step-opened").addClass("step-last-call")
-}
+  var fomrid = "#popcontact-page-form"
+  if($(`${fomrid} .step-last-call`).data("step") > 0) popcontact_step_open = $(`${fomrid} .step-last-call`).data("step");
+  else {
+    popcontact_step_open = 1;
+    $("#popcontact_step_1").addClass("step-opened").addClass("step-last-call")
+  }
 
-addModalSet({'type':'popcontact', "step": popcontact_step_open , 'command':'open' },popcontact_step_open, "contactpop");
+  addModalSet({'type':'popcontact', "step": popcontact_step_open , 'command':'open' },popcontact_step_open, "contactpop");
 
-$("body").addClass("overflowhidden")
-$("#popnbackdrop").removeClass('backdrop-out').addClass('backdrop-in');
-$("#popcontactmodal").removeClass('modal-out');
+  $("body").addClass("overflowhidden")
+  $("#popnbackdrop").removeClass('backdrop-out').addClass('backdrop-in');
+  $("#popcontactmodal").removeClass('modal-out');
 
-// DATA
-mfcontactform.loadData()
+  // DATA
+  mfcontactform.loadData()
 
-$("#popcontact-page-form input").off('change').on('change', function (e) {
-  mfcontactform.save()
-  //var currentstep = getCurrentStep();
-})
-
+  $("#popcontact-page-form input").off('change').on('change', function (e) {
+    mfcontactform.save()
+    //var currentstep = getCurrentStep();
+  })
+  if( $("#conatct-step-mdate-inp").val() != ''){
+    $('#conatct-step-movedate').datepicker('update', $("#conatct-step-mdate-inp").val() );
+  }else console.log( 'date not load2 ')
 }
 function gotoContactNextStep(btn) {
   var target = $(btn).closest('.pop-page-step')
@@ -168,8 +173,11 @@ function nextcontactlevel(res){
 
   var depth = 5;
   var precentage = (100 - ( step * 100 / depth )) * -1;
-  $("#inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
+  $("#popcontactmodal #inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
   closeDaumPostcode()
+  /*TODO*/
+  //dataLayer.push({'event' : 'conatctpop_event_' + (parseInt(step)+1) })
+  console.log ( "gtag : conatctpop_event_"+ (parseInt(step)+1) )
 }
 /*TODO 실패시 */
 function orderContactFormCheckError(res){
@@ -190,7 +198,6 @@ if( typeof res == 'object' && typeof res.responseJSON == 'object'
         setTimeout( function(){
           $('#popcontact-page-form input[name='+key+']').focus();
         }, 50)
-        console.log( `input[name=${key}]` ,"================")
         break;
       }
     }
@@ -199,7 +206,32 @@ if( typeof res == 'object' && typeof res.responseJSON == 'object'
 
 }
 
+// 주소관련
+function startContractAddress( addr, extraAddr, data ){
+  var jbAddr = data.jibunAddress;
+  if(jbAddr === '')  jbAddr = data.autoJibunAddress;
 
+  $("#popcontactmodal input[name='s_addr1']").val( (addr + extraAddr).trim() )
+  $("#popcontactmodal input[name='s_bcode']").val( data.bcode )
+  $("#popcontactmodal input[name='s_sigunguCode']").val( data.sigunguCode )
+
+  $("#popcontactmodal input[name='s_zip1']").val( data.zonecode )
+  $("#popcontactmodal input[name='s_jibun_addr1']").val( data.jbAddr )
+  $("#popcontactmodal input[name='s_addr1']").trigger("change")
+}
+// 주소관련
+function endContractAddress( addr, extraAddr, data ){
+  var jbAddr = data.jibunAddress;
+  if(jbAddr === '')  jbAddr = data.autoJibunAddress;
+
+  $("#popcontactmodal input[name='e_addr1']").val( (addr + extraAddr).trim() )
+  $("#popcontactmodal input[name='e_bcode']").val( data.bcode )
+  $("#popcontactmodal input[name='e_sigunguCode']").val( data.sigunguCode )
+
+  $("#popcontactmodal input[name='e_zip1']").val( data.zonecode )
+  $("#popcontactmodal input[name='e_jibun_addr1']").val( data.jbAddr )
+  $("#popcontactmodal input[name='e_addr1']").trigger("change")
+}
 
 $("document").ready( function() {
   $("#popcontact-page-form .pop-page-step .pop-page-step-header").on("click", function (e){

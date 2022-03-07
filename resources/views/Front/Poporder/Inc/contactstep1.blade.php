@@ -8,7 +8,7 @@
 </div>
 <div class="pop-page-step-body">
 
-	<div class="step-body-section">
+	<div class="">
 		<pre>
 인풋 input type="radio" class="step-radio select-moveing-radio" name="movingtype" value= ...
 버튼내 onclick="gotoContactNextStep(this)" 만 유지해주시면 됩니다.
@@ -29,12 +29,12 @@ public/assets/css/contact_order_pop.css
 			사무실이사
 		</label>
 
-		<label>
-			<input type="checkbox" name="use_container" value="Y" data-to="container2">보관이사
-		</label>
 
 	</div>
-	<div class="pop-page-step-footer">
+
+	<div>
 		<span class="btn btn-secondary" onclick="gotoContactNextStep(this)">다음</span>
 	</div>
+
+
 </div>
