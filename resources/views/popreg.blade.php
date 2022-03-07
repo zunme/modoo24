@@ -322,7 +322,7 @@
 
           <div class="pop-page-step step5 " data-step='5' id="popn_step_5" data-url="steplast">
             @include('Front.Poporder.Inc.nfacestep5')
-            <input type="text" name="null" style="height:0;width:0;border:none;">
+            
           </div>
 
         </form>
