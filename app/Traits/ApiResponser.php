@@ -4,6 +4,40 @@ use Carbon\Carbon;
 use App\Models\SiteConfig;
 trait ApiResponser
 {
+	protected function sendOneSignal($to, $title, $message, $img='', $url='http://24auction.co.kr/m/order/untack?status=ALL'){
+		if ( !is_array($to) ) $to = array($to);
+		$fields = array(
+				'app_id' => config('onesignal.PUSH_APP_ID'),
+				"headings" => array("en" => $title),
+				'include_player_ids' => $to,
+				'large_icon' => "https://www.google.co.in/images/branding/googleg/1x/googleg_standard_color_128dp.png",
+				'content_available' => true,
+				'contents' => array("en" => $message ),
+				'data'=>array("custom_url" => $url ),
+				"large_icon"=> "icon_96", //표시 icon
+				"small_icon"=> "icon_48", //상태바 표시 icon
+				"big_picture" => '',
+				"ios_attachments"=>array("id1"=>''), //iOS 푸시 이미지
+				"ios_badgeType"=> "Increase", //ios badge counter
+				"ios_badgeCount"=> 1, //ios badge counter by 1
+		);
+
+		$fields = json_encode($fields);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8',
+																							 'Authorization: Basic '.config('onesignal.PUSH_RESTAPI_KEY')));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+		$response = curl_exec($ch);
+		curl_close($ch);
+		return $response;
+	}
 	protected function success($data=[], $message = null, $code = 200)
 	{
 		return response()
