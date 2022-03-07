@@ -89,6 +89,39 @@ class NfaceorderController extends Controller
 		else return $this->error("잘못된 데이터 입니다");
 	}
 
+	private function onesignalpush($auction_order_nface_uid){
+		$order = AuctionOrderNface::find($auction_order_nface_uid);
+
+		$sido = trim($order->sido);
+		$gugun = trim($order->gugun);
+		$sidogugun = $sido .' '.$gugun;
+		$push_move_date = $order->m_date;
+
+		$sql = "SELECT a.s_uid,a.s_id, a.app_push_id
+		FROM auction_staff a
+		left join auction_close b on a.s_uid = b.s_uid and b.now_date = '".$push_move_date."'
+
+		WHERE
+			s_share_flag = 'Y'
+			AND instr(s_city, '" .$sidogugun. "') > 0
+			AND (
+				s_classify4 = '1' OR s_classify5 = '1'
+				OR s_classify6 = '1' OR s_classify7 = '1')
+			AND
+				(
+					b.close is null or b.close = '0'
+				)
+			AND app_push_id != ''
+			#and s_id in('modoo','0003')
+			";
+
+ 		$data =  \DB::select( $sql);
+		if( empty($data)) return ;
+		$appids = [];
+
+		foreach( $data as $row) $appids[] = $row->app_push_id;
+		$this->sendOneSignal($appids, "[".$sidogugun."] 비대면 오더가 도착했습니다","사장님! 지금 바로 선착순 이사 견적을 넣으세요.");
+	}
 	function step1(Request $request){
 		/*step1 check */
 		$res = $this->stepMdateCheck($request);
@@ -351,6 +384,7 @@ class NfaceorderController extends Controller
 			\DB::rollback();
 			return $e->getMessage();
 		}
+		$this->onesignalpush($ins->uid);
 		return true;
 	}
 	private function createCompleted($data){
