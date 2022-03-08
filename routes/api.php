@@ -29,6 +29,7 @@ Route::get('/jisikList','Front\BulletinController@jisikListApi');
 //파트너 전체 파일 & 평점
 Route::get('/review/files/{s_uid}','Api\AuctionstaffController@reviewfiles');
 Route::get('/review/staff/{s_uid}','Api\AuctionstaffController@staffReviews');
+Route::get('/review/staff_d/{s_uid}','Api\AuctionstaffController@staff_data');
 
 Route::post('/review/staffMyReviews','Api\AuctionstaffController@staffMyReviewsWrite');
 Route::get('/review/staffMyReviews/{type}','Api\AuctionstaffController@staffMyReviews');
