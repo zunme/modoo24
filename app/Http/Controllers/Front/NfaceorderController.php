@@ -96,7 +96,7 @@ class NfaceorderController extends Controller
 		$sido = trim($order->sido);
 		$gugun = trim($order->gugun);
 		$sidogugun = $sido .' '.$gugun;
-		$push_move_date = $order->m_date;
+		$push_move_date = $order->mdate;
 
 		$sql = "SELECT a.s_uid,a.s_id, a.app_push_id
 		FROM auction_staff a
