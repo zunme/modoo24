@@ -2,6 +2,8 @@
 namespace App\Traits;
 use Carbon\Carbon;
 use App\Models\SiteConfig;
+use App\Models\BulletinSidoCopy;
+
 trait ApiResponser
 {
 	protected function sendOneSignal($to, $title, $message, $img='', $url='http://24auction.co.kr/m/order/untack?status=ALL'){
@@ -38,6 +40,22 @@ trait ApiResponser
 		curl_close($ch);
 		return $response;
 	}
+	/* 변환 */
+	//시도 , 구군
+	private function getAddressInfo( $bcode){
+		$dongcode = substr($bcode, 0,8);
+		$data = BulletinSidoCopy::where(['dong_code'=>$dongcode])->first();
+		if( $data->si_code =='36'){
+			return ['sido'=> '세종', 'gu'=>$data->dong];
+		}else {
+			$origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도'];
+			$replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','광주','강원','충북','충남','경북','경남','전북','전남','제주'];
+
+			return ['sido'=> $res = str_replace( $origin_sido, $replace_sido , $data->sido ), 'gu'=>$data->gu];
+		}
+	}
+
+
 	protected function success($data=[], $message = null, $code = 200)
 	{
 		return response()

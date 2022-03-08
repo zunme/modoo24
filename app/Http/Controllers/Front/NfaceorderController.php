@@ -24,6 +24,7 @@ use App\Models\LaravelTraceLog;
 /* TODO */
 use App\Models\AuctionOrderNface;
 use App\Models\AuctionCleanOrder;
+use App\Models\PushNotification;
 
 class NfaceorderController extends Controller
 {
@@ -119,10 +120,31 @@ class NfaceorderController extends Controller
 		if( empty($data)) return ;
 		$appids = [];
 
+		$title = "[".$sidogugun."] 비대면 오더가 도착했습니다";
+		$content ="사장님! 지금 바로 선착순 이사 견적을 넣으세요.";
+
 		foreach( $data as $row) $appids[] = $row->app_push_id;
-		$this->sendOneSignal($appids, "[".$sidogugun."] 비대면 오더가 도착했습니다","사장님! 지금 바로 선착순 이사 견적을 넣으세요.");
+		$this->sendOneSignal($appids, $title, $content);
+		try{
+			foreach( $data as $row){
+				PushNotification::create([
+					'pn_reg_date'=>Carbon::now(),
+					'pn_title'=>$title,'pn_contents'=>$content,
+					'pn_url'=>'http://24auction.co.kr/m/order/untack?status=ALL',
+					'pn_img_url'=>'',
+					'pn_type'=>'2',
+					'pn_staff_idx'=>$row->s_uid,
+					'pn_push_id'=>$row->app_push_id
+				]);
+			}
+		} catch(\Exception $e){
+			//dd( $e);
+			;
+		}
+
 	}
 	function step1(Request $request){
+		//$this->onesignalpush(192718);
 		/*step1 check */
 		$res = $this->stepMdateCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>1]);
@@ -410,20 +432,7 @@ class NfaceorderController extends Controller
 업체평가하기 -> http://modoo24.net/v2/review/my";
 		$this-> sms($data['register_phone'], '비대면견적신청완료', $message);
 	}
-	/* 변환 */
-	//시도 , 구군
-	private function getAddressInfo( $bcode){
-		$dongcode = substr($bcode, 0,8);
-		$data = BulletinSidoCopy::where(['dong_code'=>$dongcode])->first();
-		if( $data->si_code =='36'){
-			return ['sido'=> '세종', 'gu'=>$data->dong];
-		}else {
-			$origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도'];
-			$replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','광주','강원','충북','충남','경북','경남','전북','전남','제주'];
 
-			return ['sido'=> $res = str_replace( $origin_sido, $replace_sido , $data->sido ), 'gu'=>$data->gu];
-		}
-	}
 	//이사종류
 	private function getClassify( $movingtype){
 		switch($movingtype){
