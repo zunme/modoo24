@@ -119,14 +119,28 @@ class NfaceorderController extends Controller
  		$data =  \DB::select( $sql);
 		if( empty($data)) return ;
 		$appids = [];
-
+		$ids =[];
 		$title = "[".$sidogugun."] 비대면 오더가 도착했습니다";
 		$content ="사장님! 지금 바로 선착순 이사 견적을 넣으세요.";
+		foreach(  $data as $row ) $ids[] = $row->s_uid;
+		if ( empty ($ids) )return;
+		$idstr = implode(',', $ids) ;
 
-		foreach( $data as $row) $appids[] = $row->app_push_id;
+		$idsquery = "SELECT distinct(app_push_id), s_uid FROM
+					(
+					SELECT s_uid, app_push_id FROM auction_staff
+					UNION ALL
+					SELECT s_uid, app_push_id FROM auction_staff_app_push_ids
+					) A
+					WHERE s_uid IN (" . $idstr . ")";
+		$datas =  \DB::select( $idsquery);
+
+
+		foreach( $datas as $row) $appids[] = $row->app_push_id;
+
 		$this->sendOneSignal($appids, $title, $content);
 		try{
-			foreach( $data as $row){
+			foreach( $datas as $row){
 				PushNotification::create([
 					'pn_reg_date'=>Carbon::now(),
 					'pn_title'=>$title,'pn_contents'=>$content,
@@ -144,7 +158,7 @@ class NfaceorderController extends Controller
 
 	}
 	function step1(Request $request){
-		//$this->onesignalpush(192718);
+		//$this->onesignalpush(192731);
 		/*step1 check */
 		$res = $this->stepMdateCheck($request);
     if( $res !== true) return $this->error($res,422,['step'=>1]);
