@@ -17,9 +17,13 @@ Route::get('/front/main',function(){
 });
 
 Route::get('/testhome','HomeController@testhome');
+//Route::get('/csstest','HomeController@csstest');
+Route::get('/pushcheck', function () {
+    return view('Partner.pushcheck');
+});
 
-Route::get('/test', 'HomeController@test');
-Route::get('/altest', 'HomeController@altest');
+//Route::get('/test', 'HomeController@test');
+//Route::get('/altest', 'HomeController@altest');
 
 Route::get('/refresh', 'HomeController@refresh');
 Route::get('/welcome', function () {
@@ -122,6 +126,8 @@ Route::prefix('/review')->name('review.')->group(function () {
   });
 
 //방문견적
+Route::get('/pop/company/{id}','Front\ContactorderController@staffpop');
+
 Route::prefix('/order/contact')->name('contact.')->group(function () {
   Route::post('/step1', 'Front\ContactorderController@step1');
   Route::post('/step2', 'Front\ContactorderController@step2');
