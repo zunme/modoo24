@@ -398,6 +398,7 @@ let review =`
 `
 let regfilesTempate=`
 {{#each regfiles}}
+{{#if file_name_real}}
 <li class="imgC">
   <span>
     <a href="http://24auction.co.kr{{path}}/{{file_name_real}}" data-lightbox="imageView1" data-title="사업자등록증">
@@ -405,6 +406,7 @@ let regfilesTempate=`
     </a>
   </span>
 </li>
+{{/if}}
 {{/each}}
 `
 
