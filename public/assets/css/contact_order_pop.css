@@ -17,13 +17,113 @@
 --f7-grid-row-gap: 0px;
 --f7-popup-border-radius: 0px;
 --f7-popup-tablet-border-radius: 10px;
+/* default 방문이사견적 색상*/
+--contact-theme-color:#316acb;
+--contact-contents-color:#2d62bb;
+}
+#popcontactmodal .top-steps-wrap div[class^='step-'].top-step-ing,
+#popcontactmodal .top-steps-wrap div[class^='step-'].top-step-done{
+  background-color: var(--contact-theme-color);
+}
+#popcontactmodal .top-step-done + div[class^='line-']:after{border-color: var(--contact-theme-color);}
+.pop-page-step.step-opened.step-last-call .pop-page-step-header.contact_header{
+  background-color: var(--contact-theme-color);
 }
 .pop-header-right{
-  display:none;
+  display:none; align-items: baseline;
+  color: #fff; padding-right: 10px;
+}
+.pop-header-right:hover{color: #fff;}
+.pop-header-right i.fas{
+  color: #fff; padding-right: 5px; font-size: 14px;
 }
 #popcontactmodal .pop-page-step-header {
-  display: flex;
+  display: flex; justify-content: space-between;
 }
 #popcontactmodal .pop-page-step.step-last-call .pop-header-right {
   display: inherit;
 }
+.pop-page-step.step-opened.step-last-call .contact_header .pop-page-step-header-inner{background: transparent;}
+.contact_body{padding: 50px; box-sizing: border-box;}
+.contact_body .contact_step01{display: flex; align-items: center; justify-content: space-between; margin: 30px 0 50px;}
+.contact_step01 label{width: 32%;}
+.contact_step01 label p{background-repeat: no-repeat; background-position: top+10px center; padding-top: 110px; text-align: center; background-size: 50%; font-size: 15px; color: #626262; cursor: pointer; padding-bottom: 10px; border: 2px solid #bdd0ef;}
+.contact_step01 label input[type="radio"]:checked + p{background-color: var(--contact-contents-color); color: #fff; border-color: var(--contact-contents-color);}
+.contact_step01 label.home_move input[type="radio"]:checked + p{background-image: url('/image/main/step01_pakage_hover.png');}
+.contact_step01 label.studio_move input[type="radio"]:checked + p{background-image: url('/image/main/step01_small_hover.png');}
+.contact_step01 label.office_move input[type="radio"]:checked + p{background-image: url('/image/main/step01_office_hover.png');}
+.home_move p{background-image: url('/image/main/step01_pakage.png');}
+.studio_move p{background-image: url('/image/main/step01_small.png');}
+.office_move p{background-image: url('/image/main/step01_office.png');}
+.contact_nextBtn{display: flex; justify-content: center;}
+.contact_nextBtn span.btn.btn-secondary{border: 2px solid var(--contact-theme-color); color: var(--contact-theme-color); padding: 10px 50px; cursor: pointer; border-radius: 30px; background-color: #fff;}
+.contact_nextBtn span.btn.btn-secondary:hover{box-shadow: none; background-color: var(--contact-theme-color); color: #fff;}
+.contact_step01 label p{line-height: 1.5;}
+.contact_step01 label p span{display: block; font-size: 17px;}
+
+#popcontactmodal .datepicker-inline{width: 100%;}
+.contact_step02{padding: 10px 14px;}
+#popcontactmodal th, #popcontactmodal td{
+  width: var(--calendar-cell-width) !important;
+  height: var(--calendar-cell-height) !important;
+  min-width: var(--calendar-cell-width);
+  min-height: var(--calendar-cell-height);
+  font-size: 15px;
+}
+#popcontactmodal .table-condensed{margin: 0 auto;}
+#popcontactmodal .datepicker table tr td.today{background-color: #bdd0ef; border-radius: 50%;}
+#popcontactmodal .datepicker table tr td.today.disabled, .datepicker table tr td.today.disabled:active{background-color: #bdd0ef;}
+#popcontactmodal td.son-active{position: relative;}
+#popcontactmodal td.son-active{background-color: transparent;}
+#popcontactmodal td.son-active:hover{background-color: #eee;}
+#popcontactmodal td.son-active:before{
+  content: "dot"; display: inline-block;
+  width: 5px; height: 5px; overflow: hidden;
+  position: absolute;
+  top: 5px; left: calc(50% - 3px);
+  border-radius: 50%; background-color: #0f203d;
+}
+#popcontactmodal .datepicker table tr td.active{background-color: var(--contact-theme-color); border-radius: 50%;}
+#popcontactmodal .datepicker table tr td.active.son-active:before{background-color: #fff;}
+.datepicker table tr td.day:hover{border-radius: 50%;}
+#popcontactmodal .movedate-txt-son-wrap{width: 42%; margin: 30px auto 0;}
+#popcontactmodal .movedate-txt-son-wrap .txt-son-info span:before{background-color: #0f203d;}
+
+
+.contact_step03 > div{font-size: 14px; margin-bottom: 5px;}
+.contact_step03 > div .fas{color: var(--contact-theme-color); margin-right: 8px;}
+#popcontactmodal .contact_step03 .togglebutton.texttoggle label input[type=checkbox]:checked+.toggle{background-color: var(--contact-theme-color);}
+.contact_step03_address{border: 1px solid var(--input-line-color); border-radius: 30px; display: block; width: 98%; color: #666; padding: 3px 18px; box-sizing: border-box; font-size: 0.95em; margin: 0 auto 8px;}
+.contact_step03 .togglebutton{text-align: right;}
+.contact_step03 .togglebutton label{font-size: 0.8em; color: var(--input-title-color);}
+.contact_step03_destination{margin-top: 50px;}
+
+.pop-content-memo-wrap textarea{resize: none;}
+#popcontactmodal .form-check .form-check-input:checked~.form-check-sign .check{background: var(--contact-theme-color);}
+#popcontactmodal .nface-order-auth-ip-wrap{margin-bottom: 20px;}
+
+.contact_step05_recommend{display: flex; justify-content: center; margin: 30px 0;}
+.contact_step05_recommend label{width: 260px; padding: 25px; border: 3px solid var(--contact-contents-color); color: #999; cursor: pointer;}
+.contact_step05_recommend label:first-of-type{background: url('/image/main/step07_icon1.png') no-repeat 180px 30px;}
+.contact_step05_recommend label:last-of-type{background: url('/image/main/step07_icon2.png') no-repeat 180px 30px; margin-left: 10px;}
+.contact_step05_recommend label ul li:first-of-type{font-size: 14px; line-height: 1.2; margin-bottom: 30px;}
+.contact_step05_recommend label ul li strong{color: var(--contact-contents-color);}
+.contact_step05_recommend label ul li:last-of-type p{font-size: 22px; color: #666;}
+.contact_step05_recommend label ul li:last-of-type p span{display: block; margin-bottom: 10px; font-size: 14px;}
+.contact_step05_recommend label:hover{background-color: var(--contact-contents-color);}
+.contact_step05_recommend label:hover,
+.contact_step05_recommend label:hover ul li p,
+.contact_step05_recommend label:hover ul li p strong{color: #fff;}
+.contact_step05_recommend label:first-of-type:hover{background-image: url('/image/main/step07_icon1_o.png');}
+.contact_step05_recommend label:last-of-type:hover{background-image: url('/image/main/step07_icon2_o.png');}
+#popcontactmodal .swal2-title{font-size: 24px;}
+
+.contact-complete{position: relative;}
+.contact_popup{position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); border: 3px solid var(--contact-theme-color); color: #666; padding: 30px; border-radius: 10px; font-size: 25px; background: url('/image/main/contact_fin.png') no-repeat top+30px center;}
+.contact_popupCon{text-align: center; padding-top: 120px;}
+.contact_popup ul{margin-bottom: 20px;}
+.contact_popup ul li strong{color: var(--contact-contents-color)}
+.popup_close{width: 80px; border-radius: 10px; border: 1px solid var(--contact-contents-color); font-size: 14px; height: 30px; line-height: 30px; cursor: pointer; margin: 0 auto;}
+
+.swal-contact-confirm #swal2-title{font-size: 25px; padding-top: 40px;}
+.swal-contact-confirm .swal2-styled.swal2-confirm{background-color: #316acb;}

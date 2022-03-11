@@ -1,22 +1,26 @@
-<div class="pop-page-step-header">
+<div class="pop-page-step-header contact_header">
   <div class="pop-page-step-header-inner">
     이사날짜
   </div>
   <a class="pop-header-right" href="tel:{{$service_center_tel}}">
-    <i class="fas fa-phone-square-alt"></i> {{$service_center_tel_display}}
+    <i class="fas fa-solid fa-phone"></i> {{$service_center_tel_display}}
   </a>
 </div>
 <div class="pop-page-step-body">
-  <div class="">
-    <pre>
+  <div class="contact_step02">
+    <!-- <pre>
       td.son-active 처리필요합니다. (손없는날)
-    </pre>
+    </pre> -->
     <div id="conatct-step-movedate"></div>
     <input type="hidden" name="mdate" id="conatct-step-mdate-inp" value="">
 
   </div>
-  <div class="">
+  <div class="contact_nextBtn">
     <span class="btn btn-secondary" onclick="gotoContactNextStep(this)">다음</span>
+  </div>
+  <div class="movedate-txt-son-wrap">
+      <div class="txt-son-info"><span></span>표시는 손없는 날입니다</div>
+      <div class="txt-expensive-move-day"><span class="pt_red">금요일, 월말, 손없는날</span>을 피하시면 저렴하게 이사하실수 있습니다.</div>
   </div>
 </div>
 

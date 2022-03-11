@@ -42,7 +42,7 @@
 
 
 
-    <div class="pop-page-content overflowhidden">
+    <div class="pop-page-content overflowhidden contact-prc">
       <form id="popcontact-page-form">
 
         <div
@@ -78,7 +78,7 @@
         </div>
 
         <div
-          class="pop-page-step step5"
+          class="pop-page-step step5 step-avail-open"
           data-step="5"
           id="popcontact_step_5"
           data-url="step5">
@@ -88,12 +88,22 @@
       </form>
 
     </div>
-
+    <div class="pop-page-content overflowhidden contact-complete">
+      @include('Front.Poporder.Inc.contactcomplete')
+    </div>
   </div>
 </div>
 
 <style>
-
+.contact-complete{
+  display:none;
+}
+.contact-completed .contact-complete{
+  display: block;
+}
+.contact-completed .contact-prc{
+  display: none;
+}
 </style>
 
 <script>
@@ -122,11 +132,30 @@ function openpopcontact(){
 
   $("#popcontact-page-form input").off('change').on('change', function (e) {
     mfcontactform.save()
+    resetCompanyList(e);
     //var currentstep = getCurrentStep();
   })
   if( $("#conatct-step-mdate-inp").val() != ''){
     $('#conatct-step-movedate').datepicker('update', $("#conatct-step-mdate-inp").val() );
   }else console.log( 'date not load2 ')
+}
+function resetCompanyList(e){
+  var exceptName = [
+        'contact_list_recommend',
+        'agree1','agree2','agree_marketing','except_reset_cehck',
+        'use_container','use_clean','internet_call',
+        'register_name','register_phone','memo',
+        'company[]'
+    ]
+  var name = $(e.target).prop('name')
+  if( !exceptName.includes(name)) {
+    console.log("reset companylist")
+    $("input[name='contact_list_recommend']:checked").prop("checked",false)
+    $("#contact_companylist").empty()
+  }else {
+    if($("input[name='contact_list_recommend']:checked").val()=='recommend') $("#contact_companylist").empty()
+  }
+
 }
 function gotoContactNextStep(btn) {
   var target = $(btn).closest('.pop-page-step')

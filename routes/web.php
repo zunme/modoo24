@@ -128,6 +128,7 @@ Route::prefix('/order/contact')->name('contact.')->group(function () {
   Route::post('/step3', 'Front\ContactorderController@step3');
   Route::post('/step4', 'Front\ContactorderController@step4');
   Route::post('/step5', 'Front\ContactorderController@step5');
+  Route::post('/step5/companylist', 'Front\ContactorderController@companylist');
 
   Route::post('/complete', 'Front\NfaceorderController@complete');
 });

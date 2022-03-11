@@ -87,7 +87,7 @@ let imgTemplate = `
       {{#if ( isEqual repath 'Y' ) }}
       <a href="https://24auction.co.kr{{url}}" data-lightbox="photos" class="thumbnail2">
       {{else}}
-      <a href="/storage{{url}}" data-lightbox="photos" class="thumbnail2">
+      <a href="/community/storage{{url}}" data-lightbox="photos" class="thumbnail2">
       {{/if}}
       {{#if ( isEqual @index 3) }}
       <i class="fas fa-plus"></i>
@@ -96,7 +96,7 @@ let imgTemplate = `
       {{#if ( isEqual repath 'Y' ) }}
         <img data-src="holder.js/100%x180" alt="100%x180" src="https://24auction.co.kr{{url}}" data-holder-rendered="false">
       {{else}}
-           <img data-src="holder.js/100%x180" alt="100%x180" src="/v2/storage{{url}}" data-holder-rendered="false" {{repath}}>
+           <img data-src="holder.js/100%x180" alt="100%x180" src="/community/storage{{url}}" data-holder-rendered="false" {{repath}}>
       {{/if}}
        </a>
     </li>
