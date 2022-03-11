@@ -49,6 +49,8 @@ Route::get('/gugun','Api\DefaultlistController@gugun');
 Route::get('/orderGoods','Api\MoveorderController@goodslist');
 Route::post('/ordergoods/add','Api\MoveorderController@addGoods');
 
+Route::post('/pushcheck','Api\PushcheckController@checklist');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
