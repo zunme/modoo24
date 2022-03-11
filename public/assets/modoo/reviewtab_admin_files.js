@@ -313,7 +313,7 @@ let review =`
     <div class="review_img">
         <div class="d-flex">
           {{#each files}}
-            <div class="four_img pic01" style="background-image:url(/v2/storage{{url}})"><a href="/v2/storage{{url}}" data-lightbox="image-r-{{review_id}}"
+            <div class="four_img pic01" style="background-image:url(/community/storage{{url}})"><a href="/community/storage{{url}}" data-lightbox="image-r-{{review_id}}"
              data-title="{{../b_mdate}} [{{#if ( isEqual ../b_type '이사')}}방문이사{{else }}{{b_type}}{{/if}}]" style="display:block;height:100%;"></a></div>
           {{/each}}
         </div>
