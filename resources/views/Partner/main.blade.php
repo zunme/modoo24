@@ -698,6 +698,7 @@
     </form>
 </div>
 
+<a href="/community/partner/test">.</a>
 <div id="feedback"></div>
 
 
