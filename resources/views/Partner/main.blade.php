@@ -764,7 +764,7 @@
 <link rel="stylesheet" type="text/css" href="/community/assets/modoo/mypage.css?ver=20211020000002">
 <script src="/community/assets/modoo/mypage_v2.js?ver=202202240000000"></script>
 
-<script src="//dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript" src="//t1.daumcdn.net/postcode/api/core/190611/1560237575423/190611.js"></script>
 
 
