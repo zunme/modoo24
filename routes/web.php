@@ -161,7 +161,6 @@ Route::group([
 
 	Route::prefix('/partner')->name('partner.')->group(function () {
 	 Route::get('/', 'Partner\PartnerController@index');
-	 Route::get('/test/{id}', 'Partner\PartnerControllers@index');
 	 Route::post('/modify/{id}', 'Partner\PartnerController@modifyPrc');
 	  Route::get('/info/{id}', 'Partner\NewnfaceorderController@getInfo');
 	});

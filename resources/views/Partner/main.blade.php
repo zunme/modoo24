@@ -698,7 +698,6 @@
     </form>
 </div>
 
-<a href="/community/partner/test/{{$staff->s_uid}}">.</a>
 <div id="feedback"></div>
 
 
