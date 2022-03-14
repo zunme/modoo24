@@ -20,7 +20,7 @@ use Validator;
 use App\Traits\ApiResponser;
 
 
-class PartnerController2 extends Controller
+class PartnerController extends Controller
 {
 	use ApiResponser;
 
