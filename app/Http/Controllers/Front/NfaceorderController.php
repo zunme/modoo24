@@ -659,10 +659,6 @@ class NfaceorderController extends Controller
 				}
         //return $path . $image_name;
     }
-		private function format_tel($tel) {
-    $tel = preg_replace('/[^0-9]/', '', $tel);
-	    return preg_replace('/(^02.{0}|^01.{1}|^15.{2}|^16.{2}|^18.{2}|[0-9]{3})([0-9]+)([0-9]{4})/', '$1-$2-$3', $tel);
-		}
 }
 /*
 

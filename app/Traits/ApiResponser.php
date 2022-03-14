@@ -6,6 +6,11 @@ use App\Models\BulletinSidoCopy;
 
 trait ApiResponser
 {
+	//전화번호
+	private function format_tel($tel) {
+	$tel = preg_replace('/[^0-9]/', '', $tel);
+		return preg_replace('/(^02.{0}|^01.{1}|^15.{2}|^16.{2}|^18.{2}|[0-9]{3})([0-9]+)([0-9]{4})/', '$1-$2-$3', $tel);
+	}
 	protected function sendOneSignal($to, $title, $message, $img='', $url='http://24auction.co.kr/m/order/untack?status=ALL'){
 		if ( !is_array($to) ) $to = array($to);
 		$fields = array(
