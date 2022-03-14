@@ -27,11 +27,7 @@ class PartnerController extends Controller
 	// 업체 정보 추출
 	public function index(Request $request){
 		
-		session_start();
-		$session =  $_SESSION;
-		session_write_close();
-
-		$staff = AuctionStaff::find($session['idx']);
+		$staff = AuctionStaff::find($request->id);
 
 		if ( $staff->flat_rate_staff == 'Y' ) {
 			$staff_type_str = '방문 정액제';
