@@ -155,15 +155,10 @@ Route::get('/home', function () {
 })->name('home');
 
 // 파트너 페이지
-Route::group([
-    'middleware' => ['level:partner']
-], function () {
-
-	Route::prefix('/partner')->name('partner.')->group(function () {
-	 Route::get('/', 'Partner\PartnerController@index');
-	 Route::post('/modify/{id}', 'Partner\PartnerController@modifyPrc');
-	  Route::get('/info/{id}', 'Partner\NewnfaceorderController@getInfo');
-	});
+Route::prefix('/partner')->name('partner.')->group(function () {
+ Route::get('/', 'Partner\PartnerController@index');
+ Route::post('/modify/{id}', 'Partner\PartnerController@modifyPrc');
+  Route::get('/info/{id}', 'Partner\NewnfaceorderController@getInfo');
 });
 
 Route::prefix('/mob')->name('frame.')->group(function () {
