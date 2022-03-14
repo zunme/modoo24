@@ -916,7 +916,7 @@
 					processData: false,
 					success:function(res)
 					{
-						//console.log (res)
+						console.log (res)
 						if(res.status == 'Success'){
 							alert(res.message);
 							location.reload();
@@ -927,6 +927,10 @@
 					error: function ( err ){
 						if(err.status != 422 && err.status != 500 ) {
 							alert('잠시 후 이용해주세요');
+						} else {
+							var jsonString = JSON.stringify(err.responseJSON);
+
+							alert(jsonString);
 						}
 					}
 				});

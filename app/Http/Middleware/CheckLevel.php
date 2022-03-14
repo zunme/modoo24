@@ -22,6 +22,17 @@ class CheckLevel
 							}
 
 							break;
+	    case 'partner':
+
+							session_start();
+							$session =  $_SESSION;
+							session_write_close();
+							if (!isset($session['idx']) ) {
+								$domain = str_replace('/community', '', $request->root());
+								return redirect($request->root().'/m');
+							}
+
+							break;
             case 'user':
                 if (auth()->user()->id < 1 ) {
                     return redirect('/');

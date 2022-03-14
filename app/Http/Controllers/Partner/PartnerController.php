@@ -27,10 +27,11 @@ class PartnerController extends Controller
 	// 업체 정보 추출
 	public function index(Request $request){
 		
-		//dd(session('idx'));
-						
+		session_start();
+		$session =  $_SESSION;
+		session_write_close();
 
-		$staff = AuctionStaff::find($request->id);
+		$staff = AuctionStaff::find($session['idx']);
 
 		if ( $staff->flat_rate_staff == 'Y' ) {
 			$staff_type_str = '방문 정액제';
@@ -80,21 +81,33 @@ class PartnerController extends Controller
 		//$input = $request->all();
 		//dd($input);
 		//dd($request->session()->all());
+		session_start();
+		$session =  $_SESSION;
+		session_write_close();
+		
+		
+		if (!isset($session['idx']) ) {
+			// 아이디가 존재 하지 않을경우 
+			return $this->error('정보가 존재 하지 않습니다.',422);
+		}
 
-		/*
 		$messages = [
-			'id.*' => '글 정보가 필요합니다.',
-			'date.*' =>'날짜 시간을 입력해주세요.',
+			's_uid.*' => '업체 정보가 필요합니다.',
+			's_ceo_name.*' =>'대표자명을 입력해주세요.',
+			's_addr1.*' =>'주소를 입력해주세요.',
+			's_ceo_hp.*' =>'고객접수번호를 입력해주세요.',
+			
 		];
 		$this->validate($request, [
-			'id' => 'bail|required|numeric',
-			'date' => 'bail|required|date_format:Y-m-d H:i:s',
+			's_uid' => 'bail|required|numeric',
+			's_ceo_name' => 'required',
+			's_addr1' => 'required',
+			's_ceo_hp' => 'required',
 		],$messages);
 		
-		*/
 		
 		try{
-			$staff = AuctionStaff::find($request->s_uid);
+			$staff = AuctionStaff::find($session['idx']);
 
 			// 원하는 값 수정
 			$staff->s_career = $request->s_career;
