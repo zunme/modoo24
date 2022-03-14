@@ -300,4 +300,14 @@ $("document").ready( function() {
     openpopcontact();
   }
 });
+
+function contact_companylist_recommendprcforce(){
+  /* TODO */
+}
+
+function contactprc(){
+  getpost('/v2/order/contact/complete', $("#popcontact-page-form").serialize(), console.log, inContactPopLoaderClose, orderContactCompanyListErr )
+  //Swal.fire('고객님 감사합니다<br> 이사신청이 완료 되었습니다.', '', 'success')
+  //closeContact();
+}
 </script>

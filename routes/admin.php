@@ -95,6 +95,7 @@ Route::group([
     Route::get('send', 'PusherController@sendmsg');
     Route::get('status', 'PusherController@getStatus');
     Route::post('status', 'PusherController@changeStatus');
+    Route::get('check', 'PusherController@pushcheck');
   });
 
 });

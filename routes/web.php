@@ -136,7 +136,7 @@ Route::prefix('/order/contact')->name('contact.')->group(function () {
   Route::post('/step5', 'Front\ContactorderController@step5');
   Route::post('/step5/companylist', 'Front\ContactorderController@companylist');
 
-  Route::post('/complete', 'Front\NfaceorderController@complete');
+  Route::post('/complete', 'Front\ContactorderController@stepcomplete');
 });
 
 

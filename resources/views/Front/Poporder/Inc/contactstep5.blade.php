@@ -10,15 +10,15 @@
   <div class="step-body-section contact_step05">
 
     <div class="contact_step05_recommend">
-      <label>
-		  	<input type="radio" class="step-radio mfstorageignore" name="contact_list_recommend" value="recommend"  onChange="contact_companylist(event)" />
+      <label onClick="contact_companylist('recommend')">
+		  	<input type="radio" class="step-radio mfstorageignore" name="contact_list_recommend" value="recommend" />
 		  	<ul class="contact_step05_bigData">
           <li><p>모두이사에서<br> 빅데이터로 추천</p></li>
 		  	  <li><p><span>모두이사에서</span>이사업체<strong class="auto">추천받기</strong></p></li>
         </ul>
 		  </label>
       <label>
-        <input type="radio" class="step-radio mfstorageignore " name="contact_list_recommend" value="selection" onChange="contact_companylist(event)" />
+        <input type="radio" class="step-radio mfstorageignore " name="contact_list_recommend" value="selection" onChange="contact_companylist('selection')" />
         <ul class="contact_step05_select">
           <li><p>내가 업체 평가 후기보고 <br> 이사업체를 선택</p></li>
 		  	  <li><p><span>이사후기보고 </span>이사업체<strong class="my">직접선택</strong></p></li>
@@ -93,11 +93,11 @@
                           </label>
                       </div>
                   </div>
-                  <div onClick="viewCompanyDetailPop({{s_uid}})">{{s_company}}</div>
+                  <div onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
                   <div>{{gradeTitle}}</div>
                   <div>후기건수({{review_cnt}})</div>
-                  <div onClick="viewCompanyDetailPop({{s_uid}})">
+                  <div onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">
                     업체상세
                   </div>
                 </div>
@@ -136,12 +136,11 @@
               {{#each data.closed}}
               <li>
                 <div>
-
-                  <div onClick="viewCompanyDetailPop({{s_uid}})">{{s_company}}</div>
+                  <div onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
                   <div>{{gradeTitle}}</div>
                   <div>후기건수({{review_cnt}})</div>
-                  <div onClick="viewCompanyDetailPop({{s_uid}})">
+                  <div onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">
                     업체상세
                   </div>
                 </div>
@@ -166,7 +165,7 @@
       {{#if ( checkempty data.avail ) }}
       <!-- 선택가능한 업체가 없을때 -->
       <div>
-        <span class="btn btn-secondary" onclick="closeContact()">확인</span>
+        <span class="btn btn-secondary" onclick="contact_companylist_recommendprcforce()">확인</span>
       </div>
       {{else }}
       <!-- 선택가능한 업체가 있을때 -->
@@ -183,8 +182,46 @@
 
 </div>
 
+<div class="modal fade" id="staffmodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" id="staffmodal_body">
 
+    </div>
+  </div>
+</div>
+<style>
+#staffmodal .modal-content{
+  width: 560px;
+  max-width: 90vw;
+}
+#staffmodal iframe{
+  min-height: 60vh;
+}
+.completeContact-step-title{
+  margin-left: 8px;
+}
+
+</style>
 <script>
+function staffmodalpop(url){
+    $.get(url, function(data) {
+      let org = data
+      data = data.replace(/(<\/?)html( .+?)?>/gi,'$1NOTHTML$2>',data)
+      data = data.replace(/(<\/?)body( .+?)?>/gi,'$1NOTBODY$2>',data)
+      data = $(data).find('notbody').html()
+      if( typeof data == 'undefined') data = org
+      data = '<div class="modalpop_link_close_wrap"><button type="button" class="close abs-top" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button></div>'+data
+
+      $("#staffmodal_body").html(data);
+    })
+}
+function partnercompanypopload(){
+  console.log ( "load....")
+  let head = $("#staffmodal_body iframe").contents().find("head")
+  let css ='<style>.vit-cp-list-top-left{display:none !important;} #vit-cp-list-wrap .vit-cp-list-top{justify-content: center;}</style>'
+  $(head).append(css)
+  $("#staffmodal").modal('show');
+}
 Handlebars.registerHelper("starvstr", function(value, options) {
   var dl = options.hash['pointStr'] || "true";
   let ret = ''
@@ -198,6 +235,9 @@ Handlebars.registerHelper("starvstr", function(value, options) {
     else ret += '<i class="far fa-star"></i>'
   }
   return ret
+})
+Handlebars.registerHelper("base64", function(value, options) {
+ return btoa(value+"")
 })
 
 var contactCompanylistTemplate
@@ -220,7 +260,7 @@ function closeContact(){
   $("#popcontactmodal").addClass("contact-completed")
   $("#popcontactmodal .inpopup-inline-progressbar > span").css('transform', 'translate3d(0px, 0px, 0px)')
 
-  $("#popcontactmodal .top-steps-wrap").html('<div class="step-0 top-step-done"></div> <div class="completeContact-step-title">견적신청완료</div>');
+  $("#popcontactmodal .top-steps-wrap").html('<i class="fas fa-check"></i> <div class="completeContact-step-title">견적신청완료</div>');
 }
 function contactPopRegComplete(btn){
   if( $("#popcontactmodal input[name='company[]']:checked").length < 1){
@@ -253,9 +293,7 @@ function contactPopRegComplete(btn){
     })
     return;
   }
-  contact_companylist_recommendprc();
-
-  alert("데이터 저장은 아직 안됩니다.")
+  else contact_companylist_recommendprc();
 }
 function contact_companySelectionCount(e){
   if( $("#popcontactmodal input[name='company[]']:checked").length > 3){
@@ -266,8 +304,7 @@ function contact_companySelectionCount(e){
 function viewCompanyDetailPop(s_uid){
   console.log("company popupload :" + s_uid)
 }
-function contact_companylist(event){
-  var val = $(event.target).val();
+function contact_companylist(val){
   if ( val == 'recommend'){
     contact_companylist_recommendprc();
   }else if ( val == 'selection'){
@@ -295,9 +332,10 @@ function contact_companylist_recommendprc(){
     }
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire('고객님 감사합니다<br> 이사신청이 완료 되었습니다.', '', 'success')
-      closeContact();
+
+      contactprc()
     }
   })
 }
+
 </script>

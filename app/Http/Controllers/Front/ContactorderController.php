@@ -19,6 +19,9 @@ use App\Models\AuctionStaff;
 class ContactorderController extends Controller
 {
 	use ApiResponser;
+	public function staffpop($staffid){
+		 return view('Front.Poporder.staffinfoframe',compact(['staffid']));
+	}
 	# 결저일 부터의 오더 카운트
 	private function order_cnt_charge($idx){
 		$data = AuctionBank::where(['s_uid'=>$idx])
@@ -249,6 +252,68 @@ class ContactorderController extends Controller
 		return $this->success( );
 	}
 
+  public function stepcomplete( Request $request){
+		$res = $this->stepCarryingMethodCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>1]);
+
+		$res = $this->stepMdateCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>2]);
+
+		$res = $this->stepAddressCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>3, 'data'=> $this->errors]);
+
+		$res = $this->stepUserDataCheck($request);
+		if( $res !== true) return $this->error($res,422,['step'=>4, 'data'=> $this->errors]);
+		$classify = 0;
+		switch ( $request->movingtype) {
+			case 'home':
+				$classify = 1;
+				break;
+			case 'small':
+				$classify = 3; //용달로매칭
+				break;
+			case 'office':
+				$classify = 2;
+				break;
+			default:
+				// code...
+				break;
+		}
+		$data = [
+			'm_uid'=>0, 'order_path'=>1
+			,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0
+			,'mdate'=>$request->mdate,'name'=>$request->register_name
+			,'passwd'=>$this->format_tel($request->register_phone), 'hp'=>$request->register_phone
+			,'classify'=>$classify, 'stype'=>0 //이사타입 일반
+			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_zip1,'s_addr2'=>$request->s_addr2
+			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$request->e_addr1
+			,'ton'=>0,'cbm'=>0,'goods'=>0,'note'=>$request->memo,'memo'=>''
+			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
+			,'cstype'=>0, 'cafe_name'=>'모두이사_official_visit2'
+			,'aircon_yn'=>'Y','aircon_wall_cnt'=>0,'aircon_stand_cnt'=>0,'aircon_system_cnt'=>0,'aircon_double_cnt'=>0
+			,'type'=>'','user_memo'=>'','area'=>'A'
+
+
+			,'share_price'=>0, 'share_status'=>'ING','auto_share'=>'N'
+
+			,'clean_yn'=>$request->use_clean=='Y'? 'Y' :'N'
+			,'s_uid' => $request->internet_call =='Y' ? 1 : 0
+			,'keep'=> $request->use_container =='Y' ? 1 : 0
+
+			,'bds_id'=>'', 'reg_company_type'=>'모두이사'
+
+		];
+
+		
+		if( $request->contact_list_recommend =='recommend' || $request->contact_list_forced =='forced' ){
+			return $this->error('업체1를 선택해주세요',422,['step'=>5 ]);
+		}
+		else if( $request->contact_list_recommend =='selection') {
+			return $this->error('업체2를 선택해주세요',422,['step'=>5 ]);
+		}else return $this->error('업체를 선택해주세요',422,['step'=>5 ]);
+		//company
+
+	}
   //이사종류 체크
   private function stepCarryingMethodCheck($request){
     $messages = [
