@@ -31,7 +31,7 @@ class PartnerController extends Controller
 		$session =  $_SESSION;
 		session_write_close();
 		
-		$staff = AuctionStaff::find($session['idx']);
+		$staff = AuctionStaff::find($request->id);
 
 		if ( $staff->flat_rate_staff == 'Y' ) {
 			$staff_type_str = '방문 정액제';
@@ -85,11 +85,7 @@ class PartnerController extends Controller
 		$session =  $_SESSION;
 		session_write_close();
 		
-		
-		if (!isset($session['idx']) ) {
-			// 아이디가 존재 하지 않을경우 
-			return $this->error('정보가 존재 하지 않습니다.',422);
-		}
+
 
 		$messages = [
 			's_uid.*' => '업체 정보가 필요합니다.',
@@ -107,7 +103,7 @@ class PartnerController extends Controller
 		
 		
 		try{
-			$staff = AuctionStaff::find($session['idx']);
+			$staff = AuctionStaff::find($request->s_uid);
 
 			// 원하는 값 수정
 			$staff->s_career = $request->s_career;
