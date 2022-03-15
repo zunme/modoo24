@@ -27,10 +27,6 @@ class PartnerController extends Controller
 	// 업체 정보 추출
 	public function index(Request $request){
 		
-		session_start();
-		$session =  $_SESSION;
-		session_write_close();
-		
 		$staff = AuctionStaff::find($request->id);
 
 		if ( $staff->flat_rate_staff == 'Y' ) {
@@ -78,15 +74,6 @@ class PartnerController extends Controller
 	// 업체 정보 변경
 	public function modifyPrc(Request $request){
 		
-		//$input = $request->all();
-		//dd($input);
-		//dd($request->session()->all());
-		session_start();
-		$session =  $_SESSION;
-		session_write_close();
-		
-
-
 		$messages = [
 			's_uid.*' => '업체 정보가 필요합니다.',
 			's_ceo_name.*' =>'대표자명을 입력해주세요.',
