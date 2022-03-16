@@ -55,6 +55,10 @@ class NfaceorderController extends Controller
 
 		$agent = new MobileDetect();
  		$mobileResult = $agent->isMobile();
+
+		$referer = $request->cookie('referer') ? $request->cookie('referer') : '';
+		$referer_str = $request->cookie('referer_str') ? $request->cookie('referer_str') : '';
+
 		try{
 			$lastlog = LaravelTraceLog::where(['openId'=>$logOpenId])->first();
 			if( !$lastlog){
@@ -65,7 +69,9 @@ class NfaceorderController extends Controller
 					"page"=>$code,
 					"step"=>$step,
 					"substep"=>$substep,
-					"ip"=>$request->ip()
+					"ip"=>$request->ip(),
+					"referer"=>$referer_str,
+					"referer_domain"=> $referer
 				]);
 			}else {
 				if($lastlog->step <= $step && $lastlog->tranceval <= $tranceval){

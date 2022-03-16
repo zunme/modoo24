@@ -7,5 +7,5 @@ class LaravelTraceLog extends Model
 {
 	protected $table = 'laravel_trace_logs';
 	protected $primaryKey = 'id';
-  protected $fillable = ['uniqueId','openId','isMobile','page','step','tranceval','ip'];
+  protected $fillable = ['uniqueId','openId','isMobile','page','step','tranceval','ip','referer','referer_domain'];
 }
