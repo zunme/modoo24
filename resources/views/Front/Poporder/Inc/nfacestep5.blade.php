@@ -137,7 +137,9 @@ function newmodalpop(url){
                 inpopupClearAll()
                 dataLayer.push({'event' : 'nq_event_end' })
                 /*naver*/
+                /*
                 var wcs_add={}; wcs_add["wa"] = "s_3a589317ff16"; var _nasa={}; if (window.wcs) { _nasa["cnv"] = wcs.cnv("4","1"); wcs_do(_nasa);}
+                */
                 /* / naver */
                 Swal.fire({
                     icon: 'success',
@@ -147,6 +149,7 @@ function newmodalpop(url){
                 }).then((result) => {
                     inpopupClearAll()
                 })
+                $(document.body).append("<iframe src='/v2/nfaceorderdone.html' style='display:none'/>")
             },
             error: function(res) {
                 ajaxErrorST(res)
