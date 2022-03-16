@@ -28,7 +28,7 @@
                             <div class=" flex-col select-moveing-type-item">
 
                                 <label class="step-radio-labelclass">
-                                    <input type="radio" class="step-radio select-moveing-radio" name="movingtype" value="small" onchange="nfacestep3showing()">
+                                    <input type="radio" class="step-radio select-moveing-radio" name="movingtype" value="small" onchange="nfacestep3showing()" checked="checked">
                                     <div class="step-radio-label">
                                         <div class="step-radio-label-text">
                                             <div class="step-radio-label-text-item">소형이사</div>
