@@ -3,6 +3,7 @@ Route::group([
     'as' => 'rhksfl.',
     'middleware' => ['level:admin'],
 ], function () {
+    Route::get('cpa', 'StaticsController@cpa');
     //newHOME
     Route::get('home', 'HomeController@index')->name('home');
     Route::get('jisik', 'HomeController@jisik')->name('jisik');
