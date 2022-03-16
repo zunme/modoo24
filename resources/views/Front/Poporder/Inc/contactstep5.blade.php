@@ -25,7 +25,7 @@
         </ul>
       </label>
     </div>
-<pre>
+<!-- <pre>
   #contactCompanylistTemplate
     리스트 나오는 템플릿
     - 선택가능한 업체 유무와 마감된업체 유무에 따른 내용이 있습니다.
@@ -41,11 +41,17 @@
   \< div class="step-0 top-step-done" \> \< /div\>
   \< div class="completeContact-step-title" \>견적신청완료 \< /div \>
 
-</pre>
+</pre> -->
     <div id="contact_companylist">
       <!-- <p>업체추천리스트 나올곳 지우지마세요, 아이디만 유지해주시면 됩니다.</p> -->
       <div class="contact_companylist_searching">
-        <div class="">
+        <div class="contact_search_ing">
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
           검색중입니다.
         </div>
       </div>
@@ -73,8 +79,8 @@
         {{#if ( gt data.avail.length 0 ) }}
         <div class="contact_companylist_inner">
 
-          <div>
-            <div>최대 3개의 업체를 선택하세요</div>
+          <div class="contact_companylist_tit">
+            <div><strong>최대 3개</strong>의 업체를 선택하세요</div>
             <div>업체 선택이 어려우신 경우, 상담을 통해 이사업체를 추천드립니다</div>
           </div>
 
@@ -93,11 +99,11 @@
                           </label>
                       </div>
                   </div>
-                  <div onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
+                  <div class="contact_company_name" onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
                   <div>{{gradeTitle}}</div>
                   <div>후기건수({{review_cnt}})</div>
-                  <div onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">
+                  <div class="contact_company_detail" onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">
                     업체상세
                   </div>
                 </div>
@@ -136,11 +142,11 @@
               {{#each data.closed}}
               <li>
                 <div>
-                  <div onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
+                  <div class="contact_company_name" onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
                   <div>{{gradeTitle}}</div>
-                  <div>후기건수({{review_cnt}})</div>
-                  <div onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">
+                  <div class="contact_review">후기건수({{review_cnt}})</div>
+                  <div class="contact_company_detail" onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">
                     업체상세
                   </div>
                 </div>
@@ -169,7 +175,7 @@
       </div>
       {{else }}
       <!-- 선택가능한 업체가 있을때 -->
-      <div>
+      <div class="contact_company_select_btn">
         <span class="btn btn-secondary" onclick="contactPopRegComplete(this)">선택한 업체 견적 신청하기</span>
       </div>
       {{/if}}

@@ -119,11 +119,98 @@
 #popcontactmodal .swal2-title{font-size: 24px;}
 
 .contact-complete{position: relative;}
-.contact_popup{position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); border: 3px solid var(--contact-theme-color); color: #666; padding: 30px; border-radius: 10px; font-size: 25px; background: url('/image/main/contact_fin.png') no-repeat top+30px center;}
+.contact_popup{position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); color: #666; padding: 30px; border-radius: 10px; font-size: 25px; background: url('/image/main/contact_fin.png') no-repeat top+30px center;}
 .contact_popupCon{text-align: center; padding-top: 120px;}
 .contact_popup ul{margin-bottom: 20px;}
+.contact_popup ul li:first-of-type{font-size: 0.75em;}
 .contact_popup ul li strong{color: var(--contact-contents-color)}
-.popup_close{width: 80px; border-radius: 10px; border: 1px solid var(--contact-contents-color); font-size: 14px; height: 30px; line-height: 30px; cursor: pointer; margin: 0 auto;}
+.popup_close{width: 80px; border-radius: 10px; border: 1px solid var(--contact-contents-color); font-size: 14px; height: 30px; line-height: 29px; cursor: pointer; margin: 0 auto;}
+.popup_close:hover{background-color: var(--contact-contents-color); color: #fff;}
 
 .swal-contact-confirm #swal2-title{font-size: 25px; padding-top: 40px;}
 .swal-contact-confirm .swal2-styled.swal2-confirm{background-color: #316acb;}
+
+.contact_companylist_inner{text-align: center; margin-top: 30px;}
+.contact_companylist_tit > div:first-of-type{font-size: 1.5em; font-weight: 500;}
+.contact_companylist_tit > div strong{color: var(--contact-contents-color);}
+.contact_companylist{width: 80%; margin: 50px auto; font-size: 0.95em;}
+.contact_companylist ul li{border-bottom: 1px dashed var(--contact-theme-color); padding: 10px 15px; box-sizing: border-box;}
+.contact_companylist ul li > div{display: flex; align-items: center; justify-content: space-between; flex-grow: 1;}
+.contact_companylist ul li div .form-check .form-check-label span{top: -5px;}
+.contact_company_name, .contact_company_detail{cursor: pointer;}
+.contact_company_name{width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left;}
+.contact_company_detail{color: var(--contact-contents-color);}
+.contact_company_detail::after{content: '▶'; display: inline-block; color: var(--contact-contents-color); font-size: 0.75em; vertical-align: middle;}
+.contact_review{width: 82px; text-align: left;}
+#contact_companylist .contact_company_select_btn{text-align: center; border: 1px solid var(--contact-theme-color); width: 200px; margin: 0 auto 50px; border-radius: 10px; cursor: pointer;}
+#contact_companylist .contact_company_select_btn:hover{background-color: var(--contact-theme-color);}
+#contact_companylist .contact_company_select_btn .btn.btn-secondary{padding: 5px 0; font-size: 0.85em; color: var(--contact-contents-color); transition: none;}
+#contact_companylist .contact_company_select_btn .btn.btn-secondary:hover{box-shadow: none; background-color: var(--contact-theme-color);}
+#contact_companylist .contact_company_select_btn:hover .btn.btn-secondary{color: #fff; background-color: var(--contact-theme-color);}
+
+.contact_companylist_searching > div{text-align: center; font-size: 0.95em;}
+.lds-ellipsis {
+  display: block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--contact-contents-color);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.75s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.75s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.75s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.75s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+
+.contact_select_popup{background: none; width: 80%;}
+.contact_select_popupCon{display: flex; justify-content: center; text-align: left; padding-top: 0;}
+.contact_select_popupCon div{width: 50%;}
+.contact_select_popupCon div h2{font-size: 1em; font-weight: 600; margin-bottom: 20px;}
+.contact_select_popupCon div ul li{display: flex; font-size: 0.75em;}
+.contact_myInfo ul li span{width: 95px;}
+.contact_myInfo ul li p{margin-left: 15px;}

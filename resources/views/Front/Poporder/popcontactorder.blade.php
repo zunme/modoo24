@@ -44,9 +44,11 @@
 
     <div class="pop-page-content overflowhidden contact-prc">
       <form id="popcontact-page-form">
+        <!-- todo exception -->
+        <input type="hidden" name="contact_orderid" value="" />
 
         <div
-          class="pop-page-step step1 step-avail-open step-opened step-last-call"
+          class="pop-page-step step1 step-avail-open step-opened "
           data-step="1"
           id="popcontact_step_1"
           data-url="step1">
@@ -76,9 +78,9 @@
           data-url="step4">
           @include('Front.Poporder.Inc.contactstep4')
         </div>
-
+<!-- todo step-opened step-last-call -->
         <div
-          class="pop-page-step step5 step-avail-open"
+          class="pop-page-step step5 step-avail-open step-opened step-last-call"
           data-step="5"
           id="popcontact_step_5"
           data-url="step5">
@@ -108,8 +110,9 @@
 
 <script>
 var popcontact_step_history = 0
-var popcontact_step_open = 1;
-var popcontact_step_availMax = 1;
+var popcontact_step_open = 5;
+/*TODO 5=>1*/
+var popcontact_step_availMax = 5;
 
 var mfcontactform = new mfFormStorage('popcontact-page-form','pop-page-form-contact' )
 
@@ -206,6 +209,10 @@ function nextcontactlevel(res){
   closeDaumPostcode()
   /*TODO*/
   //dataLayer.push({'event' : 'conatctpop_event_' + (parseInt(step)+1) })
+
+  if( typeof res.data == 'object' && res.data.orderid ){
+    $("input[name='contact_orderid']").val( res.data.orderid )
+  }
   console.log ( "gtag : conatctpop_event_"+ (parseInt(step)+1) )
 }
 /*TODO 실패시 */
@@ -306,7 +313,7 @@ function contact_companylist_recommendprcforce(){
 }
 
 function contactprc(){
-  getpost('/v2/order/contact/complete', $("#popcontact-page-form").serialize(), console.log, inContactPopLoaderClose, orderContactCompanyListErr )
+  getpost('/v2/order/contact/complete', $("#popcontact-page-form").serialize(), console.log, inContactPopLoaderClose, orderContactFormCheckError )
   //Swal.fire('고객님 감사합니다<br> 이사신청이 완료 되었습니다.', '', 'success')
   //closeContact();
 }
