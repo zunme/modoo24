@@ -453,19 +453,6 @@ wcs_do(_nasa);
 }
 </script>
 
-
-<!-- 공통 적용 스크립트 20210730 엣지랭크 크로스타켓 -->
-<script type='text/javascript'>
-    !function (w,d,s,u,t,ss,fs) {
-        if(w.ex2cts)return;t=w.ex2cts={};if(!window.t) window.t = t;
-        t.push = function() {t.callFunc?t.callFunc.apply(t,arguments) : t.cmd.push(arguments);};
-        t.cmd=[];ss = document.createElement(s);ss.async=!0;ss.src=u;
-        fs=d.getElementsByTagName(s)[0];fs.parentNode.insertBefore(ss,fs);
-    }(window,document,'script','//st2.exelbid.com/js/cts2.js');
-    ex2cts.push('init', '60f8d4488d0fd855188b456c' , '.modoo24.net');
-
-</script>
-
 <!-- 공통 적용 스크립트 20210730 Global site tag (gtag.js) - Google Ads: 328335033 -->
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-328335033"></script>
