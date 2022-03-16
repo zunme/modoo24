@@ -178,10 +178,14 @@ $response = $client->request('GET', $url);
     function makelog(Request $request, $code='home', $step='0', $substep=null, $tranceval = null ){
       $host = parse_url($request->headers->get('referer'), PHP_URL_HOST);
       $referer_str = $request->headers->get('referer');
-      if( !empty($host) && !in_array($host,['modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com',]) ){
+      
+      if( !empty($host) && !in_array($host,['modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com','116.122.157.150']) ){
         \Cookie::queue('referer', $host, 86400);
         \Cookie::queue('referer_str', $referer_str , 86400);
-      }else $host = $request->cookie('referer') ? $host : '';
+      }else {
+        $host = $request->cookie('referer') ? $request->cookie('referer') : '';
+        $referer_str = $request->cookie('referer_str') ? $request->cookie('referer_str') : '';
+      }
 
       $logUnique = $request->session()->get('traceLogId', function () use ($request) {
   			$unique = $this->getUniqueString(10);
@@ -199,7 +203,7 @@ $response = $client->request('GET', $url);
 					"step"=>$step,
 					"substep"=>$substep,
 					"ip"=>$request->ip(),
-          "referer"=>$request->headers->get('referer'),
+          "referer"=>$referer_str,
           "referer_domain"=> $host
 				]);
       }catch( \Exception $e ){

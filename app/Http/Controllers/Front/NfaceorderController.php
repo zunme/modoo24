@@ -56,8 +56,17 @@ class NfaceorderController extends Controller
 		$agent = new MobileDetect();
  		$mobileResult = $agent->isMobile();
 
-		$referer = $request->cookie('referer') ? $request->cookie('referer') : '';
-		$referer_str = $request->cookie('referer_str') ? $request->cookie('referer_str') : '';
+		$host = parse_url($request->headers->get('referer'), PHP_URL_HOST);
+		$referer_str = $request->headers->get('referer');
+
+		if( !empty($host) && !in_array($host,['modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com','116.122.157.150']) ){
+			\Cookie::queue('referer', $host, 86400);
+			\Cookie::queue('referer_str', $referer_str , 86400);
+		}else {
+			$host = $request->cookie('referer') ? $request->cookie('referer') : '';
+			$referer_str = $request->cookie('referer_str') ? $request->cookie('referer_str') : '';
+		}
+
 
 		try{
 			$lastlog = LaravelTraceLog::where(['openId'=>$logOpenId])->first();
@@ -71,7 +80,7 @@ class NfaceorderController extends Controller
 					"substep"=>$substep,
 					"ip"=>$request->ip(),
 					"referer"=>$referer_str,
-					"referer_domain"=> $referer
+					"referer_domain"=> $host
 				]);
 			}else {
 				if($lastlog->step <= $step && $lastlog->tranceval <= $tranceval){
