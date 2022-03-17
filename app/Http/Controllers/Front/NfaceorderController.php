@@ -58,6 +58,10 @@ class NfaceorderController extends Controller
 
 		$host = parse_url($request->headers->get('referer'), PHP_URL_HOST);
 		$referer_str = $request->headers->get('referer');
+		if( $request->n_keyword || $request->n_query ){
+			$host = "naver_keyword";
+			$referer_str = ($request->n_keyword) ? $request->n_keyword : $request->n_query;
+		}
 
 		if( !empty($host) && !in_array($host,['xn--pn3bl36b.net','175.123.253.67','modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com','116.122.157.150']) ){
 			\Cookie::queue('referer', $host, 86400);

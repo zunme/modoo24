@@ -178,7 +178,10 @@ $response = $client->request('GET', $url);
     function makelog(Request $request, $code='home', $step='0', $substep=null, $tranceval = null ){
       $host = parse_url($request->headers->get('referer'), PHP_URL_HOST);
       $referer_str = $request->headers->get('referer');
-
+      if( $request->n_keyword || $request->n_query ){
+        $host = "naver_keyword";
+        $referer_str = ($request->n_keyword) ? $request->n_keyword : $request->n_query;
+      }
       if( !empty($host) && !in_array($host,['xn--pn3bl36b.net','175.123.253.67','modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com','116.122.157.150']) ){
         \Cookie::queue('referer', $host, 86400);
         //네이버 검색어로 추가
@@ -214,7 +217,7 @@ $response = $client->request('GET', $url);
       $agent = new MobileDetect();
    		$mobileResult = $agent->isMobile();
   		try{
-        LaravelTraceLog::create([
+        $ins = LaravelTraceLog::create([
 					"uniqueId"=>$logUnique,
 					"openId"=>'',
 					"isMobile"=> $mobileResult ? 'Y':'N',
