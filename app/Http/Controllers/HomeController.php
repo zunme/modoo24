@@ -178,14 +178,33 @@ $response = $client->request('GET', $url);
     function makelog(Request $request, $code='home', $step='0', $substep=null, $tranceval = null ){
       $host = parse_url($request->headers->get('referer'), PHP_URL_HOST);
       $referer_str = $request->headers->get('referer');
-      
-      if( !empty($host) && !in_array($host,['modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com','116.122.157.150']) ){
+
+      if( !empty($host) && !in_array($host,['xn--pn3bl36b.net','175.123.253.67','modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com','116.122.157.150']) ){
         \Cookie::queue('referer', $host, 86400);
+        //네이버 검색어로 추가
+        if ( strstr($host , 'naver.com') ) {
+          try{
+            parse_str(parse_url($referer_str , PHP_URL_QUERY ), $queryArr );
+            if ( isset($queryArr['query']) ) $referer_str = $queryArr['query'];
+          }catch (\Exception $e){
+              ;
+          }
+        }
         \Cookie::queue('referer_str', $referer_str , 86400);
       }else {
         $host = $request->cookie('referer') ? $request->cookie('referer') : '';
+        //네이버 검색어로 추가
+        if ( strstr($host , 'naver.com') ) {
+          try{
+            parse_str(parse_url($referer_str , PHP_URL_QUERY ), $queryArr );
+            if ( isset($queryArr['query']) ) $referer_str = $queryArr['query'];
+          }catch (\Exception $e){
+              ;
+          }
+        }
         $referer_str = $request->cookie('referer_str') ? $request->cookie('referer_str') : '';
       }
+
 
       $logUnique = $request->session()->get('traceLogId', function () use ($request) {
   			$unique = $this->getUniqueString(10);
@@ -264,7 +283,7 @@ $response = $client->request('GET', $url);
       return view('welcome', compact(['jisik', 'fun', 'tip','startday','pops','ordergoods','event']));
     }
 
-    public function testhome(){
+    public function testhome(Request $request){
       $host = parse_url($request->headers->get('referer'), PHP_URL_HOST);
       if( !in_array($host,['modoo24.net','modoo24.com','modooclean.com','24auction.co.kr','www.24auction.co.kr','www.modoo24.net','www.modoo24.com','www.modooclean.com',]) ){
         \Cookie::queue('referer', $host, 86400);
