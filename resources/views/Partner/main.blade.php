@@ -102,7 +102,7 @@
             <!--<li onclick="location.href='/m/mypage/my_page' "><span class="icon_myinfo"> </span><span class="icon_txt2">내정보</span></li>-->
             <li onclick="location.href='/m/mypage/area_setup' "><span class="icon_mylocation"> </span><span class="icon_txt2">지역설정</span></li>
             <li onclick="location.href='/m/notice/notice' "><span class="icon_mynotice"> </span><span class="icon_txt2">공지사항</span></li>
-            <li onclick="location.href='/community/partner?id={{$staff->s_uid}}' "><span class="icon_mysetup"> </span><span class="icon_txt2">내정보 설정</span></li>
+            <li onclick="location.href='/m/links/partner?id={{$staff->s_uid}}' "><span class="icon_mysetup"> </span><span class="icon_txt2">내정보 설정</span></li>
         </ul>
     </div>
     <div class="menuft">사업자 등록번호 : 236-81-01081 Copyright (c) 2019 ModooPlatform</div>
@@ -697,7 +697,7 @@
 	<button type="button" class="button" style="width: 100%" onclick="modify('{{$staff->s_uid}}') ">수정</button>
 	@if(isset($p_ip))
 		@if($p_ip == '221.154.134.7')
-		<a href="/community/partner/test">테스트</a>
+		<a href="/m/links/partner/test">테스트</a>
 		@endif
 	@endif
     </form>
