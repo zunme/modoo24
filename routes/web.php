@@ -156,7 +156,8 @@ Route::get('/home', function () {
 
 // 파트너 페이지
 	Route::prefix('/partner')->name('partner.')->group(function () {
-	 Route::get('/', 'Partner\PartnerController@index');
+	Route::get('/', 'Partner\PartnerController@index');
+	Route::get('/test', 'Partner\PartnerController2@index');
 	 Route::post('/modify/{id}', 'Partner\PartnerController@modifyPrc');
 	  Route::get('/info/{id}', 'Partner\NewnfaceorderController@getInfo');
 	});
