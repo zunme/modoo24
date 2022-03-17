@@ -693,13 +693,7 @@
         </div>
 
 	<input type="hidden" name="s_mobile_memo" value="{{$staff->s_mobile_memo}}">
-
 	<button type="button" class="button" style="width: 100%" onclick="modify('{{$staff->s_uid}}') ">수정</button>
-	@if(isset($p_ip))
-		@if($p_ip == '221.154.134.7')
-		<a href="/m/links/partner/test">테스트</a>
-		@endif
-	@endif
     </form>
 </div>
 
