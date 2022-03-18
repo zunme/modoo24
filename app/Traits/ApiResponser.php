@@ -3,6 +3,8 @@ namespace App\Traits;
 use Carbon\Carbon;
 use App\Models\SiteConfig;
 use App\Models\BulletinSidoCopy;
+use App\Models\PushNotification;
+use App\Models\AuctionSmsLog;
 
 trait ApiResponser
 {
@@ -45,6 +47,43 @@ trait ApiResponser
 		curl_close($ch);
 		return $response;
 	}
+	protected function makeOneSignal($inIdsArr,$title, $message, $img='', $url='http://24auction.co.kr/m/order/untack?status=ALL'){
+		if (is_array($inIdsArr) && count( $inIdsArr )< 1) return false;
+		if( is_array($inIdsArr) ) $push_staff_user_str = implode( ',', $inIdsArr);
+		else $push_staff_user_str = $inIdsArr;
+
+		$push_staff_user_query = "SELECT app_push_id , s_uid FROM
+				(
+				SELECT s_uid, app_push_id FROM auction_staff WHERE s_uid IN (" . $push_staff_user_str . ")
+				UNION ALL
+				SELECT s_uid, app_push_id FROM auction_staff_app_push_ids WHERE s_uid IN (" . $push_staff_user_str . ")
+				) A
+				group by app_push_id"
+				;
+		\DB::statement("SET SQL_MODE=''");
+		$datas = \DB::select( $push_staff_user_query );
+		foreach( $datas as $row) $appids[] = $row->app_push_id;
+
+		$this->sendOneSignal($appids, $title, $message,$img,$url);
+
+		try{
+			foreach( $datas as $row){
+				PushNotification::create([
+					'pn_reg_date'=>Carbon::now(),
+					'pn_title'=>$title,'pn_contents'=>$message,
+					'pn_url'=>$url,
+					'pn_img_url'=>$img,
+					'pn_type'=>'2',
+					'pn_staff_idx'=>$row->s_uid,
+					'pn_push_id'=>$row->app_push_id
+				]);
+			}
+		} catch(\Exception $e){
+			return 'error';
+		}
+		return 'success';
+	}
+
 	/* 변환 */
 	//시도 , 구군
 	private function getAddressInfo( $bcode){
@@ -139,6 +178,20 @@ trait ApiResponser
 
 		//echo $ret;
 		$retArr = json_decode($ret, true); // 결과배열
+		try{
+			if($retArr['result_code'] == "1"){
+				$param = array(
+					'asl_sms' => $number
+					, 'asl_sms_type' => $retArr['msg_type']
+					, 'asl_subject' => $title
+					, 'asl_contents' => $message
+					, 'asl_return_log' => json_encode($retArr)
+				);
+				AuctionSmsLog::create($param);
+			}
+		}catch (\Exception $e){
+			;
+		}
 		return $retArr;
 	}
 

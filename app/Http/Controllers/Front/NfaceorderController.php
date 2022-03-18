@@ -89,7 +89,11 @@ class NfaceorderController extends Controller
 
 
 		try{
-			$lastlog = LaravelTraceLog::where(['openId'=>$logOpenId])->first();
+			$lastlog = LaravelTraceLog::where([
+				'uniqueId'=>$logUnique,
+				'openId'=>$logOpenId,
+				'page'=>$code
+				])->first();
 			if( !$lastlog){
 				LaravelTraceLog::create([
 					"uniqueId"=>$logUnique,
