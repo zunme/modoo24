@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-	
+
 
 	<link rel="stylesheet" type="text/css" href="/m/css/sub.css?v=20210819">
 
@@ -259,7 +259,7 @@
        }
 
        #pvev_area{
-		text-align: center; 
+		text-align: center;
 		margin:10px 0 15px 0;
 	}
        #pvev_area .imgprevcol{
@@ -426,7 +426,7 @@
     <h2>{{$staff->s_company}}</h2>
     <div class="case_wrap">
 	<div class="case">{{$staff_type_str}}</div>
-	
+
     </div>
 </div>
 
@@ -620,7 +620,7 @@
 						<input type="checkbox" id="payment_cus4" name="s_payment[]" value="R" @if (in_array('R', $pay_ment)) checked @endif >
 						<label for="payment_cus4">현금영수증</label>
 						<input type="checkbox" id="payment_cus5" name="s_payment[]" value="T" @if(in_array('T', $pay_ment)) checked @endif >
-						<label for="payment_cus5">세금계산서</label>						
+						<label for="payment_cus5">세금계산서</label>
 				      </dd>
 				  </dl>
 				</div>
@@ -649,7 +649,7 @@
 				</div>
 				<div class="mp_numberwrap">
 					<span class="mpnum">&#9313;</span>
-					<div class="mypage_input"><input name="s_ceo_hp_plus" type="text" placeholder="000-0000-0000" value="{{$staff->s_ceo_hp_puls}}"></div>
+					<div class="mypage_input"><input name="s_ceo_hp_plus" type="text" placeholder="000-0000-0000" value="{{$staff->s_ceo_hp_plus}}"></div>
 					<div class="mypage_input_info">알림톡 </div>
 				</div>
 			</div>
@@ -710,7 +710,7 @@
 	  @else
 	  let companyimage = '{{ $regfiles['title_img']->path }}/{{$regfiles['title_img']->file_name_real}}';
 	  @endif
-  @Else 
+  @Else
 	let companyimage = '';
   @endif
 </script>
@@ -772,9 +772,9 @@
     var upload;
     $("document").ready(function() {
 
-	
+
     })
-   
+
     $(".layer_pop_close_btn").on("click", function() {
             $(".addr_area").hide();
         });
@@ -885,11 +885,11 @@
     var modify = function(no) {
         var url = '/community/partner/modify/'+no
 	var form = 'submit_form'
-	
+
 	if (!confirm("수정 하시겠습니까?")) return;
 
 	$(".imgprevcol.hide").remove()
-	
+
 	var data= new FormData( document.getElementById(form) );
 
 	$.ajax({
