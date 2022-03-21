@@ -3,7 +3,7 @@
     이사날짜
   </div>
   <a class="pop-header-right" href="tel:{{$service_center_tel}}">
-    <i class="fas fa-solid fa-phone"></i> {{$service_center_tel_display}}
+    <i class="fas fa-solid fa-phone-alt"></i> {{$service_center_tel_display}}
   </a>
 </div>
 <div class="pop-page-step-body">

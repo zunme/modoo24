@@ -3,7 +3,7 @@
     출발지/도착지
   </div>
   <a class="pop-header-right" href="tel:16007728">
-    <i class="fas fa-solid fa-phone"></i> 1600-7728
+    <i class="fas fa-solid fa-phone-alt"></i> 1600-7728
   </a>
 </div>
 <div class="pop-page-step-body">
@@ -54,7 +54,7 @@
 
     <div class="togglebutton texttoggle">
       <label>
-        <input type="checkbox" name="internet_call" value="Y" />인터넷이전 혜택상담
+        <input type="checkbox" name="internet_call" value="Y" checked />인터넷이전 혜택상담
         <span class="toggle">
           <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
         </span>
@@ -63,7 +63,7 @@
 
     <div class="togglebutton texttoggle">
       <label>
-        <input type="checkbox" name="internet_call" value="Y" />인테리어 혜택상담
+        <input type="checkbox" name="interior_call" value="Y" />인테리어 혜택상담
         <span class="toggle">
           <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
         </span>

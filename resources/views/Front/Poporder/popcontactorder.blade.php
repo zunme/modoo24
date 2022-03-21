@@ -144,6 +144,21 @@ let popcontactcompleteRecommendTemplate = `
     </div>
 </div>
 `
+let popcontactcompleteOverTemplate = `
+<div class="contact_popup contact_popup60">
+    <div class="contact_popupCon">
+        <ul>
+            <li>
+                모두이사는 오늘부터<br> <b>60일 이내</b> 이사일의 방문견적이 가능합니다.
+            </li>
+            <li>
+                <strong>@{{calldate}}</strong> 이후에 연락드리겠습니다.
+            </li>
+        </ul>
+        <p class="popup_close" onclick="closepopnbtn()">닫기</p>
+    </div>
+</div>
+`
 let popcontactcompleteSelectionTemplate = `
 <div class="contact_popup contact_select_popup">
     <div class="contact_popupCon contact_select_popupCon">
@@ -198,6 +213,8 @@ let popcontactcompleteSelectionTemplate = `
 </div>
 `
 var popcontactcompleteCompiled
+var popcontactcompleteOverCompiled
+
 
 var popcontact_step_history = 0
 var popcontact_step_open = 1;
@@ -260,17 +277,34 @@ function resetCompanyList(e){
   var name = $(e.target).prop('name')
   if( !exceptName.includes(name) || !$("#popcontact-page-form input[name='agree1']").prop("checked") || !$("#popcontact-page-form input[name='agree2']").prop("checked")) {
     console.log("reset companylist")
-    resetCompanyPrc();
+    resetCompanyPrc(e);
   }else {
     if($("input[name='contact_list_recommend']:checked").val()=='recommend') $("#contact_companylist").empty()
   }
 
 }
-function resetCompanyPrc() {
+function resetCompanyPrc(e) {
+  var nowstep = popcontact_step_open;
+
+  if( typeof e == 'object' && typeof e.target != 'undefined'){
+    nowstep =  $(e.target).closest('.pop-page-step').data('step')
+    popcontact_step_availMax = nowstep;
+  }else if ( popcontact_step_open > 4) popcontact_step_availMax=4;
+
+  popcontact_step_open = popcontact_step_availMax;
+  console.log ( "avail :" + popcontact_step_availMax, ", open : " +  popcontact_step_open);
+
+  for ( var i = popcontact_step_open + 1; i < 6; i ++ ){
+    $("#popcontact_step_"+i).removeClass("step-avail-open").removeClass("step-opened").removeClass("step-last-call")
+    $("#popcontactmodal .top-steps-wrap .step-" + i).removeClass("top-step-done").removeClass("top-step-ing");
+  }
+  $("#popcontactmodal .top-steps-wrap .step-" + popcontact_step_open).removeClass("top-step-done").addClass("top-step-ing");
+
+
   $("input[name='contact_list_recommend']:checked").prop("checked",false)
   $("#contact_companylist").empty()
-  $("#popcontact_step_5").removeClass("step-avail-open").removeClass("step-opened").removeClass("step-last-call")
-  if ( popcontact_step_open > 4) popcontact_step_open=4;
+  //$("#popcontact_step_5").removeClass("step-avail-open").removeClass("step-opened").removeClass("step-last-call")
+  console.log ( "avail :" + popcontact_step_availMax, ", open : " +  popcontact_step_open);
 }
 function gotoContactNextStep(btn) {
   var target = $(btn).closest('.pop-page-step')
@@ -305,7 +339,8 @@ function nextcontactlevel(res){
   //++pop_step_availMax;
   if( typeof res.data == 'object' && typeof res.data.diffday !='undefined' && !res.data.diffday ){
     console.log ("60일 이상");
-    Swal.fire('<p class="alert60day alert60dayline1">모두이사는 오늘부터 60일 이내 이사 일의 방문견적이 가능합니다.</p><p class="alert60day alert60dayline2">'+res.data.calldate+' 이후에 연락드리겠습니다.</p>', '', 'success');
+    //Swal.fire('<p class="alert60day alert60dayline1">모두이사는 오늘부터 60일 이내 이사 일의 방문견적이 가능합니다.</p><p class="alert60day alert60dayline2">'+res.data.calldate+' 이후에 연락드리겠습니다.</p>', '', 'success');
+    $("#contact-complete-area").html(popcontactcompleteOverCompiled(res.data))
     closeContact('60');
     return;
   }
@@ -390,6 +425,7 @@ function endContractAddress( addr, extraAddr, data ){
 $("document").ready( function() {
 
    popcontactcompleteCompiled = Handlebars.compile(popcontactcompleteSelectionTemplate)
+   popcontactcompleteOverCompiled =  Handlebars.compile(popcontactcompleteOverTemplate)
 
   $("#popcontact-page-form .pop-page-step .pop-page-step-header").on("click", function (e){
     var target = $(e.target).closest('.pop-page-step');
@@ -398,7 +434,7 @@ $("document").ready( function() {
     }
     var step_no = $(target).data('step')
     if( step_no > popcontact_step_availMax ){
-      toast('전 단계를 먼저 입력해주세요', 'topCenter')
+      toast('전 단계를 먼저 입력, 저장 해주세요', 'topCenter')
       return;
     }
     else if( $(target).hasClass('step-last-call')) {
@@ -418,7 +454,7 @@ $("document").ready( function() {
     }
     var step_no = $(e.target).data('step')
     if( step_no > popcontact_step_availMax ){
-      toast('전 단계를 먼저 입력해주세요', 'topCenter')
+      toast('전 단계를 먼저 입력, 저장 해주세요', 'topCenter')
       return;
     }
     else $("#popcontact_step_" + step_no ).children(".pop-page-step-header").trigger("click")

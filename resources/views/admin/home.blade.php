@@ -5,6 +5,9 @@
 .justify-space-between{
   justify-content: space-between;
 }
+.word-break{
+  word-break: break-all;
+}
 
 </style>
 <div class="container">
@@ -27,7 +30,69 @@
         </div>
       </div>
     </div>
+  </div>
 
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-wrap">
+          <div class="card-header">
+            <h4>비대면 유입(어제부터)</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Mobile</th>
+                  <th>유입</th>
+                  <th>유입처</th>
+                  <th>완료시간</th>
+                </tr>
+                @foreach( $nface as $row)
+                <tr>
+                  <td>{{$row->isMobile}}</td>
+                  <td>{{$row->referer}}</td>
+                  <td>{{$row->referer_domain}}</td>
+                  <td>{{$row->created_at}}</td>
+                </tr>
+                @endforeach
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-wrap">
+          <div class="card-header">
+            <h4> 홈페이지 유입(어제부터)</h4>
+          </div>
+          <div class="card-body">
+            <div class="">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>횟수</th>
+                  <th>유입</th>
+                  <th>유입처</th>
+                </tr>
+                @foreach( $logs as $row)
+                <tr>
+                  <td>{{$row->cnt}}</td>
+                  <td class="word-break">{{$row->referer}}</td>
+                  <td>{{$row->referer_domain}}</td>
+                </tr>
+                @endforeach
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

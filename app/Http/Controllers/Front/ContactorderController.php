@@ -75,7 +75,7 @@ class ContactorderController extends Controller
 	public function companylist(Request $request){
 		//order갯수 제한
 		$limit_flag = 'N';
-		$testerIp = ['221.154.134.3']; //사무실 IP
+		$testerIp = [];//['221.154.134.3']; //사무실 IP
 
 		$check = $this->checkConmpleteStep( $request);
 		if( $check !== true) return $check;

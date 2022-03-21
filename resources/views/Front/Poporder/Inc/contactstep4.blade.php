@@ -3,7 +3,7 @@
     정보입력
   </div>
   <a class="pop-header-right" href="tel:16007728">
-    <i class="fas fa-solid fa-phone"></i> 1600-7728
+    <i class="fas fa-solid fa-phone-alt"></i> 1600-7728
   </a>
 </div>
 <div class="pop-page-step-body">

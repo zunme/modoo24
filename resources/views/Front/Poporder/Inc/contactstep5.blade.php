@@ -12,17 +12,21 @@
     <div class="contact_step05_recommend">
       <label onClick="contact_companylist('recommend')">
 		  	<input type="radio" class="step-radio mfstorageignore" name="contact_list_recommend" value="recommend" />
-		  	<ul class="contact_step05_bigData">
-          <li><p>모두이사에서<br> 빅데이터로 추천</p></li>
-		  	  <li><p><span>모두이사에서</span>이사업체<strong class="auto">추천받기</strong></p></li>
-        </ul>
+		  	<div class="contact_auto_con">
+          <ul class="contact_step05_bigData">
+            <li><p>모두이사에서<br> 빅데이터로 추천</p></li>
+		  	    <li><p><span>모두이사에서</span>이사업체<strong class="auto">추천받기</strong></p></li>
+          </ul>
+        </div>
 		  </label>
       <label>
         <input type="radio" class="step-radio mfstorageignore " name="contact_list_recommend" value="selection" onChange="contact_companylist('selection')" />
-        <ul class="contact_step05_select">
-          <li><p>내가 업체 평가 후기보고 <br> 이사업체를 선택</p></li>
-		  	  <li><p><span>이사후기보고 </span>이사업체<strong class="my">직접선택</strong></p></li>
-        </ul>
+        <div class="contact_select_con">
+          <ul class="contact_step05_select">
+            <li><p>내가 업체 평가 후기보고 <br> 이사업체를 선택</p></li>
+		  	    <li><p><span>이사후기보고 </span>이사업체<strong class="my">직접선택</strong></p></li>
+          </ul>
+        </div>
       </label>
     </div>
 
@@ -40,9 +44,9 @@
 <!-- 업체리스트, 마감업체리스트 없을때 -->
 {{#if ( checkempty data.avail ) }}
 
-      <div class="">
-        현재 선택 가능한 업체가 없습니다.
-        내용은 도라한테 물어봐주세요
+      <div class="contact_close_list contact_companylist_tit">
+      현재 모든 업체의 일정이 마감되었습니다.<br>
+      상담을 통해 이사업체를 추천해 드리겠습니다.
       </div>
 
 {{/if}}
@@ -75,7 +79,7 @@
                   </div>
                   <div class="contact_company_name" onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
-                  <div>{{gradeTitle}}</div>
+                  <div class="contact_grade">{{gradeTitle}}</div>
                   <div class="contact_review">후기건수({{review_cnt}})</div>
                   <div class="contact_company_detail" onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">
                     업체상세
@@ -118,7 +122,7 @@
                 <div>
                   <div class="contact_company_name" onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
-                  <div>{{gradeTitle}}</div>
+                  <div class="contact_grade">{{gradeTitle}}</div>
                   <div class="contact_review">후기건수({{review_cnt}})</div>
                   <div class="contact_company_detail" onClick="staffmodalpop('/v2/pop/company/{{ base64 s_uid}}')">
                     업체상세
@@ -144,7 +148,7 @@
 
       {{#if ( checkempty data.avail ) }}
       <!-- 선택가능한 업체가 없을때 -->
-      <div>
+      <div class="contact_company_select_btn">
         <span class="btn btn-secondary contact_nextBtn" onclick="closepopnbtn()">확인</span>
       </div>
       {{else }}
@@ -164,6 +168,14 @@
 
 
 <style>
+input[name='contact_list_recommend']:checked+div.contact_select_con{
+  background-color: #2d62bb !important;
+  border: 3px solid #2d62bb !important;
+}
+input[name='contact_list_recommend']:checked+div.contact_select_con,
+input[name='contact_list_recommend']:checked+div.contact_select_con li p,
+input[name='contact_list_recommend']:checked+div.contact_select_con li p strong{color:#fff;}
+.contact_step05_recommend label:last-of-type input[name='contact_list_recommend']:checked+div.contact_select_con{background-image: url('/image/main/step07_icon2_o.png');}
 #staffmodal .modal-content{
   width: 560px;
   max-width: 90vw;
