@@ -1,0 +1,23 @@
+#popcleanmodal {
+--pop-stepper-no : 6;
+--pop-page-content-addition-height : 1px;
+--navbar-stepper-height: 44px;
+--pop-footer-height:0px;
+
+--calendar-cell-width: 50px;
+--calendar-cell-height: 50px;
+--input-line-color: #d8dadb;
+/* --inout-bg-color: transparent; */
+--input-bg-color: rgb(255 255 255 / 40%);
+--input-font-size: 16px;
+--input-title-color: #6a6a6a;
+--page-step-header-height: 36px;
+--page-step-header-realheight: 40px;
+--f7-grid-gap: 0px;
+--f7-grid-row-gap: 0px;
+--f7-popup-border-radius: 0px;
+--f7-popup-tablet-border-radius: 10px;
+/* default 방문이사견적 색상*/
+--contact-theme-color:#316acb;
+--contact-contents-color:#2d62bb;
+}

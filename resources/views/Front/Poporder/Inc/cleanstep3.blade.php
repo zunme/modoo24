@@ -8,6 +8,6 @@
     body
   </div>
   <div class="pop-page-step-footer">
-    footer
+    <span class="btn btn-secondary" onclick="gotoCleanNextStep(this)">다음</span>
   </div>
 </div>

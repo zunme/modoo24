@@ -25,6 +25,7 @@
 #popcontactmodal .top-steps-wrap div[class^='step-'].top-step-done{
   background-color: var(--contact-theme-color);
 }
+#popcontactmodal .step-avail-open:not(.step-opened) .pop-page-step-header:before{background-color: var(--contact-contents-color); color: #fff;}
 #popcontactmodal .top-step-done + div[class^='line-']:after{border-color: var(--contact-theme-color);}
 .pop-page-step.step-opened.step-last-call .pop-page-step-header.contact_header{
   background-color: var(--contact-theme-color);
@@ -103,19 +104,19 @@
 #popcontactmodal .nface-order-auth-ip-wrap{margin-bottom: 20px;}
 
 .contact_step05_recommend{display: flex; justify-content: center; margin: 30px 0;}
-.contact_step05_recommend label{width: 260px; padding: 25px; border: 3px solid var(--contact-contents-color); color: #999; cursor: pointer;}
-.contact_step05_recommend label:first-of-type{background: url('/image/main/step07_icon1.png') no-repeat 180px 30px;}
-.contact_step05_recommend label:last-of-type{background: url('/image/main/step07_icon2.png') no-repeat 180px 30px; margin-left: 10px;}
-.contact_step05_recommend label ul li:first-of-type{font-size: 14px; line-height: 1.2; margin-bottom: 30px;}
-.contact_step05_recommend label ul li strong{color: var(--contact-contents-color);}
-.contact_step05_recommend label ul li:last-of-type p{font-size: 22px; color: #666;}
-.contact_step05_recommend label ul li:last-of-type p span{display: block; margin-bottom: 10px; font-size: 14px;}
-.contact_step05_recommend label:hover{background-color: var(--contact-contents-color);}
-.contact_step05_recommend label:hover,
-.contact_step05_recommend label:hover ul li p,
-.contact_step05_recommend label:hover ul li p strong{color: #fff;}
-.contact_step05_recommend label:first-of-type:hover{background-image: url('/image/main/step07_icon1_o.png');}
-.contact_step05_recommend label:last-of-type:hover{background-image: url('/image/main/step07_icon2_o.png');}
+.contact_step05_recommend label div{width: 260px; padding: 25px; border: 3px solid var(--contact-contents-color); color: #999; cursor: pointer;}
+.contact_step05_recommend label:first-of-type div{background: url('/image/main/step07_icon1.png') no-repeat 180px 30px;}
+.contact_step05_recommend label:last-of-type div{background: url('/image/main/step07_icon2.png') no-repeat 180px 30px; margin-left: 10px;}
+.contact_step05_recommend label div ul li:first-of-type{font-size: 14px; line-height: 1.2; margin-bottom: 30px;}
+.contact_step05_recommend label div ul li strong{color: var(--contact-contents-color);}
+.contact_step05_recommend label div ul li:last-of-type p{font-size: 22px; color: #666;}
+.contact_step05_recommend label div ul li:last-of-type p span{display: block; margin-bottom: 10px; font-size: 14px;}
+.contact_step05_recommend label div:hover{background-color: var(--contact-contents-color);}
+.contact_step05_recommend label div:hover,
+.contact_step05_recommend label div:hover ul li p,
+.contact_step05_recommend label div:hover ul li p strong{color: #fff;}
+.contact_step05_recommend label:first-of-type div:hover{background-image: url('/image/main/step07_icon1_o.png');}
+.contact_step05_recommend label:last-of-type div:hover{background-image: url('/image/main/step07_icon2_o.png');}
 #popcontactmodal .swal2-title{font-size: 24px;}
 
 .contact-complete{position: relative;}
@@ -133,7 +134,7 @@
 .contact_companylist_inner{text-align: center; margin-top: 30px;}
 .contact_companylist_tit > div:first-of-type{font-size: 1.5em; font-weight: 500;}
 .contact_companylist_tit > div strong{color: var(--contact-contents-color);}
-.contact_companylist{width: 80%; margin: 50px auto; font-size: 0.95em;}
+.contact_companylist{width: 80%; margin: 20px auto 80px; font-size: 0.95em;}
 .contact_companylist ul li{border-bottom: 1px dashed var(--contact-theme-color); padding: 10px 15px; box-sizing: border-box;}
 .contact_companylist ul li > div{display: flex; align-items: center; justify-content: space-between; flex-grow: 1;}
 .contact_companylist ul li div .form-check .form-check-label span{top: -5px;}
@@ -142,6 +143,7 @@
 .contact_company_detail{color: var(--contact-contents-color);}
 .contact_company_detail::after{content: '▶'; display: inline-block; color: var(--contact-contents-color); font-size: 0.75em; vertical-align: middle;}
 .contact_review{width: 82px; text-align: left;}
+.contact_grade{width: 66px;}
 #contact_companylist .contact_company_select_btn{text-align: center; border: 1px solid var(--contact-theme-color); width: 200px; margin: 0 auto 50px; border-radius: 10px; cursor: pointer;}
 #contact_companylist .contact_company_select_btn:hover{background-color: var(--contact-theme-color);}
 #contact_companylist .contact_company_select_btn .btn.btn-secondary{padding: 5px 0; font-size: 0.85em; color: var(--contact-contents-color); transition: none;}
@@ -226,9 +228,15 @@
 .contact_mySelect_company ul li span{width: 20%;}
 
 .top-steps-wrap{align-items: center;}
-/* .pop-navbar-stepper{background-color: var(--contact-theme-color); color: #fff;} */
-/* .pop-navbar-inner .fas{color: #fff !important;} */
+/* .pop-navbar-stepper{background-color: var(--contact-theme-color); color: #fff;}
+.pop-navbar-stepper .fas{color: #fff !important;} */
 .top-steps-wrap div[class^='line-']{margin-top: 15px;}
+
+.contact_popup60{font-size: 20px;}
+.contact_popup60 ul li:first-of-type{margin-bottom: 10px;}
+
+.contact_close_list{text-align: center; font-size: 18px; margin: 50px auto 80px; color: #ff4100; font-weight: 500;}
+#staffmodal iframe{border: 1px solid #202020;}
 
 
 
