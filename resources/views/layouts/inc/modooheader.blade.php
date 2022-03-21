@@ -65,7 +65,7 @@
     <link rel="stylesheet" type="text/css" href="/v1/css/font.css" />
     <link rel="stylesheet" type="text/css" href="/v1/css/main_popup.css" />
 
-    <!--link rel="stylesheet" type="text/css" href="/community/assets/css/defaultfont.css" /-->
+    <link rel="stylesheet" type="text/css" href="/community/assets/css/defaultfont.css" />
 
     <!--   Core JS Files 메뉴    -->
     <script src="/v1/js/core/popper.min.js" type="text/javascript"></script>
