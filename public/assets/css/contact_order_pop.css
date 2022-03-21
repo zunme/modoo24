@@ -124,7 +124,7 @@
 .contact_popup ul{margin-bottom: 20px;}
 .contact_popup ul li:first-of-type{font-size: 0.75em;}
 .contact_popup ul li strong{color: var(--contact-contents-color)}
-.popup_close{width: 80px; border-radius: 10px; border: 1px solid var(--contact-contents-color); font-size: 14px; height: 30px; line-height: 29px; cursor: pointer; margin: 0 auto;}
+.popup_close{width: 80px; border-radius: 10px; border: 1px solid var(--contact-contents-color); font-size: 14px; height: 30px; line-height: 29px; cursor: pointer; margin: 0 auto; text-align: center;}
 .popup_close:hover{background-color: var(--contact-contents-color); color: #fff;}
 
 .swal-contact-confirm #swal2-title{font-size: 25px; padding-top: 40px;}
@@ -148,6 +148,7 @@
 #contact_companylist .contact_company_select_btn .btn.btn-secondary:hover{box-shadow: none; background-color: var(--contact-theme-color);}
 #contact_companylist .contact_company_select_btn:hover .btn.btn-secondary{color: #fff; background-color: var(--contact-theme-color);}
 
+.contact_non_company{font-size: 18px; font-weight: 500;}
 .contact_companylist_searching > div{text-align: center; font-size: 0.95em;}
 .lds-ellipsis {
   display: block;
@@ -207,10 +208,62 @@
 }
 
 
-.contact_select_popup{background: none; width: 80%;}
-.contact_select_popupCon{display: flex; justify-content: center; text-align: left; padding-top: 0;}
-.contact_select_popupCon div{width: 50%;}
-.contact_select_popupCon div h2{font-size: 1em; font-weight: 600; margin-bottom: 20px;}
-.contact_select_popupCon div ul li{display: flex; font-size: 0.75em;}
-.contact_myInfo ul li span{width: 95px;}
-.contact_myInfo ul li p{margin-left: 15px;}
+.contact_select_popup{background: none; width: 95%; margin-bottom: 0;}
+.contact_select_popupCon{padding-top: 0;}
+.contact_selectBox{display: flex; text-align: left; margin: 30px 0; border: 1px solid var(--contact-contents-color);}
+.contact_selectBox div{padding: 20px 15px; box-sizing: border-box;}
+.contact_selectBox div h2{font-size: 1em; font-weight: 600; margin-bottom: 30px;}
+.contact_popup .contact_selectBox div ul li{display: flex; font-size: 16px; justify-content: space-between;}
+.contact_selectBox div ul li:not(:last-of-type){margin-bottom: 10px;}
+.contact_myInfo{width: 55%; border-right: 1px solid var(--contact-contents-color);}
+.contact_myInfo h2{background: url('/image/main/contact_select_icon02.png') no-repeat left center; background-size: 37px; padding-left: 45px;}
+.contact_mySelect_company h2{background: url('/image/main/contact_select_icon01.png') no-repeat left center; background-size: 40px; padding-left: 50px;}
+.contact_myInfo ul li > span{width: 22%; font-weight: 600; color: #333;}
+.contact_myInfo ul li p{width: 75%;}
+.contact_mySelect_company{width: 43%;}
+.contact_select_popup .contact_selectBox div ul{margin-bottom: 0;}
+.contact_mySelect_company ul li p{width: 75%; word-break: break-all;}
+.contact_mySelect_company ul li span{width: 20%;}
+
+.top-steps-wrap{align-items: center;}
+/* .pop-navbar-stepper{background-color: var(--contact-theme-color); color: #fff;} */
+/* .pop-navbar-inner .fas{color: #fff !important;} */
+.top-steps-wrap div[class^='line-']{margin-top: 15px;}
+
+
+
+
+@media screen and (max-width: 660px){
+
+
+  .contact_body{padding: 20px;}
+  .contact_body .contact_step01{margin: 15px auto 25px;}
+  .contact_step01 label p{padding-top: 80px; font-size: 12px;}
+  .contact_step01 label p span{font-size: 13px; font-weight: 600;}
+  .contact_nextBtn span.btn.btn-secondary{padding: 5px 25px;}
+  #popcontactmodal .movedate-txt-son-wrap{width: 90%;}
+
+  .contact_step05_recommend{flex-wrap: wrap;}
+  .contact_step05_recommend label{width: 80%;}
+
+  .contact_companylist{width: 90%; margin: 25px auto;}
+  .contact_companylist ul li{padding: 10px 0;}
+  .contact_step05_recommend label:last-of-type{margin-left: 0;}
+  #contact_companylist .contact_company_select_btn .btn.btn-secondary{margin-bottom: 5px;}
+
+  .contact_popup{width: 90%; padding: 0; background-size: 50px;}
+  .contact_popupCon{padding-top: 80px;}
+
+  .contact_select_popupCon{padding-top: 0;}
+  .contact_selectBox{flex-wrap: wrap;}
+  .contact_selectBox div h2{font-size: 17px; margin-bottom: 20px;}
+  .contact_myInfo{border-right: none; border-bottom: 1px solid var(--contact-contents-color); width: 100%;}
+  .contact_myInfo h2{background-size: 25px; padding-left: 30px;}
+  .contact_popup .contact_selectBox div ul li{font-size: 12px;}
+  .contact_mySelect_company{width: 100%;}
+  .contact_mySelect_company h2{background-size: 28px; padding-left: 35px;}
+
+  .contact_companylist ul li div div:nth-of-type(3),
+  .contact_review{display: none;}
+  .contact_company_name{width: 120px;}
+}

@@ -80,6 +80,14 @@
           @include('Front.Poporder.Inc.cleanstep5')
         </div>
 
+        <div
+          class="pop-page-step step5"
+          data-step="6"
+          id="popclean_step_6"
+          data-url="step6">
+          @include('Front.Poporder.Inc.cleanstep6')
+        </div>
+
       </form>
 
     </div>
@@ -88,7 +96,7 @@
 </div>
 <style>
 #popcleanmodal {
---pop-stepper-no : 5; /*stepper 갯수*/
+--pop-stepper-no : 6; /*stepper 갯수*/
 --pop-page-content-addition-height : 1px;
 
 --navbar-stepper-height: 0px; /*44px;*/ /*pop-navbar-stepper 높이*/

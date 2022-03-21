@@ -72,7 +72,69 @@ http://scripts.sil.org/OFL
 
 
 
-body{font-family: 'Pretendard' !important;}
+body, input, textarea{font-family: 'Pretendard' !important;}
 .visual1{font-family: 'Pretendard'; font-size: 1.4em; font-weight: 700;}
 .sub_menu_N{font-weight: 500;}
 .sub_menu_N ul{align-items: center;}
+
+body b{font-family: 'Pretendard';}
+.service_4wrap h3 b:first-of-type{font-family: 'GmarketSansBold';}
+#service_new > .service_tit > h2{font-size: 1.4em; line-height: 1.5;}
+#service_new > .service_4wrap h3{font-size: 1.8em; margin-bottom: 30px;}
+#service_new > .service_4wrap > dl > dt{font-size: 1.3em; font-family: 'Pretendard'; font-weight: 700; background-color: #339cfd;}
+#service_new > .service_4wrap > dl > dd{padding: 30px 40px; height: 220px;}
+#service_new > .service_4wrap > dl > dd > h2{font-family: 'Pretendard'; font-weight: 600;}
+#service_new > .service_4wrap > dl > dd > h2 b{color: #00beff;}
+
+.arrow_box h3{color: #212529;}
+.arrow_box h3 b{color: #00beff;}
+#mv_guide > .guide_wrap{margin-bottom: 120px;}
+
+#accordion .accordion{font-family: 'Pretendard'; font-weight: 600;}
+
+.cop_title_s{font-size: 16px; font-family: 'Pretendard'; font-weight: 400; margin-bottom: 20px; color: #00beff;}
+.center #knows_form .rwd_table td{font-family: 'Pretendard';}
+
+.button_blue{font-family: 'Pretendard'; font-weight: 600; padding: 10px 50px 8px;}
+#popular .popular-list .textGroup,
+.move_kind > .left_Box h4,
+.move_kind > .right_Box h3,
+.move_review_item_txt{font-family: 'Pretendard';}
+#event_view .view_title dt{font-weight: 600;}
+.ml-1-depth{font-weight: 400; margin: 30px 46px 12px;}
+.inline-post .inline-panel > div{margin-bottom: 20px;}
+
+.good_after .cmnty_button_blue,
+.search_wrap > .faq_box > a >h3{font-family: 'Pretendard'; font-weight: 500;}
+.post_body_wrap .ql-editor{font-family: 'Pretendard';}
+
+.tabs2 input:checked + .tab_item_vit,
+.mypage_odr_list > li > h3,
+#simply_move .box01 > h2,
+.checks{font-family: 'Pretendard'; font-weight: 600;}
+
+.partner_wrap3 dl dd,
+.move_kind > .left_Box h2,
+.move_kind > .right_Box h2{font-family: 'Pretendard'; font-weight: 700;}
+
+footer{font-size: 12px; padding: 40px 0;}
+footer .ft_link > li{font-family: 'Pretendard'; line-height: 12px;}
+
+.move_kind > .left_Box h2{margin-bottom: 10px;}
+.btn_untact, .btn_contact{margin-top: 15px;}
+
+
+
+
+
+
+
+@media screen and (max-width: 959px){
+
+
+	#service_new > .service_tit > h2{font-size: 1.0em; width: 80%; margin: 0 auto;}
+	#service_new > .service_4wrap h3{font-size: 1.3em;}
+
+	.center #knows_form .rwd_table div{font-family: 'Pretendard';}
+
+}

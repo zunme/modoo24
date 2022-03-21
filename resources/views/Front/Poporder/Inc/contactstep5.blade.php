@@ -25,36 +25,10 @@
         </ul>
       </label>
     </div>
-<!-- <pre>
-  #contactCompanylistTemplate
-    리스트 나오는 템플릿
-    - 선택가능한 업체 유무와 마감된업체 유무에 따른 내용이 있습니다.
 
-  #contact_companylist
-    내용이 검색중일때 나오게 됩니다.
-
-  업체 선택안하고 확인시 컨펌 창
-  업체 1개만 선택하고 확인시 컨펌 창
-  이사업체추천받기 컨펌창
-
-  완료후 스텝변경하였습니다.
-  \< div class="step-0 top-step-done" \> \< /div\>
-  \< div class="completeContact-step-title" \>견적신청완료 \< /div \>
-
-</pre> -->
     <div id="contact_companylist">
       <!-- <p>업체추천리스트 나올곳 지우지마세요, 아이디만 유지해주시면 됩니다.</p> -->
-      <div class="contact_companylist_searching">
-        <div class="contact_search_ing">
-          <div class="lds-ellipsis">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          검색중입니다.
-        </div>
-      </div>
+
 
     </div>
 
@@ -65,12 +39,12 @@
 
 <!-- 업체리스트, 마감업체리스트 없을때 -->
 {{#if ( checkempty data.avail ) }}
-  {{#if ( checkempty data.closed ) }}
+
       <div class="">
         현재 선택 가능한 업체가 없습니다.
         내용은 도라한테 물어봐주세요
       </div>
-  {{/if}}
+
 {{/if}}
 <!-- / 업체리스트, 마감업체리스트 없을때 -->
 
@@ -102,7 +76,7 @@
                   <div class="contact_company_name" onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">{{s_company}}</div>
                   <div>{{{ starvstr star pointStr="hide" }}}</div>
                   <div>{{gradeTitle}}</div>
-                  <div>후기건수({{review_cnt}})</div>
+                  <div class="contact_review">후기건수({{review_cnt}})</div>
                   <div class="contact_company_detail" onClick="staffmodalpop('/v2//pop/company/{{ base64 s_uid}}')">
                     업체상세
                   </div>
@@ -123,10 +97,10 @@
 
 
 <!-- 마감 업체리스트 있을때-->
-        {{#if ( gt data.closed.length 0 ) }}
+        {{#if ( gt2 data.closed.length 0 ) }}
 
         <div class="contact_companylist_inner">
-          <div>
+          <div class="contact_non_company">
             <div>익일 선택 가능한 일정 마감업체</div>
 
             <!-- 선택가능한 업체가 없을때 아래 내용 나옴 -->
@@ -171,7 +145,7 @@
       {{#if ( checkempty data.avail ) }}
       <!-- 선택가능한 업체가 없을때 -->
       <div>
-        <span class="btn btn-secondary" onclick="contact_companylist_recommendprcforce()">확인</span>
+        <span class="btn btn-secondary contact_nextBtn" onclick="closepopnbtn()">확인</span>
       </div>
       {{else }}
       <!-- 선택가능한 업체가 있을때 -->
@@ -188,13 +162,7 @@
 
 </div>
 
-<div class="modal fade" id="staffmodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content" id="staffmodal_body">
 
-    </div>
-  </div>
-</div>
 <style>
 #staffmodal .modal-content{
   width: 560px;

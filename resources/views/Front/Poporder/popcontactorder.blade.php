@@ -80,7 +80,7 @@
         </div>
 <!-- todo step-opened step-last-call -->
         <div
-          class="pop-page-step step5 step-avail-open step-opened step-last-call"
+          class="pop-page-step step5" class2="step-avail-open step-opened step-last-call"
           data-step="5"
           id="popcontact_step_5"
           data-url="step5">
@@ -90,9 +90,20 @@
       </form>
 
     </div>
-    <div class="pop-page-content overflowhidden contact-complete">
+    <div class="pop-page-content overflowhidden contact-complete" id="contact-complete-area">
       @include('Front.Poporder.Inc.contactcomplete')
     </div>
+
+    <!-- 업체 상세보기 모달 -->
+    <div class="modal fade" id="staffmodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="staffmodal_body">
+
+        </div>
+      </div>
+    </div>
+    <!-- / 업체 상세보기 모달 -->
+
   </div>
 </div>
 
@@ -106,16 +117,111 @@
 .contact-completed .contact-prc{
   display: none;
 }
+p.alert60day{
+  font-size: 22px;
+  margin-bottom: 10px;
+}
 </style>
 
 <script>
+Handlebars.registerHelper('gt2', function(a, b) {
+  console.log ( a, b)
+  console.log ( a >  b )
+  return (a > b);
+});
+let popcontactcompleteRecommendTemplate = `
+<div class="contact_popup">
+    <div class="contact_popupCon">
+        <ul>
+            <li>
+                고객님 감사합니다.
+            </li>
+            <li>
+                이사신청이 <strong>완료</strong> 되었습니다.
+            </li>
+        </ul>
+        <p class="popup_close" onclick="closepopnbtn()">닫기</p>
+    </div>
+</div>
+`
+let popcontactcompleteSelectionTemplate = `
+<div class="contact_popup contact_select_popup">
+    <div class="contact_popupCon contact_select_popupCon">
+        <ul>
+            <li>
+                고객님 감사합니다.
+            </li>
+            <li>
+                이사신청이 <strong>완료</strong> 되었습니다.
+            </li>
+        </ul>
+        <div class="contact_selectBox">
+            <div class="contact_myInfo">
+                <h2>나의 이사정보</h2>
+                <ul>
+                    <li>
+                        <span>이사종류</span>
+                        <p>@{{stype}}이사</p>
+                    </li>
+                    <li>
+                        <span>이사날짜</span>
+                        <p>@{{mdate}}</p>
+                    </li>
+                    <li>
+                        <span>이름/연락처</span>
+                        <p><span>@{{name}}</span> <span>@{{hp}}</span></p>
+                    </li>
+                    <li>
+                        <span>출발지</span>
+                        <p>@{{arrivals}}</p>
+                    </li>
+                    <li>
+                        <span>도착지</span>
+                        <p>@{{depatures}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="contact_mySelect_company">
+                <h2>내가 선택한 이사업체</h2>
+                <ul>
+                @{{#each companies}}
+                    <li>
+                        <p>@{{s_company}}</p>
+                        <span onClick="staffmodalpop('/v2//pop/company/@{{ base64 s_uid}}')">상세보기</span>
+                    </li>
+                @{{/each}}
+                </ul>
+            </div>
+        </div>
+        <p class="popup_close" onclick="closepopnbtn()">닫기</p>
+    </div>
+</div>
+`
+var popcontactcompleteCompiled
+
 var popcontact_step_history = 0
-var popcontact_step_open = 5;
+var popcontact_step_open = 1;
 /*TODO 5=>1*/
 var popcontact_step_availMax = 5;
 
 var mfcontactform = new mfFormStorage('popcontact-page-form','pop-page-form-contact' )
 
+var contact_search_template = `<div class="contact_companylist_searching">
+        <div class="contact_search_ing">
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          검색중입니다.
+        </div>
+      </div>`
+
+function checkAllFnContact(btn){
+  $("#popcontactmodal input[name='s_addr1']").trigger("change")
+  checkAllFn(btn)
+}
 function openpopcontact(){
   var fomrid = "#popcontact-page-form"
   if($(`${fomrid} .step-last-call`).data("step") > 0) popcontact_step_open = $(`${fomrid} .step-last-call`).data("step");
@@ -145,20 +251,26 @@ function openpopcontact(){
 function resetCompanyList(e){
   var exceptName = [
         'contact_list_recommend',
-        'agree1','agree2','agree_marketing','except_reset_cehck',
-        'use_container','use_clean','internet_call',
-        'register_name','register_phone','memo',
+        // 'agree1','agree2','agree_marketing',
+        'except_reset_cehck',
+        //'use_container','use_clean','internet_call',
+        //'register_name','register_phone','memo',
         'company[]'
     ]
   var name = $(e.target).prop('name')
-  if( !exceptName.includes(name)) {
+  if( !exceptName.includes(name) || !$("#popcontact-page-form input[name='agree1']").prop("checked") || !$("#popcontact-page-form input[name='agree2']").prop("checked")) {
     console.log("reset companylist")
-    $("input[name='contact_list_recommend']:checked").prop("checked",false)
-    $("#contact_companylist").empty()
+    resetCompanyPrc();
   }else {
     if($("input[name='contact_list_recommend']:checked").val()=='recommend') $("#contact_companylist").empty()
   }
 
+}
+function resetCompanyPrc() {
+  $("input[name='contact_list_recommend']:checked").prop("checked",false)
+  $("#contact_companylist").empty()
+  $("#popcontact_step_5").removeClass("step-avail-open").removeClass("step-opened").removeClass("step-last-call")
+  if ( popcontact_step_open > 4) popcontact_step_open=4;
 }
 function gotoContactNextStep(btn) {
   var target = $(btn).closest('.pop-page-step')
@@ -183,7 +295,7 @@ function inContactPopLoaderClose(){
 }
 /*TODO*/
 function resetNowContactStep(step){
-
+  $("#popcontact_step_" + step ).children(".pop-page-step-header").trigger("click")
 }
 
 /*TODO 성공시 daum 새로만들것*/
@@ -191,6 +303,12 @@ function nextcontactlevel(res){
   var step = $("#popcontactmodal .step-last-call").data('step')
   if( step < 1) step = 1;
   //++pop_step_availMax;
+  if( typeof res.data == 'object' && typeof res.data.diffday !='undefined' && !res.data.diffday ){
+    console.log ("60일 이상");
+    Swal.fire('<p class="alert60day alert60dayline1">모두이사는 오늘부터 60일 이내 이사 일의 방문견적이 가능합니다.</p><p class="alert60day alert60dayline2">'+res.data.calldate+' 이후에 연락드리겠습니다.</p>', '', 'success');
+    closeContact('60');
+    return;
+  }
   popcontact_step_availMax = step+1;
 
   $("#popcontact_step_" + (parseInt(step)+1) ).addClass("step-avail-open");
@@ -218,7 +336,7 @@ function nextcontactlevel(res){
 /*TODO 실패시 */
 function orderContactFormCheckError(res){
 ajaxErrorST(res )
-
+resetCompanyPrc();
 if( typeof res == 'object' && typeof res.responseJSON == 'object' && typeof res.responseJSON.data != 'undefined' && typeof res.responseJSON.data.step != 'undefined'){
   resetNowContactStep(res.responseJSON.data.step)
 }
@@ -270,6 +388,9 @@ function endContractAddress( addr, extraAddr, data ){
 }
 
 $("document").ready( function() {
+
+   popcontactcompleteCompiled = Handlebars.compile(popcontactcompleteSelectionTemplate)
+
   $("#popcontact-page-form .pop-page-step .pop-page-step-header").on("click", function (e){
     var target = $(e.target).closest('.pop-page-step');
     if( !$(target).hasClass('step-avail-open') ) {
@@ -313,8 +434,17 @@ function contact_companylist_recommendprcforce(){
 }
 
 function contactprc(){
-  getpost('/v2/order/contact/complete', $("#popcontact-page-form").serialize(), console.log, inContactPopLoaderClose, orderContactFormCheckError )
+  getpost('/v2/order/contact/complete', $("#popcontact-page-form").serialize(), contactSelectionSuccess, inContactPopLoaderClose, orderContactFormCheckError )
   //Swal.fire('고객님 감사합니다<br> 이사신청이 완료 되었습니다.', '', 'success')
   //closeContact();
+}
+function contactSelectionSuccess(res){
+  if (typeof res =='object' &&  typeof res.data != 'undefined' && res.data.companies.length > 0 ){
+    //res = JSON.parse(`{"status":"Success","message":null,"data":{"stype":"\uac00\uc815","mdate":"2022-04-09","name":"\ud14c\uc2a4\ud2b81","hp":"010-2537-6460","depatures":"\uc11c\uc6b8 \uc1a1\ud30c\uad6c \uac00\ub77d\ub85c 2 (\uc11d\ucd0c\ub3d9) 12","arrivals":"\ubd80\uc0b0 \uc5f0\uc81c\uad6c \uacbd\uae30\uc7a5\ub85c 7-52 (\uac70\uc81c\ub3d9)","companies":[{"s_uid":1139,"s_company":"\ud14c\uc2a4\ud2b85 \uc774\uc0ac\ub791\uccad\uc18c\ub791"}]}}`)
+    $("#contact-complete-area").html( popcontactcompleteCompiled(res.data) )
+  }else{
+    $("#contact-complete-area").html( popcontactcompleteRecommendTemplate )
+  }
+  closeContact()
 }
 </script>

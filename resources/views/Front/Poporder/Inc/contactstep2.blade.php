@@ -30,7 +30,7 @@ $(function () {
   var startContactMovingDate = new Date();
    var endContactMovingDate = new Date();
    var numberOfDaysContactStart = 1; //내일부터
-   var numberOfDaysContactEnd = 60; //200일 비대면일경우 , 대면은 60일??
+   var numberOfDaysContactEnd = 90; //200일 비대면일경우 , 대면은 60일??
    startContactMovingDate.setDate(startContactMovingDate.getDate() + numberOfDaysContactStart);
    endContactMovingDate.setDate(endContactMovingDate.getDate() + numberOfDaysContactEnd);
 
@@ -57,6 +57,7 @@ $(function () {
        },
     }).on('changeDate', function(e) {
        $("#conatct-step-mdate-inp").val( moment(e.date).format('YYYY-MM-DD'))
+       $("#conatct-step-mdate-inp").trigger("change")
    });
     $('#conatct-step-modedate').on('dp.change', function(event) { console.log(event.date); });
 });

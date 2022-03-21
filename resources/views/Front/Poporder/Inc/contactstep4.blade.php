@@ -26,7 +26,7 @@
                   <div class="nface-order-auth-agree-wrap checkAllFnwrap">
                       <div class="form-check">
                           <label class="form-check-label">
-                              <input class="form-check-input mfstorageignore" name="except_reset_cehck" type="checkbox" tabindex="-1" onclick="checkAllFn(this)">
+                              <input class="form-check-input mfstorageignore" name="except_reset_cehck" type="checkbox" tabindex="-1" onclick="checkAllFnContact(this)">
                               전체동의
                               <span class="form-check-sign">
                                   <span class="check"></span>
@@ -39,9 +39,7 @@
                               <span class="form-check-sign">
                                   <span class="check"></span>
                               </span>
-                            </label>
-                            <span class="modalpop_link2" link="/new_common/popup/accessterms.html" onclick="newmodalpop('/new_common/popup/accessterms.html')"><b>이용약관</b></span>
-                          및
+                            </label><span class="modalpop_link2" link="/new_common/popup/accessterms.html" onclick="newmodalpop('/new_common/popup/accessterms.html')"><b>이용약관</b></span> 및
                           <span class="modalpop_link2" link="/new_common/popup/personal_data.html" onclick="newmodalpop('/new_common/popup/personal_data.html')"><b>개인정보처리방침동의</b></span>
                           (필수)
                       </div>
@@ -67,6 +65,6 @@
 
 
   <div class="contact_nextBtn">
-    <span class="btn btn-secondary" onclick="gotoContactNextStep(this)">다음</span>
+    <span class="btn btn-secondary" onclick="gotoContactNextStep(this)">무료견적 신청하기</span>
   </div>
 </div>

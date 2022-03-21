@@ -61,6 +61,15 @@
       </label>
     </div>
 
+    <div class="togglebutton texttoggle">
+      <label>
+        <input type="checkbox" name="internet_call" value="Y" />인테리어 혜택상담
+        <span class="toggle">
+          <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
+        </span>
+      </label>
+    </div>
+
 
 
 
