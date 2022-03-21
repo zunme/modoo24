@@ -26,7 +26,15 @@ class ContactorderController extends Controller
 {
 	use ApiResponser;
 	public function __construct() {
-	$this->now = Carbon::now()->format('Y-m-d H:i:s');
+		$this->now = Carbon::now()->format('Y-m-d H:i:s');
+		$msg = "\n\n";
+		$msg .= '__________________________________'."\n";
+		$msg .= '★모두이사 칭찬후기 이벤트★'."\n";
+		$msg .= '모두이사 매칭업체 이사서비스를 받으시고'."\n";
+		$msg .= '칭찬후기를 작성해주세요'."\n";
+		$msg .= '작성해주신 모든 고객님께 커피쿠폰을 드립니다.'."\n";
+		$msg .= '업체평가하기 → http://modoo24.net/v2/review/my ';
+		$this->eventMessage = $msg;
 	}
 	public function staffpop($staffid){
 		 return view('Front.Poporder.staffinfoframe',compact(['staffid']));
@@ -52,27 +60,29 @@ class ContactorderController extends Controller
 			})->count();
 			return [ "res"=>true,"indate"=>$indate, "count"=>$count ] ;
 	}
-	private function shuffleArray($array, $limit)
-	{
-	    $arrayCount = count($array);
-			shuffle($array);
-			$ret=[];
-	    $limit = min($arrayCount, $limit);
-	    for ($i = 0; $i < $limit; $i++) {
-				$ret[] = $array[$i];
-	    }
+	private function shuffleArray($array, $limit) {
+    $arrayCount = count($array);
+		shuffle($array);
+		$ret=[];
+    $limit = min($arrayCount, $limit);
+    for ($i = 0; $i < $limit; $i++) {
+			$ret[] = $array[$i];
+    }
 
-	    return $ret;
+    return $ret;
 	}
 
 	public function companylist(Request $request){
 		//order갯수 제한
 		$limit_flag = 'N';
+		$testerIp = ['221.154.134.3']; //사무실 IP
 
 		$check = $this->checkConmpleteStep( $request);
 		if( $check !== true) return $check;
-		// 이중오더, 히 모두이사, cpa승인
-		$except = array("736", "80", "737");
+
+		$except = array("736", "80", "737"); // 이중오더, 히 모두이사, cpa승인
+		$testCompany = array(1137, 1141); // 0001, 0005
+
 		$gugnSearch = [];
 		$addrInfo = $this->getAddressInfo($request->s_bcode);
 		$gugnSearch['sidogugun'] = trim($addrInfo['sido']).' '.trim($addrInfo['gu']);
@@ -84,7 +94,7 @@ class ContactorderController extends Controller
 		$availdata = AuctionStaff::
 						select('auction_staff.s_uid',
 							'flat_rate_staff','s_share_cnt','s_share_day_cnt','close'
-							,'auction_staff.point','auction_staff.service_point'
+							,'auction_staff.point','auction_staff.service_point','s_share_flag'
 						)
 						->leftJoin('auction_close', function($q) use ($request){
 							$q->on('auction_staff.s_uid', '=', 'auction_close.s_uid')
@@ -96,7 +106,7 @@ class ContactorderController extends Controller
 							"auction_staff.s_level"=>"2",// 이사업체
 							['auction_staff.s_onout','<>','2'],// 거래중지없체가 아닌 지점
 							['auction_staff.s_ceo_hp','<>',''],// 핸드폰번호가 있는 지점만
-							 "auction_staff.s_share_flag"=> 'Y',// 분배허용 여부
+//							 "auction_staff.s_share_flag"=> 'Y',// 분배허용 여부
 							 "auction_staff.".$this->getClassifyColumn( $request->movingtype) => '1',	// 이사 종류 - 가정, 사무실, 용달 중 1인것 가져옴
 						])
 						->whereNotIn('auction_staff.s_uid', $except )// 자동분배 않되는 idx
@@ -145,7 +155,10 @@ class ContactorderController extends Controller
 				$exceptedAvailData[] = $row->s_uid;
 				continue;
 			}
-
+			if( $row->s_share_flag != 'Y'){
+				$exceptedAvailData[] = $row->s_uid;
+				continue;
+			}
 			//제한풀렸을경우 모두
 			if( $limit_flag =='Y') $retAvailData[] = $row;
 			//제한걸린경우
@@ -174,6 +187,7 @@ class ContactorderController extends Controller
 		}
 
 		$retAvailData = $this->shuffleArray($retAvailData,10); //랜덤추출 10개까지
+		if( in_array($request->ip(), $testerIp ))  $retAvailData = array_merge( $retAvailData, $testCompany); //테스트추가
 		$exceptedAvailData = $this->shuffleArray($exceptedAvailData,5); //랜덤추출 5개까지
 
 		$allids = array_merge($retAvailData,$exceptedAvailData);
@@ -257,8 +271,57 @@ class ContactorderController extends Controller
 		$res = $this->stepUserDataCheck($request);
 		if( $res !== true) return $this->error($res,422,['step'=>4, 'data'=> $this->errors]);
 		//$this->makelog($request, 'contactpop', '5' );
+
+		// 중복체크
+		//contact_orderid , 01025376460
+
+		$dup = AuctionOrderTemp::where([
+			'passwd'=> preg_replace('/[^0-9]/', '', $request->register_phone),
+			'mdate'=>$request->mdate
+		])
+		->where('uid','<>', $request->contact_orderid)
+		->count();
+		if( $dup > 0 ){
+			return $this->error('등록 된 이사정보가 있습니다',422,['step'=>4]);
+		}
+
+		//60일 이후 체크
+		$mdateCarbon =  Carbon::createFromFormat('Y-m-d',$request->mdate);
+		$diff_day = $mdateCarbon->diffInDays( Carbon::now() );
+
+		$calldate = '';
+		if( $diff_day > 60 ) {
+			$diff_day_check = false;
+			$calldate =  $mdateCarbon->subDay('60')->format('y년 m월 d일');
+		}
+		else $diff_day_check = true;
+
 		$res = $this->savetemp($request);
-		return $this->success( ['orderid'=>$res->uid]);
+
+		if( $res && !$diff_day_check){
+			try{
+				//60이후 이사 문자발송
+				$msg = '[모두이사 방문견적 신청완료]'."\n";
+				$msg .= '안녕하세요. '.$res->name.' 고객님, 모두이사입니다.'."\n";
+				$msg .= '이사 견적 신청이 완료되었습니다.'."\n\n";
+				$msg .= '이사일 : '.$res->mdate."\n";
+				$msg .= '출발지 주소 : '.$res->s_addr1.' '.$res->s_addr2."\n";
+				$msg .= '도착지 주소 : '.$res->e_addr1."\n\n";
+				$msg .= '모두이사는 금일부터 60일 이내 이사 예정 고객님과 우수 이사업체를 매칭해드립니다.'."\n";
+				$msg .= '고객님의 이사 예정일은 60일이 경과되어,'."\n";
+				$msg .= '매칭 가능 날짜에 저희 상담원이 연락드리겠습니다.'."\n\n";
+				$msg .= '모두이사를 이용해 주셔서 감사합니다.'."\n";
+				$msg .= '이사 관련 문의 사항이 있으시면 연락주세요'."\n";
+				$msg .= '문의 1600-7728';
+				$msg.= $this->eventMessage;
+
+				//todo $sms_res = $this->sms( preg_replace('/[^0-9]/', '',$res->hp),'모두이사 입니다.', $msg);
+
+			}catch (\Exception $e){
+				;
+			}
+		}
+		return $this->success( ['orderid'=>$res->uid,'diffday'=>$diff_day_check,'calldate'=>$calldate]);
 	}
 	private function savetemp ( $request){
 		$classify = 0;
@@ -282,7 +345,7 @@ class ContactorderController extends Controller
 			,'mdate'=>$request->mdate,'name'=>$request->register_name
 			,'passwd'=>$request->register_phone, 'hp'=>$this->format_tel($request->register_phone)
 			,'classify'=>$classify, 'stype'=>'2' //이사타입 2로 고정
-			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_zip1,'s_addr2'=>$request->s_addr2
+			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_addr1,'s_addr2'=>$request->s_addr2
 			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$request->e_addr1
 			,'ton'=>0,'cbm'=>0,'goods'=>0,'note'=>$request->memo?$request->memo:'','memo'=>''
 			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
@@ -298,14 +361,18 @@ class ContactorderController extends Controller
 
 			,'bds_id'=>'', 'reg_company_type'=>'모두이사'
 		];
-		$data['contact_name']="임시저장";
+		$mdateCarbon =  Carbon::createFromFormat('Y-m-d',$request->mdate);
+		$diff_day = $mdateCarbon->diffInDays( Carbon::now() );
+		if( $diff_day > 60 ) $data['contact_name']="60일";
+		else $data['contact_name']="임시저장";
 		try{
 			if( $request->contact_orderid ){
 				$order = AuctionOrderTemp::find($request->contact_orderid);
+				if( $order->share_status == 'DONE') return $this->error('이미 견적신청이 완료된 내용입니다.',422,['step'=>1]);
 				$order->update($data);
 			}else $order = AuctionOrderTemp::create($data);
 		}catch (\Exception $e){
-			dd( $e->getmessage() );
+			//dd( $e->getmessage() );
 			return false;
 		}
 		return $order;
@@ -315,14 +382,19 @@ class ContactorderController extends Controller
 		$res = $this->checkConmpleteStep($request);
 		if( $res !== true) return $res;
 
-
+		//60일 이후 체크
 		$mdateCarbon =  Carbon::createFromFormat('Y-m-d',$request->mdate);
 		$diff_day = $mdateCarbon->diffInDays( Carbon::now() );
+
+		if( $diff_day > 60 ){
+			return $this->error('이사 날짜를 다시 선택해주세요',422,['step'=>2]);
+		}
+
 		if($diff_day <= 30) $_day = 30;
 		elseif($diff_day > 30 && $diff_day <= 50) $_day = 50;
 		elseif($diff_day > 50 && $diff_day <= 65) $_day = 65;
 		elseif($diff_day > 65 && $diff_day <= 90) $_day = 90;
-		else return $this->error('이사 날짜를 다시 선택해주세요');
+		else return $this->error('이사 날짜를 다시 선택해주세요',422,['step'=>2]);
 
 
 		$classify = 0;
@@ -345,31 +417,34 @@ class ContactorderController extends Controller
 				// code...
 				break;
 		}
-		if( $classify < 1) return $thiw->error('이사종류를 찾을 수 없습니다.');
+		if( $classify < 1) return $thiw->error('이사종류를 찾을 수 없습니다.',422,['step'=>1]);
 
 		$data = [
-			'm_uid'=>0, 'contact_name'=>'','order_path'=>1
-			,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0
-			,'mdate'=>$request->mdate,'name'=>$request->register_name
+			//'m_uid'=>0, 'contact_name'=>'','order_path'=>1
+			//,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0,
+			'mdate'=>$request->mdate,'name'=>$request->register_name
 			,'passwd'=>$request->register_phone, 'hp'=>$this->format_tel($request->register_phone)
 			,'classify'=>$classify, 'stype'=>'2' //이사타입 2로 고정
-			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_zip1,'s_addr2'=>$request->s_addr2
+			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_addr1,'s_addr2'=>$request->s_addr2
 			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$request->e_addr1
-			,'ton'=>0,'cbm'=>0,'goods'=>0,'note'=>$request->memo?$request->memo:'','memo'=>''
+			//,'ton'=>0,'cbm'=>0,'goods'=>0
+			,'note'=>$request->memo?$request->memo:''
+			/*
+			,'memo'=>''
 			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
 			,'cstype'=>0, 'cafe_name'=>'모두이사_official_visit2'
 			,'aircon_yn'=>'Y','aircon_wall_cnt'=>0,'aircon_stand_cnt'=>0,'aircon_system_cnt'=>0,'aircon_double_cnt'=>0
 			,'type'=>'','user_memo'=>'','area'=>'A'
-
-
 			,'share_price'=>0, 'share_status'=>'ING','auto_share'=>'N'
-
+			*/
 			,'clean_yn'=>$request->use_clean=='Y'? 'Y' :'N'
 			,'s_uid' => $request->internet_call =='Y' ? 1 : 0
 			,'keep'=> $request->use_container =='Y' ? 1 : 0
-
-			,'bds_id'=>'', 'reg_company_type'=>'모두이사'
+			//,'bds_id'=>'', 'reg_company_type'=>'모두이사'
 		];
+
+		if( $diff_day > 60 ) $data['contact_name']="60일";
+		else $data['contact_name']="";
 
 		$companies_data='';
 
@@ -407,21 +482,22 @@ class ContactorderController extends Controller
 			$pricelist = json_decode($pricetemp[0]->{$areaZone}, true);
 			$area_price = $pricelist[$_day][$_stype];
 			if($area_price["share3"]=="" || $area_price["share2"]=="" || $area_price["share1"]==""){
-				return $this->error('분배 조건에 맞는 금액설정이 확인되지 않습니다. [이사업체추천받기] 로 진행해주세요');
+				return $this->error('분배 조건에 맞는 금액설정이 확인되지 않습니다. [이사업체추천받기] 로 진행해주세요',422,['step'=>5]);
 			}
 			$discount_price = $area_price["share".$staff_cnt];
 		}
 
 		//company
 		$order = AuctionOrderTemp::find($request->contact_orderid);
+		if( !$order){
+			return $this->error('전단계가 완료되지 않았습니다.',422,['step'=>4]);
+		}
 		/* 분배된업체이면 저장안하고 종료 */
 		if( $order->share_status == 'DONE') return $this->success();
 
 
 		\DB::beginTransaction();
 		try{
-
-			//todo $order->update($data);
 
 			//기존 데이터 있을수 있으니 삭제
 			//todo $assign = AuctionOrderAssign::where(['o_uid'=>$order->uid])->delete();
@@ -441,7 +517,7 @@ class ContactorderController extends Controller
 					$row['o_uid'] = $order->uid;
 
 					// TODO 테스트시 삭제
-					$row['s_uid'] = 80;
+					$row['s_uid'] = 1139;//80
 
 					$staffPointData = AuctionStaff::find( $row['s_uid']);
 
@@ -562,10 +638,28 @@ class ContactorderController extends Controller
 				$order->share_status = 'DONE';
 				$order->auto_share = 'N';
 				$order->share_price = $discount_price;
+				$order->contact_name = '';
+				$order->order_path = '2';
 				//todo $order->save();
-
+				$data['share_status']='DONE';
+				$data['auto_share']='N';
+				$data['share_price']=$discount_price;
+				$data['contact_name']='';
+				$data['order_path']='2';
 			} // END 직접선택
 
+			//추천받기
+			else {
+				/*
+				$order->contact_name = '';
+				$order->order_path = '1';
+				$order->save();
+				*/
+				$data['contact_name']='';
+				$data['order_path']='1';
+			}
+
+			//todo $order->update($data);
 
 			// \DB::commit();
 			\DB::rollback();
@@ -575,26 +669,86 @@ class ContactorderController extends Controller
 		}
 
 		// 종료후 문자발송
-		if( $data['contact_list_recommend'] == 'selection' ){
-			$modoo24Name = '모두이사';
-			//문자발송 고객
-			$sms_ment = "안녕하세요.".$data['name']." 고객님.\n".$modoo24Name." 입니다.\n".$modoo24Name."를 이용해주셔서 감사합니다.\n선정된 업체 정보는 아래와 같습니다.\n";
-			foreach( $companies_data['create'] as $row ){
-				$sms_ment .= "[".$row['s_company']."] ".$row['hp']."\n";
+		$res_companies =[];
+
+		try{
+			if( $data['contact_list_recommend'] == 'selection' ){
+				$modoo24Name = '모두이사';
+				//문자발송 고객
+				$sms_title = '안녕하세요 '.$modoo24Name.' 입니다.';
+				$sms_ment = "안녕하세요.".$data['name']." 고객님.\n".$modoo24Name." 입니다.\n".$modoo24Name."를 이용해주셔서 감사합니다.\n선정된 업체 정보는 아래와 같습니다.\n";
+				foreach( $companies_data['create'] as $row ){
+					$sms_ment .= "[".$row['s_company']."] ".$row['hp']."\n";
+				}
+				$enc_orderid = base64_encode($order->uid);
+
+				$sms_ment .= ":: 업체정보 확인 url ::\nhttps://modoo24.net/v1/review/cp_view?cmd=cp_list&v=Y&code=".$enc_orderid;
+				$sms_ment .= $this->eventMessage;
+
+				$sms_res = $this->sms( preg_replace('/[^0-9]/', '',$data['hp']),$sms_title, $sms_ment);
+
+
+				//문자발송, 푸쉬발송 회사  $companies_data['create'] loop
+
+				$sms_staff = $modoo24Name." 입니다.\n";
+				$sms_staff .= $data['mdate']."\n"; // 이사일
+				$sms_staff .= $data['name']." 고객님\n"; // 고객명
+				$sms_staff .= "연락처: ".$data['hp']."\n"; // 연락처
+				$sms_staff .= "[".$_stype." 이사]\n"; // 이사종류
+				$sms_staff .= "출발지: ".$data['s_addr1'].' '.$data['s_addr2']."\n"; // 출발지
+				$sms_staff .= "도착지: ".$data['e_addr1']."\n"; // 도착지
+
+				$push_staff_user_arr = [];
+				foreach($companies_data['create'] as $row){
+					//todo $this->sms( preg_replace('/[^0-9]/', '',$row['hp'] ),$sms_title, $sms_staff);
+					$push_staff_user_arr[] = $row['s_uid'];
+
+					//return 용 데이터
+					$res_companies[]=[
+						's_uid'=>$row['s_uid']
+						, 's_company'=>$row['s_company']
+					];
+
+				}
+				//todo $this->makeOneSignal($push_staff_user_arr, '모두플랫폼 오더안내', $sms_staff,'','http://24auction.co.kr/m/order/counsel?status=ALL');
+
+			} // end  $data['contact_list_recommend'] == 'selection'
+			//문자보내기 -추천받기
+			else {
+				$subject = '모두이사 입니다.';
+				$msg = '[모두이사 방문견적 신청완료]'."\n";
+
+				$msg .= '안녕하세요. '.$order->name.' 고객님, 모두이사입니다.'."\n";
+				$msg .= '이사 견적 신청이 완료되었습니다.'."\n\n";
+				$msg .= '이사일 : '.$order->mdate.''."\n";
+				$msg .= '출발지 주소 : '.$order->s_addr1.' '.$order->s_addr2."\n";
+				$msg .= '도착지 주소 : '.$order->e_addr1.''."\n\n";
+				$msg .= '원활한 이사 견적 진행을 위해'."\n";
+				$msg .= '상담을 통해 이사업체를 추천드립니다.'."\n";
+				$msg .= '잠시만 기다려주세요.'."\n\n";
+				$msg .= '고객센터 운영시간 이후에 접수된 이사 건은 익일 오전 09시부터 처리될 수 있습니다.'."\n";
+				$msg .= '감사합니다.'."\n\n";
+				$msg .= '고객센터 1600-7728'."\n";
+				$msg .= '평일 : 오전 09시 ~ 오후 06시 30분'."\n";
+				$msg .= '공휴일, 주말 : 오전 09시 ~ 오후 05시';
+				$msg.= $this->eventMessage;
+				$sms_res = $this->sms( preg_replace('/[^0-9]/', '',$data['hp']),$subject, $msg);
 			}
-			$enc_orderid = base64_encode($order->uid);
-
-			$sms_ment .= ":: 업체정보 확인 url ::\nhttps://modoo24.net/v1/review/cp_view?cmd=cp_list&v=Y&code=".$enc_orderid;
-			dd( $sms_ment);
-			//문자발송 회사  $companies_data['create'] loop
-
-			dd($companies_data['create']);
-
-
-
+		}catch (\Exception $e){
+			;
 		}
 
-		return $this->success();
+
+		$res_data = [
+			'stype' =>$_stype,
+			'mdate' =>$order->mdate,
+			'name' =>$order->name,
+			'hp' =>$order->hp,
+			'depatures' =>$order->s_addr1.' '.$order->s_addr2,
+			'arrivals' =>$order->e_addr1,
+			'companies'=>$res_companies
+		];
+		return $this->success($res_data);
 	}
 
 
