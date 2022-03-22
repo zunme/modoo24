@@ -68,7 +68,8 @@ function reviews(){
 }
 function afterreview(){
   $('.evaluate.entire > p').each( function( i,v) {
-    if( !isViewTab ) return;
+
+   // if( !isViewTab ) return;
     if( $(v).prop('scrollHeight') <= $(v).height() ) {
       $(v).parent().next().remove()
     }
