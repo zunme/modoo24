@@ -236,7 +236,6 @@ var contact_search_template = `<div class="contact_companylist_searching">
       </div>`
 
 function checkAllFnContact(btn){
-  $("#popcontactmodal input[name='s_addr1']").trigger("change")
   checkAllFn(btn)
 }
 function openpopcontact(){
@@ -275,7 +274,8 @@ function resetCompanyList(e){
         'company[]'
     ]
   var name = $(e.target).prop('name')
-  if( !exceptName.includes(name) || !$("#popcontact-page-form input[name='agree1']").prop("checked") || !$("#popcontact-page-form input[name='agree2']").prop("checked")) {
+  console.log( name )
+  if( !exceptName.includes(name) || ( !$("#popcontact-page-form input[name='agree1']").prop("checked") || !$("#popcontact-page-form input[name='agree2']").prop("checked") ) ) {
     console.log("reset companylist")
     resetCompanyPrc(e);
   }else {
@@ -342,6 +342,7 @@ function nextcontactlevel(res){
     //Swal.fire('<p class="alert60day alert60dayline1">모두이사는 오늘부터 60일 이내 이사 일의 방문견적이 가능합니다.</p><p class="alert60day alert60dayline2">'+res.data.calldate+' 이후에 연락드리겠습니다.</p>', '', 'success');
     $("#contact-complete-area").html(popcontactcompleteOverCompiled(res.data))
     closeContact('60');
+    mfcontactform.clearInpusts();
     return;
   }
   popcontact_step_availMax = step+1;
@@ -482,5 +483,6 @@ function contactSelectionSuccess(res){
     $("#contact-complete-area").html( popcontactcompleteRecommendTemplate )
   }
   closeContact()
+  mfcontactform.clearInpusts()
 }
 </script>

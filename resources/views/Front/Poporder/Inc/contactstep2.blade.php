@@ -30,7 +30,7 @@ $(function () {
   var startContactMovingDate = new Date();
    var endContactMovingDate = new Date();
    var numberOfDaysContactStart = 1; //내일부터
-   var numberOfDaysContactEnd = 90; //200일 비대면일경우 , 대면은 60일??
+   var numberOfDaysContactEnd = 90; //200일 비대면일경우 , 대면은 90일
    startContactMovingDate.setDate(startContactMovingDate.getDate() + numberOfDaysContactStart);
    endContactMovingDate.setDate(endContactMovingDate.getDate() + numberOfDaysContactEnd);
 

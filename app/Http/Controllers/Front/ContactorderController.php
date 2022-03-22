@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Auth;
 
 use Carbon\Carbon;
@@ -19,6 +20,7 @@ use App\Models\AuctionOrderAssign;
 use App\Models\AuctionOrderNum;
 use App\Models\AuctionShareOption;
 
+use App\Models\AuctionCleanOrder;
 use App\Models\AuctionStaff;
 use App\Models\PointHistory;
 
@@ -75,7 +77,7 @@ class ContactorderController extends Controller
 	public function companylist(Request $request){
 		//order갯수 제한
 		$limit_flag = 'N';
-		$testerIp = [];//['221.154.134.3']; //사무실 IP
+		$testerIp = ['221.154.134.3']; //사무실 IP
 
 		$check = $this->checkConmpleteStep( $request);
 		if( $check !== true) return $check;
@@ -275,7 +277,7 @@ class ContactorderController extends Controller
 		// 중복체크
 		//contact_orderid , 01025376460
 
-		$dup = AuctionOrderTemp::where([
+		$dup = AuctionOrder::where([
 			'passwd'=> preg_replace('/[^0-9]/', '', $request->register_phone),
 			'mdate'=>$request->mdate
 		])
@@ -298,6 +300,8 @@ class ContactorderController extends Controller
 
 		$res = $this->savetemp($request);
 
+		if ($res instanceof JsonResponse ) return $res;
+
 		if( $res && !$diff_day_check){
 			try{
 				//60이후 이사 문자발송
@@ -315,7 +319,7 @@ class ContactorderController extends Controller
 				$msg .= '문의 1600-7728';
 				$msg.= $this->eventMessage;
 
-				//todo $sms_res = $this->sms( preg_replace('/[^0-9]/', '',$res->hp),'모두이사 입니다.', $msg);
+				$sms_res = $this->sms( preg_replace('/[^0-9]/', '',$res->hp),'모두이사 입니다.', $msg);
 
 			}catch (\Exception $e){
 				;
@@ -341,7 +345,7 @@ class ContactorderController extends Controller
 		}
 		$data = [
 			'm_uid'=>0, 'contact_name'=>'','order_path'=>1
-			,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0
+			,'s_with2'=>0
 			,'mdate'=>$request->mdate,'name'=>$request->register_name
 			,'passwd'=>$request->register_phone, 'hp'=>$this->format_tel($request->register_phone)
 			,'classify'=>$classify, 'stype'=>'2' //이사타입 2로 고정
@@ -357,6 +361,8 @@ class ContactorderController extends Controller
 
 			,'clean_yn'=>$request->use_clean=='Y'? 'Y' :'N'
 			,'s_uid' => $request->internet_call =='Y' ? 1 : 0
+			,'s_with3'=> $request->interior_call =='Y' ? 1 : 0
+			,'s_with4'=>$request->agree_marketing=='Y' ? 1 : 0
 			,'keep'=> $request->use_container =='Y' ? 1 : 0
 
 			,'bds_id'=>'', 'reg_company_type'=>'모두이사'
@@ -365,16 +371,68 @@ class ContactorderController extends Controller
 		$diff_day = $mdateCarbon->diffInDays( Carbon::now() );
 		if( $diff_day > 60 ) $data['contact_name']="60일";
 		else $data['contact_name']="임시저장";
+
+		\DB::beginTransaction();
 		try{
 			if( $request->contact_orderid ){
-				$order = AuctionOrderTemp::find($request->contact_orderid);
+				$order = AuctionOrder::find($request->contact_orderid);
 				if( $order->share_status == 'DONE') return $this->error('이미 견적신청이 완료된 내용입니다.',422,['step'=>1]);
 				$order->update($data);
-			}else $order = AuctionOrderTemp::create($data);
+			}else{
+				$order = AuctionOrder::create($data);
+			}
+			if ($diff_day > 60 && $order->clean_yn =='Y' ){
+				$cleandata = AuctionCleanOrder::where(['s_with2'=>1, 'order_uid'=>$order->uid])->first();
+
+				if( !$cleandata ) {
+					$clean=[
+						'contact_name'=>'60일',
+						'order_path'=>'1',//온라인
+						's_uid'=>'0',
+						's_with2'=>'1',//방문
+						's_with3'=>'0',
+						's_with4'=>'0',
+						'mdate'=>$data['mdate'],
+						'company'=>'',
+						'name'=>$data['name'],
+						'passwd'=>'',
+						'hp'=>$data['hp'],
+						'stype'=>'1',//입주청소
+						's_addr1'=>$data['e_addr1'],
+						's_addr2'=>'',
+						'note'=>'',
+						'user_memo'=>'테스트중입니다 분배하지말아주세요',
+						'memo'=>'',
+						'com_num'=>'0',
+						'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
+						'aircon_yn'=>'Y',//우선은 있는것으로
+						'type'=>'',//주거종류 선택없음
+						'share_status'=>'ING',
+						'clean_staff_cnt'=>'0',
+						'clean_elevator'=>'N',
+						'clean_addr_pyoung'=>'',
+						'order_uid'=>$order->uid,
+					];
+					$cleanins = AuctionCleanOrder::create($clean);
+				}else {
+					$clean=[
+						'mdate'=>$data['mdate'],
+						'name'=>$data['name'],
+						'hp'=>$data['hp'],
+						's_addr1'=>$data['e_addr1'],
+						'clean_elevator'=>'N',
+						'clean_addr_pyoung'=>'',
+					];
+					$cleandata->update( $clean);
+				}
+
+			}
+			\DB::commit();
 		}catch (\Exception $e){
-			//dd( $e->getmessage() );
-			return false;
+			\DB::rollback();
+			return $this->error('저장중 오류가 발생하였습니다1.',422,['step'=>4]);
 		}
+
 		return $order;
 	}
 
@@ -420,27 +478,17 @@ class ContactorderController extends Controller
 		if( $classify < 1) return $thiw->error('이사종류를 찾을 수 없습니다.',422,['step'=>1]);
 
 		$data = [
-			//'m_uid'=>0, 'contact_name'=>'','order_path'=>1
-			//,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0,
 			'mdate'=>$request->mdate,'name'=>$request->register_name
 			,'passwd'=>$request->register_phone, 'hp'=>$this->format_tel($request->register_phone)
 			,'classify'=>$classify, 'stype'=>'2' //이사타입 2로 고정
 			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_addr1,'s_addr2'=>$request->s_addr2
 			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$request->e_addr1
-			//,'ton'=>0,'cbm'=>0,'goods'=>0
 			,'note'=>$request->memo?$request->memo:''
-			/*
-			,'memo'=>''
-			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
-			,'cstype'=>0, 'cafe_name'=>'모두이사_official_visit2'
-			,'aircon_yn'=>'Y','aircon_wall_cnt'=>0,'aircon_stand_cnt'=>0,'aircon_system_cnt'=>0,'aircon_double_cnt'=>0
-			,'type'=>'','user_memo'=>'','area'=>'A'
-			,'share_price'=>0, 'share_status'=>'ING','auto_share'=>'N'
-			*/
 			,'clean_yn'=>$request->use_clean=='Y'? 'Y' :'N'
 			,'s_uid' => $request->internet_call =='Y' ? 1 : 0
+			,'s_with3'=> $request->interior_call =='Y' ? 1 : 0
+			,'s_with4'=>$request->agree_marketing=='Y' ? 1 : 0
 			,'keep'=> $request->use_container =='Y' ? 1 : 0
-			//,'bds_id'=>'', 'reg_company_type'=>'모두이사'
 		];
 
 		if( $diff_day > 60 ) $data['contact_name']="60일";
@@ -488,20 +536,20 @@ class ContactorderController extends Controller
 		}
 
 		//company
-		$order = AuctionOrderTemp::find($request->contact_orderid);
+		$order = AuctionOrder::find($request->contact_orderid);
 		if( !$order){
 			return $this->error('전단계가 완료되지 않았습니다.',422,['step'=>4]);
 		}
-		/* 분배된업체이면 저장안하고 종료 */
-		if( $order->share_status == 'DONE') return $this->success();
+		/* 분배된업체 또는 접수자가 임시저장이 아니면 저장안하고 종료 */
+		if( $order->share_status == 'DONE' || $order->contact_name !='임시저장') return $this->success();
 
 
 		\DB::beginTransaction();
 		try{
 
 			//기존 데이터 있을수 있으니 삭제
-			//todo $assign = AuctionOrderAssign::where(['o_uid'=>$order->uid])->delete();
-			//todo AuctionShareOption::where(['aso_order_idx'=> $order->uid ])->delete();
+				$assign = AuctionOrderAssign::where(['o_uid'=>$order->uid])->delete();
+				AuctionShareOption::where(['aso_order_idx'=> $order->uid ])->delete();
 
 			if( $data['contact_list_recommend'] == 'selection' ){
 				// 세팅된 금액정보 미리 가져오기
@@ -517,7 +565,7 @@ class ContactorderController extends Controller
 					$row['o_uid'] = $order->uid;
 
 					// TODO 테스트시 삭제
-					$row['s_uid'] = 1139;//80
+					//$row['s_uid'] = 1139;//80
 
 					$staffPointData = AuctionStaff::find( $row['s_uid']);
 
@@ -539,7 +587,7 @@ class ContactorderController extends Controller
 					/*end AuctionOrderNum */
 
 					/* start order assign */
-					//todo AuctionOrderAssign::create($row);
+					AuctionOrderAssign::create($row);
 					/* end order assign */
 
 					/* start point */
@@ -611,36 +659,38 @@ class ContactorderController extends Controller
 					);
 
 					//로그
-					//todo PointHistory::create( $log );
+					PointHistory::create( $log );
 
 					//차감
 					if( $staffPointData->flat_rate_staff !='Y' ){
 						$staffPointData->point = 	$temphistory['point'];
 						$staffPointData->service_point = 	$temphistory['service_point'];
-						//todo $staffPointData->save();
+						$staffPointData->save();
 					}
 					/* end point */
 
 					// 분배 옵션 - 상태값, 구분(일반, 역경매) 레코드 추가
 
-					//todo AuctionShareOption::create(['aso_order_idx'=>$row['o_uid'], 'aso_reg_idx'=> $row['s_uid'] ]);
+					AuctionShareOption::create(['aso_order_idx'=>$row['o_uid'], 'aso_reg_idx'=> $row['s_uid'] ]);
 
 				} // end foreach
 
 				$auctionordernumins = AuctionOrderNum::where(['order_uid' => $order->uid ] )->first();
 				if( $auctionordernumins) {
-					//todo $auctionordernumins->update( $auctionordernumdata);
+					$auctionordernumins->update( $auctionordernumdata);
 				}
 				else {
-					//todo $ins = AuctionOrderNum::create( $auctionordernumdata );
+					$ins = AuctionOrderNum::create( $auctionordernumdata );
 				}
 				//오더 플래그 변경
+				/*
 				$order->share_status = 'DONE';
 				$order->auto_share = 'N';
 				$order->share_price = $discount_price;
 				$order->contact_name = '';
 				$order->order_path = '2';
 				//todo $order->save();
+				*/
 				$data['share_status']='DONE';
 				$data['auto_share']='N';
 				$data['share_price']=$discount_price;
@@ -659,10 +709,10 @@ class ContactorderController extends Controller
 				$data['order_path']='1';
 			}
 
-			//todo $order->update($data);
+			$order->update($data);
 
-			// \DB::commit();
-			\DB::rollback();
+			\DB::commit();
+			//\DB::rollback();
 		}catch( Exception $e){
 			\DB::rollback();
 			return $this->error( $e->getMessage() );
@@ -700,7 +750,7 @@ class ContactorderController extends Controller
 
 				$push_staff_user_arr = [];
 				foreach($companies_data['create'] as $row){
-					//todo $this->sms( preg_replace('/[^0-9]/', '',$row['hp'] ),$sms_title, $sms_staff);
+					$this->sms( preg_replace('/[^0-9]/', '',$row['hp'] ),$sms_title, $sms_staff);
 					$push_staff_user_arr[] = $row['s_uid'];
 
 					//return 용 데이터
@@ -710,7 +760,7 @@ class ContactorderController extends Controller
 					];
 
 				}
-				//todo $this->makeOneSignal($push_staff_user_arr, '모두플랫폼 오더안내', $sms_staff,'','http://24auction.co.kr/m/order/counsel?status=ALL');
+				$this->makeOneSignal($push_staff_user_arr, '모두플랫폼 오더안내', $sms_staff,'','http://24auction.co.kr/m/order/counsel?status=ALL');
 
 			} // end  $data['contact_list_recommend'] == 'selection'
 			//문자보내기 -추천받기
@@ -737,7 +787,52 @@ class ContactorderController extends Controller
 		}catch (\Exception $e){
 			;
 		}
+		try{
+			$cleandata = AuctionCleanOrder::where(['s_with2'=>1, 'order_uid'=>$order->uid])->first();
 
+			if( !$cleandata ) {
+				$clean=[
+					'contact_name'=>'',
+					'order_path'=>'1',//온라인
+					's_uid'=>'0',
+					's_with2'=>'1',//방문
+					's_with3'=>'0',
+					's_with4'=>'0',
+					'mdate'=>$order->mdate,
+					'company'=>'',
+					'name'=>$order->name,
+					'passwd'=>'',
+					'hp'=>$order->hp,
+					'stype'=>'1',//입주청소
+					's_addr1'=>$order->e_addr1,
+					's_addr2'=>'',
+					'note'=>'',
+					'user_memo'=>'테스트중입니다 분배하지말아주세요',
+					'memo'=>'',
+					'com_num'=>'0',
+					'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
+					'aircon_yn'=>'Y',//우선은 있는것으로
+					'type'=>'',//주거종류 선택없음
+					'share_status'=>'ING',
+					'clean_staff_cnt'=>'0',
+					'clean_elevator'=>'N',
+					'clean_addr_pyoung'=>'',
+					'order_uid'=>$order->uid,
+				];
+				$cleanins = AuctionCleanOrder::create($clean);
+			}else {
+				$clean=[
+					'mdate'=>$order->mdate,
+					'name'=>$order->name,
+					'hp'=>$order->hp,
+					's_addr1'=>$order->e_addr1,
+				];
+				$cleandata->update( $clean);
+			}
+
+		}catch(\Exception $e){
+			;
+		}
 
 		$res_data = [
 			'stype' =>$_stype,
