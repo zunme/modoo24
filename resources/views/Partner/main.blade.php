@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-
+	
 
 	<link rel="stylesheet" type="text/css" href="/m/css/sub.css?v=20210819">
 
@@ -259,7 +259,7 @@
        }
 
        #pvev_area{
-		text-align: center;
+		text-align: center; 
 		margin:10px 0 15px 0;
 	}
        #pvev_area .imgprevcol{
@@ -426,7 +426,7 @@
     <h2>{{$staff->s_company}}</h2>
     <div class="case_wrap">
 	<div class="case">{{$staff_type_str}}</div>
-
+	
     </div>
 </div>
 
@@ -473,7 +473,7 @@
 				<div class="display-flex justify-content-flex-end" style="  flex-direction: column; justify-content: flex-end;">
 
 				   <div class="display-flex imgbox-wrap" id="companyimgprevarea">
-				   	<!--
+					<!--
 				       <div class="need_upload_txt imgstyle" onclick="addCompImage()">
 					   이미지파일을 선택해주세요
 				       </div>
@@ -496,7 +496,7 @@
 				  <!-- <dd class="txt_darkred">최대 4장의 사진을 업로드하세요</dd> -->
 				</dl>
 				<div class="row" id="pvev_area">
-				@if($subfiles)
+				@if($totalImgCount > 0)
 					@foreach ($subfiles as $key => $value)
 						@if(isset($value->file_name))
 						<div class="imgprevcol">
@@ -513,6 +513,10 @@
 						</div>
 						@endif
 					@endforeach
+				@else
+					<div class="noimage_txt">
+					등록된 사진이 없습니다
+					</div>
 				@endif
 				</div>
 			</div>
@@ -620,7 +624,7 @@
 						<input type="checkbox" id="payment_cus4" name="s_payment[]" value="R" @if (in_array('R', $pay_ment)) checked @endif >
 						<label for="payment_cus4">현금영수증</label>
 						<input type="checkbox" id="payment_cus5" name="s_payment[]" value="T" @if(in_array('T', $pay_ment)) checked @endif >
-						<label for="payment_cus5">세금계산서</label>
+						<label for="payment_cus5">세금계산서</label>						
 				      </dd>
 				  </dl>
 				</div>
@@ -649,7 +653,7 @@
 				</div>
 				<div class="mp_numberwrap">
 					<span class="mpnum">&#9313;</span>
-					<div class="mypage_input"><input name="s_ceo_hp_plus" type="text" placeholder="000-0000-0000" value="{{$staff->s_ceo_hp_plus}}"></div>
+					<div class="mypage_input"><input name="s_ceo_hp_plus" type="text" placeholder="000-0000-0000" value="{{$staff->s_ceo_hp_puls}}"></div>
 					<div class="mypage_input_info">알림톡 </div>
 				</div>
 			</div>
@@ -710,7 +714,7 @@
 	  @else
 	  let companyimage = '{{ $regfiles['title_img']->path }}/{{$regfiles['title_img']->file_name_real}}';
 	  @endif
-  @Else
+  @Else 
 	let companyimage = '';
   @endif
 </script>
@@ -761,7 +765,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" type="text/css" href="/community/assets/modoo/mypage.css?ver=20211020000002">
-<script src="/community/assets/modoo/mypage_v2.js?ver=202202240000000"></script>
+<script src="/community/assets/modoo/mypage_v2.js?ver=20220322095500"></script>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript" src="//t1.daumcdn.net/postcode/api/core/190611/1560237575423/190611.js"></script>
@@ -772,9 +776,9 @@
     var upload;
     $("document").ready(function() {
 
-
+	
     })
-
+   
     $(".layer_pop_close_btn").on("click", function() {
             $(".addr_area").hide();
         });
@@ -885,11 +889,11 @@
     var modify = function(no) {
         var url = '/community/partner/modify/'+no
 	var form = 'submit_form'
-
+	
 	if (!confirm("수정 하시겠습니까?")) return;
 
 	$(".imgprevcol.hide").remove()
-
+	
 	var data= new FormData( document.getElementById(form) );
 
 	$.ajax({

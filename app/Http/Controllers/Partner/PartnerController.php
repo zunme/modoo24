@@ -26,11 +26,11 @@ class PartnerController extends Controller
 
 	// 업체 정보 추출
 	public function index(Request $request){
-		
+
 		session_start();
 		$session =  $_SESSION;
 		session_write_close();
-		
+
 		$staff = AuctionStaff::find($session['idx']);
 		//$staff = AuctionStaff::find($request->id);
 
@@ -43,16 +43,16 @@ class PartnerController extends Controller
 				$staff_type_str = '비대면 일반제';
 			}
 		}
-		
+
 		if( is_array($staff->s_mobile_img0) ){
-  
+
 			$regfiles = [
 				"title_img"=>(isset($staff->s_mobile_img0[0]) )  ? $staff->s_mobile_img0[0] : null,
 				"사업자등록증"=> is_object($staff->s_mobile_img1) ? $staff->s_mobile_img1 : ( isset($staff->s_mobile_img1) && is_array($staff->s_mobile_img1) && count($staff->s_mobile_img1)>0  ? $staff->s_mobile_img1[0] : null ),
 				"주선허가증"=>is_object($staff->s_mobile_img2) ? $staff->s_mobile_img2 : ( isset($staff->s_mobile_img2) && is_array($staff->s_mobile_img2) && count($staff->s_mobile_img2)>0  ? $staff->s_mobile_img2[0] : null )
-				
+
 			];
-		
+
 		}else {
 			$regfiles = '';
 
@@ -66,7 +66,7 @@ class PartnerController extends Controller
 		];
 
 		$totalImgCount = count(array_filter($subfiles));
-		
+
 		//dd($subfiles);
 		$pay_ment = [];
 		$pay_ment = explode('|', $staff->s_payment);
@@ -79,14 +79,14 @@ class PartnerController extends Controller
 
 	// 업체 정보 변경
 	public function modifyPrc(Request $request){
-		
+
 		session_start();
 		$session =  $_SESSION;
 		session_write_close();
-		
-		
+
+
 		if (!isset($session['idx']) ) {
-			// 아이디가 존재 하지 않을경우 
+			// 아이디가 존재 하지 않을경우
 			return $this->error('정보가 존재 하지 않습니다.',422);
 		}
 
@@ -95,7 +95,7 @@ class PartnerController extends Controller
 			's_ceo_name.*' =>'대표자명을 입력해주세요.',
 			's_addr1.*' =>'주소를 입력해주세요.',
 			's_ceo_hp.*' =>'고객접수번호를 입력해주세요.',
-			
+
 		];
 		$this->validate($request, [
 			's_uid' => 'bail|required|numeric',
@@ -103,8 +103,8 @@ class PartnerController extends Controller
 			's_addr1' => 'required',
 			's_ceo_hp' => 'required',
 		],$messages);
-		
-		
+
+
 		try{
 			$staff = AuctionStaff::find($session['idx']);
 			//$staff = AuctionStaff::find($request->s_uid);
@@ -137,7 +137,7 @@ class PartnerController extends Controller
 				}
 			}
 			$staff->s_payment = implode('|', $pay);
-			
+
 			// 삭제된 이미지 찾아서 제거
 			// 이미지 순서 앞으로 당기는 작업 필요.
 			$ck_num = 1;
@@ -154,10 +154,10 @@ class PartnerController extends Controller
 						//$file->delete(); // table 삭제가 아니기 때문에 제외
 					}
 				}
-			}		
-			
+			}
+
 			// 추가된 서브 이미지 확인
-			$files1 = $request->file('upload_img1');		
+			$files1 = $request->file('upload_img1');
 			if($request->hasFile('upload_img1'))
 			{
 				foreach ($files1 as $file1) {
@@ -168,11 +168,11 @@ class PartnerController extends Controller
 							$staff->$file_pos = $this->uploadImage( $file1 );
 							break;
 						}
-					}					
+					}
 					//dd($this->uploadImage( $file1 ));
 				}
 			}
-			
+
 			// 메인 이미지 업로드시 변경
 			$files0 = $request->file('upload_img0');
 			if($request->hasFile('upload_img0'))
@@ -183,7 +183,7 @@ class PartnerController extends Controller
 			}
 
 
-			
+
 
 			//dd($file_em2);
 			$staff->save();
@@ -192,7 +192,7 @@ class PartnerController extends Controller
 			return $this->error('내 정보 업데이트에 실패 하였습니다.'.$e, 422);
 		}
 
-		
+
 	}
 
 	private function delfile($path){
@@ -213,16 +213,16 @@ class PartnerController extends Controller
 
 		$storage = Storage::disk('public');
 		$path = 'staff/'.Carbon::now()->format('ymd').'/';
-		
+
 		$image = Image::make($file);
-		
+
 		$image_name = $this->generateFileName($file);
-		
+
 		if (!$storage->exists($path)) {
 		    $storage->makeDirectory($path, 0775, true);
 		}
 
-		
+
 		if (!$storage->exists('thumb/'.$path)) {
 		    $storage->makeDirectory($path, 0775, true);
 		}
@@ -232,8 +232,8 @@ class PartnerController extends Controller
 				$constraint->aspectRatio();
 		});
 		$storage->put('thumb/'.$path . $image_name, $image->stream()->__toString());
-		
-		
+
+
 		$size=  $file->getSize();
 		$origin =  $file->getClientOriginalName() ;
 		$url = '/community/storage/'.$path;
@@ -249,7 +249,7 @@ class PartnerController extends Controller
 		$fileSet[0]['path']  = $url;
 		$fileSet[0]['thumb']  = $thumb;
 
-		/*		
+		/*
 		PostFile::create([
 			'post_id'=>$post_id,
 			'original_name'=> $origin,
@@ -258,7 +258,7 @@ class PartnerController extends Controller
 			'attach_size'=>$size,
 		]);
 		*/
-		
+
 		return $fileSet;
 	}
 	private function generateFileName(UploadedFile $file)
