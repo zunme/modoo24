@@ -456,12 +456,12 @@
 				<li>업체명과 함께 로고, 작업 사진을 보내주시면 확인 즉시 업로드됩니다.</li>
 				<li>모두이사 010-3012-7728</li>
 			</ul>
-			<div class="sub-block-wrap">
+			<div class="">
 				<div class="sub-header-title" style="display:flex;justify-content: space-between;">
-				   <div>
-				       <!-- <span class="pic_icon"><i class="far fa-clone"></i></span> <span>대표사진 등록(로고)<br><b class="pic_cmt">연락처 정보 입력 시, 사전 안내 없이&nbsp;수정,&nbsp;삭제될 수&nbsp;있습니다.</b><span> -->
-					   </span></span>
-				   </div>
+				   <dl class="my_title">
+					  <dt><i class="fas fa-chevron-right"></i> 대표사진 등록(로고)</dt>
+				   </dl>
+
 				<!--
 				   <div class="btn_add">
 				       <span class="btn_search" onclick="addCompImage()">
@@ -472,7 +472,7 @@
 				</div>
 				<div class="display-flex justify-content-flex-end" style="  flex-direction: column; justify-content: flex-end;">
 
-				   <div class="display-flex imgbox-wrap" id="companyimgprevarea">
+				   <div class="display-flex " id="companyimgprevarea">
 					<!--
 				       <div class="need_upload_txt imgstyle" onclick="addCompImage()">
 					   이미지파일을 선택해주세요
@@ -483,6 +483,7 @@
 			</div>
 
 			<div>
+
 				<dl class="my_title">
 				  <dt><i class="fas fa-chevron-right"></i> 이사 작업 사진
 					<!--

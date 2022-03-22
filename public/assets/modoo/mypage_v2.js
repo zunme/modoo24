@@ -66,6 +66,8 @@ $("document").ready(function() {
     var template = Handlebars.compile( companyimg );
     let data={'src':companyimage}
     $("#companyimgprevarea").append( template(data) );
+  } else {
+	$("#companyimgprevarea").append( '<div class="noimage_txt">등록된 사진이 없습니다</div>');
   }
 })
   var totalImgCnt = 0;
