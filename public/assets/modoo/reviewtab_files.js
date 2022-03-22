@@ -174,7 +174,7 @@ let gradeTemplate = `
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_pave}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_pave}}</span>
+        <span class="gtxt">{{starscore rating.star_pave}}</span>
     </div>
 </div>
 <div class="review" id="review_section">

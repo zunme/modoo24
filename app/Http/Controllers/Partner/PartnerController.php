@@ -32,14 +32,22 @@ class PartnerController extends Controller
 		session_write_close();
 		
 		if (!isset($session['idx']) ) {
-			return redirect('../');
+			if($_SERVER['HTTP_HOST'] == '116.122.157.150:8083'){
+				return redirect()->to('http://116.122.157.150:8083/m');
+			} else {
+				return redirect()->to('https://24auction.co.kr/m');
+			}
 		}
 
 		$staff = AuctionStaff::find($session['idx']);
 		//$staff = AuctionStaff::find($request->id);
 
 		if (!isset($staff) ) {
-			return $this->error('정보가 존재 하지 않습니다.',422);
+			if($_SERVER['HTTP_HOST'] == '116.122.157.150:8083'){
+				return redirect()->to('http://116.122.157.150:8083/m');
+			} else {
+				return redirect()->to('https://24auction.co.kr/m');
+			}
 		}
 
 		if ( $staff->flat_rate_staff == 'Y' ) {
