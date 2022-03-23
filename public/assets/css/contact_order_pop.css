@@ -241,22 +241,23 @@
 
 
 
-@media screen and (max-width: 660px){
+@media screen and (max-width: 810px){
 
 
   .contact_body{padding: 20px;}
   .contact_body .contact_step01{margin: 15px auto 25px;}
-  .contact_step01 label p{padding-top: 80px; font-size: 12px;}
+  .contact_step01 label p{padding-top: 80px; font-size: 12px; height: 150px;}
   .contact_step01 label p span{font-size: 13px; font-weight: 600;}
   .contact_nextBtn span.btn.btn-secondary{padding: 5px 25px;}
   #popcontactmodal .movedate-txt-son-wrap{width: 90%;}
 
   .contact_step05_recommend{flex-wrap: wrap;}
   .contact_step05_recommend label{width: 80%;}
+  .contact_step05_recommend label div{margin: 0 auto;}
+  .contact_step05_recommend label:last-of-type div{margin: 0 auto;}
 
   .contact_companylist{width: 90%; margin: 25px auto;}
   .contact_companylist ul li{padding: 10px 0;}
-  .contact_step05_recommend label:last-of-type{margin-left: 0;}
   #contact_companylist .contact_company_select_btn .btn.btn-secondary{margin-bottom: 5px;}
 
   .contact_popup{width: 90%; padding: 0; background-size: 50px;}
