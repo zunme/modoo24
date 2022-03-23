@@ -108,7 +108,7 @@ class AuctionstaffController extends Controller
 		if( count($rating) == 0) {
 			$rating =  (object)['auction_staff_uid'=>$s_uid,'star_pro'=>"0",'star_kind'=>"0",'star_price'=>"0"
 			,'star_finish'=>"0",'star_expost'=>"0",'star_pave'=>"0",
-			'totalstar'=>"4", 'avgpoint'=>'0', 'total'=>'4',
+			'totalstar'=>"0", 'avgpoint'=>'0', 'total'=>'0',
 			'avgpoint'=>'0', 'star'=>'1.0','avgstar'=>'0','cnt'=>'0'
 			];
 			return $rating;
