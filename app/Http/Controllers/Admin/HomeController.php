@@ -21,6 +21,14 @@ class HomeController extends Controller
 		";
 		$nface = \DB::select( $sql, [Carbon::yesterday()]);
 
+		$sql = "
+		SELECT a.isMobile ,referer, a.referer_domain, a.created_at FROM laravel_trace_logs a
+		WHERE created_at > '2022-03-17 12:00:00' AND ip <>'221.154.134.3' and created_at >= ?
+		AND `page`='contact' AND `step` = 6
+		ORDER BY a.id desc
+		";
+		$contact = \DB::select( $sql, [Carbon::yesterday()]);
+
 		\DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
 		$sql ="
 		SELECT
@@ -38,7 +46,7 @@ class HomeController extends Controller
 
 		";
 		$logs = \DB::select( $sql, [Carbon::yesterday()]);
-		return view('admin/home',compact(['nface','logs']));
+		return view('admin/home',compact(['nface','logs','contact']));
 	}
 	public function jisik(Request $request){
 

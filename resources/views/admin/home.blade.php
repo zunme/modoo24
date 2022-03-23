@@ -70,6 +70,39 @@
       <div class="card">
         <div class="card-wrap">
           <div class="card-header">
+            <h4>방문 유입-임시저장까지 (어제부터:최초 22-03-23 10:20시작)</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-md">
+                <tbody><tr>
+                  <th>Mobile</th>
+                  <th>유입</th>
+                  <th>유입처</th>
+                  <th>완료시간</th>
+                </tr>
+                @foreach( $contact as $row)
+                <tr>
+                  <td>{{$row->isMobile}}</td>
+                  <td>{{$row->referer}}</td>
+                  <td>{{$row->referer_domain}}</td>
+                  <td>{{$row->created_at}}</td>
+                </tr>
+                @endforeach
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-wrap">
+          <div class="card-header">
             <h4> 홈페이지 유입(어제부터)</h4>
           </div>
           <div class="card-body">
