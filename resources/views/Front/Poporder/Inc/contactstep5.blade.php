@@ -305,6 +305,7 @@ function contact_companylist_selectprc(){
 function viewContactCompanyList(res){
   console.log (res)
   $("#contact_companylist").html(contactCompanylistTemplate(res))
+  scrollToCompanylist();
 }
 function contact_companylist_recommendprc(){
   Swal.fire({

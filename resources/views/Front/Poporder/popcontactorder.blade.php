@@ -235,6 +235,13 @@ var contact_search_template = `<div class="contact_companylist_searching">
         </div>
       </div>`
 
+function scrollToCompanylist(){
+  var diffoffset = $("#contact_companylist").offset().top - $("#contact_companylist").parent().offset().top
+  setTimeout(function(){
+    $("#contact_companylist").closest(".pop-page-step-body").scrollTop(diffoffset)
+  },300)
+
+}
 function checkAllFnContact(btn){
   checkAllFn(btn)
 }
