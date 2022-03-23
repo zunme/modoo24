@@ -32,9 +32,12 @@ class ReviewController extends Controller
 		//$this->avgStar();
 		$data = AuctionBbsPostscript::with(['files'])
 			->select ( "*")
-			->join( "auction_staff", "auction_bbs_postscript.b_worker_idx",'=',"auction_staff.s_uid")
-			->leftJoin('review_logs', "auction_bbs_postscript.b_uid",'=',"review_logs.review_id")
-			->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
+			->join( "auction_staff", "auction_bbs_postscript.b_worker_idx",'=',"auction_staff.s_uid");
+
+			if( $request->review_who == 'writer') $data = $data->join('review_logs', "auction_bbs_postscript.b_uid",'=',"review_logs.review_id");
+			else $data = $data->leftJoin('review_logs', "auction_bbs_postscript.b_uid",'=',"review_logs.review_id");
+
+			$data = $data->leftJoin("star_points", "auction_bbs_postscript.b_worker_idx",'=',"star_points.auction_staff_uid")
 			//->orderBy("auction_bbs_postscript.b_reg_date","DESC")
 			->orderBy("auction_bbs_postscript.b_uid","DESC")
 			;
