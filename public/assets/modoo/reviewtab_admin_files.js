@@ -1,6 +1,7 @@
 let filesLength = 0;
 let reviewpage = 1;
 let reviewTenplate
+let staff_infoTempate
 let isViewTab = false;
 
 $('document').ready( function() {
@@ -32,6 +33,7 @@ $('document').ready( function() {
       $(".move_consulting").html( regfilestempate(res.data) )
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
       reviews();
+	staff_data();
       $("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").html()  )
     },
     error: function ( err ){
@@ -47,6 +49,24 @@ $('document').ready( function() {
     }
   });
 })
+
+function staff_data(){
+  staff_infoTempate = Handlebars.compile( staff_info );
+  $.ajax({
+    url : '/community/api/review/staff_d/'+ s_uid,
+    method:'get',
+    dataType:'JSON',
+    success:function(res){
+	    let data = res.data
+		console.log(data)
+      $(".com_infor").html( staff_infoTempate(data) )
+    },
+    error: function ( err ){
+
+    },
+  });
+}
+
 function reviews(){
   reviewTenplate = Handlebars.compile( review );
   $.ajax({
@@ -68,7 +88,7 @@ function reviews(){
 }
 function afterreview(){
   $('.evaluate.entire > p').each( function( i,v) {
-    if( !isViewTab ) return;
+    //if( !isViewTab ) return;
     if( $(v).prop('scrollHeight') <= $(v).height() ) {
       $(v).parent().next().remove()
     }
@@ -106,9 +126,17 @@ let imgTemplate = `
 <div></div>
 {{/if}}
 `
+
+
 Handlebars.registerHelper("starpercent", function(lvalue, options) {
   lvalue = parseFloat(lvalue);
   return lvalue*100/5
+})
+
+Handlebars.registerHelper("starscore", function(svalue, options) {
+  svalue = parseFloat(svalue);
+  svalue = svalue.toFixed(2);
+  return svalue
 })
 
 
@@ -134,42 +162,42 @@ let gradeTemplate = `
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_pro}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_pro}}</span>
+        <span class="gtxt">{{starscore rating.star_pro}}</span>
     </div>
     <div>
         <span class="gtitle">친절성</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_kind}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_kind}}</span>
+        <span class="gtxt">{{starscore rating.star_kind}}</span>
     </div>
     <div>
         <span class="gtitle">가격도</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_price}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_price}}</span>
+        <span class="gtxt">{{starscore rating.star_price}}</span>
     </div>
     <div>
         <span class="gtitle">마무리</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_finish}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_finish}}</span>
+        <span class="gtxt">{{starscore rating.star_finish}}</span>
     </div>
     <div>
         <span class="gtitle">사후관리</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_expost}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_expost}}</span>
+        <span class="gtxt">{{starscore rating.star_expost}}</span>
     </div>
     <div>
         <span class="gtitle">포장도</span>
         <div class="progress grate">
             <div class="progress-bar bg-info" role="progressbar" style="width:{{starpercent rating.star_pave}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-        <span class="gtxt">{{rating.star_pave}}</span>
+        <span class="gtxt">{{starscore rating.star_pave}}</span>
     </div>
 </div>
 <div class="review" id="review_section">
@@ -336,4 +364,40 @@ let regfilesTempate=`
 </li>
 {{/if}}
 {{/each}}
+`
+
+let staff_info=`
+
+<li>
+<div class="">
+<span class="">- 제공서비스</span>
+<div class="">
+{{#each sclassify}}
+ <span class="high_option">{{this}}</span>
+{{/each}}
+</div>
+</div>
+</li>
+{{#if s_career}}
+<li>- 경력 : <b>{{s_career}}년 이상</b></li>
+{{/if}}
+{{#if s_staff_number}}
+<li>- 직원 수 : <b>{{s_staff_number}}명</b> </li>
+{{/if}}
+{{#if s_pay_arr}}
+<li>
+<div class="">
+<span class="">- 결제 수단</span>
+<div class="">
+{{#each s_pay_arr}}
+ <span class="high_option">{{this}}</span>
+{{/each}}
+</div>
+</div>
+</li>
+{{/if}}
+{{#if s_bank_ac_number}}
+<li>- 계좌번호 :  <b>{{s_bank_title}} {{s_bank_ac_number}} {{s_bank_ac_name}}</b></li>
+{{/if}}
+
 `

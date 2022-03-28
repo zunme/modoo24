@@ -1,6 +1,7 @@
 let filesLength = 0;
 let reviewpage = 1;
 let reviewTenplate
+let staff_infoTempate
 let isViewTab = false;
 
 $('document').ready( function() {
@@ -32,6 +33,7 @@ $('document').ready( function() {
       $(".move_consulting").html( regfilestempate(res.data) )
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
       reviews();
+	staff_data();
       $("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").html()  )
     },
     error: function ( err ){
@@ -47,6 +49,25 @@ $('document').ready( function() {
     }
   });
 })
+
+
+function staff_data(){
+  staff_infoTempate = Handlebars.compile( staff_info );
+  $.ajax({
+    url : '/v2/api/review/staff_d/'+ s_uid,
+    method:'get',
+    dataType:'JSON',
+    success:function(res){
+	    let data = res.data
+		console.log(data)
+      $(".com_infor").html( staff_infoTempate(data) )
+    },
+    error: function ( err ){
+
+    },
+  });
+}
+
 function reviews(){
   reviewTenplate = Handlebars.compile( review );
   $.ajax({
@@ -106,6 +127,7 @@ let imgTemplate = `
 {{else}}
 <div></div>
 {{/if}}
+
 `
 Handlebars.registerHelper("starpercent", function(lvalue, options) {
   lvalue = parseFloat(lvalue);
@@ -340,4 +362,41 @@ let regfilesTempate=`
   </span>
 </li>
 {{/each}}
+`
+
+
+let staff_info=`
+
+<li>
+<div class="">
+<span class="">- 제공서비스</span>
+<div class="">
+{{#each sclassify}}
+ <span class="high_option">{{this}}</span>
+{{/each}}
+</div>
+</div>
+</li>
+{{#if s_career}}
+<li>- 경력 : <b>{{s_career}}년 이상</b></li>
+{{/if}}
+{{#if s_staff_number}}
+<li>- 직원 수 : <b>{{s_staff_number}}명</b> </li>
+{{/if}}
+{{#if s_pay_arr}}
+<li>
+<div class="">
+<span class="">- 결제 수단</span>
+<div class="">
+{{#each s_pay_arr}}
+ <span class="high_option">{{this}}</span>
+{{/each}}
+</div>
+</div>
+</li>
+{{/if}}
+{{#if s_bank_ac_number}}
+<li>- 계좌번호 :  <b>{{s_bank_title}} {{s_bank_ac_number}} {{s_bank_ac_name}}</b></li>
+{{/if}}
+
 `
