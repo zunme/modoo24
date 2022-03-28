@@ -1,5 +1,38 @@
 <link rel="stylesheet" href="/community/assets/css/clean_order_pop.css" />
-
+<script src="/v2/assets/js/popperv2.js"></script>
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/tippy.js@6/animations/scale.css"
+/>
+<style>
+.clean-complete{
+  display:none;
+}
+.clean-completed .clean-complete{
+  display: block;
+}
+.clean-completed .clean-prc{
+  display: none;
+}
+/* popper css*/
+.tippy-box[data-theme~='clean'] {
+  background-color: deeppink;
+  color: white;
+  font-size: 14px;
+}
+.tippy-box[data-theme~='clean'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: deeppink;
+}
+.tippy-box[data-theme~='clean'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: deeppink;
+}
+.tippy-box[data-theme~='clean'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: deeppink;
+}
+.tippy-box[data-theme~='clean'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: deeppink;
+}
+</style>
 <div class="popup modal-in modal-out" id="popcleanmodal">
   <div class="page">
     <div class="pop-navbar elevation-1">
@@ -46,12 +79,18 @@
         <!-- todo exception -->
         <input type="hidden" name="clean_orderid" value="" />
 
+        <input type="hidden" name="s_bcode" value="" />
+        <input type="hidden" name="s_sigunguCode" value="" />
+        <input type="hidden" name="s_zip1" value="" />
+        <input type="hidden" name="s_jibun_addr1" value="" />
+
         <div
           class="pop-page-step step1 step-avail-open step-opened "
           data-step="1"
           id="popclean_step_1"
           data-url="step1">
           @include('Front.Poporder.Inc.cleanstep1')
+          <input type="text" name="null" style="height:0;width:0;border:none;">
         </div>
 
         <div
@@ -60,6 +99,7 @@
           id="popclean_step_2"
           data-url="step2">
           @include('Front.Poporder.Inc.cleanstep2')
+          <input type="text" name="null" style="height:0;width:0;border:none;">
         </div>
 
         <div
@@ -68,6 +108,7 @@
           id="popclean_step_3"
           data-url="step3">
           @include('Front.Poporder.Inc.cleanstep3')
+          <input type="text" name="null" style="height:0;width:0;border:none;">
         </div>
 
         <div
@@ -76,6 +117,7 @@
           id="popclean_step_4"
           data-url="step4">
           @include('Front.Poporder.Inc.cleanstep4')
+          <input type="text" name="null" style="height:0;width:0;border:none;">
         </div>
 <!-- todo step-opened step-last-call -->
         <div
@@ -84,6 +126,7 @@
           id="popclean_step_5"
           data-url="step5">
           @include('Front.Poporder.Inc.cleanstep5')
+          <input type="text" name="null" style="height:0;width:0;border:none;">
         </div>
 
         <div
@@ -92,29 +135,25 @@
           id="popclean_step_6"
           data-url="step6">
           @include('Front.Poporder.Inc.cleanstep6')
+          <input type="text" name="null" style="height:0;width:0;border:none;">
         </div>
 
       </form>
 
+
     </div>
     <div class="pop-page-content overflowhidden clean-complete" id="clean-complete-area">
-
+      @include('Front.Poporder.Inc.cleancompleted')
     </div>
-
-    <!-- 업체 상세보기 모달 -->
-    <div class="modal fade" id="staffmodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="staffmodal_body">
-
-        </div>
-      </div>
-    </div>
-    <!-- / 업체 상세보기 모달 -->
 
   </div>
 </div>
 
 <script>
+let nextsidebtn = `<div class="clean-next-side-btn" onClick="gotoCleanNextStep(this)"><i class="fas fa-angle-right"></i><div>다음</div></div>`
+function adddatepickerside(){
+  $("#clean-step-movedate .datepicker-days").append(nextsidebtn )
+}
 let popcleancompleteRecommendTemplate = `
 <div class="clean_popup">
     <div class="clean_popupCon">
@@ -167,8 +206,17 @@ function openpopclean(){
   if( $("#conatct-step-mdate-inp").val() != ''){
     $('#conatct-step-movedate').datepicker('update', $("#conatct-step-mdate-inp").val() );
   }else console.log( 'date not load2 ')
-}
 
+  if( $("input[name=room_except]").prop("checked")) disableCleanOptionNumber( $("input[name=room_except]") )
+  if( $("input[name=toilet_except]").prop("checked")) disableCleanOptionNumber( $("input[name=toilet_except]") )
+  if( $("input[name=veranda_except]").prop("checked")) disableCleanOptionNumber( $("input[name=veranda_except]") )
+
+}
+function disableCleanOptionNumber(btn){
+  $(btn).closest('.clean_area_item').addClass("noneoptioned")
+  $(btn).closest('.clean_area_item').find('.stepper-init').addClass("stepper-disabled")
+  $(btn).closest('.clean_area_item').find('input').prop('readonly', true)
+}
 function resetClean(e) {
   console.log ( "reset clean")
   var nowstep = popclean_step_open;
@@ -227,12 +275,7 @@ function nextcleanlevel(res){
   var step = $("#popcleanmodal .step-last-call").data('step')
   if( step < 1) step = 1;
   //++pop_step_availMax;
-  if( typeof res.data == 'object' && typeof res.data.diffday !='undefined' && !res.data.diffday ){
-    console.log ("60일 이상");
-    Swal.fire('<p class="alert60day alert60dayline1">모두이사는 오늘부터 60일 이내 이사 일의 방문견적이 가능합니다.</p><p class="alert60day alert60dayline2">'+res.data.calldate+' 이후에 연락드리겠습니다.</p>', '', 'success');
-    closeClean('60');
-    return;
-  }
+
   popclean_step_availMax = step+1;
 
   $("#popclean_step_" + (parseInt(step)+1) ).addClass("step-avail-open");
@@ -258,6 +301,7 @@ function nextcleanlevel(res){
   console.log ( "gtag : conatctpop_event_"+ (parseInt(step)+1) )
 }
 /*TODO 실패시 */
+var poppertarget
 function orderCleanFormCheckError(res){
 ajaxErrorST(res )
 //resetCompanyPrc();
@@ -275,6 +319,15 @@ if( typeof res == 'object' && typeof res.responseJSON == 'object'
       if(key.indexOf('.') < 0 ) {
         setTimeout( function(){
           $('#popclean-page-form input[name='+key+']').focus();
+          console.log( key)
+          console.log (poppsers[key])
+          if (typeof poppsers[key] !='undefined'){
+              if( $(poppsers[key].reference).closest('.step-body-section').length > 0) {
+                $(poppsers[key].reference).closest('.pop-page-step-body').scrollTop( $(poppsers[key].reference).offset().top - $(poppsers[key].reference).closest('.step-body-section').offset().top)
+              }
+
+              poppsers[key].show();
+          }
         }, 50)
         break;
       }
@@ -297,21 +350,36 @@ function startCleanAddress( addr, extraAddr, data ){
   $("#popcleanmodal input[name='s_jibun_addr1']").val( data.jbAddr )
   $("#popcleanmodal input[name='s_addr1']").trigger("change")
 }
-// 주소관련
-function endCleanAddress( addr, extraAddr, data ){
-  var jbAddr = data.jibunAddress;
-  if(jbAddr === '')  jbAddr = data.autoJibunAddress;
 
-  $("#popcleanmodal input[name='e_addr1']").val( (addr + extraAddr).trim() )
-  $("#popcleanmodal input[name='e_bcode']").val( data.bcode )
-  $("#popcleanmodal input[name='e_sigunguCode']").val( data.sigunguCode )
-
-  $("#popcleanmodal input[name='e_zip1']").val( data.zonecode )
-  $("#popcleanmodal input[name='e_jibun_addr1']").val( data.jbAddr )
-  $("#popcleanmodal input[name='e_addr1']").trigger("change")
+var poppsers = []
+function createPopperInstance(target,content, delay,theme){
+  if( typeof delay == 'undefined') delay=2000;
+  if( typeof theme == 'undefined') theme='clean';
+  var instance =tippy(target, {
+  	content: content ,duration:[250, 1000],trigger:'manual',allowHTML:true,theme:theme,
+  	onShow(instance){
+  		setTimeout(function () {
+          if (instance.state.isVisible) {
+            instance.hide();
+          }
+        }, delay);
+  	}
+  });
+  if( typeof instance == 'object' && typeof instance[0] == 'object' ) return instance[0];
+  else return false;
 }
-
 $("document").ready( function() {
+  /*popper setting */
+  poppsers['stype'] = createPopperInstance( '#clean_check_stype', '청소종류를 선택해주세요')
+  poppsers['mdate'] = createPopperInstance( '#clean-step-movedate table tbody tr:nth-child(3)', '청소날짜를 선택해주세요')
+  poppsers['clean_building'] = createPopperInstance( '.clean_select_building > ul > li:nth-child(2) label', '건물형태를 선택해주세요')
+  poppsers['clean_space'] = createPopperInstance( '.clean_select_space > ul > li:nth-child(2) label', '공간형태를 선택해주세요')
+  poppsers['options'] = createPopperInstance( '.clean_option > ul > li:nth-child(2) label', '옵션을 선택해주세요')
+  poppsers['s_addr1'] = createPopperInstance( '.clean_address input[name=s_addr1]', '주소를 입력해주세요')
+  poppsers['s_addr2'] = createPopperInstance( '.clean_address input[name=s_addr2]', '상세주소를 입력해주세요')
+  poppsers['s_pyeong'] = createPopperInstance( '.clean_address input[name=s_pyeong]', '평수를 입력해주세요')
+  poppsers['s_floor'] = createPopperInstance( '.clean_address input[name=s_floor]', '층수를 입력해주세요')
+
 
   $("#popclean-page-form .pop-page-step .pop-page-step-header").on("click", function (e){
     var target = $(e.target).closest('.pop-page-step');
@@ -351,22 +419,18 @@ $("document").ready( function() {
   }
 });
 
-function clean_companylist_recommendprcforce(){
-  /* TODO */
-}
-
 function cleanprc(){
-  getpost('/v2/order/clean/complete', $("#popclean-page-form").serialize(), cleanSelectionSuccess, inCleanPopLoaderClose, orderCleanFormCheckError )
-  //Swal.fire('고객님 감사합니다<br> 이사신청이 완료 되었습니다.', '', 'success')
-  //closeClean();
+  inCleanPopLoaderOpen()
+  getpost('/v2/order/clean/complete', $("#popclean-page-form").serialize(), cleanSuccess, inCleanPopLoaderClose, orderCleanFormCheckError )
+  return;
 }
-function cleanSelectionSuccess(res){
-  if (typeof res =='object' &&  typeof res.data != 'undefined' && res.data.companies.length > 0 ){
-    //res = JSON.parse(`{"status":"Success","message":null,"data":{"stype":"\uac00\uc815","mdate":"2022-04-09","name":"\ud14c\uc2a4\ud2b81","hp":"010-2537-6460","depatures":"\uc11c\uc6b8 \uc1a1\ud30c\uad6c \uac00\ub77d\ub85c 2 (\uc11d\ucd0c\ub3d9) 12","arrivals":"\ubd80\uc0b0 \uc5f0\uc81c\uad6c \uacbd\uae30\uc7a5\ub85c 7-52 (\uac70\uc81c\ub3d9)","companies":[{"s_uid":1139,"s_company":"\ud14c\uc2a4\ud2b85 \uc774\uc0ac\ub791\uccad\uc18c\ub791"}]}}`)
-    $("#clean-complete-area").html( popcleancompleteCompiled(res.data) )
-  }else{
-    $("#clean-complete-area").html( popcleancompleteRecommendTemplate )
-  }
+function cleanSuccess(res){
   closeClean()
+}
+function closeClean(){
+  $("#popcleanmodal").addClass("clean-completed")
+  $("#popcleanmodal .inpopup-inline-progressbar > span").css('transform', 'translate3d(0px, 0px, 0px)')
+
+  $("#popcleanmodal .top-steps-wrap").html('<i class="fas fa-check"></i> <div class="completeClean-step-title">견적신청완료</div>');
 }
 </script>

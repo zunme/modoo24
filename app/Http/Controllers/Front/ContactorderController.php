@@ -376,8 +376,11 @@ class ContactorderController extends Controller
 		try{
 			if( $request->contact_orderid ){
 				$order = AuctionOrder::find($request->contact_orderid);
-				if( $order->share_status == 'DONE') return $this->error('이미 견적신청이 완료된 내용입니다.',422,['step'=>1]);
-				$order->update($data);
+				if( $order){
+					if( $order->share_status == 'DONE') return $this->error('이미 견적신청이 완료된 내용입니다.',422,['step'=>1]);
+					$order->update($data);
+				}else $order = AuctionOrder::create($data);
+
 			}else{
 				$order = AuctionOrder::create($data);
 			}
@@ -430,7 +433,8 @@ class ContactorderController extends Controller
 			\DB::commit();
 		}catch (\Exception $e){
 			\DB::rollback();
-			return $this->error('저장중 오류가 발생하였습니다1.',422,['step'=>4]);
+			dd( $e->getMessage());
+			return $this->error('저장중 오류가 발생하였습니다',422,['step'=>4]);
 		}
 
 		return $order;

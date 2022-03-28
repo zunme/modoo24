@@ -77,6 +77,7 @@ var tttt
 $("document").ready( function() {
   inpopuptemplate = Handlebars.compile( inpopuptemplateobj );
   $(".stepper-button-minus").on( 'click', function (e){
+    if( $(e.target).closest('.stepper-init').hasClass('stepper-disabled') ) return;
     var inp = $(e.target).closest('.stepper-init').find('input')
     var min = ( typeof $(inp).data('min') == 'undefined') ? 0 : parseInt($(inp).data('min')) ;
     var max = ( typeof $(inp).data('max') == 'undefined') ? 1000 : parseInt($(inp).data('max')) ;
@@ -90,6 +91,7 @@ $("document").ready( function() {
     }else $(inp).closest('.ordergoods-item').removeClass('option-select-done')
   })
   $(".stepper-button-plus").on( 'click', function (e){
+    if( $(e.target).closest('.stepper-init').hasClass('stepper-disabled') ) return;
     var inp = $(e.target).closest('.stepper-init').find('input')
     var min = ( typeof $(inp).data('min') == 'undefined') ? 0 : parseInt($(inp).data('min')) ;
     var max = ( typeof $(inp).data('max') == 'undefined') ? 1000 : parseInt($(inp).data('max')) ;
