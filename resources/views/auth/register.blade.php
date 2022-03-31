@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="login_title">
-                        <h1>회원가입</h1><a href="/"><img src="/v1/image/main_N/logo.png">모두이사</a>
+                        <h1>회원가입</h1><a href="/"><img src="/v1/image/main_N/logo.png"></a>
                     </div>
                     <div class="social_login_wrap">
                         <div class="social_register">
@@ -103,7 +103,7 @@
                               {{ csrf_field() }}
 
                                 <div class="form-group">
-                                    <label for="name" class="col-md-12 control-label">닉네임 입력 Nickname</label>
+                                    <label for="name" class="col-md-12 control-label">닉네임 입력</label>
 
                                     <div class="col-md-12">
                                         <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
@@ -115,7 +115,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email" class="col-md-12 control-label">이메일 입력 E-Mail Address</label>
+                                    <label for="email" class="col-md-12 control-label">이메일 입력</label>
 
                                     <div class="col-md-12">
                                         <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
@@ -127,7 +127,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password" class="col-md-12 control-label">패스워드 입력 Password</label>
+                                    <label for="password" class="col-md-12 control-label">패스워드 입력</label>
 
                                     <div class="col-md-12">
                                         <input id="password" type="password" class="form-control" name="password" required>
@@ -141,7 +141,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password-confirm" class="col-md-12 control-label">패드워드 확인 Confirm Password</label>
+                                    <label for="password-confirm" class="col-md-12 control-label">패스워드 확인</label>
 
                                     <div class="col-md-12">
                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
