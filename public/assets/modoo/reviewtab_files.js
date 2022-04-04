@@ -32,6 +32,9 @@ $('document').ready( function() {
         $("#tab2 > ul.move_pic").html(template(res.data))
       }else   $("#tab2 > ul.move_pic").empty()
       $(".move_consulting").html( regfilestempate(res.data) ).show()
+      if( typeof res.data.logofile == 'object'){
+        $("#vit-cp-list-wrap .vit-cp-explanation .mycp_pic").css("background-image", `url(https://24auction.co.kr${res.data.logofile.path}/${res.data.logofile.file_name_real})`)
+      }
       $(".cp_name_wrap > .cp_name > .rating").remove()
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
       reviews();
