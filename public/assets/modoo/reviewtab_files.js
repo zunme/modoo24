@@ -23,6 +23,7 @@ $('document').ready( function() {
 
       var template = Handlebars.compile( imgTemplate );
       var gradetemplate = Handlebars.compile( gradeTemplate )
+      var namefieldpointtemplate = Handlebars.compile(namefieldPointTemplate)
       var regfilestempate = Handlebars.compile( regfilesTempate )
 
       if( res.data.files.length > 0 ){
@@ -30,11 +31,15 @@ $('document').ready( function() {
         //$("#tab2 > ul.move_pic").empty();
         $("#tab2 > ul.move_pic").html(template(res.data))
       }else   $("#tab2 > ul.move_pic").empty()
-      $(".move_consulting").html( regfilestempate(res.data) )
+      $(".move_consulting").html( regfilestempate(res.data) ).show()
+      $(".cp_name_wrap > .cp_name > .rating").remove()
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
       reviews();
 	staff_data();
       $("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").html()  )
+
+      $(".cp_name_wrap > .cp_name").prepend(`<div class="rating step${res.data.companyGrade.pic}" />`)
+      $(".cp_name_wrap > .cp_name > .score").text(namefieldpointtemplate(res.data))
     },
     error: function ( err ){
 
@@ -129,6 +134,11 @@ let imgTemplate = `
 {{/if}}
 
 `
+Handlebars.registerHelper('regfilenotnull', function (value, options) {
+  if ( value == null) return false;
+  if (typeof value != 'object' || typeof value.file_name_real =='undefined') return false;
+  return true;
+})
 Handlebars.registerHelper("starpercent", function(lvalue, options) {
   lvalue = parseFloat(lvalue);
   return lvalue*100/5
@@ -139,7 +149,9 @@ Handlebars.registerHelper("starscore", function(svalue, options) {
   svalue = svalue.toFixed(2);
   return svalue
 })
-
+let namefieldPointTemplate=`
+  {{companyGrade.title}} {{numberFormat rating.totalstar decimalSep="." decimalLength="1" thousandsSep=","}} 점
+`
 let gradeTemplate = `
 <div class="grade">
     <div class="patn">{{numberFormat rating.totalstar decimalSep="." decimalLength="1" thousandsSep=","}}점</div>
@@ -354,6 +366,7 @@ let review =`
 `
 let regfilesTempate=`
 {{#each regfiles}}
+{{#if (regfilenotnull this) }}
 <li class="imgC">
   <span>
     <a href="http://24auction.co.kr{{path}}/{{file_name_real}}" data-lightbox="imageView1" data-title="사업자등록증">
@@ -361,6 +374,7 @@ let regfilesTempate=`
     </a>
   </span>
 </li>
+{{/if}}
 {{/each}}
 `
 
