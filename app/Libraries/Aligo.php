@@ -60,6 +60,10 @@ class Aligo {
       if ( !isset($data['tpl_code']) || $data['tpl_code'] == '' ) return false;
 
       $templates = $this->templateList();
+      if( !isset($templates[$data['tpl_code']]) ) {
+        \Cache::forget('kakaoTemplateList');
+        $templates = $this->templateList();
+      }
       $template = $templates[$data['tpl_code']];
 
       if ( count($template['contentVars']) != count( $req) ) {
@@ -120,7 +124,7 @@ class Aligo {
     }
     public function templateList() {
        //\Cache::forget('kakaoTemplateList');
-      $data = \Cache::remember('kakaoTemplateList', 60*60*24, function () {
+      $data = \Cache::remember('kakaoTemplateList', 60*60*48, function () {
         $this->token();
         $response = $this->client->request('POST',   $this->base_url.'/akv10/template/list/', [
           'form_params' => $this->params,

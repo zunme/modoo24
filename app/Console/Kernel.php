@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        'App\Console\Commands\Ordercheck'
+        'App\Console\Commands\Ordercheck',
+        'App\Console\Commands\Daysbefore',
     ];
 
     /**
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('ordercheck')->everyMinute()->withoutOverlapping(1);
+        //$schedule->command('daysbefore')->dailyAt('11:38');
     }
 
     /**
