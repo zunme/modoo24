@@ -57,7 +57,7 @@ class AuctionstaffController extends Controller
 		if ( isset($staffinfo->s_mobile_img3_2) && is_array($staffinfo->s_mobile_img3_2) && count($staffinfo->s_mobile_img3_2)>0)  $extendfile[] = $staffinfo->s_mobile_img3_2[0];
 		if ( isset($staffinfo->s_mobile_img3_3) && is_array($staffinfo->s_mobile_img3_3) && count($staffinfo->s_mobile_img3_3)>0)  $extendfile[] = $staffinfo->s_mobile_img3_3[0];
 		if ( isset($staffinfo->s_mobile_img3_4) && is_array($staffinfo->s_mobile_img3_4) && count($staffinfo->s_mobile_img3_4)>0)  $extendfile[] = $staffinfo->s_mobile_img3_4[0];
-		
+
 
 
 		if( count($extendfile)> 0 ){
@@ -67,7 +67,9 @@ class AuctionstaffController extends Controller
 			$files = $tempfile;
 		}
 
-
+		if( is_array($staffinfo->s_mobile_img0)){
+			$logofile = is_object($staffinfo->s_mobile_img0) ? $staffinfo->s_mobile_img0 : ( isset($staffinfo->s_mobile_img0) && is_array($staffinfo->s_mobile_img0) && count($staffinfo->s_mobile_img0)>0  ? $staffinfo->s_mobile_img0[0] : null );
+		}else $logofile = null;
 		if( is_array($staffinfo->s_mobile_img1) || is_array($staffinfo->s_mobile_img2) ){
 			$regfiles = [
 				//"logo"=>(isset($staffinfo->s_mobile_img0[0]) )  ? $staffinfo->s_mobile_img0[0] : null,
@@ -76,7 +78,7 @@ class AuctionstaffController extends Controller
 			];
 		}else $regfiles = [];
 
-    return $this->success( compact(['files','rating','companyGrade','stararr','regfiles', 'extendfile']));
+    return $this->success( compact(['files','rating','companyGrade','stararr','regfiles', 'extendfile','logofile']));
   }
 	public function getStaffRating( Request $request, $s_uid){
 		$sql = "
