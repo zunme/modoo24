@@ -49,14 +49,14 @@
     color: #999;
     font-size: .9em;
 }
-    
+
 .ql-container.ql-snow {
     height: auto;
 }
 .ql-editor {
     height: 50em;
     overflow-y: scroll;
-}    
+}
 </style>
 @endsection
 
@@ -221,7 +221,7 @@
 <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script src="/community/assets/js/image-resize.min.js"></script>
 <script src="https://unpkg.com/quill-html-edit-button@2.2.7/dist/quill.htmlEditButton.min.js"></script>
-
+<script src="https://unpkg.com/quill-image-compress@1.2.22/dist/quill.imageCompressor.min.js"></script>
 <script>
 	var editor;
 	totalImgCnt = {{$totalImgCount}}
@@ -234,12 +234,20 @@
 		];
 		Quill.register(FontAttributor, true);
     Quill.register({"modules/htmlEditButton": htmlEditButton})
+    Quill.register("modules/imageCompressor", imageCompressor);
+
 	editor = new Quill('#editor_content', {
 			modules: {
 				syntax: true,
 				toolbar: '#toolbar-container',
 				imageResize: {},
         htmlEditButton: { debug: true, syntax: true },
+        imageCompressor: {
+            quality: 0.8,
+            maxWidth: 1100, // default
+            maxHeight: 2000, // default
+            imageType: 'image/jpeg,image/png'
+          }
 			},
 			placeholder: '글을 작성해주세요',
 			theme: 'snow'
