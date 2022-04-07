@@ -2,6 +2,7 @@ let filesLength = 0;
 let reviewpage = 1;
 let reviewTenplate
 let staff_infoTempate
+let infotemplate
 let isViewTab = false;
 
 $('document').ready( function() {
@@ -20,10 +21,12 @@ $('document').ready( function() {
     method:'get',
     dataType:'JSON',
     success:function(res){
-
+	
       var template = Handlebars.compile( imgTemplate );
+      var infotemplate = Handlebars.compile( info )
       var gradetemplate = Handlebars.compile( gradeTemplate )
-      var regfilestempate = Handlebars.compile( regfilesTempate )
+      regfilestempate = Handlebars.compile( regfilesTempate )
+      
 
       if( res.data.files.length > 0 ){
         filesLength = ( res.data.files.length > 2 ) ? 3 : res.data.files.length;
@@ -32,9 +35,18 @@ $('document').ready( function() {
       }else   $("#tab2 > ul.move_pic").empty()
       $(".move_consulting").html( regfilestempate(res.data) )
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
+	//$("#vit-cp-list-wrap .vit-cp-explanation").html(infotemplate(res.data))
+	if(res.data.logofile) $("#vit-cp-list-wrap .vit-cp-explanation .mycp_pic").css("background", "url("+res.data.logofile.path+"/"+res.data.logofile.file_name_real+") no-repeat #00beff");
+	$("#vit-cp-list-wrap .vit-cp-explanation .cp_name_wrap .cp_name .step1").attr('class','rating step'+res.data.companyGrade.pic);
+	$("#vit-cp-list-wrap .vit-cp-explanation .cp_name_wrap .cp_name .score").html(res.data.companyGrade.title + " " + res.data.rating.totalstar + "점");
+		
+
+
       reviews();
 	staff_data();
       $("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").html()  )
+	
+      
     },
     error: function ( err ){
 
@@ -75,6 +87,7 @@ function reviews(){
     dataType:'JSON',
     data:{page: reviewpage},
     success:function(res){
+	    console.log(res);
        let data = res.data
       if( data.current_page >= data.last_page ) $(".btn.more_btn").hide();
       else reviewpage++
@@ -139,6 +152,35 @@ Handlebars.registerHelper("starscore", function(svalue, options) {
   return svalue
 })
 
+let info = `
+<div class="mycp_pic" style="background: url({{logofile.path}}/{{logofile.file_name_real}}) no-repeat #00beff;">
+
+</div>
+<div class="cp_name_wrap">
+	<div class="cp_title">
+	    <h2></h2>
+	    <p id="staff_{{rating.auction_staff_uid}}"></p>
+
+	</div>
+	<div class="cp_name">
+	    <div class="rating step{{companyGrade.pic}}">
+	    <span class="score">{{companyGrade.title}} {{numberFormat rating.totalstar decimalSep="." decimalLength="1" thousandsSep=","}}점</span>
+	    <div class="breakdown">
+		<li>방문견적 건</li>
+		<li>이사후기 건 </li>
+	    </div>
+
+	    <div class="move_consulting" style="">
+		<a class="imgC" href="" target="_blank" data-lightbox="imageView1" data-title="사업자등록증">
+		    사업자등록증
+		</a>
+		<a class="imgC" href="" target="_blank" data-lightbox="imageView1" data-title="주선허가증">
+		    주선허가증
+		</a>
+	    </div>
+	</div>
+</div>
+`
 
 let gradeTemplate = `
 <div class="grade">
