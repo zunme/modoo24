@@ -28,8 +28,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('daysbefore')->dailyAt('16:00');
         $schedule->command('ordercheck')->everyMinute()->withoutOverlapping(1);
-        //$schedule->command('daysbefore')->dailyAt('11:38');
+
     }
 
     /**

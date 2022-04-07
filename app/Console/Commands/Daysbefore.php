@@ -71,9 +71,11 @@ class Daysbefore extends Command
         GROUP BY replace(hp,' ','')
         ";
         */
+        /* 비대면 고객 10일전 */
+        // TI_2469
         $sql = "
           select * from(
-            SELECT a.uid, 'nf' order_type, 'TI_1787' as template , REPLACE( REPLACE(a.hp,' ',''), '-','') hp , a.`name`,  COUNT( b.s_uid ) AS offer_cnt, a.mdate,'R' as send_status
+            SELECT a.uid, 'nf' order_type, 'TI_2469' as template , REPLACE( REPLACE(a.hp,' ',''), '-','') hp , a.`name`,  COUNT( b.s_uid ) AS offer_cnt, a.mdate,'R' as send_status
             FROM auction_order_nface a
             JOIN auction_order_estimate b ON a.uid = b.uid AND b.s_uid NOT IN ( 736,80)
             WHERE a.mdate = DATE_FORMAT( DATE_ADD( NOW(), INTERVAL 10 DAY), '%Y-%m-%d')
@@ -102,18 +104,19 @@ class Daysbefore extends Command
      */
     public function handle()
     {
-      $toklist = LaravelAlimtokLog::whereDate('created_at', date('Y-m-d'))->where(['send_status'=>'N'])->get();
+      $toklist = LaravelAlimtokLog::whereDate('created_at', date('Y-m-d'))->where(['template'=>'TI_2469', 'send_status'=>'R'])->get();
       foreach ( $toklist as $row){
         try{
+          // 'TI_1787'->  $code = $this->codeEncDec($row->hp.'|'.$row->uid, true);
           $code = $this->codeEncDec($row->hp.'|'.$row->uid, true);
           $aligo = new Aligo;
 
           $req["#{고객명}"] = $row->name;
-          $req["#{인증번호}"] = $code;
+          // 'TI_1787'->  $req["#{인증번호}"] = $code;
 
           $data = [
             'sender'=>'1600-7728',
-            'tpl_code'=>'TI_1787',
+            'tpl_code'=>'TI_2469',
             'receiver_1'=>$row->hp,
             'subject_1'=>'모두이사'
           ];
