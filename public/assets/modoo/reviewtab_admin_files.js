@@ -35,8 +35,12 @@ $('document').ready( function() {
       }else   $("#tab2 > ul.move_pic").empty()
       $(".move_consulting").html( regfilestempate(res.data) )
       $("#tab2 > div.move_review").html(gradetemplate(res.data))
-	//$("#vit-cp-list-wrap .vit-cp-explanation").html(infotemplate(res.data))
-	if(res.data.logofile) $("#vit-cp-list-wrap .vit-cp-explanation .mycp_pic").css("background", "url("+res.data.logofile.path+"/"+res.data.logofile.file_name_real+") no-repeat #00beff");
+	//$("#vit-cp-list-wrap .vit-cp-explanation").html(infotemplate(res.data)) 
+	if(res.data.logofile) {
+		$("#vit-cp-list-wrap .vit-cp-explanation .mycp_pic").css("background-image", "url(\"https://24auction.co.kr"+res.data.logofile.path+"/"+res.data.logofile.file_name_real+"\"");
+		$("#vit-cp-list-wrap .vit-cp-explanation .mycp_pic").css("background-repeat", "no-repeat");
+
+	}
 	$("#vit-cp-list-wrap .vit-cp-explanation .cp_name_wrap .cp_name .step1").attr('class','rating step'+res.data.companyGrade.pic);
 	$("#vit-cp-list-wrap .vit-cp-explanation .cp_name_wrap .cp_name .score").html(res.data.companyGrade.title + " " + res.data.rating.totalstar + "점");
 		
