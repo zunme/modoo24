@@ -27,13 +27,22 @@ class InternetController extends Controller
       $this->nameview = false;
     }
 		function check(Request $request){
+			$today = Carbon::today()->toDateString();
 			$data = $request->all();
 			$order = $norder=[];
-			if( $data['방문'] ){
-				$order = AuctionOrder::select('uid')->whereIn('uid', $data['방문'])->where('name','=','고객정보삭제')->get();
+			if( isset($data['방문']) ){
+				$order = AuctionOrder::select('uid')->whereIn('uid', $data['방문'])->
+					where( function ( $q) use($today){
+						$q->where('name', 'like','%삭제%')
+						->orWhere('mdate','<',$today);
+					})->get();
 			}
 			if( isset($data['비대면']) ){
-				$norder = AuctionOrderNface::select('uid')->whereIn('uid', $data['비대면'])->where(['name'=>'고객정보삭제'])->get();
+				$norder = AuctionOrderNface::select('uid')->whereIn('uid', $data['비대면'])->
+					where( function ( $q) use($today){
+						$q->where('name', 'like','%삭제%')
+						->orWhere('mdate','<', $today);
+					})->get();
 			}
 			$data = ['o'=>$order, 'n'=>$norder];
 			return $this->success($data);

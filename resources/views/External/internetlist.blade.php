@@ -186,11 +186,11 @@
          success: function(res) {
            res.data.n.forEach(item =>{
              var id = '#n_' + item.uid
-             $(id).text("고객정보삭제요청")
+             $(id).text("******")
            })
            res.data.o.forEach(item =>{
              var id = '#o_' + item.uid
-             $(id).text("고객정보삭제요청")
+             $(id).text("******")
            })
          }
        })
