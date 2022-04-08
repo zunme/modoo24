@@ -23,7 +23,7 @@ Route::get('/pushcheck', function () {
 });
 
 //Route::get('/test', 'HomeController@test');
-//Route::get('/altest', 'HomeController@altest');
+Route::get('/altest', 'HomeController@altest');
 
 Route::get('/refresh', 'HomeController@refresh');
 Route::get('/welcome', function () {
@@ -33,6 +33,7 @@ Route::get('/welcome', function () {
 //인터넷정보제공동의리스트
 Route::get('/dlsxjlist','External\InternetController@index');
 Route::post('/dlsxjlist','External\InternetController@index');
+Route::get('/dlsxjlist/c','External\InternetController@check');
 
 Route :: get('/tracelog/{code}/{step}', 'Front\NfaceorderController@makelog');
 Route::get('/login/{provider}', 'SocialController@redirect');
@@ -138,7 +139,16 @@ Route::prefix('/order/contact')->name('contact.')->group(function () {
 
   Route::post('/complete', 'Front\ContactorderController@stepcomplete');
 });
+Route::prefix('/order/clean')->name('clean.')->group(function () {
+  Route::post('/step1', 'Front\CleanorderController@step1');
+  Route::post('/step2', 'Front\CleanorderController@step2');
+  Route::post('/step3', 'Front\CleanorderController@step3');
+  Route::post('/step4', 'Front\CleanorderController@step4');
+  Route::post('/step5', 'Front\CleanorderController@step5');
+  Route::post('/step6', 'Front\CleanorderController@step6');
 
+  Route::post('/complete', 'Front\CleanorderController@stepcomplete');
+});
 
 
 //이벤트
