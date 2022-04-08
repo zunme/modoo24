@@ -208,7 +208,7 @@
                 <div class="input-toggle-line">인터넷이전 혜택상담</div>
                 <div class="togglebutton texttoggle">
                   <label>
-                    <input type="checkbox" name="internet_call" value="Y" data-to="internet2">
+                    <input type="checkbox" name="internet_call" value="Y" data-to="internet2" checked="">
                     <span class="toggle" >
                       <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
                     </span>
