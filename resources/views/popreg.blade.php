@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="/community/assets/css/orderpopdetail.css?v=20222225160000">
 @endif
 @if ( request()->get('cssv2') =='test')
-<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=20222225160000">
+<link rel="stylesheet" href="/community/assets/css/orderpopdetailv2_more.css?v=2022041100">
 @endif
 <style>
 .w-100{
@@ -322,7 +322,7 @@
 
           <div class="pop-page-step step5 " data-step='5' id="popn_step_5" data-url="steplast">
             @include('Front.Poporder.Inc.nfacestep5')
-            
+
           </div>
 
         </form>

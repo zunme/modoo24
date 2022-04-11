@@ -676,10 +676,10 @@ display:flex;
   align-self: center;
   flex-grow: 1;line-height: 12px;
 }
-.step-radio-label > .step-radio-label-text > .step-radio-label-text-item { margin-top: 0px;!important}
+/* .step-radio-label > .step-radio-label-text > .step-radio-label-text-item { margin-top: 0px;} */
 
 .step-radio-label-text-item{
-  margin-top: 5px;
+  margin: 5px 0;
 }
 
 .step-radio-label-text-item:last-child{
