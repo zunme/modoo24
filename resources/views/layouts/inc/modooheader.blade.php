@@ -56,7 +56,7 @@
     <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css" integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="/v1/css/main_ct.css?v=20220126" />
+    <link rel="stylesheet" type="text/css" href="/v1/css/main_ct.css?v=202204121359" />
 
     @section('usesub')
     <link rel="stylesheet" type="text/css" href="/v1/css/sub.css" />
@@ -350,7 +350,7 @@
                         이사업체평가하기
                     </a>
                 </li>
-                <li><a class="color_bk" href="tel:16007728">고객센터 <b>1600-7728</b></a></li>
+                <li><a class="color_bk" href="tel:16007728"><span>고객만족 서비스센터</span> <b>1600-7728</b></a></li>
             </ul>
         </div>
 
