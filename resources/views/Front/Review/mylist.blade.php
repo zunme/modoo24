@@ -431,11 +431,11 @@ li.mylist-item:first {    border-top: 1px solid #000;}
                                           </div>
                                           <div class="mylist-item-body-line">
                                               <span class="mylist-item-body-title">출발지 :</span>
-                                              <span class="mylist-item-body-text">{{$row->order->s_addr1}}</span>
+                                              <span class="mylist-item-body-text">{{($row->order)?$row->order->s_addr1:''}}</span>
                                           </div>
                                           <div class="mylist-item-body-line">
                                               <span class="mylist-item-body-title">도착지 :</span>
-                                              <span class="mylist-item-body-text">{{$row->order->e_addr1}}</span>
+                                              <span class="mylist-item-body-text">{{($row->order)?$row->order->e_addr1:''}}</span>
                                           </div>
                                       </div>
 
