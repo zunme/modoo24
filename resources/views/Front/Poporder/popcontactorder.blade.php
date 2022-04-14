@@ -219,7 +219,7 @@ var popcontactcompleteOverCompiled
 var popcontact_step_history = 0
 var popcontact_step_open = 1;
 /*TODO 5=>1*/
-var popcontact_step_availMax = 5;
+var popcontact_step_availMax = 1;
 
 var mfcontactform = new mfFormStorage('popcontact-page-form','pop-page-form-contact' )
 
@@ -270,6 +270,10 @@ function openpopcontact(){
   if( $("#conatct-step-mdate-inp").val() != ''){
     $('#conatct-step-movedate').datepicker('update', $("#conatct-step-mdate-inp").val() );
   }else console.log( 'date not load2 ')
+
+  dataLayer.push({'event' : 'conatctpop_event_1' });
+  $.get('/v2/tracelog/contact/1');
+  console.log ( "event : conatctpop_event_1" )
 }
 function resetCompanyList(e){
   var exceptName = [
@@ -368,13 +372,14 @@ function nextcontactlevel(res){
   var precentage = (100 - ( step * 100 / depth )) * -1;
   $("#popcontactmodal #inpopup-inline-progressbar").css('transform', 'translate3d('+ precentage +'%, 0px, 0px)')
   closeDaumPostcode()
-  /*TODO*/
-  //dataLayer.push({'event' : 'conatctpop_event_' + (parseInt(step)+1) })
 
   if( typeof res.data == 'object' && res.data.orderid ){
     $("input[name='contact_orderid']").val( res.data.orderid )
   }
-  console.log ( "gtag : conatctpop_event_"+ (parseInt(step)+1) )
+  /*TODO*/
+  dataLayer.push({'event' : 'conatctpop_event_' + (parseInt(step)+1) })
+  $.get('/v2/tracelog/contact/'+ (parseInt(step)+1))
+  console.log ( "event : conatctpop_event_"+ (parseInt(step)+1) )
 }
 /*TODO 실패시 */
 function orderContactFormCheckError(res){
