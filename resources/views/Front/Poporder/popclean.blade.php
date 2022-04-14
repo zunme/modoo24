@@ -211,6 +211,7 @@ function openpopclean(){
   if( $("input[name=toilet_except]").prop("checked")) disableCleanOptionNumber( $("input[name=toilet_except]") )
   if( $("input[name=veranda_except]").prop("checked")) disableCleanOptionNumber( $("input[name=veranda_except]") )
 
+  if ( $("#popcleanmodal input[name='nooption']").prop('checked') ) $("#clean_check_options").addClass("nooption")
 }
 function disableCleanOptionNumber(btn){
   $(btn).closest('.clean_area_item').addClass("noneoptioned")
@@ -342,6 +343,10 @@ function startCleanAddress( addr, extraAddr, data ){
   var jbAddr = data.jibunAddress;
   if(jbAddr === '')  jbAddr = data.autoJibunAddress;
 
+  if (data.sigunguCode == '36110'){
+    data.sigunguCode = data.bcode.substr(0, 8)
+  }
+  
   $("#popcleanmodal input[name='s_addr1']").val( (addr + extraAddr).trim() )
   $("#popcleanmodal input[name='s_bcode']").val( data.bcode )
   $("#popcleanmodal input[name='s_sigunguCode']").val( data.sigunguCode )
@@ -368,10 +373,11 @@ function createPopperInstance(target,content, delay,theme){
   if( typeof instance == 'object' && typeof instance[0] == 'object' ) return instance[0];
   else return false;
 }
+var cleanimage;
 $("document").ready( function() {
   /*popper setting */
   poppsers['stype'] = createPopperInstance( '#clean_check_stype', '청소종류를 선택해주세요')
-  poppsers['mdate'] = createPopperInstance( '#clean-step-movedate table tbody tr:nth-child(3)', '청소날짜를 선택해주세요')
+  poppsers['mdate'] = createPopperInstance( '#clean-step-movedate table tbody', '청소날짜를 선택해주세요')
   poppsers['clean_building'] = createPopperInstance( '.clean_select_building > ul > li:nth-child(2) label', '건물형태를 선택해주세요')
   poppsers['clean_space'] = createPopperInstance( '.clean_select_space > ul > li:nth-child(2) label', '공간형태를 선택해주세요')
   poppsers['options'] = createPopperInstance( '.clean_option > ul > li:nth-child(2) label', '옵션을 선택해주세요')
@@ -380,6 +386,18 @@ $("document").ready( function() {
   poppsers['s_pyeong'] = createPopperInstance( '.clean_address input[name=s_pyeong]', '평수를 입력해주세요')
   poppsers['s_floor'] = createPopperInstance( '.clean_address input[name=s_floor]', '층수를 입력해주세요')
 
+  poppsers['register_name'] = createPopperInstance( '.clean_body06 input[name=register_name]', '고객명을 입력해주세요')
+  poppsers['register_phone'] = createPopperInstance( '.clean_body06 input[name=register_phone]', '전화번호를 입력해주세요')
+
+  poppsers['agree1'] = createPopperInstance( '.clean_body06 input[name=agree1]', '동의하여주세요')
+  poppsers['agree2'] = createPopperInstance( '.clean_body06 input[name=agree2]', '동의하여주세요')
+
+  cleanimage = new mfPreviewImg('imagepreview_clean', {
+      maxFileCount: 30,
+      maxSize: 800,
+      maxFileperOnce: 30,
+  })
+  var clean_agree1_target
 
   $("#popclean-page-form .pop-page-step .pop-page-step-header").on("click", function (e){
     var target = $(e.target).closest('.pop-page-step');
@@ -421,7 +439,33 @@ $("document").ready( function() {
 
 function cleanprc(){
   inCleanPopLoaderOpen()
-  getpost('/v2/order/clean/complete', $("#popclean-page-form").serialize(), cleanSuccess, inCleanPopLoaderClose, orderCleanFormCheckError )
+  $("#clean-image-uploader-area").empty()
+  cleanimage.setInputByResize({
+      inputName: 'upload',
+      target: '#clean-image-uploader-area'
+  })
+  //getpost('/v2/order/clean/complete', $("#popclean-page-form").serialize(), cleanSuccess, inCleanPopLoaderClose, orderCleanFormCheckError )
+
+  $.ajax({
+      url: '/v2/order/clean/complete',
+      method: "POST",
+      data: new FormData(document.getElementById('popclean-page-form')),
+      dataType: 'JSON',
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(res) {
+        cleanSuccess(res)
+      },
+      error: function(res) {
+          orderCleanFormCheckError(res)
+          inCleanPopLoaderClose()
+      },
+      complete: function() {
+          inCleanPopLoaderClose()
+      }
+  });
+
   return;
 }
 function cleanSuccess(res){

@@ -149,7 +149,7 @@
       {{#if ( checkempty data.avail ) }}
       <!-- 선택가능한 업체가 없을때 -->
       <div class="contact_company_select_btn">
-        <span class="btn btn-secondary contact_nextBtn" onclick="closepopnbtn()">확인</span>
+        <span class="btn btn-secondary contact_nextBtn" onclick="closepopnbtnWithComplete()">확인</span>
       </div>
       {{else }}
       <!-- 선택가능한 업체가 있을때 -->
@@ -324,5 +324,8 @@ function contact_companylist_recommendprc(){
     }
   })
 }
-
+function closepopnbtnWithComplete() {
+  $("input[name='contact_list_recommend'][value='recommend']").prop('checked',true)
+  getpost('/v2/order/contact/complete', $("#popcontact-page-form").serialize(), contactSelectionSuccess, inContactPopLoaderClose, orderContactFormCheckError )
+}
 </script>

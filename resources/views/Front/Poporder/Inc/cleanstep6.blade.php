@@ -64,17 +64,18 @@
   </div>
   <div class="clean_photo">
     <h2>사진업로드</h2>
-    <div class="mf-file-container pop-content-image-uploader" data-upload-id="imagepreview_selectmoveing">
-      <div class="select-moveing-picture-item upload-image-item-btn">
-          <label class="upload-text-wrap">
-              <div class="upload-text-txt"><b>사진 첨부</b>를 누르셔서 <b>여러장의 사진</b>을 첨부 해보세요 </div>
-              <input type="file" id="imagepreview_selectmoveing" accept=".jpg,.jpeg,.png,.gif" multiple="multiple">
-              <div class="upload-icon-wrap">
-                  <span class="upload-icon-pic"><img src="./images/clean_cam.png"></span> <span class="upload-icon-txt">사진 첨부 하기</span>
-              </div>
-          </label>
-        </div>
+    <div class="mf-file-container pop-content-image-uploader" data-upload-id="imagepreview_clean">
+    <div class="select-moveing-picture-item upload-image-item-btn">
+        <label class="upload-text-wrap">
+            <div class="upload-text-txt"><b>사진 첨부</b>를 누르셔서 <b>여러장의 사진</b>을 첨부 해보세요 </div>
+            <input type="file" class="mfstorageignore" id="imagepreview_clean" accept=".jpg,.jpeg,.png,.gif" multiple="multiple">
+            <div class="upload-icon-wrap">
+                <span class="upload-icon-pic"><img src="./images/clean_cam.png"></span> <span class="upload-icon-txt">사진 첨부 하기</span>
+            </div>
+        </label>
       </div>
+    </div>
+    <div id="clean-image-uploader-area" style="display:none"></div>
   </div>
   <div class="contact_nextBtn clean_nextBtn">
     <span class="btn btn-secondary" onclick="cleanprc(this)">청소 견적 받기</span>

@@ -63,7 +63,8 @@
 
     <div class="togglebutton texttoggle">
       <label>
-        <input type="checkbox" name="interior_call" value="Y" />인테리어 혜택상담
+        <!--<input type="checkbox" name="interior_call" value="Y" />인테리어 상담-->
+        <input type="checkbox" name="aircon_yn" value="Y" />에어컨 설치 및 A/S 상담
         <span class="toggle">
           <span class="toggle-avail-label" data-off="NO" data-on="YES"></span>
         </span>

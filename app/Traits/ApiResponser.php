@@ -92,14 +92,26 @@ trait ApiResponser
 		if( $data->si_code =='36'){
 			return ['sido'=> '세종', 'gu'=>$data->dong];
 		}else {
-			$origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도'];
-			$replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','광주','강원','충북','충남','경북','경남','전북','전남','제주'];
+			$origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','세종특별자치시'
+			,'광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도','제주특별자치도'];
+			$replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','세종'
+			,'광주','강원','충북','충남','경북','경남','전북','전남','제주','제주'];
 
 			return ['sido'=> $res = str_replace( $origin_sido, $replace_sido , $data->sido ), 'gu'=>$data->gu];
 		}
 	}
-
-
+	private function getReplaceAddr( $addr){
+			$origin_sido = ['서울시','경기도','인천시','부산시','대전시','대구시','울산시','세종시','세종특별자치시'
+			,'광주시','강원도','충청북도','충청남도','경상북도','경상남도','전라북도','전라남도','제주도','제주특별자치도'];
+			$replace_sido = ['서울','경기','인천','부산','대전','대구','울산','세종','세종'
+			,'광주','강원','충북','충남','경북','경남','전북','전남','제주','제주'];
+			return str_replace( $origin_sido, $replace_sido , $addr );
+	}
+	private function getSigungucode($bcode){
+		if ( substr( $bcode, 0, 5 ) === "36110" ) return substr( $bcode, 0, 8 );
+		else return substr( $bcode, 0, 5 );
+	}
+	
 	protected function success($data=[], $message = null, $code = 200)
 	{
 		return response()

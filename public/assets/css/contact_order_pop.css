@@ -213,11 +213,11 @@
 .contact_select_popup{background: none; width: 95%; margin-bottom: 0;}
 .contact_select_popupCon{padding-top: 0;}
 .contact_selectBox{display: flex; text-align: left; margin: 30px 0; border: 1px solid var(--contact-contents-color);}
-.contact_selectBox div{padding: 20px 15px; box-sizing: border-box;}
+.contact_selectBox div{padding: 30px 20px; box-sizing: border-box;}
 .contact_selectBox div h2{font-size: 1em; font-weight: 600; margin-bottom: 30px;}
 .contact_popup .contact_selectBox div ul li{display: flex; font-size: 16px; justify-content: space-between;}
 .contact_selectBox div ul li:not(:last-of-type){margin-bottom: 10px;}
-.contact_myInfo{width: 55%; border-right: 1px solid var(--contact-contents-color);}
+.contact_myInfo{width: 55%; border-right: 1px dashed var(--contact-contents-color);}
 .contact_myInfo h2{background: url('/image/main/contact_select_icon02.png') no-repeat left center; background-size: 37px; padding-left: 45px;}
 .contact_mySelect_company h2{background: url('/image/main/contact_select_icon01.png') no-repeat left center; background-size: 40px; padding-left: 50px;}
 .contact_myInfo ul li > span{width: 22%; font-weight: 600; color: #333;}
@@ -237,6 +237,8 @@
 
 .contact_close_list{text-align: center; font-size: 18px; margin: 50px auto 80px; color: #ff4100; font-weight: 500;}
 #staffmodal iframe{border: 1px solid #202020;}
+
+.contact_mySelect_company ul li span{cursor: pointer;}
 
 
 

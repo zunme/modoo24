@@ -191,7 +191,7 @@ color:#333;
             <div class="stepper stepper-init clean_item_stepper">
               <div class="stepper-button-minus"></div>
               <div class="stepper-input-wrap">
-                <input type="number" minlength="0" maxlength="99" step="1" value="0" name="room_num" data-min='1' readonly>
+                <input type="number" minlength="0" maxlength="99" step="1" value="1" name="room_num" data-min='1' readonly>
               </div>
               <div class="stepper-button-plus"></div>
             </div>
@@ -213,7 +213,7 @@ color:#333;
             <div class="stepper stepper-init clean_item_stepper">
 							<div class="stepper-button-minus"></div>
 							<div class="stepper-input-wrap">
-								<input type="number" minlength="0" maxlength="99" step="1" value="0" name="toilet_num" data-min='1' readonly>
+								<input type="number" minlength="0" maxlength="99" step="1" value="1" name="toilet_num" data-min='1' readonly>
 							</div>
 							<div class="stepper-button-plus"></div>
 	          </div>
@@ -235,7 +235,7 @@ color:#333;
             <div class="stepper stepper-init clean_item_stepper">
 							<div class="stepper-button-minus"></div>
 							<div class="stepper-input-wrap">
-								<input type="number" minlength="0" maxlength="99" step="1" value="0" name="veranda_num" data-min='1' readonly>
+								<input type="number" minlength="0" maxlength="99" step="1" value="1" name="veranda_num" data-min='1' readonly>
 							</div>
 							<div class="stepper-button-plus"></div>
 	          </div>
@@ -312,7 +312,7 @@ function cleanoptionNocheck(btn){
   }else {
     $(btn).closest('.clean_area_item').removeClass("noneoptioned")
     $(btn).closest('.clean_area_item').find('.stepper-init').removeClass("stepper-disabled")
-    $(btn).closest('.clean_area_item').find('input').prop('readonly', false)
+    $(btn).closest('.clean_area_item').find('input').prop('readonly', true)
   }
 }
 </script>

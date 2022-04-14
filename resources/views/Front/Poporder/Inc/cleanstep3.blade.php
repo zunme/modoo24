@@ -12,42 +12,42 @@
       <h2>* 건물 형태</h2>
       <ul>
         <li>
-          <input type="radio" name="clean_building" id="clean_apart">
+          <input type="radio" name="clean_building" value="3" id="clean_apart">
           <label for="clean_apart">
             <span>아파트</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_building" id="clean_studio">
+          <input type="radio" name="clean_building" value="1" id="clean_studio">
           <label for="clean_studio">
             <span>원룸</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_building" id="clean_efficiency">
+          <input type="radio" name="clean_building" value="5" id="clean_efficiency">
           <label for="clean_efficiency">
             <span>오피스텔</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_building" id="clean_villa">
+          <input type="radio" name="clean_building" value="6" id="clean_villa">
           <label for="clean_villa">
             <span>빌라</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_building" id="clean_housing">
+          <input type="radio" name="clean_building" value="2" id="clean_housing">
           <label for="clean_housing">
             <span>주택</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_building" id="clean_office">
+          <input type="radio" name="clean_building" value="4" id="clean_office">
           <label for="clean_office">
             <span>사무실</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
@@ -59,21 +59,21 @@
       <h2>* 공간 형태</h2>
       <ul>
         <li>
-          <input type="radio" name="clean_space" id="clean_normal">
+          <input type="radio" name="clean_space" value="일반" id="clean_normal">
           <label for="clean_normal">
             <span>일반</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_space" id="clean_veranda">
+          <input type="radio" name="clean_space" value="베란다확장형" id="clean_veranda">
           <label for="clean_veranda">
             <span>베란다 확장형</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>
           </label>
         </li>
         <li>
-          <input type="radio" name="clean_space" id="clean_terrace">
+          <input type="radio" name="clean_space" value="테라스형" id="clean_terrace">
           <label for="clean_terrace">
             <span>테라스형</span>
             <span class="step-radio-label-check"><i class="fas fa-check"></i></span>

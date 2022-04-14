@@ -407,8 +407,9 @@ if( typeof res == 'object' && typeof res.responseJSON == 'object'
 function startContractAddress( addr, extraAddr, data ){
   var jbAddr = data.jibunAddress;
   if(jbAddr === '')  jbAddr = data.autoJibunAddress;
-
-  $("#popcontactmodal input[name='s_addr1']").val( (addr + extraAddr).trim() )
+  if( typeof data.buildingName !='undefined' && data.buildingName !='' ) jbAddr += ' ('+data.buildingName+')'
+  //$("#popcontactmodal input[name='s_addr1']").val( (addr + extraAddr).trim() )
+  $("#popcontactmodal input[name='s_addr1']").val( jbAddr.trim() )
   $("#popcontactmodal input[name='s_bcode']").val( data.bcode )
   $("#popcontactmodal input[name='s_sigunguCode']").val( data.sigunguCode )
 
@@ -420,8 +421,10 @@ function startContractAddress( addr, extraAddr, data ){
 function endContractAddress( addr, extraAddr, data ){
   var jbAddr = data.jibunAddress;
   if(jbAddr === '')  jbAddr = data.autoJibunAddress;
+  if( typeof data.buildingName !='undefined' && data.buildingName !='' ) jbAddr += ' ('+data.buildingName+')'
 
-  $("#popcontactmodal input[name='e_addr1']").val( (addr + extraAddr).trim() )
+  //$("#popcontactmodal input[name='e_addr1']").val( (addr + extraAddr).trim() )
+  $("#popcontactmodal input[name='e_addr1']").val( jbAddr.trim() )
   $("#popcontactmodal input[name='e_bcode']").val( data.bcode )
   $("#popcontactmodal input[name='e_sigunguCode']").val( data.sigunguCode )
 
@@ -491,5 +494,12 @@ function contactSelectionSuccess(res){
   }
   closeContact()
   mfcontactform.clearInpusts()
+}
+
+
+function maxLengthCheck(object){
+  if (object.value.length > object.maxLength){
+    object.value = object.value.slice(0, object.maxLength);
+  }
 }
 </script>

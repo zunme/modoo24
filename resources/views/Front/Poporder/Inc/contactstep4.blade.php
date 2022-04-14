@@ -16,7 +16,7 @@
                           <input name="register_name" class="form-control-pop form-control-success" value="" tabindex="-1" placeholder="고객명을 입력해 주세요">
                       </div>
                       <div class="nface-order-auth-ip-phone">
-                          <input name="register_phone" type="number" class="form-control-pop form-control-success" value="" max="11" tabindex="-1" placeholder="전화번호를 입력해 주세요">
+                          <input name="register_phone" type="number" class="form-control-pop form-control-success" value="" maxlength="11" tabindex="-1" placeholder="전화번호를 입력해 주세요" oninput="maxLengthCheck(this)">
                       </div>
                   </div>
                   <div class="pop-content-memo-wrap">

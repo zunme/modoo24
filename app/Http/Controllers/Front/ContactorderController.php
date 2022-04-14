@@ -23,6 +23,7 @@ use App\Models\AuctionShareOption;
 use App\Models\AuctionCleanOrder;
 use App\Models\AuctionStaff;
 use App\Models\PointHistory;
+use App\Models\Zipcode;
 
 class ContactorderController extends Controller
 {
@@ -77,7 +78,7 @@ class ContactorderController extends Controller
 	public function companylist(Request $request){
 		//order갯수 제한
 		$limit_flag = 'N';
-		$testerIp = ['221.154.134.3']; //사무실 IP
+		$testerIp = [];//['221.154.134.3']; //사무실 IP
 
 		$check = $this->checkConmpleteStep( $request);
 		if( $check !== true) return $check;
@@ -327,6 +328,25 @@ class ContactorderController extends Controller
 		}
 		return $this->success( ['orderid'=>$res->uid,'diffday'=>$diff_day_check,'calldate'=>$calldate]);
 	}
+	private function getAreaCode( $addr ){
+		$addr = trim(preg_replace('/\s+/', ' ', $addr));
+		$addrArr = explode(' ', $addr);
+		if( $addrArr[0]=='세종'){
+			$data = Zipcode::where(['sido'=>'세종'])->first();
+			if( !$data ) return 'A';
+			else return $data->area;
+		}else {
+			$data = Zipcode::where(['sido'=>$addrArr[0], 'gugun'=>$addrArr[1]])->first();
+			if( !$data ) {
+				$data = Zipcode::where(['sido'=>$addrArr[0], 'gugun'=>$addrArr[1].' '.$addrArr[2]])->first();
+				if( !$data ) return 'A';
+				else return $data->area;
+			}else return $data->area;
+		}
+		return 'A';
+		//Zipcode
+	}
+
 	private function savetemp ( $request){
 		$classify = 0;
 		switch ( $request->movingtype) {
@@ -349,13 +369,15 @@ class ContactorderController extends Controller
 			,'mdate'=>$request->mdate,'name'=>$request->register_name
 			,'passwd'=>$request->register_phone, 'hp'=>$this->format_tel($request->register_phone)
 			,'classify'=>$classify, 'stype'=>'2' //이사타입 2로 고정
-			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_addr1,'s_addr2'=>$request->s_addr2
-			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$request->e_addr1
+			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$this->getReplaceAddr($request->s_addr1),'s_addr2'=>$request->s_addr2
+			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$this->getReplaceAddr($request->e_addr1)
+			,'s_zip2'=>$this->getSigungucode($request->s_bcode)
+			,'e_zip2'=>$this->getSigungucode($request->e_bcode)
 			,'ton'=>0,'cbm'=>0,'goods'=>0,'note'=>$request->memo?$request->memo:'','memo'=>''
 			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
 			,'cstype'=>0, 'cafe_name'=>'모두이사_official_visit2'
-			,'aircon_yn'=>'Y','aircon_wall_cnt'=>0,'aircon_stand_cnt'=>0,'aircon_system_cnt'=>0,'aircon_double_cnt'=>0
-			,'type'=>'','user_memo'=>'','area'=>'A'
+			,'aircon_wall_cnt'=>0,'aircon_stand_cnt'=>0,'aircon_system_cnt'=>0,'aircon_double_cnt'=>0
+			,'type'=>'','user_memo'=>'','area'=>$this->getAreaCode($this->getReplaceAddr($request->s_addr1))
 
 			,'share_price'=>0, 'share_status'=>'ING','auto_share'=>'N'
 
@@ -364,7 +386,7 @@ class ContactorderController extends Controller
 			,'s_with3'=> $request->interior_call =='Y' ? 1 : 0
 			,'s_with4'=>$request->agree_marketing=='Y' ? 1 : 0
 			,'keep'=> $request->use_container =='Y' ? 1 : 0
-
+			,'aircon_yn'=>$request->aircon_yn=='Y' ? 'Y' : 'N'
 			,'bds_id'=>'', 'reg_company_type'=>'모두이사'
 		];
 		$mdateCarbon =  Carbon::createFromFormat('Y-m-d',$request->mdate);
@@ -386,7 +408,7 @@ class ContactorderController extends Controller
 			}
 			if ($diff_day > 60 && $order->clean_yn =='Y' ){
 				$cleandata = AuctionCleanOrder::where(['s_with2'=>1, 'order_uid'=>$order->uid])->first();
-
+/* todo 태스트 문구 뺄것 */
 				if( !$cleandata ) {
 					$clean=[
 						'contact_name'=>'60일',
@@ -485,14 +507,17 @@ class ContactorderController extends Controller
 			'mdate'=>$request->mdate,'name'=>$request->register_name
 			,'passwd'=>$request->register_phone, 'hp'=>$this->format_tel($request->register_phone)
 			,'classify'=>$classify, 'stype'=>'2' //이사타입 2로 고정
-			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$request->s_addr1,'s_addr2'=>$request->s_addr2
-			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$request->e_addr1
+			,'s_zip1'=>$request->s_zip1,'s_addr1'=>$this->getReplaceAddr($request->s_addr1),'s_addr2'=>$request->s_addr2
+			, 'e_zip1'=>$request->e_zip1, 'e_addr1'=>$this->getReplaceAddr($request->e_addr1)
+			,'s_zip2'=>$this->getSigungucode($request->s_bcode)
+			,'e_zip2'=>$this->getSigungucode($request->e_bcode)
 			,'note'=>$request->memo?$request->memo:''
 			,'clean_yn'=>$request->use_clean=='Y'? 'Y' :'N'
 			,'s_uid' => $request->internet_call =='Y' ? 1 : 0
 			,'s_with3'=> $request->interior_call =='Y' ? 1 : 0
 			,'s_with4'=>$request->agree_marketing=='Y' ? 1 : 0
 			,'keep'=> $request->use_container =='Y' ? 1 : 0
+			,'aircon_yn'=>$request->aircon_yn=='Y' ? 'Y' : 'N'
 		];
 
 		if( $diff_day > 60 ) $data['contact_name']="60일";
@@ -565,6 +590,7 @@ class ContactorderController extends Controller
 					'now'=>$this->now
 				];
 				$staff_hpArr = [];
+				$temp_companies_data_create = [];
 				foreach( $companies_data['create'] as &$row ){
 					$row['o_uid'] = $order->uid;
 
@@ -676,8 +702,9 @@ class ContactorderController extends Controller
 					// 분배 옵션 - 상태값, 구분(일반, 역경매) 레코드 추가
 
 					AuctionShareOption::create(['aso_order_idx'=>$row['o_uid'], 'aso_reg_idx'=> $row['s_uid'] ]);
-
+					$temp_companies_data_create[] = $row;
 				} // end foreach
+				$companies_data['create'] = $temp_companies_data_create;
 
 				$auctionordernumins = AuctionOrderNum::where(['order_uid' => $order->uid ] )->first();
 				if( $auctionordernumins) {

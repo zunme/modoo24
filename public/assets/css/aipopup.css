@@ -201,6 +201,6 @@
 .select-moveing-type-body .step-radio-labelclass input[type="radio"]:checked+.step-radio-label-step,
 .pop-content-wrap .step-radio-labelclass input[type="radio"]:checked+.step-radio-label-step{background: #768489; border-color: #768489;}
 .pop-content-wrap .pop-content-image-uploader-wrap .upload-text-wrap{border-color: #ccc;}
-.pop-content-wrap .step-radio-label-text-item:last-child{margin-bottom: 0;}
+/* .pop-content-wrap .step-radio-label-text-item:last-child{margin-bottom: 0;} */
 .pop-content-wrap .pop-page-step-footer > .btn.btn-secondary:hover{box-shadow: none;}
 .pop-page-step .btn_simply{width: 50%; margin: 0 auto; padding: 15px 0;}

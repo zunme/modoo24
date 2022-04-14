@@ -25,7 +25,7 @@ $clean_options = collect([
 <div class="pop-page-step-body clean_body04">
   <div class="step-body-section">
     <h2>* 필요한 옵션을 선택하세요.</h2>
-    <div class="clean_option nooption" id="clean_check_options">
+    <div class="clean_option" id="clean_check_options">
       <ul>
         @foreach( $clean_options as $item)
         <li>
@@ -38,7 +38,7 @@ $clean_options = collect([
 
         <li>
           <label>
-            <input type="checkbox" name="nooption" value="nooption" onChange="changedCleanOption('')">
+            <input type="checkbox" name="nooption" value="Y" onChange="changedCleanOption('')">
             <span>옵션없음</span>
           </label>
         </li>
@@ -54,8 +54,10 @@ $clean_options = collect([
 function changedCleanOption(val){
   if( val != '' ){
     $("#popcleanmodal input[name='nooption']").prop('checked', false)
+    $("#clean_check_options").removeClass("nooption")
   }else{
     $("#popcleanmodal input[name='options[]']:checked").prop('checked', false)
+    $("#clean_check_options").addClass("nooption")
   }
 }
 </script>
