@@ -74,7 +74,7 @@ class OrdertempController extends Controller
 			,'s_with2'=>0,'s_with3'=>0,'s_with4'=>0
 			,'goods'=>'','note'=>'','memo'=>''
 			,'kaku'=>'','junja'=>'','jubang'=>'','kita'=>'','kaku_s'=>'','junja_s'=>'','jubang_s'=>'','kita_s'=>''
-			,'aircon_yn'=>'Y'
+			,'aircon_yn'=>'N'
 			,'aircon_wall_cnt'=>'0','aircon_stand_cnt'=>'0','aircon_system_cnt'=>'0','aircon_double_cnt'=>'0'
 			,'type'=>'','user_memo'=>''
 			,'area'=>'A','share_status'=>'ING','auto_share'=>'N','clean_yn'=>'N','bds_id'=>''
