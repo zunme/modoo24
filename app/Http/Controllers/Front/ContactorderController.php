@@ -408,7 +408,7 @@ class ContactorderController extends Controller
 			}
 			if ($diff_day > 60 && $order->clean_yn =='Y' ){
 				$cleandata = AuctionCleanOrder::where(['s_with2'=>1, 'order_uid'=>$order->uid])->first();
-/* todo 태스트 문구 뺄것 */
+
 				if( !$cleandata ) {
 					$clean=[
 						'contact_name'=>'60일',
@@ -426,7 +426,7 @@ class ContactorderController extends Controller
 						's_addr1'=>$data['e_addr1'],
 						's_addr2'=>'',
 						'note'=>'',
-						'user_memo'=>'테스트중입니다 분배하지말아주세요',
+						'user_memo'=>'',
 						'memo'=>'',
 						'com_num'=>'0',
 						'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
