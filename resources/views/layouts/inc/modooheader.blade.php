@@ -239,7 +239,7 @@
                 <div class="right_menu">
                     <ul class="menu01">
                         <li><a href="{{ Request::is('/') ? 'javascript:openpopn();' : '/v2/#estimate1' }}">비대면견적</a></li>
-                        <li><a href="/front/orderpop?s=1">방문견적</a></li>
+                        <li><a href="{{ Request::is('/') ? 'javascript:openpopcontact();' : '/v2/#contactpop1' }}">방문견적</a></li>
                         <li><a href="/v2/my/request">신청내역</a></li>
                     </ul>
 
