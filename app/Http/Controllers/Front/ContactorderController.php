@@ -723,9 +723,10 @@ class ContactorderController extends Controller
 				//todo $order->save();
 				*/
 				$data['share_status']='DONE';
+				//contactname chage
+				$data['contact_name']='고객선택';
 				$data['auto_share']='N';
 				$data['share_price']=$discount_price;
-				$data['contact_name']='';
 				$data['order_path']='2';
 			} // END 직접선택
 
@@ -838,7 +839,7 @@ class ContactorderController extends Controller
 					's_addr1'=>$order->e_addr1,
 					's_addr2'=>'',
 					'note'=>'',
-					'user_memo'=>'테스트중입니다 분배하지말아주세요',
+					'user_memo'=>'',
 					'memo'=>'',
 					'com_num'=>'0',
 					'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
