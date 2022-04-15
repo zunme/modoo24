@@ -228,6 +228,16 @@ class ContactorderController extends Controller
 
 		//dd( $this->getEloquentSqlWithBindings($data) );
 		$data = ['avail'=>$availdata, 'closed'=>$closeddata];
+		try{
+			$companycnt= count($retAvailData) ;
+
+			if($companycnt <1 ){
+				$msg .="고객선택중(업체없음)";
+			}else $msg = '고객선택중'.'('.Carbon::now()->format('H:i').')';
+			AuctionOrder::where(['uid'=>$request->contact_orderid])->update(['contact_name'=>$msg]);
+		}catch(\Exception $e){
+			;
+		}
 		return $this->success($data);
 	}
 	public static function getEloquentSqlWithBindings($query){
@@ -399,7 +409,8 @@ class ContactorderController extends Controller
 			if( $request->contact_orderid ){
 				$order = AuctionOrder::find($request->contact_orderid);
 				if( $order){
-					if( $order->share_status == 'DONE') return $this->error('이미 견적신청이 완료된 내용입니다.',422,['step'=>1]);
+					$contactname_sub= mb_substr($order->contact_name,0,5);
+					if( $order->share_status == 'DONE' || !in_array($contactname_sub, ['임시저장','고객선택중']) ) return $this->error('이미 견적신청이 완료된 내용입니다.',422,['step'=>1,'clear'=>true]);
 					$order->update($data);
 				}else $order = AuctionOrder::create($data);
 
@@ -570,7 +581,8 @@ class ContactorderController extends Controller
 			return $this->error('전단계가 완료되지 않았습니다.',422,['step'=>4]);
 		}
 		/* 분배된업체 또는 접수자가 임시저장이 아니면 저장안하고 종료 */
-		if( $order->share_status == 'DONE' || $order->contact_name !='임시저장') return $this->success();
+		$contactname_sub= mb_substr($order->contact_name,0,5);
+		if( $order->share_status == 'DONE' || !in_array($order->contactname_sub, ['임시저장','고객선택중'])  ) return $this->success();
 
 
 		\DB::beginTransaction();
