@@ -294,10 +294,11 @@ class ContactorderController extends Controller
 		])
 		->where('uid','<>', $request->contact_orderid)
 		->count();
+		/*
 		if( $dup > 0 ){
 			return $this->error('등록 된 이사정보가 있습니다',422,['step'=>4]);
 		}
-
+		*/
 		//60일 이후 체크
 		$mdateCarbon =  Carbon::createFromFormat('Y-m-d',$request->mdate);
 		$diff_day = $mdateCarbon->diffInDays( Carbon::now() );
@@ -752,7 +753,7 @@ class ContactorderController extends Controller
 				$data['contact_name']='';
 				$data['order_path']='1';
 			}
-			
+
 			$order->update($data);
 
 			\DB::commit();
