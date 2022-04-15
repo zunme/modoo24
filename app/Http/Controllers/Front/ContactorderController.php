@@ -78,7 +78,7 @@ class ContactorderController extends Controller
 	public function companylist(Request $request){
 		//order갯수 제한
 		$limit_flag = 'N';
-		$testerIp = [];//['221.154.134.3']; //사무실 IP
+		$testerIp = ['221.154.134.3']; //사무실 IP
 
 		$check = $this->checkConmpleteStep( $request);
 		if( $check !== true) return $check;
@@ -582,8 +582,8 @@ class ContactorderController extends Controller
 		}
 		/* 분배된업체 또는 접수자가 임시저장이 아니면 저장안하고 종료 */
 		$contactname_sub= mb_substr($order->contact_name,0,5);
-		if( $order->share_status == 'DONE' || !in_array($order->contactname_sub, ['임시저장','고객선택중'])  ) return $this->success();
 
+		if( $order->share_status == 'DONE' || !in_array($contactname_sub, ['임시저장','고객선택중'])  ) return $this->success();
 
 		\DB::beginTransaction();
 		try{
@@ -752,7 +752,7 @@ class ContactorderController extends Controller
 				$data['contact_name']='';
 				$data['order_path']='1';
 			}
-
+			
 			$order->update($data);
 
 			\DB::commit();
