@@ -832,53 +832,54 @@ class ContactorderController extends Controller
 		}catch (\Exception $e){
 			;
 		}
-		try{
-			$cleandata = AuctionCleanOrder::where(['s_with2'=>1, 'order_uid'=>$order->uid])->first();
+		if( $order->clean_yn =='Y' ){
+			try{
+				$cleandata = AuctionCleanOrder::where(['s_with2'=>1, 'order_uid'=>$order->uid])->first();
 
-			if( !$cleandata ) {
-				$clean=[
-					'contact_name'=>'',
-					'order_path'=>'1',//온라인
-					's_uid'=>'0',
-					's_with2'=>'1',//방문
-					's_with3'=>'0',
-					's_with4'=>'0',
-					'mdate'=>$order->mdate,
-					'company'=>'',
-					'name'=>$order->name,
-					'passwd'=>'',
-					'hp'=>$order->hp,
-					'stype'=>'1',//입주청소
-					's_addr1'=>$order->e_addr1,
-					's_addr2'=>'',
-					'note'=>'',
-					'user_memo'=>'',
-					'memo'=>'',
-					'com_num'=>'0',
-					'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
-					'aircon_yn'=>'Y',//우선은 있는것으로
-					'type'=>'',//주거종류 선택없음
-					'share_status'=>'ING',
-					'clean_staff_cnt'=>'0',
-					'clean_elevator'=>'N',
-					'clean_addr_pyoung'=>'',
-					'order_uid'=>$order->uid,
-				];
-				$cleanins = AuctionCleanOrder::create($clean);
-			}else {
-				$clean=[
-					'mdate'=>$order->mdate,
-					'name'=>$order->name,
-					'hp'=>$order->hp,
-					's_addr1'=>$order->e_addr1,
-				];
-				$cleandata->update( $clean);
+				if( !$cleandata ) {
+					$clean=[
+						'contact_name'=>'',
+						'order_path'=>'1',//온라인
+						's_uid'=>'0',
+						's_with2'=>'1',//방문
+						's_with3'=>'0',
+						's_with4'=>'0',
+						'mdate'=>$order->mdate,
+						'company'=>'',
+						'name'=>$order->name,
+						'passwd'=>'',
+						'hp'=>$order->hp,
+						'stype'=>'1',//입주청소
+						's_addr1'=>$order->e_addr1,
+						's_addr2'=>'',
+						'note'=>'',
+						'user_memo'=>'',
+						'memo'=>'',
+						'com_num'=>'0',
+						'reg_date'=>Carbon::now()->format('Y-m-d H:i:s'),
+						'aircon_yn'=>'Y',//우선은 있는것으로
+						'type'=>'',//주거종류 선택없음
+						'share_status'=>'ING',
+						'clean_staff_cnt'=>'0',
+						'clean_elevator'=>'N',
+						'clean_addr_pyoung'=>'',
+						'order_uid'=>$order->uid,
+					];
+					$cleanins = AuctionCleanOrder::create($clean);
+				}else {
+					$clean=[
+						'mdate'=>$order->mdate,
+						'name'=>$order->name,
+						'hp'=>$order->hp,
+						's_addr1'=>$order->e_addr1,
+					];
+					$cleandata->update( $clean);
+				}
+
+			}catch(\Exception $e){
+				;
 			}
-
-		}catch(\Exception $e){
-			;
 		}
-
 		$res_data = [
 			'stype' =>$_stype,
 			'mdate' =>$order->mdate,
