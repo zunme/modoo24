@@ -795,7 +795,7 @@ class ContactorderController extends Controller
 
 				$push_staff_user_arr = [];
 				foreach($companies_data['create'] as $row){
-					$this->sms( preg_replace('/[^0-9]/', '',$row['hp'] ),$sms_title, $sms_staff);
+					$this->sms( preg_replace('/[^0-9,]/', '',$row['hp'] ),$sms_title, $sms_staff);
 					$push_staff_user_arr[] = $row['s_uid'];
 
 					//return 용 데이터
