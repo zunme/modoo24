@@ -386,12 +386,14 @@ let regfilesTempate=`
 `
 
 let staff_info=`
+{{#if s_mobile_memo}}
 <li>
 <span class="">- 업체소개</span>
 <div class="">
-  {{nl2br s_mobile_memo}}
+  {{{nl2br s_mobile_memo}}}
 </div>
 </li>
+{{/if}}
 <li>
 <div class="">
 <span class="">- 제공서비스</span>
