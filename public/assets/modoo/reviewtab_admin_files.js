@@ -20,11 +20,11 @@ $('document').ready( function() {
     method:'get',
     dataType:'JSON',
     success:function(res){
-	
+
       var template = Handlebars.compile( imgTemplate );
       var gradetemplate = Handlebars.compile( gradeTemplate )
       regfilestempate = Handlebars.compile( regfilesTempate )
-      
+
 
       if( res.data.files.length > 0 ){
         filesLength = ( res.data.files.length > 2 ) ? 3 : res.data.files.length;
@@ -40,14 +40,14 @@ $('document').ready( function() {
 	}
 	$("#vit-cp-list-wrap .vit-cp-explanation .cp_name_wrap .cp_name .step1").attr('class','rating step'+res.data.companyGrade.pic);
 	$("#vit-cp-list-wrap .vit-cp-explanation .cp_name_wrap .cp_name .score").html(res.data.companyGrade.title + " " + roundToTwo(res.data.rating.totalstar).toFixed(1) + "점");
-		
+
 
 
       reviews();
 	staff_data();
       $("#tab2 ul.btn_set2.pdt15").html( $("#tab1 ul.btn_set2.pdt15").html()  )
-	
-      
+
+
     },
     error: function ( err ){
 
@@ -386,7 +386,12 @@ let regfilesTempate=`
 `
 
 let staff_info=`
-
+<li>
+<span class="">- 업체소개</span>
+<div class="">
+  {{nl2br s_mobile_memo}}
+</div>
+</li>
 <li>
 <div class="">
 <span class="">- 제공서비스</span>
