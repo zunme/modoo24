@@ -52,7 +52,7 @@ class AuctionStaff extends Model
 
 	public function getSPayArrAttribute(){
 		$ret = explode('|', $this->s_payment);
-		
+
 		$replace_search = array("C", "P", "A", "R", "T");
 		$replace_target = array("카드", "현금결제", "계좌이체", "현금영수증", "세금계산서");
 		$ret = str_replace($replace_search, $replace_target, $ret);
@@ -77,7 +77,7 @@ class AuctionStaff extends Model
 	public function getFlatRateStaffNameAttribute(){
 		return $this->flat_rate_staff =='Y' ? '정액제':'일반';
 	}
-	
+
 	public function getSLevelNameAttribute(){
 		switch( $this->s_level ) {
 			case('2'):
@@ -91,7 +91,7 @@ class AuctionStaff extends Model
 	public function getSGubunNameAttribute(){
 		switch( $this->s_level ) {
 			case('1'):
-				return '서울권';				
+				return '서울권';
 			case('2'):
 				return '수도권';
 			case('3'):
@@ -119,9 +119,13 @@ class AuctionStaff extends Model
 		$cols[] = ["name"=>'0.5톤 라보', 'cnt'=>$this->s_r_05t];
 		$cols[] = ["name"=>'0.5톤 다마스', 'cnt'=>$this->s_d_05t];
 		//return implode(',',$cols);
-		return $cols;		
+		return $cols;
 	}
 	public function getNoteArrAttribute(){
 		return  preg_split("/\r\n|\n|\r/", $this->note);
+	}
+	public function getSMobileMemoAttribute($value)
+	{
+			return htmlspecialchars_decode($value);
 	}
 }
