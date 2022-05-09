@@ -480,7 +480,7 @@ class NfaceorderController extends Controller
 ---------------
 
 ★모두이사 칭찬후기 이벤트★
-매칭업체 칭찬후기를 작성해주신 고객님께 커피 쿠폰을 드립니다. (사진2장 이상 필수) http://modoo24.net/v2/review/my";
+매칭업체 칭찬후기를 작성해주신 고객님께 커피 쿠폰을 드립니다. http://modoo24.net/v2/review/my";
 		$this-> sms($data['register_phone'], '비대면견적신청완료', $message);
 	}
 
