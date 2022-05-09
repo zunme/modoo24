@@ -10,9 +10,12 @@ use Carbon\Carbon;
 
 use App\Models\AuctionStaff;
 use App\Models\LaravelErrorLog;
+use App\Traits\ApiResponser;
 
 class HomeController extends Controller
 {
+	use ApiResponser;
+
 	public function index(Request $request){
 		//$agent = new MobileDetect();
  		//$mobileResult = $agent->isMobile();
@@ -56,7 +59,7 @@ class HomeController extends Controller
 		return view('admin/jisik');
 	}
 	public function logs(Request $request, $id){
-		$logs = LaravelErrorLog::where(['parent_id'=>$id, 'type'=>'contact'])->get();
+		$logs = LaravelErrorLog::where(['parent_id'=>$id, 'type'=>'contact'])->latest()->get();
 		$retLogs = [];
 
 		foreach( $logs as $row){
@@ -71,6 +74,22 @@ class HomeController extends Controller
 		}
 
 		return view('admin/logs',compact(['retLogs']));
+	}
+	public function logselected(Request $request, $id){
+		$logs = LaravelErrorLog::where(['parent_id'=>$id, 'type'=>'contact'])->latest()->get();
+		$retLogs = [];
+
+		foreach( $logs as $row){
+			$companies = array();
+			if( isset($row->data->company) && is_array($row->data->company) && count($row->data->company)>0){
+				foreach( $row->data->company as $company){
+					$companies[] = AuctionStaff::where('s_uid', '=' ,$company)->first();
+				}
+			}
+			$row->companies=$companies;
+			$retLogs[] = $row;
+		}
+		return $this->success( $retLogs );
 	}
 }
 ?>
