@@ -8,6 +8,9 @@ use App\Models\LaravelTraceLog;
 //use App\Http\Libraries\MobileDetect;
 use Carbon\Carbon;
 
+use App\Models\AuctionStaff;
+use App\Models\LaravelErrorLog;
+
 class HomeController extends Controller
 {
 	public function index(Request $request){
@@ -51,6 +54,23 @@ class HomeController extends Controller
 	public function jisik(Request $request){
 
 		return view('admin/jisik');
+	}
+	public function logs(Request $request, $id){
+		$logs = LaravelErrorLog::where(['parent_id'=>$id, 'type'=>'contact'])->get();
+		$retLogs = [];
+
+		foreach( $logs as $row){
+			$companies = array();
+			if( isset($row->data->company) && is_array($row->data->company) && count($row->data->company)>0){
+				foreach( $row->data->company as $company){
+					$companies[] = AuctionStaff::where('s_uid', '=' ,$company)->first();
+				}
+			}
+			$row->companies=$companies;
+			$retLogs[] = $row;
+		}
+
+		return view('admin/logs',compact(['retLogs']));
 	}
 }
 ?>
