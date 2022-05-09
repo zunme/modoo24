@@ -33,10 +33,13 @@ class ContactorderController extends Controller
 		$msg = "\n\n";
 		$msg .= '__________________________________'."\n";
 		$msg .= '★모두이사 칭찬후기 이벤트★'."\n";
+		/*
 		$msg .= '모두이사 매칭업체 이사서비스를 받으시고'."\n";
 		$msg .= '칭찬후기를 작성해주세요'."\n";
 		$msg .= '작성해주신 모든 고객님께 커피쿠폰을 드립니다.'."\n";
 		$msg .= '업체평가하기 → http://modoo24.net/v2/review/my ';
+		*/
+		$msg .= '매칭업체 칭찬후기를 작성해주신 고객님께 커피 쿠폰을 드립니다. (사진2장 이상 필수) http://modoo24.net/v2/review/my';
 		$this->eventMessage = $msg;
 	}
 	public function staffpop($staffid){

@@ -480,9 +480,7 @@ class NfaceorderController extends Controller
 ---------------
 
 ★모두이사 칭찬후기 이벤트★
-모두이사 매칭업체 이사서비스를 받으시고 칭찬후기를 작성해주세요
-작성해주신 모든 고객님께 커피쿠폰을 드립니다.
-업체평가하기 -> http://modoo24.net/v2/review/my";
+매칭업체 칭찬후기를 작성해주신 고객님께 커피 쿠폰을 드립니다. (사진2장 이상 필수) http://modoo24.net/v2/review/my";
 		$this-> sms($data['register_phone'], '비대면견적신청완료', $message);
 	}
 
