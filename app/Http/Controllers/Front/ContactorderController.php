@@ -25,6 +25,8 @@ use App\Models\AuctionStaff;
 use App\Models\PointHistory;
 use App\Models\Zipcode;
 
+use App\Models\LaravelErrorLog;
+
 class ContactorderController extends Controller
 {
 	use ApiResponser;
@@ -586,8 +588,17 @@ class ContactorderController extends Controller
 		}
 		/* 분배된업체 또는 접수자가 임시저장이 아니면 저장안하고 종료 */
 		$contactname_sub= mb_substr($order->contact_name,0,5);
+		$savelog=LaravelErrorLog::create(['type'=>'contact','parent_id'=>$request->contact_orderid,'data'=>$request->all(),'msg'=>'DATA IN']);
 
-		if( $order->share_status == 'DONE' || !in_array($contactname_sub, ['임시저장','고객선택중'])  ) return $this->success();
+		if( $order->share_status == 'DONE' || !in_array($contactname_sub, ['임시저장','고객선택중'])  ) {
+			try{
+				$savelog->msg='임시저장상태아님['.$contactname_sub.']';
+				$savelog->save();
+			}catch (\Exception $e){
+				;
+			}
+			return $this->success();
+		}
 
 		\DB::beginTransaction();
 		try{
@@ -763,9 +774,20 @@ class ContactorderController extends Controller
 			//\DB::rollback();
 		}catch( Exception $e){
 			\DB::rollback();
+			try{
+				$savelog->msg=$e->getMessage();
+				$savelog->save();
+			}catch (\Exception $e){
+				;
+			}
 			return $this->error( $e->getMessage() );
 		}
-
+		try{
+			$savelog->msg='completed';
+			$savelog->save();
+		}catch (\Exception $e){
+			;
+		}
 		// 종료후 문자발송
 		$res_companies =[];
 
