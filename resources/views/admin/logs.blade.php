@@ -34,10 +34,17 @@
   </div>
 </div>
 @empty
+<div class="emptyrow">
+내용이 없습니다.
+</div>
 @endforelse
 
 <style>
-
+.emptyrow{
+  display: flex;
+  padding: 20px 0;
+  justify-content: center;
+}
 .item_wrap::after{
   content: '';
   height:1px;

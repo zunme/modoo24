@@ -13,6 +13,8 @@ Route::group([
 
     Route::get('/nfacelog', 'NewnfaceorderController@loginfo')->name('nfacepoplog');
 
+    Route::get('/logs/{id}', 'HomeController@logs')->name('logs');
+
     //고객정보삭제
     Route::post('order/userinfo/del', 'OrderController@deleteUserInfo');
     Route::get('order/userinfo/list', 'OrderController@deleteUserList');
