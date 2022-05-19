@@ -13,6 +13,13 @@ use App\Traits\ApiResponser;
 
 use App\Models\AuctionCleanOrder;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+//use Illuminate\Support\Facades\Redis;
+
+use App\Models\NewCleanOrder;
 
 class CleanorderController extends Controller
 {
@@ -104,12 +111,12 @@ class CleanorderController extends Controller
 		return $this->success( );
   }
 	private function stepOptionCheck($request){
-		if( $request->nooption=='nooption') {
-			$this->data['options'] = [];
+		if( $request->nooption=='Y') {
+			$this->data['options'] = ['옵션없음'];
 			return true;
 		}else {
 			$messages = [
-				'options.*' =>'건물형태를 선택해주세요',
+				'options.*' =>'청소옵션를 선택해주세요',
 			];
 			//$data = $this->validate($request, [
 			$validator = Validator::make($request->all(),[
@@ -128,49 +135,22 @@ class CleanorderController extends Controller
   }
 	private function stepSpaceCheck($request){
 		$data['num'] = [];
-		if( $request->room_except =='Y') {
-			$this->data['room_num'] = '0';
-			$data['num']['방']=false;
-		}else {
-			$messages = [
-				'room_num.*' =>'방갯수를 선택해주세요',
-			];
-			//$data = $this->validate($request, [
-			$validator = Validator::make($request->all(),[
-				'room_num' => 'bail|required||integer|min:1|digits_between: 1,99',
-			 ],$messages);
-			if ($validator->fails()) return $validator;
-			$data['num']['방'] = $request->room_num;
-		}
-		if( $request->toilet_except =='Y') {
-			$this->data['toilet_num'] = '0';
-			$data['num']['화장실']=false;
-		}else {
-			$messages = [
-				'toilet_num.*' =>'방갯수를 선택해주세요',
-			];
-			//$data = $this->validate($request, [
-			$validator = Validator::make($request->all(),[
-				'toilet_num' => 'bail|required||integer|min:1|digits_between: 1,99',
-			 ],$messages);
-			if ($validator->fails()) return $validator;
-			$data['num']['화장실']=$request->toilet_num;
-		}
-		if( $request->veranda_except =='Y') {
-			$this->data['veranda_num'] = '0';
-			$data['num']['베란다']=false;
-		}else {
-			$messages = [
-				'veranda_num.*' =>'방갯수를 선택해주세요',
-			];
-			//$data = $this->validate($request, [
-			$validator = Validator::make($request->all(),[
-				'veranda_num' => 'bail|required||integer|min:1|digits_between: 1,99',
-			 ],$messages);
-			if ($validator->fails()) return $validator;
-			$data['num']['베란다']=$request->veranda_num;
-			$type = "veranda_num";
-			//dd( $request->{$type} );
+		$spaceArr = ['room'=>'방','toilet'=>'화장실','veranda'=>'베란다'];
+		foreach( $spaceArr as $space_id=>$space_val){
+			if( $request->{ $space_id.'_except'} =='Y') {
+				$this->data[$space_id.'_num'] = '0';
+				$data['num'][$space_val]=false;
+			}else {
+				$messages = [
+					$space_id.'_num.*' =>$space_val.'갯수를 선택해주세요',
+				];
+				//$data = $this->validate($request, [
+				$validator = Validator::make($request->all(),[
+					$space_id.'_num' => 'bail|required||integer|min:1|digits_between: 1,99',
+				 ],$messages);
+				if ($validator->fails()) return $validator;
+				$data['num'][$space_val] = $request->{$space_id.'_num'};
+			}
 		}
 
 		$messages = [
@@ -197,7 +177,7 @@ class CleanorderController extends Controller
 
 		if( $request->{$type."_except"} =='Y') {
 			$this->data[$type.'_num'] = '0';
-			return [$type=>false];
+			return [$this->spacetypes[$type]=>'청소안함'];
 		}else {
 			$messages = [
 				$type.'_num.*' =>$type.'갯수를 선택해주세요',
@@ -211,18 +191,40 @@ class CleanorderController extends Controller
 			//dd( $request->{$type} );
 		}
 	}
+
+	private function stepUserDataCheck(Request $request ){
+		$this->errors = null;
+		$messages = [
+				'register_name.*'=>'신청인 이름을 적어주세요',
+				'register_phone.*'=>'올바른 신청인 전화번호(숫자만)를 적어주세요',
+				'agree1.*'=>'[이용약관 및 개인정보처리방침] 에 동의해주세요',
+				'agree2.*'=>'[제 3 자 제공] 에 동의해주세요',
+				'agree_marketing.*'=>'마케팅 동의를 확인해주세요',
+				'memo.*'=>'메모를 확인해주세요',
+		];
+		//$data = $this->validate($request, [
+		$validator = Validator::make($request->all(),[
+			'register_name'=>'bail|required|string|min:2',
+			'register_phone'=>'bail|required|digits_between:9,13',
+			'agree1'=>'bail|required|in:Y,on',
+			'agree2'=>'bail|required|in:Y,on',
+			'agree_marketing'=>'bail|nullable|in:Y,on',
+			'memo'=>'bail|nullable|string',
+
+		 ],$messages);
+		 if ($validator->fails()) return $validator;
+		 else return true;
+	}
+
 	public function stepComplete(Request $request){
-		return $this->success(  $this->data );
 		$spacenums=[];
 		foreach ( $this->spacetypes as $type=>$val){
 			$res = $this->checkSpaceNum($request, $type);
 			if ( !is_array( $res ) ) return $this->error($res->messages()->first() ,422,['step'=>5, 'data'=> $res->errors() ]);
-			dump( $res );
 			$spacenums[] = $res;
 		}
-		dd( $spacenums );
 
-		$this->data = $request->all();
+		$this->data = $request->except('upload');
 		$res = $this->stepTypeCheck($request);
 		if( $res !== true) {
 			return $this->error($res->messages()->first() ,422,['step'=>1, 'data'=> $res->errors() ]);
@@ -241,8 +243,77 @@ class CleanorderController extends Controller
 		if( $res !== true) {
 			return $this->error($res->messages()->first() ,422,['step'=>5, 'data'=> $res->errors() ]);
 		}
+		$res = $this->stepUserDataCheck($request);
+		if( $res !== true) {
+			return $this->error($res->messages()->first() ,422,['step'=>6, 'data'=> $res->errors() ]);
+		}
+
+		$this->data['spacenums'] = $spacenums;
+
+
+		$uploadefiles = [];
+		if($request->hasFile("upload")){
+			 //foreach ($files as $file) {
+		 $files = $request->file('upload');
+			 foreach($files as $file){
+					try{
+						$uploadres = $this->uploadImage( $file );
+						if( $uploadres != null ) $uploadefiles[] = $uploadres;
+					}catch (\Exception $e){
+						;
+					}
+			 }
+		}
+		$this->data['files'] = $uploadefiles;
+		//Redis::publish('test-channel', json_encode($this->data));
+		try{
+			NewCleanOrder::create($this->data);
+		}catch(\Exception $e){
+			return $this->error($e->getMessage(),500);
+		}
 
 		return $this->success(  $this->data );
+	}
+
+	private function getGroupNumFromName($name){
+		$tmp = explode('_', $name);
+		$groupnum = 0;
+		if( count($tmp) > 1 ){
+				$groupnum = array_shift($tmp);
+				$name= pathinfo( implode('_', $tmp) , PATHINFO_FILENAME);
+		}
+		return ['groupnum'=>$groupnum, "name"=>$name];
+	}
+	private function uploadImage( UploadedFile $file = null, $id = null){
+			if ($file === null) return null;
+
+			try{
+				$storage = Storage::disk('public');
+				$path = 'order/clean/'.Carbon::now()->format('ymd').'/';
+				$gropuname = $this->getGroupNumFromName( $file->getClientOriginalName() );
+
+				$origin = $gropuname['name'] ;
+				$groupname = $gropuname['groupnum'] ;
+
+				$image = Image::make($file);
+
+				$ext = $file->getClientOriginalExtension();
+				$image_name = Carbon::now()->format('ymdhis') . '_' . Str::random(9) . "." . $ext;
+
+				if (!$storage->exists($path)) {
+						$storage->makeDirectory($path, 0775, true);
+				}
+				$storage->put($path . $image_name, $image->stream()->__toString());
+				$size=  $file->getSize();
+				$url = 'storage/'.$path . $image_name;
+				return [
+					'original_name'=> $origin,
+					'url'=>$url,
+				];
+			}catch( \Exception $e) {
+				return null;
+			}
+			//return $path . $image_name;
 	}
 
 }

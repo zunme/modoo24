@@ -10,7 +10,7 @@
   <meta name="theme-color" content="#fff">
   <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
   <title>Framework7</title>
-  <link rel="stylesheet" href="../../packages/core/framework7-bundle.min.css">
+  <link rel="stylesheet" href="/v2/assets/framek/node_modules/framework7/framework7-bundle.min.css">
   <link rel="stylesheet" href="css/app.css">
   <link rel="apple-touch-icon" href="img/f7-icon-square.png">
   <link rel="icon" href="img/f7-icon.png">
@@ -102,12 +102,148 @@
         </div>
       </div>
     </div>
-    <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="768" data-url="/"></div>
+    <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="768" data-url="/" data-pushState='true'></div>
   </div>
-  <script src="../../packages/core/framework7-bundle.min.js"></script>
+  <script src="/v2/assets/framek/node_modules/framework7/framework7-bundle.min.js"></script>
   <script src="js/routes.js"></script>
   <script src="js/store.js"></script>
-  <script src="js/app.js"></script>
 </body>
+<script>
 
+// Dom7
+var $ = Dom7;
+
+// Theme
+var theme = 'auto';
+if (document.location.search.indexOf('theme=') >= 0) {
+  theme = document.location.search.split('theme=')[1].split('&')[0];
+}
+var routes = [
+  // Index page
+  {
+    path: '/',
+    componentUrl: './pages/home.html',
+    name: 'home',
+    master(f7) {
+      return f7.theme === 'aurora';
+    },
+  },
+  {
+    path:'/v2/assets/framekit/kitchen-sink/core/index.html',
+    componentUrl: './pages/home.html',
+    name: 'home',
+    master(f7) {
+      return f7.theme === 'aurora';
+    },
+  },
+  // About page
+  {
+    path: '/about/',
+    url: './pages/about.html',
+    name: 'about',
+  },
+  // Right Panel pages
+  {
+    path: '/panel-right-1/',
+    content: `
+      <div class="page">
+        <div class="navbar">
+          <div class="navbar-bg"></div>
+          <div class="navbar-inner sliding">
+            <div class="left">
+              <a href="#" class="link back">
+                <i class="icon icon-back"></i>
+                <span class="if-not-md">Back</span>
+              </a>
+            </div>
+            <div class="title">Panel Page 1</div>
+          </div>
+        </div>
+        <div class="page-content">
+          <div class="block">
+            <p>This is a right panel page 1</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo saepe aspernatur inventore dolorum voluptates consequatur tempore ipsum! Quia, incidunt, aliquam sit veritatis nisi aliquid porro similique ipsa mollitia eaque ex!</p>
+          </div>
+        </div>
+      </div>
+    `,
+  },
+  {
+    path: '/panel-right-2/',
+    content: `
+      <div class="page">
+        <div class="navbar">
+          <div class="navbar-bg"></div>
+          <div class="navbar-inner sliding">
+            <div class="left">
+              <a href="#" class="link back">
+                <i class="icon icon-back"></i>
+                <span class="if-not-md">Back</span>
+              </a>
+            </div>
+            <div class="title">Panel Page 2</div>
+          </div>
+        </div>
+        <div class="page-content">
+          <div class="block">
+            <p>This is a right panel page 2</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo saepe aspernatur inventore dolorum voluptates consequatur tempore ipsum! Quia, incidunt, aliquam sit veritatis nisi aliquid porro similique ipsa mollitia eaque ex!</p>
+          </div>
+        </div>
+      </div>
+    `,
+  },
+
+
+
+  {
+    path: '(.*)',
+    url: './pages/404.html',
+  },
+]
+// Init App
+var app = new Framework7({
+  id: 'io.framework7.testapp',
+  el: '#app',
+  theme: theme,
+  pushState: true,
+	uniqueHistory: true,
+  view: {
+    iosDynamicNavbar: false,
+    xhrCache: false,
+    cache: false,
+    componentCache:false,
+
+    stackPages: false,
+    pushState: true,
+    pushStateSeparator: '',
+    uniqueHistory: true,
+    history: true,
+
+    browserHistory : true,
+    browserHistorySeparator: '',
+  },
+  cache: false,
+  // store.js,
+  store: store,
+  // routes.js,
+  routes: routes,
+  popup: {
+    closeOnEscape: true,
+  },
+  sheet: {
+    closeOnEscape: true,
+  },
+  popover: {
+    closeOnEscape: true,
+  },
+  actions: {
+    closeOnEscape: true,
+  },
+  vi: {
+    placementId: 'pltd4o7ibb9rc653x14',
+  },
+});
+
+</script>
 </html>

@@ -12,6 +12,19 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('session/{token}', function ($token) {
+  if( !$token){
+      $session = null;
+  }else{
+    session_id($token);
+    session_start();
+    $session =  $_SESSION;
+    session_write_close();
+  }
+  if (isset($session['ad_idx']) ) {
+    echo '{"idx":'.$session['ad_idx'].',"sid":"'.session_id().'"}';
+  }else   echo '{"idx":"","sid":"'.session_id().'"}';;
+});
 Route::post('/simpyreg','Api\OrdertempController@simplyreg');
 Route::get('/movereview','Api\DefaultlistController@reviewMain');
 Route::get('/makeinc','Api\DefaultlistController@makeinc');

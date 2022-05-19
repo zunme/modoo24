@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'laravel_session',
+    'cookie' => 'md24_session',
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +174,6 @@ return [
     |
     */
 
-    'http_only' => true,
+    'http_only' => false,
 
 ];

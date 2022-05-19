@@ -39,6 +39,7 @@ class Daysbefore extends Command
             TEST : N =>R 로 변경필요함
         */
         parent::__construct();
+        dump( "==== start ===");
         \DB::statement("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
         /*
         $sql ="
@@ -92,7 +93,7 @@ class Daysbefore extends Command
             if( $check < 1) LaravelAlimtokLog::create((array) $row);
           }
         } catch (\Exception $e){
-          //dump( $e->getMessage() );
+          dump( $e->getMessage() );
           ;
         }
     }
@@ -104,11 +105,13 @@ class Daysbefore extends Command
      */
     public function handle()
     {
+      dump( "==== prc ===");
       $toklist = LaravelAlimtokLog::whereDate('created_at', date('Y-m-d'))->where(['template'=>'TI_2469', 'send_status'=>'R'])->get();
       foreach ( $toklist as $row){
         try{
           // 'TI_1787'->  $code = $this->codeEncDec($row->hp.'|'.$row->uid, true);
-          $code = $this->codeEncDec($row->hp.'|'.$row->uid, true);
+          //$code = $this->codeEncDec($row->hp.'|'.$row->uid, true);
+          $code = '';
           $aligo = new Aligo;
 
           $req["#{고객명}"] = $row->name;
@@ -132,6 +135,7 @@ class Daysbefore extends Command
           };
 
         }catch(\Exception $e){
+          dump( $e->getMessage() );
           $row->desc = $code;
           $row->send_status ='N';
           $row->save();
