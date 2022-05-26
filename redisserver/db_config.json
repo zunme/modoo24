@@ -1,0 +1,13 @@
+{
+    "host": "116.122.157.239",
+    "user": "adoo",
+    "password": "@adoo~db@",
+    "database": "24auction",
+    "connectionLimit": 1,
+    "debug" : false,
+
+    "salt" : "12kxucjhsdsydshfj",
+    "socket_port" : 3000,
+    "check_host" : "",
+    "session_prefix" :  "laravel"
+}
